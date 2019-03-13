@@ -1,0 +1,166 @@
+<APIManager>
+    <DataSourceName>java:/comp/env/jdbc/WSO2AM_DB</DataSourceName>
+    
+    <!-- This parameter is used when adding api management capability to other products like GReg, AS, DSS etc.-->
+    <GatewayType>Synapse</GatewayType>
+    
+    <APIGateway>
+        <!-- The environments to which an API will be published -->
+        <Environments>
+            <!-- Environments can be of different types. Allowed values are 'hybrid', 'production' and 'sandbox'.
+                 An API deployed on a 'production' type gateway will only support production keys
+                 An API deployed on a 'sandbox' type gateway will only support sandbox keys
+                 An API deployed on a 'hybrid' type gateway will support both production and sandbox keys. -->
+            <!-- api-console element specifies whether the environment should be listed in API Console or not -->
+            <Environment type="hybrid" api-console="true">
+                <Name>Production and Sandbox</Name>
+                <Description>This is a hybrid gateway that handles both production and sandbox token traffic.</Description>
+                <!-- Server URL of the API gateway -->
+                <ServerURL>http://localhost:8080/cacheInvalidation</ServerURL>
+		        <!-- Admin username for the API gateway. -->
+                <Username>admin</Username>
+                <!-- Admin password for the API gateway.-->
+                <Password>admin</Password>
+                <!-- Endpoint URLs for the APIs hosted in this API gateway.-->
+                <GatewayEndpoint>http://localhost:8290</GatewayEndpoint>
+                <ServiceEndpoint>http://localhost:9020</ServiceEndpoint>
+            </Environment>
+        </Environments>
+    </APIGateway>
+    
+    <APIStore>
+    	<!-- Server URL of the API Store. -->
+    	<ServerURL>http://localhost:9020/api/cacheInvalidation</ServerURL>
+    	<!-- Admin username for API Store. -->
+        <Username>${admin.username}</Username>
+
+        <!-- Admin password for API Store. -->
+        <Password>${admin.password}</Password>
+    </APIStore>
+    
+    <!-- <Database>
+        <URL>jdbc:h2:target/repository/database/WSO2AM_DB</URL>
+        <Username>wso2carbon</Username>
+        <Password>wso2carbon</Password>
+        <Driver>org.h2.Driver</Driver>
+        <maxActive>50</maxActive>
+        <maxWait>60000</maxWait>
+        <minIdle>5</minIdle>
+    </Database> -->
+    <Database>
+        <URL>jdbc:mysql://172.16.2.201/barley_apimgt?useSSL=false&amp;relaxAutoCommit=true</URL>
+        <Username>cdfcloud</Username>
+        <Password>cdfcloud</Password>
+        <Driver>com.mysql.jdbc.Driver</Driver>
+        <maxActive>50</maxActive>
+        <maxWait>60000</maxWait>
+        <minIdle>5</minIdle>
+    </Database>
+    <JWTConfiguration>
+        <EnableJWTGeneration>false</EnableJWTGeneration>
+	    <SignatureAlgorithm>NONE</SignatureAlgorithm>
+    </JWTConfiguration>
+    <APIUsageTracking>
+        <Enabled>false</Enabled>
+        <ThriftPort>7612</ThriftPort>
+        <BAMServerURL>https://localhost:9444/</BAMServerURL>
+        <BAMUsername>admin</BAMUsername>
+        <BAMPassword>admin</BAMPassword>
+    </APIUsageTracking>
+    <!--<APIKeyValidator>
+        <ServerURL>https://localhost:9443/services/</ServerURL>
+        <Username>${admin.username}</Username>
+        <Password>${admin.password}</Password>
+        <EnableJWTCache>false</EnableJWTCache>
+        <EnableKeyMgtValidationInfoCache>false</EnableKeyMgtValidationInfoCache>
+        <KeyValidatorClientType>ThriftClient</KeyValidatorClientType>
+        <ThriftClientPort>10397</ThriftClientPort>
+        <ThriftClientConnectionTimeOut>10000</ThriftClientConnectionTimeOut>
+        <ThriftServerPort>10397</ThriftServerPort>
+        <EnableThriftServer>true</EnableThriftServer>
+        <TokenEndPointName>/oauth2/token</TokenEndPointName>
+        <RevokeAPIURL>https://${carbon.local.ip}:${https.nio.port}/revoke</RevokeAPIURL>
+        <EncryptPersistedTokens>false</EncryptPersistedTokens>
+    </APIKeyValidator>-->
+
+    <APIKeyValidator>
+        <ServerURL>https://localhost:9443/services/</ServerURL>
+        <Username>admin</Username>
+        <Password>admin</Password>
+        <EnableJWTCache>false</EnableJWTCache>
+        <EnableKeyMgtValidationInfoCache>false</EnableKeyMgtValidationInfoCache>
+        <KeyValidatorClientType>ThriftClient</KeyValidatorClientType>
+        <ThriftClientPort>10397</ThriftClientPort>
+        <ThriftClientConnectionTimeOut>10000</ThriftClientConnectionTimeOut>
+        <ThriftServerPort>10397</ThriftServerPort>
+        <!--ThriftServerHost>localhost</ThriftServerHost-->
+        <EnableThriftServer>true</EnableThriftServer>
+        <ApplicationTokenScope>am_application_scope</ApplicationTokenScope>
+        <KeyValidationHandlerClassName>barley.apimgt.keymgt.handlers.DefaultKeyValidationHandler</KeyValidationHandlerClassName>
+        <TokenEndPointName>/oauth2/token</TokenEndPointName>
+        <RevokeAPIURL>https://${carbon.local.ip}:${https.nio.port}/revoke</RevokeAPIURL>
+        <EncryptPersistedTokens>false</EncryptPersistedTokens>
+    </APIKeyValidator>
+    
+    <OAuthConfigurations>
+        <!-- Remove OAuth headers from outgoing message. -->
+        <!--RemoveOAuthHeadersFromOutMessage>true</RemoveOAuthHeadersFromOutMessage-->
+        <!-- Scope used for marking Application Tokens. If a token is generated with this scope, they will be treated as Application Access Tokens -->
+        <ApplicationTokenScope>am_application_scope</ApplicationTokenScope>
+        <!-- All  scopes under the ScopeWhitelist element are not validating against roles that has assigned to it.
+             By default ^device_.* and openid scopes have been white listed internally. -->
+        <!--ScopeWhitelist>
+            <Scope>^device_.*</Scope>
+            <Scope>openid</Scope>
+        </ScopeWhitelist-->
+        <!-- Name of the token API -->
+        <TokenEndPointName>/oauth2/token</TokenEndPointName>
+        <!-- This the API URL for revoke API. When we revoke tokens revoke requests should go through this
+             API deployed in API gateway. Then it will do cache invalidations related to revoked tokens.
+             In distributed deployment we should configure this property in key manager node by pointing
+             gateway https( /http, we recommend users to use 'https' endpoints for security purpose) url.
+             Also please note that we should point gateway revoke service to key manager -->
+        <RevokeAPIURL>http://localhost:9020/api/keyManager/revoke</RevokeAPIURL>
+        <!-- Whether to encrypt tokens when storing in the Database
+        Note: If changing this value to true, change the value of <TokenPersistenceProcessor> to
+        org.wso2.carbon.identity.oauth.tokenprocessor.EncryptionDecryptionPersistenceProcessor in the identity.xml -->
+        <EncryptPersistedTokens>false</EncryptPersistedTokens>
+    </OAuthConfigurations>
+    
+    <ThrottlingConfigurations>
+        <EnableAdvanceThrottling>true</EnableAdvanceThrottling>
+        <EnableUnlimitedTier>true</EnableUnlimitedTier>                
+    </ThrottlingConfigurations>
+    
+    <TierManagement>
+        <!-- Enable the providers to expose their APIs over the special 'Unlimited' tier which
+             basically disables tier based throttling for the specified APIs. -->
+        <EnableUnlimitedTier>true</EnableUnlimitedTier>
+    </TierManagement>
+    
+    <Analytics>
+        <Enabled>false</Enabled>
+	</Analytics>
+	
+	<CORSConfiguration>
+        <!-- Configuration to enable/disable sending CORS headers from the Gateway-->
+        <Enabled>true</Enabled>
+
+        <!-- The value of the Access-Control-Allow-Origin header. Default values are
+             API Store addresses, which is needed for swagger to function. -->
+        <Access-Control-Allow-Origin>*</Access-Control-Allow-Origin>
+
+        <!-- Configure Access-Control-Allow-Methods -->
+        <Access-Control-Allow-Methods>GET,PUT,POST,DELETE,PATCH,OPTIONS</Access-Control-Allow-Methods>
+
+        <!-- Configure Access-Control-Allow-Headers -->
+        <Access-Control-Allow-Headers>authorization,Access-Control-Allow-Origin,Content-Type,SOAPAction</Access-Control-Allow-Headers>
+
+        <!-- Configure Access-Control-Allow-Credentials -->
+        <!-- Specifying this header to true means that the server allows cookies (or other user credentials) to be included on cross-origin requests.
+             It is false by default and if you set it to true then make sure that the Access-Control-Allow-Origin header does not contain the wildcard (*) -->
+        <Access-Control-Allow-Credentials>false</Access-Control-Allow-Credentials>
+    </CORSConfiguration>
+	
+	
+</APIManager>

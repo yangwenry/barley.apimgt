@@ -1,0 +1,977 @@
+2018-12-06 14:44:30,161 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of class org.infinispan.transaction.xa.TransactionTable that may have been injected from an external source.
+2018-12-06 14:44:30,161 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.commands.CommandsFactory that may have been injected from an external source.
+2018-12-06 14:44:30,161 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.container.DataContainer that may have been injected from an external source.
+2018-12-06 14:44:30,161 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.notifications.cachelistener.CacheNotifier that may have been injected from an external source.
+2018-12-06 14:44:30,162 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface java.util.concurrent.ExecutorService that may have been injected from an external source.
+2018-12-06 14:44:30,162 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of class org.infinispan.interceptors.InterceptorChain that may have been injected from an external source.
+2018-12-06 14:44:30,162 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.util.concurrent.locks.LockManager that may have been injected from an external source.
+2018-12-06 14:44:30,162 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface javax.transaction.TransactionManager that may have been injected from an external source.
+2018-12-06 14:44:30,163 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface javax.transaction.TransactionManager that may have been injected from an external source.
+2018-12-06 14:44:30,163 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of class org.infinispan.transaction.TransactionLog that may have been injected from an external source.
+2018-12-06 14:44:30,163 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.container.EntryFactory that may have been injected from an external source.
+2018-12-06 14:44:30,163 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.distribution.DistributionManager that may have been injected from an external source.
+2018-12-06 14:44:30,164 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.remoting.rpc.RpcManager that may have been injected from an external source.
+2018-12-06 14:44:30,164 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of class org.infinispan.transaction.xa.GlobalTransactionFactory that may have been injected from an external source.
+2018-12-06 14:44:30,164 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface javax.transaction.TransactionManager that may have been injected from an external source.
+2018-12-06 14:44:30,164 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of class org.infinispan.batch.BatchContainer that may have been injected from an external source.
+2018-12-06 14:44:30,164 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface javax.transaction.TransactionManager that may have been injected from an external source.
+2018-12-06 14:44:30,164 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.remoting.rpc.RpcManager that may have been injected from an external source.
+2018-12-06 14:44:30,164 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.remoting.responses.ResponseGenerator that may have been injected from an external source.
+2018-12-06 14:44:30,164 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.distribution.DistributionManager that may have been injected from an external source.
+2018-12-06 14:44:30,164 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.statetransfer.StateTransferManager that may have been injected from an external source.
+2018-12-06 14:44:30,164 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.loaders.CacheLoaderManager that may have been injected from an external source.
+2018-12-06 14:44:30,165 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface javax.transaction.TransactionManager that may have been injected from an external source.
+2018-12-06 14:44:30,165 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.remoting.rpc.RpcManager that may have been injected from an external source.
+2018-12-06 14:44:30,165 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.distribution.DistributionManager that may have been injected from an external source.
+2018-12-06 14:44:30,165 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.statetransfer.StateTransferManager that may have been injected from an external source.
+2018-12-06 14:44:30,166 [-] [main] DEBUG InterceptorChain Interceptor chain size: 6
+2018-12-06 14:44:30,166 [-] [main] DEBUG InterceptorChain Interceptor chain is: 
+	>> org.infinispan.interceptors.InvocationContextInterceptor
+	>> org.infinispan.interceptors.CacheMgmtInterceptor
+	>> org.infinispan.interceptors.TxInterceptor
+	>> org.infinispan.interceptors.NotificationInterceptor
+	>> org.infinispan.interceptors.LockingInterceptor
+	>> org.infinispan.interceptors.CallInterceptor
+2018-12-06 14:44:30,166 [-] [main] DEBUG ResourceDMBean @MBean description set - General statistics such as timings, hit/miss ratio, etc.
+2018-12-06 14:44:30,167 [-] [main] DEBUG ResourceDMBean @MBean description set - Component that acts as a manager, factory and container for caches in the system.
+2018-12-06 14:44:30,167 [-] [main] DEBUG ResourceDMBean @MBean description set - Component that acts as a manager, factory and container for caches in the system.
+2018-12-06 14:44:30,168 [-] [main] DEBUG ResourceDMBean @MBean description set - Component that manages the cache's participation in JTA transactions.
+2018-12-06 14:44:30,168 [-] [main] DEBUG ResourceDMBean @MBean description set - Manager that handles MVCC locks for entries
+2018-12-06 14:44:30,169 [-] [main]  INFO ComponentsJmxRegistration Could not register object with name: infinispan:cache-name=USER_ROLES_CACHE(local),jmx-resource=Cache
+2018-12-06 14:44:30,169 [-] [main]  INFO CacheJmxRegistration MBeans were successfully registered to the platform mbean server.
+2018-12-06 14:44:30,169 [-] [main]  INFO ComponentRegistry Infinispan version: Infinispan 'Radegast' 4.1.0.CR2
+2018-12-06 14:44:30,169 [-] [main] DEBUG BarleyContextDataHolder Retrieving named cache: USER_ROLES_CACHE
+2018-12-06 14:44:30,169 [-] [main] DEBUG JDBCUserStoreManager Started 1544075070169
+2018-12-06 14:44:30,169 [-] [main] DEBUG JDBCUserStoreManager The jdbcDataSource being used by JDBCUserStoreManager :: 1558103808
+2018-12-06 14:44:30,245 [-] [main] DEBUG JDBCUserStoreManager Ended 1544075070245
+2018-12-06 14:44:30,245 [-] [main]  INFO AbstractUserStoreManager User Roles Cache is not configured. Default value: true is taken.
+2018-12-06 14:44:30,248 [-] [main] DEBUG DefaultRealm Start initializing class with the first option
+2018-12-06 14:44:30,248 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.eviction.EvictionManager that may have been injected from an external source.
+2018-12-06 14:44:30,249 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface java.util.concurrent.ScheduledExecutorService that may have been injected from an external source.
+2018-12-06 14:44:30,249 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.Cache that may have been injected from an external source.
+2018-12-06 14:44:30,249 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.context.InvocationContextContainer that may have been injected from an external source.
+2018-12-06 14:44:30,249 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface javax.transaction.TransactionManager that may have been injected from an external source.
+2018-12-06 14:44:30,249 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of class org.infinispan.transaction.xa.TransactionTable that may have been injected from an external source.
+2018-12-06 14:44:30,250 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.commands.CommandsFactory that may have been injected from an external source.
+2018-12-06 14:44:30,250 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.container.DataContainer that may have been injected from an external source.
+2018-12-06 14:44:30,250 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.notifications.cachelistener.CacheNotifier that may have been injected from an external source.
+2018-12-06 14:44:30,250 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface java.util.concurrent.ExecutorService that may have been injected from an external source.
+2018-12-06 14:44:30,250 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of class org.infinispan.interceptors.InterceptorChain that may have been injected from an external source.
+2018-12-06 14:44:30,251 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.util.concurrent.locks.LockManager that may have been injected from an external source.
+2018-12-06 14:44:30,251 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface javax.transaction.TransactionManager that may have been injected from an external source.
+2018-12-06 14:44:30,251 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface javax.transaction.TransactionManager that may have been injected from an external source.
+2018-12-06 14:44:30,251 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of class org.infinispan.transaction.TransactionLog that may have been injected from an external source.
+2018-12-06 14:44:30,251 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.container.EntryFactory that may have been injected from an external source.
+2018-12-06 14:44:30,251 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.distribution.DistributionManager that may have been injected from an external source.
+2018-12-06 14:44:30,251 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.remoting.rpc.RpcManager that may have been injected from an external source.
+2018-12-06 14:44:30,252 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of class org.infinispan.transaction.xa.GlobalTransactionFactory that may have been injected from an external source.
+2018-12-06 14:44:30,252 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface javax.transaction.TransactionManager that may have been injected from an external source.
+2018-12-06 14:44:30,252 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of class org.infinispan.batch.BatchContainer that may have been injected from an external source.
+2018-12-06 14:44:30,252 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface javax.transaction.TransactionManager that may have been injected from an external source.
+2018-12-06 14:44:30,252 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.remoting.rpc.RpcManager that may have been injected from an external source.
+2018-12-06 14:44:30,252 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.remoting.responses.ResponseGenerator that may have been injected from an external source.
+2018-12-06 14:44:30,252 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.distribution.DistributionManager that may have been injected from an external source.
+2018-12-06 14:44:30,252 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.statetransfer.StateTransferManager that may have been injected from an external source.
+2018-12-06 14:44:30,253 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.loaders.CacheLoaderManager that may have been injected from an external source.
+2018-12-06 14:44:30,253 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface javax.transaction.TransactionManager that may have been injected from an external source.
+2018-12-06 14:44:30,253 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.remoting.rpc.RpcManager that may have been injected from an external source.
+2018-12-06 14:44:30,253 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.distribution.DistributionManager that may have been injected from an external source.
+2018-12-06 14:44:30,253 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.statetransfer.StateTransferManager that may have been injected from an external source.
+2018-12-06 14:44:30,254 [-] [main] DEBUG InterceptorChain Interceptor chain size: 6
+2018-12-06 14:44:30,254 [-] [main] DEBUG InterceptorChain Interceptor chain is: 
+	>> org.infinispan.interceptors.InvocationContextInterceptor
+	>> org.infinispan.interceptors.CacheMgmtInterceptor
+	>> org.infinispan.interceptors.TxInterceptor
+	>> org.infinispan.interceptors.NotificationInterceptor
+	>> org.infinispan.interceptors.LockingInterceptor
+	>> org.infinispan.interceptors.CallInterceptor
+2018-12-06 14:44:30,254 [-] [main] DEBUG ResourceDMBean @MBean description set - Component that acts as a manager, factory and container for caches in the system.
+2018-12-06 14:44:30,255 [-] [main] DEBUG ResourceDMBean @MBean description set - Component that manages the cache's participation in JTA transactions.
+2018-12-06 14:44:30,255 [-] [main] DEBUG ResourceDMBean @MBean description set - General statistics such as timings, hit/miss ratio, etc.
+2018-12-06 14:44:30,256 [-] [main] DEBUG ResourceDMBean @MBean description set - Manager that handles MVCC locks for entries
+2018-12-06 14:44:30,256 [-] [main] DEBUG ResourceDMBean @MBean description set - Component that acts as a manager, factory and container for caches in the system.
+2018-12-06 14:44:30,256 [-] [main]  INFO ComponentsJmxRegistration Could not register object with name: infinispan:cache-name=AUTHORIZATION_CACHE(local),jmx-resource=Cache
+2018-12-06 14:44:30,256 [-] [main]  INFO CacheJmxRegistration MBeans were successfully registered to the platform mbean server.
+2018-12-06 14:44:30,256 [-] [main]  INFO ComponentRegistry Infinispan version: Infinispan 'Radegast' 4.1.0.CR2
+2018-12-06 14:44:30,256 [-] [main] DEBUG BarleyContextDataHolder Retrieving named cache: AUTHORIZATION_CACHE
+2018-12-06 14:44:30,259 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.eviction.EvictionManager that may have been injected from an external source.
+2018-12-06 14:44:30,260 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface java.util.concurrent.ScheduledExecutorService that may have been injected from an external source.
+2018-12-06 14:44:30,260 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.Cache that may have been injected from an external source.
+2018-12-06 14:44:30,260 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.context.InvocationContextContainer that may have been injected from an external source.
+2018-12-06 14:44:30,260 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface javax.transaction.TransactionManager that may have been injected from an external source.
+2018-12-06 14:44:30,261 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of class org.infinispan.transaction.xa.TransactionTable that may have been injected from an external source.
+2018-12-06 14:44:30,261 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.commands.CommandsFactory that may have been injected from an external source.
+2018-12-06 14:44:30,261 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.container.DataContainer that may have been injected from an external source.
+2018-12-06 14:44:30,261 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.notifications.cachelistener.CacheNotifier that may have been injected from an external source.
+2018-12-06 14:44:30,262 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface java.util.concurrent.ExecutorService that may have been injected from an external source.
+2018-12-06 14:44:30,262 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of class org.infinispan.interceptors.InterceptorChain that may have been injected from an external source.
+2018-12-06 14:44:30,262 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.util.concurrent.locks.LockManager that may have been injected from an external source.
+2018-12-06 14:44:30,262 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface javax.transaction.TransactionManager that may have been injected from an external source.
+2018-12-06 14:44:30,262 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface javax.transaction.TransactionManager that may have been injected from an external source.
+2018-12-06 14:44:30,262 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of class org.infinispan.transaction.TransactionLog that may have been injected from an external source.
+2018-12-06 14:44:30,263 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.container.EntryFactory that may have been injected from an external source.
+2018-12-06 14:44:30,263 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.distribution.DistributionManager that may have been injected from an external source.
+2018-12-06 14:44:30,263 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.remoting.rpc.RpcManager that may have been injected from an external source.
+2018-12-06 14:44:30,263 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of class org.infinispan.transaction.xa.GlobalTransactionFactory that may have been injected from an external source.
+2018-12-06 14:44:30,263 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface javax.transaction.TransactionManager that may have been injected from an external source.
+2018-12-06 14:44:30,264 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of class org.infinispan.batch.BatchContainer that may have been injected from an external source.
+2018-12-06 14:44:30,264 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface javax.transaction.TransactionManager that may have been injected from an external source.
+2018-12-06 14:44:30,264 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.remoting.rpc.RpcManager that may have been injected from an external source.
+2018-12-06 14:44:30,264 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.remoting.responses.ResponseGenerator that may have been injected from an external source.
+2018-12-06 14:44:30,264 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.distribution.DistributionManager that may have been injected from an external source.
+2018-12-06 14:44:30,264 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.statetransfer.StateTransferManager that may have been injected from an external source.
+2018-12-06 14:44:30,264 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.loaders.CacheLoaderManager that may have been injected from an external source.
+2018-12-06 14:44:30,265 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface javax.transaction.TransactionManager that may have been injected from an external source.
+2018-12-06 14:44:30,265 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.remoting.rpc.RpcManager that may have been injected from an external source.
+2018-12-06 14:44:30,265 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.distribution.DistributionManager that may have been injected from an external source.
+2018-12-06 14:44:30,265 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.statetransfer.StateTransferManager that may have been injected from an external source.
+2018-12-06 14:44:30,267 [-] [main] DEBUG InterceptorChain Interceptor chain size: 6
+2018-12-06 14:44:30,267 [-] [main] DEBUG InterceptorChain Interceptor chain is: 
+	>> org.infinispan.interceptors.InvocationContextInterceptor
+	>> org.infinispan.interceptors.CacheMgmtInterceptor
+	>> org.infinispan.interceptors.TxInterceptor
+	>> org.infinispan.interceptors.NotificationInterceptor
+	>> org.infinispan.interceptors.LockingInterceptor
+	>> org.infinispan.interceptors.CallInterceptor
+2018-12-06 14:44:30,268 [-] [main] DEBUG ResourceDMBean @MBean description set - Component that acts as a manager, factory and container for caches in the system.
+2018-12-06 14:44:30,268 [-] [main] DEBUG ResourceDMBean @MBean description set - General statistics such as timings, hit/miss ratio, etc.
+2018-12-06 14:44:30,269 [-] [main] DEBUG ResourceDMBean @MBean description set - Manager that handles MVCC locks for entries
+2018-12-06 14:44:30,269 [-] [main] DEBUG ResourceDMBean @MBean description set - Component that manages the cache's participation in JTA transactions.
+2018-12-06 14:44:30,270 [-] [main] DEBUG ResourceDMBean @MBean description set - Component that acts as a manager, factory and container for caches in the system.
+2018-12-06 14:44:30,270 [-] [main]  INFO ComponentsJmxRegistration Could not register object with name: infinispan:cache-name=PERMISSION_CACHE(local),jmx-resource=Cache
+2018-12-06 14:44:30,271 [-] [main]  INFO CacheJmxRegistration MBeans were successfully registered to the platform mbean server.
+2018-12-06 14:44:30,271 [-] [main]  INFO ComponentRegistry Infinispan version: Infinispan 'Radegast' 4.1.0.CR2
+2018-12-06 14:44:30,271 [-] [main] DEBUG BarleyContextDataHolder Retrieving named cache: PERMISSION_CACHE
+2018-12-06 14:44:30,272 [-] [main] DEBUG JDBCAuthorizationManager The jdbcDataSource being used by JDBCAuthorizationManager :: 1558103808
+2018-12-06 14:44:30,392 [-] [main] DEBUG StAXUtils XMLStreamReader is org.apache.axiom.util.stax.dialect.WoodstoxStreamReaderWrapper
+2018-12-06 14:44:30,405 [-] [main] DEBUG StAXUtils XMLStreamReader is org.apache.axiom.util.stax.dialect.WoodstoxStreamReaderWrapper
+2018-12-06 14:44:30,406 [-] [main] DEBUG ClaimInvalidationCache My Hash code of Claim cache is : 2
+2018-12-06 14:44:30,406 [-] [main] DEBUG DefaultRealm Start initializing class with the first option
+2018-12-06 14:44:30,406 [-] [main]  INFO AbstractUserStoreManager User Roles Cache is not configured. Default value: true is taken.
+2018-12-06 14:44:30,406 [-] [main] DEBUG JDBCUserStoreManager Started 1544075070406
+2018-12-06 14:44:30,406 [-] [main] DEBUG JDBCUserStoreManager The jdbcDataSource being used by JDBCUserStoreManager :: 1558103808
+2018-12-06 14:44:30,451 [-] [main] DEBUG JDBCUserStoreManager Ended 1544075070451
+2018-12-06 14:44:30,451 [-] [main]  INFO AbstractUserStoreManager User Roles Cache is not configured. Default value: true is taken.
+2018-12-06 14:44:30,451 [-] [main] DEBUG DefaultRealm Start initializing class with the first option
+2018-12-06 14:44:30,451 [-] [main] DEBUG JDBCAuthorizationManager The jdbcDataSource being used by JDBCAuthorizationManager :: 1558103808
+2018-12-06 14:44:31,003 [-] [main] DEBUG StAXUtils XMLStreamReader is org.apache.axiom.util.stax.dialect.WoodstoxStreamReaderWrapper
+2018-12-06 14:44:31,050 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant id from tenant domain
+2018-12-06 14:44:31,077 [-] [main] DEBUG CacheImpl Using local cache
+2018-12-06 14:44:31,078 [-] [main] DEBUG CacheImpl Using local cache
+2018-12-06 14:44:31,078 [-] [main] DEBUG CacheImpl Using local cache
+2018-12-06 14:44:31,078 [-] [main] DEBUG CacheImpl Using local cache
+2018-12-06 14:44:31,078 [-] [main] DEBUG CacheImpl Using local cache
+2018-12-06 14:44:31,078 [-] [main] DEBUG CacheImpl Using local cache
+2018-12-06 14:44:31,242 [-] [main]  INFO EmbeddedRegistryService Configured Registry in 162ms
+2018-12-06 14:44:31,263 [-] [main] DEBUG HandlerManager Registered the handler barley.registry.core.jdbc.handlers.filters.URLMatcher --> barley.registry.core.jdbc.handlers.builtin.OperationStatisticsHandler for all methods.
+2018-12-06 14:44:31,264 [-] [main] DEBUG HandlerManager Registered the handler barley.registry.core.jdbc.handlers.filters.URLMatcher --> barley.registry.core.jdbc.handlers.builtin.CommentURLHandler for GET DELETE methods.
+2018-12-06 14:44:31,264 [-] [main] DEBUG HandlerManager Registered the handler barley.registry.core.jdbc.handlers.filters.URLMatcher --> barley.registry.core.jdbc.handlers.builtin.CommentCollectionURLHandler for GET methods.
+2018-12-06 14:44:31,264 [-] [main] DEBUG HandlerManager Registered the handler barley.registry.core.jdbc.handlers.filters.URLMatcher --> barley.registry.core.jdbc.handlers.builtin.RatingURLHandler for GET methods.
+2018-12-06 14:44:31,264 [-] [main] DEBUG HandlerManager Registered the handler barley.registry.core.jdbc.handlers.filters.URLMatcher --> barley.registry.core.jdbc.handlers.builtin.RatingCollectionURLHandler for GET methods.
+2018-12-06 14:44:31,264 [-] [main] DEBUG HandlerManager Registered the handler barley.registry.core.jdbc.handlers.filters.URLMatcher --> barley.registry.core.jdbc.handlers.builtin.TagURLHandler for GET methods.
+2018-12-06 14:44:31,265 [-] [main] DEBUG HandlerManager Registered the handler barley.registry.core.jdbc.handlers.filters.MediaTypeMatcher --> barley.registry.core.jdbc.handlers.builtin.SQLQueryHandler for GET PUT methods.
+2018-12-06 14:44:31,266 [-] [main] DEBUG HandlerManager Registered the handler barley.registry.core.jdbc.handlers.filters.SimulationFilter --> barley.registry.core.jdbc.handlers.builtin.SimulationHandler for all methods.
+2018-12-06 14:44:31,267 [-] [main] DEBUG HandlerManager Registered the handler barley.registry.core.jdbc.handlers.filters.URLMatcher --> barley.registry.core.caching.CachingHandler for all methods.
+2018-12-06 14:44:31,267 [-] [main] DEBUG HandlerManager Registered the handler barley.registry.core.jdbc.handlers.filters.URLMatcher --> barley.registry.core.caching.CachingHandler for all methods.
+2018-12-06 14:44:31,268 [-] [main] DEBUG HandlerManager Registered the handler barley.registry.core.jdbc.handlers.filters.URLMatcher --> barley.registry.core.jdbc.handlers.builtin.RegexBaseRestrictionHandler for RENAME MOVE methods.
+2018-12-06 14:44:31,278 [-] [main] DEBUG StAXUtils XMLStreamReader is org.apache.axiom.util.stax.dialect.WoodstoxStreamReaderWrapper
+2018-12-06 14:44:31,338 [-] [main] DEBUG StAXUtils XMLStreamReader is org.apache.axiom.util.stax.dialect.WoodstoxStreamReaderWrapper
+2018-12-06 14:44:31,340 [-] [main] DEBUG StAXUtils XMLStreamReader is org.apache.axiom.util.stax.dialect.WoodstoxStreamReaderWrapper
+2018-12-06 14:44:31,341 [-] [main] DEBUG RealmConfigXMLProcessor External password management is disabled.
+2018-12-06 14:44:31,342 [-] [main] DEBUG StAXUtils XMLStreamReader is org.apache.axiom.util.stax.dialect.WoodstoxStreamReaderWrapper
+2018-12-06 14:44:31,343 [-] [main] DEBUG RealmConfigXMLProcessor External password management is disabled.
+2018-12-06 14:44:31,379 [-] [main] DEBUG APIMgtDBUtil Initializing data source
+2018-12-06 14:44:31,458 [-] [main] DEBUG APIManagerComponent Tier policies already uploaded to the registry
+2018-12-06 14:44:31,476 [-] [main] DEBUG APIManagerComponent Tier policies already uploaded to the registry
+2018-12-06 14:44:31,496 [-] [main] DEBUG APIManagerComponent Tier policies already uploaded to the registry
+2018-12-06 14:44:31,503 [-] [main] DEBUG StAXUtils XMLStreamReader is org.apache.axiom.util.stax.dialect.WoodstoxStreamReaderWrapper
+2018-12-06 14:44:31,523 [-] [main] DEBUG APIUtil External Stores configuration already uploaded to the registry
+2018-12-06 14:44:31,615 [-] [main] DEBUG APIUtil Adding Self signup configuration to the tenant's registry
+2018-12-06 14:44:31,618 [-] [main] DEBUG StAXUtils XMLStreamReader is org.apache.axiom.util.stax.dialect.WoodstoxStreamReaderWrapper
+2018-12-06 14:44:31,619 [-] [main] DEBUG RealmConfigXMLProcessor External password management is disabled.
+2018-12-06 14:44:31,645 [-] [main] DEBUG CacheImpl Using local cache
+2018-12-06 14:44:31,645 [-] [main] DEBUG ClaimInvalidationCache My Hash code of Claim cache is : 3
+2018-12-06 14:44:31,645 [-] [main] DEBUG DefaultRealm Start initializing class with the first option
+2018-12-06 14:44:31,645 [-] [main]  INFO AbstractUserStoreManager User Roles Cache is not configured. Default value: true is taken.
+2018-12-06 14:44:31,645 [-] [main] DEBUG JDBCUserStoreManager Started 1544075071645
+2018-12-06 14:44:31,645 [-] [main] DEBUG JDBCUserStoreManager The jdbcDataSource being used by JDBCUserStoreManager :: 1558103808
+2018-12-06 14:44:31,670 [-] [main] DEBUG JDBCUserStoreManager Ended 1544075071670
+2018-12-06 14:44:31,670 [-] [main]  INFO AbstractUserStoreManager User Roles Cache is not configured. Default value: true is taken.
+2018-12-06 14:44:31,670 [-] [main] DEBUG DefaultRealm Start initializing class with the first option
+2018-12-06 14:44:31,671 [-] [main] DEBUG JDBCAuthorizationManager The jdbcDataSource being used by JDBCAuthorizationManager :: 1558103808
+2018-12-06 14:44:31,824 [-] [main] DEBUG APIUtil Tenant conf already uploaded to the registry
+2018-12-06 14:44:31,841 [-] [main] DEBUG APIUtil Self signup configuration already uploaded to the registry
+2018-12-06 14:44:31,857 [-] [main] DEBUG APIUtil External Stores configuration already uploaded to the registry
+2018-12-06 14:44:31,870 [-] [main] DEBUG StAXUtils XMLStreamReader is org.apache.axiom.util.stax.dialect.WoodstoxStreamReaderWrapper
+2018-12-06 14:44:31,939 [-] [main] DEBUG StAXUtils XMLStreamReader is org.apache.axiom.util.stax.dialect.WoodstoxStreamReaderWrapper
+2018-12-06 14:44:32,107 [-] [main] DEBUG DatabaseUtil Executed querry is DELETE FROM UM_ROLE_PERMISSION WHERE UM_ROLE_NAME=? AND UM_PERMISSION_ID = (SELECT UM_ID FROM UM_PERMISSION WHERE UM_RESOURCE_ID = ? AND UM_ACTION = ? AND UM_TENANT_ID=?) AND UM_TENANT_ID=? and number of updated rows :: 1
+2018-12-06 14:44:32,109 [-] [main] DEBUG DatabaseUtil Executed querry is INSERT INTO UM_ROLE_PERMISSION (UM_PERMISSION_ID, UM_ROLE_NAME, UM_IS_ALLOWED, UM_TENANT_ID) VALUES (?, ?, ?, ?) and number of updated rows :: 1
+2018-12-06 14:44:32,200 [-] [main] DEBUG DatabaseUtil Executed querry is DELETE FROM UM_ROLE_PERMISSION WHERE UM_ROLE_NAME=? AND UM_PERMISSION_ID = (SELECT UM_ID FROM UM_PERMISSION WHERE UM_RESOURCE_ID = ? AND UM_ACTION = ? AND UM_TENANT_ID=?) AND UM_TENANT_ID=? and number of updated rows :: 1
+2018-12-06 14:44:32,202 [-] [main] DEBUG DatabaseUtil Executed querry is INSERT INTO UM_ROLE_PERMISSION (UM_PERMISSION_ID, UM_ROLE_NAME, UM_IS_ALLOWED, UM_TENANT_ID) VALUES (?, ?, ?, ?) and number of updated rows :: 1
+2018-12-06 14:44:32,292 [-] [main] DEBUG DatabaseUtil Executed querry is DELETE FROM UM_ROLE_PERMISSION WHERE UM_ROLE_NAME=? AND UM_PERMISSION_ID = (SELECT UM_ID FROM UM_PERMISSION WHERE UM_RESOURCE_ID = ? AND UM_ACTION = ? AND UM_TENANT_ID=?) AND UM_TENANT_ID=? and number of updated rows :: 1
+2018-12-06 14:44:32,294 [-] [main] DEBUG DatabaseUtil Executed querry is INSERT INTO UM_ROLE_PERMISSION (UM_PERMISSION_ID, UM_ROLE_NAME, UM_IS_ALLOWED, UM_TENANT_ID) VALUES (?, ?, ?, ?) and number of updated rows :: 1
+2018-12-06 14:44:32,398 [-] [main] DEBUG APIUtil Tier policies already uploaded to the tenant's registry space
+2018-12-06 14:44:32,427 [-] [main] DEBUG APIUtil Tier policies already uploaded to the tenant's registry space
+2018-12-06 14:44:32,454 [-] [main] DEBUG APIUtil Tier policies already uploaded to the tenant's registry space
+2018-12-06 14:44:32,462 [-] [main] ERROR APIUtil Custom sequence template location unavailable for custom sequence type in : D:/Workspace_STS_SaaSPlatform/barley.apimgt/barley.apimgt.impl/src/test/resources/\repository\resources\customsequences\in
+2018-12-06 14:44:32,462 [-] [main] ERROR APIUtil Custom sequence template location unavailable for custom sequence type out : D:/Workspace_STS_SaaSPlatform/barley.apimgt/barley.apimgt.impl/src/test/resources/\repository\resources\customsequences\out
+2018-12-06 14:44:32,462 [-] [main] ERROR APIUtil Custom sequence template location unavailable for custom sequence type fault : D:/Workspace_STS_SaaSPlatform/barley.apimgt/barley.apimgt.impl/src/test/resources/\repository\resources\customsequences\fault
+2018-12-06 14:44:32,472 [-] [main] DEBUG DatabaseUtil Executed querry is DELETE FROM UM_ROLE_PERMISSION WHERE UM_ROLE_NAME=? AND UM_PERMISSION_ID = (SELECT UM_ID FROM UM_PERMISSION WHERE UM_RESOURCE_ID = ? AND UM_ACTION = ? AND UM_TENANT_ID=?) AND UM_TENANT_ID=? and number of updated rows :: 1
+2018-12-06 14:44:32,473 [-] [main] DEBUG DatabaseUtil Executed querry is INSERT INTO UM_ROLE_PERMISSION (UM_PERMISSION_ID, UM_ROLE_NAME, UM_IS_ALLOWED, UM_TENANT_ID) VALUES (?, ?, ?, ?) and number of updated rows :: 1
+2018-12-06 14:44:32,723 [-] [main] DEBUG DatabaseUtil Executed querry is DELETE FROM UM_ROLE_PERMISSION WHERE UM_ROLE_NAME=? AND UM_PERMISSION_ID = (SELECT UM_ID FROM UM_PERMISSION WHERE UM_RESOURCE_ID = ? AND UM_ACTION = ? AND UM_TENANT_ID=?) AND UM_TENANT_ID=? and number of updated rows :: 1
+2018-12-06 14:44:32,724 [-] [main] DEBUG DatabaseUtil Executed querry is INSERT INTO UM_ROLE_PERMISSION (UM_PERMISSION_ID, UM_ROLE_NAME, UM_IS_ALLOWED, UM_TENANT_ID) VALUES (?, ?, ?, ?) and number of updated rows :: 1
+2018-12-06 14:44:32,852 [-] [main] DEBUG DatabaseUtil Executed querry is DELETE FROM UM_ROLE_PERMISSION WHERE UM_ROLE_NAME=? AND UM_PERMISSION_ID = (SELECT UM_ID FROM UM_PERMISSION WHERE UM_RESOURCE_ID = ? AND UM_ACTION = ? AND UM_TENANT_ID=?) AND UM_TENANT_ID=? and number of updated rows :: 1
+2018-12-06 14:44:32,854 [-] [main] DEBUG DatabaseUtil Executed querry is INSERT INTO UM_ROLE_PERMISSION (UM_PERMISSION_ID, UM_ROLE_NAME, UM_IS_ALLOWED, UM_TENANT_ID) VALUES (?, ?, ?, ?) and number of updated rows :: 1
+2018-12-06 14:44:32,946 [-] [main] DEBUG DatabaseUtil Executed querry is DELETE FROM UM_ROLE_PERMISSION WHERE UM_ROLE_NAME=? AND UM_PERMISSION_ID = (SELECT UM_ID FROM UM_PERMISSION WHERE UM_RESOURCE_ID = ? AND UM_ACTION = ? AND UM_TENANT_ID=?) AND UM_TENANT_ID=? and number of updated rows :: 1
+2018-12-06 14:44:32,947 [-] [main] DEBUG DatabaseUtil Executed querry is INSERT INTO UM_ROLE_PERMISSION (UM_PERMISSION_ID, UM_ROLE_NAME, UM_IS_ALLOWED, UM_TENANT_ID) VALUES (?, ?, ?, ?) and number of updated rows :: 1
+2018-12-06 14:44:33,050 [-] [main] DEBUG APIUtil Tier policies already uploaded to the tenant's registry space
+2018-12-06 14:44:33,069 [-] [main] DEBUG APIUtil Tier policies already uploaded to the tenant's registry space
+2018-12-06 14:44:33,080 [-] [main] DEBUG APIUtil Tier policies already uploaded to the tenant's registry space
+2018-12-06 14:44:33,086 [-] [main] ERROR APIUtil Custom sequence template location unavailable for custom sequence type in : D:/Workspace_STS_SaaSPlatform/barley.apimgt/barley.apimgt.impl/src/test/resources/\repository\resources\customsequences\in
+2018-12-06 14:44:33,086 [-] [main] ERROR APIUtil Custom sequence template location unavailable for custom sequence type out : D:/Workspace_STS_SaaSPlatform/barley.apimgt/barley.apimgt.impl/src/test/resources/\repository\resources\customsequences\out
+2018-12-06 14:44:33,086 [-] [main] ERROR APIUtil Custom sequence template location unavailable for custom sequence type fault : D:/Workspace_STS_SaaSPlatform/barley.apimgt/barley.apimgt.impl/src/test/resources/\repository\resources\customsequences\fault
+2018-12-06 14:44:33,203 [-] [main] DEBUG StAXUtils XMLStreamReader is org.apache.axiom.util.stax.dialect.WoodstoxStreamReaderWrapper
+2018-12-06 14:44:33,219 [-] [main] DEBUG StAXUtils XMLStreamReader is org.apache.axiom.util.stax.dialect.WoodstoxStreamReaderWrapper
+2018-12-06 14:44:33,233 [-] [main] DEBUG StAXUtils XMLStreamReader is org.apache.axiom.util.stax.dialect.WoodstoxStreamReaderWrapper
+2018-12-06 14:44:33,252 [-] [main] DEBUG StAXUtils XMLStreamReader is org.apache.axiom.util.stax.dialect.WoodstoxStreamReaderWrapper
+2018-12-06 14:44:33,264 [-] [main] DEBUG StAXUtils XMLStreamReader is org.apache.axiom.util.stax.dialect.WoodstoxStreamReaderWrapper
+2018-12-06 14:44:33,289 [-] [main] DEBUG StAXUtils XMLStreamReader is org.apache.axiom.util.stax.dialect.WoodstoxStreamReaderWrapper
+2018-12-06 14:44:33,305 [-] [main] DEBUG StAXUtils XMLStreamReader is org.apache.axiom.util.stax.dialect.WoodstoxStreamReaderWrapper
+2018-12-06 14:44:33,312 [-] [main] DEBUG CarbonContextHolderBase Unload Tenant Task: org.wso2.carbon.base.CarbonContextHolderBase$CarbonContextCleanupTask was registered.
+2018-12-06 14:44:33,312 [-] [main] DEBUG CarbonContextHolderBase Unload Tenant Task: barley.governance.api.util.GovernanceUtils$1 was registered.
+2018-12-06 14:44:34,042 [-] [main]  WARN APIUtil The configurations related to show multiple versions of API in APIStore are missing in api-manager.xml.
+2018-12-06 14:44:34,042 [-] [main]  WARN APIUtil The configurations related to show deprecated APIs in APIStore are missing in api-manager.xml.
+2018-12-06 14:44:34,049 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant domain from tenant id
+2018-12-06 14:44:34,050 [-] [main] DEBUG CacheImpl Using local cache
+2018-12-06 14:44:34,055 [-] [main] DEBUG CacheImpl Using local cache
+2018-12-06 14:44:34,092 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant id from tenant domain
+2018-12-06 14:44:34,092 [-] [main] DEBUG CacheImpl Using local cache
+2018-12-06 14:44:34,094 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant id from tenant domain
+2018-12-06 14:44:34,096 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant id from tenant domain
+2018-12-06 14:44:34,098 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant id from tenant domain
+2018-12-06 14:44:34,281 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant domain from tenant id
+2018-12-06 14:44:34,306 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant id from tenant domain
+2018-12-06 14:44:34,306 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant id from tenant domain
+2018-12-06 14:44:34,306 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant id from tenant domain
+2018-12-06 14:44:34,306 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant id from tenant domain
+2018-12-06 14:44:34,378 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant domain from tenant id
+2018-12-06 14:44:34,431 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant id from tenant domain
+2018-12-06 14:44:34,489 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant domain from tenant id
+2018-12-06 14:44:34,605 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant domain from tenant id
+2018-12-06 14:44:34,640 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant id from tenant domain
+2018-12-06 14:44:34,640 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant id from tenant domain
+2018-12-06 14:44:34,641 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant id from tenant domain
+2018-12-06 14:44:34,641 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant id from tenant domain
+2018-12-06 14:44:34,670 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant id from tenant domain
+2018-12-06 14:44:34,694 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant domain from tenant id
+2018-12-06 14:44:34,722 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant id from tenant domain
+2018-12-06 14:44:34,780 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant domain from tenant id
+2018-12-06 14:44:34,810 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant id from tenant domain
+2018-12-06 14:44:34,810 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant id from tenant domain
+2018-12-06 14:44:34,810 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant id from tenant domain
+2018-12-06 14:44:34,810 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant id from tenant domain
+2018-12-06 14:44:34,915 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant domain from tenant id
+2018-12-06 14:44:34,964 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant id from tenant domain
+2018-12-06 14:44:34,964 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant id from tenant domain
+2018-12-06 14:44:35,043 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant domain from tenant id
+2018-12-06 14:44:35,080 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant id from tenant domain
+2018-12-06 14:44:35,112 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant domain from tenant id
+2018-12-06 14:44:35,182 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant id from tenant domain
+2018-12-06 14:44:35,182 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant id from tenant domain
+2018-12-06 14:44:35,242 [-] [Thread-0] DEBUG ComponentStatus Ignoring call to stop() as current state is STOPPING
+2018-12-06 18:01:01,273 [-] [main] DEBUG BarleyContextDataHolder Started Setting up Authenticator Configuration
+2018-12-06 18:01:01,327 [-] [main] ERROR BarleyUtils Cannot read file D:/Workspace_STS_SaaSPlatform/barley.apimgt/barley.apimgt.impl/src/test/resources/repository/conf/\carbon.xml
+java.io.FileNotFoundException: D:\Workspace_STS_SaaSPlatform\barley.apimgt\barley.apimgt.impl\src\test\resources\repository\conf\carbon.xml (지정된 경로를 찾을 수 없습니다)
+	at java.io.FileInputStream.open0(Native Method)
+	at java.io.FileInputStream.open(FileInputStream.java:195)
+	at java.io.FileInputStream.<init>(FileInputStream.java:138)
+	at barley.core.utils.BarleyUtils.getServerConfiguration(BarleyUtils.java:100)
+	at barley.core.internal.BarleyContextDataHolder.setupAuthenticator(BarleyContextDataHolder.java:343)
+	at barley.core.internal.BarleyContextDataHolder.<clinit>(BarleyContextDataHolder.java:192)
+	at barley.apimgt.impl.BaseTestCase.setupCarbonHome(BaseTestCase.java:70)
+	at barley.apimgt.impl.BaseTestCase.setUp(BaseTestCase.java:44)
+	at barley.apimgt.impl.APIConsumerImplTest.setUp(APIConsumerImplTest.java:103)
+	at junit.framework.TestCase.runBare(TestCase.java:139)
+	at junit.framework.TestResult$1.protect(TestResult.java:122)
+	at junit.framework.TestResult.runProtected(TestResult.java:142)
+	at junit.framework.TestResult.run(TestResult.java:125)
+	at junit.framework.TestCase.run(TestCase.java:129)
+	at junit.framework.TestSuite.runTest(TestSuite.java:252)
+	at junit.framework.TestSuite.run(TestSuite.java:247)
+	at org.junit.internal.runners.JUnit38ClassRunner.run(JUnit38ClassRunner.java:86)
+	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:86)
+	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:459)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:678)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:382)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:192)
+2018-12-06 18:01:01,338 [-] [main] ERROR ServerConfigurationService Cannot get ServerConfiguration document element
+java.lang.NullPointerException
+	at barley.core.configuration.ServerConfiguration.getDocumentElementInternal(ServerConfiguration.java:429)
+	at barley.core.configuration.ServerConfiguration.getDocumentElement(ServerConfiguration.java:420)
+	at barley.core.internal.BarleyContextDataHolder.setupAuthenticator(BarleyContextDataHolder.java:343)
+	at barley.core.internal.BarleyContextDataHolder.<clinit>(BarleyContextDataHolder.java:192)
+	at barley.apimgt.impl.BaseTestCase.setupCarbonHome(BaseTestCase.java:70)
+	at barley.apimgt.impl.BaseTestCase.setUp(BaseTestCase.java:44)
+	at barley.apimgt.impl.APIConsumerImplTest.setUp(APIConsumerImplTest.java:103)
+	at junit.framework.TestCase.runBare(TestCase.java:139)
+	at junit.framework.TestResult$1.protect(TestResult.java:122)
+	at junit.framework.TestResult.runProtected(TestResult.java:142)
+	at junit.framework.TestResult.run(TestResult.java:125)
+	at junit.framework.TestCase.run(TestCase.java:129)
+	at junit.framework.TestSuite.runTest(TestSuite.java:252)
+	at junit.framework.TestSuite.run(TestSuite.java:247)
+	at org.junit.internal.runners.JUnit38ClassRunner.run(JUnit38ClassRunner.java:86)
+	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:86)
+	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:459)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:678)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:382)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:192)
+2018-12-06 18:01:01,702 [-] [main] DEBUG StAXUtils About to create XMLInputFactory implementation with classloader=sun.misc.Launcher$AppClassLoader@1a407d53
+2018-12-06 18:01:01,702 [-] [main] DEBUG StAXUtils The classloader for javax.xml.stream.XMLInputFactory is: null
+2018-12-06 18:01:01,720 [-] [main] DEBUG StAXDialectDetector StAX implementation at jar:file:/C:/Users/yangwenry/.m2/repository/org/codehaus/woodstox/woodstox-core-asl/4.4.1/woodstox-core-asl-4.4.1.jar!/ is:
+  Title:         Woodstox XML-processor
+  Symbolic name: woodstox-core-asl
+  Vendor:        http://woodstox.codehaus.org
+  Version:       4.4.1
+2018-12-06 18:01:01,723 [-] [main] DEBUG StAXDialectDetector Detected StAX dialect: Woodstox
+2018-12-06 18:01:01,724 [-] [main] DEBUG StAXUtils Created XMLInputFactory = class org.apache.axiom.util.stax.wrapper.ImmutableXMLInputFactory with classloader=sun.misc.Launcher$AppClassLoader@1a407d53
+2018-12-06 18:01:01,724 [-] [main] DEBUG StAXUtils Configuration = DEFAULT
+2018-12-06 18:01:01,724 [-] [main] DEBUG StAXUtils Size of XMLInputFactory map for this configuration = 1
+2018-12-06 18:01:01,724 [-] [main] DEBUG StAXUtils Configurations for which factories have been cached = [DEFAULT]
+2018-12-06 18:01:01,759 [-] [main] DEBUG StAXUtils XMLStreamReader is org.apache.axiom.util.stax.dialect.WoodstoxStreamReaderWrapper
+2018-12-06 18:01:01,765 [-] [main] ERROR BarleyContextDataHolder Unable to read Server Configuration
+org.apache.axiom.om.OMException: com.ctc.wstx.exc.WstxEOFException: Unexpected EOF in prolog
+ at [row,col {unknown-source}]: [1,38]
+	at org.apache.axiom.om.impl.builder.StAXOMBuilder.next(StAXOMBuilder.java:296)
+	at org.apache.axiom.om.impl.llom.OMDocumentImpl.getOMDocumentElement(OMDocumentImpl.java:109)
+	at org.apache.axiom.om.impl.builder.StAXOMBuilder.getDocumentElement(StAXOMBuilder.java:570)
+	at org.apache.axiom.om.impl.builder.StAXOMBuilder.getDocumentElement(StAXOMBuilder.java:566)
+	at org.apache.axis2.util.XMLUtils.toOM(XMLUtils.java:538)
+	at org.apache.axis2.util.XMLUtils.toOM(XMLUtils.java:512)
+	at barley.core.internal.BarleyContextDataHolder.setupAuthenticator(BarleyContextDataHolder.java:342)
+	at barley.core.internal.BarleyContextDataHolder.<clinit>(BarleyContextDataHolder.java:192)
+	at barley.apimgt.impl.BaseTestCase.setupCarbonHome(BaseTestCase.java:70)
+	at barley.apimgt.impl.BaseTestCase.setUp(BaseTestCase.java:44)
+	at barley.apimgt.impl.APIConsumerImplTest.setUp(APIConsumerImplTest.java:103)
+	at junit.framework.TestCase.runBare(TestCase.java:139)
+	at junit.framework.TestResult$1.protect(TestResult.java:122)
+	at junit.framework.TestResult.runProtected(TestResult.java:142)
+	at junit.framework.TestResult.run(TestResult.java:125)
+	at junit.framework.TestCase.run(TestCase.java:129)
+	at junit.framework.TestSuite.runTest(TestSuite.java:252)
+	at junit.framework.TestSuite.run(TestSuite.java:247)
+	at org.junit.internal.runners.JUnit38ClassRunner.run(JUnit38ClassRunner.java:86)
+	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:86)
+	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:459)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:678)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:382)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:192)
+Caused by: com.ctc.wstx.exc.WstxEOFException: Unexpected EOF in prolog
+ at [row,col {unknown-source}]: [1,38]
+	at com.ctc.wstx.sr.StreamScanner.throwUnexpectedEOF(StreamScanner.java:685)
+	at com.ctc.wstx.sr.BasicStreamReader.handleEOF(BasicStreamReader.java:2141)
+	at com.ctc.wstx.sr.BasicStreamReader.nextFromProlog(BasicStreamReader.java:2047)
+	at com.ctc.wstx.sr.BasicStreamReader.next(BasicStreamReader.java:1131)
+	at org.apache.axiom.util.stax.wrapper.XMLStreamReaderWrapper.next(XMLStreamReaderWrapper.java:225)
+	at org.apache.axiom.om.impl.builder.StAXOMBuilder.parserNext(StAXOMBuilder.java:681)
+	at org.apache.axiom.om.impl.builder.StAXOMBuilder.next(StAXOMBuilder.java:214)
+	... 24 more
+2018-12-06 18:01:01,769 [-] [main] DEBUG BarleyContextDataHolder Unload Tenant Task: barley.core.internal.BarleyContextDataHolder$CarbonContextCleanupTask was registered.
+2018-12-06 18:01:01,771 [-] [main] DEBUG BarleyContextDataHolder Loading Cache Configuration
+2018-12-06 18:01:01,772 [-] [main] ERROR BarleyContextDataHolder Error while instantiating the cache. 
+net.sf.jsr107cache.CacheException: Cache configuration file (cache.xml) does not exist in the path D:/Workspace_STS_SaaSPlatform/barley.apimgt/barley.apimgt.impl/src/test/resources/repository/conf/\cache.xml
+	at org.wso2.carbon.caching.core.CacheConfiguration.load(CacheConfiguration.java:104)
+	at barley.core.internal.BarleyContextDataHolder.<clinit>(BarleyContextDataHolder.java:226)
+	at barley.apimgt.impl.BaseTestCase.setupCarbonHome(BaseTestCase.java:70)
+	at barley.apimgt.impl.BaseTestCase.setUp(BaseTestCase.java:44)
+	at barley.apimgt.impl.APIConsumerImplTest.setUp(APIConsumerImplTest.java:103)
+	at junit.framework.TestCase.runBare(TestCase.java:139)
+	at junit.framework.TestResult$1.protect(TestResult.java:122)
+	at junit.framework.TestResult.runProtected(TestResult.java:142)
+	at junit.framework.TestResult.run(TestResult.java:125)
+	at junit.framework.TestCase.run(TestCase.java:129)
+	at junit.framework.TestSuite.runTest(TestSuite.java:252)
+	at junit.framework.TestSuite.run(TestSuite.java:247)
+	at org.junit.internal.runners.JUnit38ClassRunner.run(JUnit38ClassRunner.java:86)
+	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:86)
+	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:459)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:678)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:382)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:192)
+Caused by: java.io.FileNotFoundException: D:\Workspace_STS_SaaSPlatform\barley.apimgt\barley.apimgt.impl\src\test\resources\repository\conf\cache.xml (지정된 경로를 찾을 수 없습니다)
+	at java.io.FileInputStream.open0(Native Method)
+	at java.io.FileInputStream.open(FileInputStream.java:195)
+	at java.io.FileInputStream.<init>(FileInputStream.java:138)
+	at org.wso2.carbon.caching.core.CacheConfiguration.load(CacheConfiguration.java:102)
+	... 18 more
+2018-12-06 18:01:46,123 [-] [main] DEBUG BarleyContextDataHolder Started Setting up Authenticator Configuration
+2018-12-06 18:01:46,130 [-] [main] ERROR BarleyUtils Cannot read file D:/Workspace_STS_SaaSPlatform/barley.apimgt/barley.apimgt.impl/src/test/resources/repository/conf/\carbon.xml
+java.io.FileNotFoundException: D:\Workspace_STS_SaaSPlatform\barley.apimgt\barley.apimgt.impl\src\test\resources\repository\conf\carbon.xml (지정된 경로를 찾을 수 없습니다)
+	at java.io.FileInputStream.open0(Native Method)
+	at java.io.FileInputStream.open(FileInputStream.java:195)
+	at java.io.FileInputStream.<init>(FileInputStream.java:138)
+	at barley.core.utils.BarleyUtils.getServerConfiguration(BarleyUtils.java:100)
+	at barley.core.internal.BarleyContextDataHolder.setupAuthenticator(BarleyContextDataHolder.java:343)
+	at barley.core.internal.BarleyContextDataHolder.<clinit>(BarleyContextDataHolder.java:192)
+	at barley.apimgt.impl.BaseTestCase.setupCarbonHome(BaseTestCase.java:70)
+	at barley.apimgt.impl.BaseTestCase.setUp(BaseTestCase.java:44)
+	at barley.apimgt.impl.APIConsumerImplTest.setUp(APIConsumerImplTest.java:103)
+	at junit.framework.TestCase.runBare(TestCase.java:139)
+	at junit.framework.TestResult$1.protect(TestResult.java:122)
+	at junit.framework.TestResult.runProtected(TestResult.java:142)
+	at junit.framework.TestResult.run(TestResult.java:125)
+	at junit.framework.TestCase.run(TestCase.java:129)
+	at junit.framework.TestSuite.runTest(TestSuite.java:252)
+	at junit.framework.TestSuite.run(TestSuite.java:247)
+	at org.junit.internal.runners.JUnit38ClassRunner.run(JUnit38ClassRunner.java:86)
+	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:86)
+	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:459)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:678)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:382)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:192)
+2018-12-06 18:01:46,138 [-] [main] ERROR ServerConfigurationService Cannot get ServerConfiguration document element
+java.lang.NullPointerException
+	at barley.core.configuration.ServerConfiguration.getDocumentElementInternal(ServerConfiguration.java:429)
+	at barley.core.configuration.ServerConfiguration.getDocumentElement(ServerConfiguration.java:420)
+	at barley.core.internal.BarleyContextDataHolder.setupAuthenticator(BarleyContextDataHolder.java:343)
+	at barley.core.internal.BarleyContextDataHolder.<clinit>(BarleyContextDataHolder.java:192)
+	at barley.apimgt.impl.BaseTestCase.setupCarbonHome(BaseTestCase.java:70)
+	at barley.apimgt.impl.BaseTestCase.setUp(BaseTestCase.java:44)
+	at barley.apimgt.impl.APIConsumerImplTest.setUp(APIConsumerImplTest.java:103)
+	at junit.framework.TestCase.runBare(TestCase.java:139)
+	at junit.framework.TestResult$1.protect(TestResult.java:122)
+	at junit.framework.TestResult.runProtected(TestResult.java:142)
+	at junit.framework.TestResult.run(TestResult.java:125)
+	at junit.framework.TestCase.run(TestCase.java:129)
+	at junit.framework.TestSuite.runTest(TestSuite.java:252)
+	at junit.framework.TestSuite.run(TestSuite.java:247)
+	at org.junit.internal.runners.JUnit38ClassRunner.run(JUnit38ClassRunner.java:86)
+	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:86)
+	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:459)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:678)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:382)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:192)
+2018-12-06 18:01:46,423 [-] [main] DEBUG StAXUtils About to create XMLInputFactory implementation with classloader=sun.misc.Launcher$AppClassLoader@1a407d53
+2018-12-06 18:01:46,424 [-] [main] DEBUG StAXUtils The classloader for javax.xml.stream.XMLInputFactory is: null
+2018-12-06 18:01:46,442 [-] [main] DEBUG StAXDialectDetector StAX implementation at jar:file:/C:/Users/yangwenry/.m2/repository/org/codehaus/woodstox/woodstox-core-asl/4.4.1/woodstox-core-asl-4.4.1.jar!/ is:
+  Title:         Woodstox XML-processor
+  Symbolic name: woodstox-core-asl
+  Vendor:        http://woodstox.codehaus.org
+  Version:       4.4.1
+2018-12-06 18:01:46,445 [-] [main] DEBUG StAXDialectDetector Detected StAX dialect: Woodstox
+2018-12-06 18:01:46,446 [-] [main] DEBUG StAXUtils Created XMLInputFactory = class org.apache.axiom.util.stax.wrapper.ImmutableXMLInputFactory with classloader=sun.misc.Launcher$AppClassLoader@1a407d53
+2018-12-06 18:01:46,446 [-] [main] DEBUG StAXUtils Configuration = DEFAULT
+2018-12-06 18:01:46,446 [-] [main] DEBUG StAXUtils Size of XMLInputFactory map for this configuration = 1
+2018-12-06 18:01:46,446 [-] [main] DEBUG StAXUtils Configurations for which factories have been cached = [DEFAULT]
+2018-12-06 18:01:46,478 [-] [main] DEBUG StAXUtils XMLStreamReader is org.apache.axiom.util.stax.dialect.WoodstoxStreamReaderWrapper
+2018-12-06 18:01:46,485 [-] [main] ERROR BarleyContextDataHolder Unable to read Server Configuration
+org.apache.axiom.om.OMException: com.ctc.wstx.exc.WstxEOFException: Unexpected EOF in prolog
+ at [row,col {unknown-source}]: [1,38]
+	at org.apache.axiom.om.impl.builder.StAXOMBuilder.next(StAXOMBuilder.java:296)
+	at org.apache.axiom.om.impl.llom.OMDocumentImpl.getOMDocumentElement(OMDocumentImpl.java:109)
+	at org.apache.axiom.om.impl.builder.StAXOMBuilder.getDocumentElement(StAXOMBuilder.java:570)
+	at org.apache.axiom.om.impl.builder.StAXOMBuilder.getDocumentElement(StAXOMBuilder.java:566)
+	at org.apache.axis2.util.XMLUtils.toOM(XMLUtils.java:538)
+	at org.apache.axis2.util.XMLUtils.toOM(XMLUtils.java:512)
+	at barley.core.internal.BarleyContextDataHolder.setupAuthenticator(BarleyContextDataHolder.java:342)
+	at barley.core.internal.BarleyContextDataHolder.<clinit>(BarleyContextDataHolder.java:192)
+	at barley.apimgt.impl.BaseTestCase.setupCarbonHome(BaseTestCase.java:70)
+	at barley.apimgt.impl.BaseTestCase.setUp(BaseTestCase.java:44)
+	at barley.apimgt.impl.APIConsumerImplTest.setUp(APIConsumerImplTest.java:103)
+	at junit.framework.TestCase.runBare(TestCase.java:139)
+	at junit.framework.TestResult$1.protect(TestResult.java:122)
+	at junit.framework.TestResult.runProtected(TestResult.java:142)
+	at junit.framework.TestResult.run(TestResult.java:125)
+	at junit.framework.TestCase.run(TestCase.java:129)
+	at junit.framework.TestSuite.runTest(TestSuite.java:252)
+	at junit.framework.TestSuite.run(TestSuite.java:247)
+	at org.junit.internal.runners.JUnit38ClassRunner.run(JUnit38ClassRunner.java:86)
+	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:86)
+	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:459)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:678)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:382)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:192)
+Caused by: com.ctc.wstx.exc.WstxEOFException: Unexpected EOF in prolog
+ at [row,col {unknown-source}]: [1,38]
+	at com.ctc.wstx.sr.StreamScanner.throwUnexpectedEOF(StreamScanner.java:685)
+	at com.ctc.wstx.sr.BasicStreamReader.handleEOF(BasicStreamReader.java:2141)
+	at com.ctc.wstx.sr.BasicStreamReader.nextFromProlog(BasicStreamReader.java:2047)
+	at com.ctc.wstx.sr.BasicStreamReader.next(BasicStreamReader.java:1131)
+	at org.apache.axiom.util.stax.wrapper.XMLStreamReaderWrapper.next(XMLStreamReaderWrapper.java:225)
+	at org.apache.axiom.om.impl.builder.StAXOMBuilder.parserNext(StAXOMBuilder.java:681)
+	at org.apache.axiom.om.impl.builder.StAXOMBuilder.next(StAXOMBuilder.java:214)
+	... 24 more
+2018-12-06 18:01:46,487 [-] [main] DEBUG BarleyContextDataHolder Unload Tenant Task: barley.core.internal.BarleyContextDataHolder$CarbonContextCleanupTask was registered.
+2018-12-06 18:01:46,491 [-] [main] DEBUG BarleyContextDataHolder Loading Cache Configuration
+2018-12-06 18:01:46,491 [-] [main] ERROR BarleyContextDataHolder Error while instantiating the cache. 
+net.sf.jsr107cache.CacheException: Cache configuration file (cache.xml) does not exist in the path D:/Workspace_STS_SaaSPlatform/barley.apimgt/barley.apimgt.impl/src/test/resources/repository/conf/\cache.xml
+	at org.wso2.carbon.caching.core.CacheConfiguration.load(CacheConfiguration.java:104)
+	at barley.core.internal.BarleyContextDataHolder.<clinit>(BarleyContextDataHolder.java:226)
+	at barley.apimgt.impl.BaseTestCase.setupCarbonHome(BaseTestCase.java:70)
+	at barley.apimgt.impl.BaseTestCase.setUp(BaseTestCase.java:44)
+	at barley.apimgt.impl.APIConsumerImplTest.setUp(APIConsumerImplTest.java:103)
+	at junit.framework.TestCase.runBare(TestCase.java:139)
+	at junit.framework.TestResult$1.protect(TestResult.java:122)
+	at junit.framework.TestResult.runProtected(TestResult.java:142)
+	at junit.framework.TestResult.run(TestResult.java:125)
+	at junit.framework.TestCase.run(TestCase.java:129)
+	at junit.framework.TestSuite.runTest(TestSuite.java:252)
+	at junit.framework.TestSuite.run(TestSuite.java:247)
+	at org.junit.internal.runners.JUnit38ClassRunner.run(JUnit38ClassRunner.java:86)
+	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:86)
+	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:459)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:678)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:382)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:192)
+Caused by: java.io.FileNotFoundException: D:\Workspace_STS_SaaSPlatform\barley.apimgt\barley.apimgt.impl\src\test\resources\repository\conf\cache.xml (지정된 경로를 찾을 수 없습니다)
+	at java.io.FileInputStream.open0(Native Method)
+	at java.io.FileInputStream.open(FileInputStream.java:195)
+	at java.io.FileInputStream.<init>(FileInputStream.java:138)
+	at org.wso2.carbon.caching.core.CacheConfiguration.load(CacheConfiguration.java:102)
+	... 18 more
+2018-12-06 18:02:37,870 [-] [main] DEBUG BarleyContextDataHolder Started Setting up Authenticator Configuration
+2018-12-06 18:02:37,957 [-] [main] DEBUG StAXUtils About to create XMLInputFactory implementation with classloader=sun.misc.Launcher$AppClassLoader@1a407d53
+2018-12-06 18:02:37,957 [-] [main] DEBUG StAXUtils The classloader for javax.xml.stream.XMLInputFactory is: null
+2018-12-06 18:02:37,995 [-] [main] DEBUG StAXDialectDetector StAX implementation at jar:file:/C:/Users/yangwenry/.m2/repository/org/codehaus/woodstox/woodstox-core-asl/4.4.1/woodstox-core-asl-4.4.1.jar!/ is:
+  Title:         Woodstox XML-processor
+  Symbolic name: woodstox-core-asl
+  Vendor:        http://woodstox.codehaus.org
+  Version:       4.4.1
+2018-12-06 18:02:38,002 [-] [main] DEBUG StAXDialectDetector Detected StAX dialect: Woodstox
+2018-12-06 18:02:38,003 [-] [main] DEBUG StAXUtils Created XMLInputFactory = class org.apache.axiom.util.stax.wrapper.ImmutableXMLInputFactory with classloader=sun.misc.Launcher$AppClassLoader@1a407d53
+2018-12-06 18:02:38,004 [-] [main] DEBUG StAXUtils Configuration = DEFAULT
+2018-12-06 18:02:38,004 [-] [main] DEBUG StAXUtils Size of XMLInputFactory map for this configuration = 1
+2018-12-06 18:02:38,004 [-] [main] DEBUG StAXUtils Configurations for which factories have been cached = [DEFAULT]
+2018-12-06 18:02:38,053 [-] [main] DEBUG StAXUtils XMLStreamReader is org.apache.axiom.util.stax.dialect.WoodstoxStreamReaderWrapper
+2018-12-06 18:02:38,105 [-] [main] DEBUG MiscellaneousUtil The name with ' secret.manager.conf ' cannot be found. Using default value secret-manager.properties
+2018-12-06 18:02:38,105 [-] [main] DEBUG SecretManager Configuration properties can not be loaded form : secret-manager.properties Will use synapse properties
+2018-12-06 18:02:38,105 [-] [main] DEBUG SecretManager No secret repositories have been configured
+2018-12-06 18:02:38,124 [-] [main] DEBUG StAXUtils About to create XMLOutputFactory implementation with classloader=sun.misc.Launcher$AppClassLoader@1a407d53
+2018-12-06 18:02:38,124 [-] [main] DEBUG StAXUtils The classloader for javax.xml.stream.XMLOutputFactory is: null
+2018-12-06 18:02:38,136 [-] [main] DEBUG StAXUtils Created XMLOutputFactory = class org.apache.axiom.util.stax.wrapper.ImmutableXMLOutputFactory for classloader=sun.misc.Launcher$AppClassLoader@1a407d53
+2018-12-06 18:02:38,136 [-] [main] DEBUG StAXUtils Configuration = DEFAULT
+2018-12-06 18:02:38,136 [-] [main] DEBUG StAXUtils Size of XMLOutFactory map for this configuration = 1
+2018-12-06 18:02:38,136 [-] [main] DEBUG StAXUtils Configurations for which factories have been cached = [DEFAULT]
+2018-12-06 18:02:38,152 [-] [main] DEBUG StAXUtils XMLStreamWriter is org.apache.axiom.util.stax.dialect.WoodstoxStreamWriterWrapper
+2018-12-06 18:02:38,160 [-] [main] DEBUG MTOMXMLStreamWriter Calling MTOMXMLStreamWriter.flush
+2018-12-06 18:02:38,161 [-] [main] DEBUG StAXUtils XMLStreamReader is org.apache.axiom.util.stax.dialect.WoodstoxStreamReaderWrapper
+2018-12-06 18:02:38,163 [-] [main] DEBUG StAXUtils XMLStreamWriter is org.apache.axiom.util.stax.dialect.WoodstoxStreamWriterWrapper
+2018-12-06 18:02:38,173 [-] [main] DEBUG MTOMXMLStreamWriter Calling MTOMXMLStreamWriter.flush
+2018-12-06 18:02:38,419 [-] [main] DEBUG StAXUtils XMLStreamReader is org.apache.axiom.util.stax.dialect.WoodstoxStreamReaderWrapper
+2018-12-06 18:02:38,424 [-] [main] DEBUG BarleyContextDataHolder Completed Setting up Authenticator Configuration
+2018-12-06 18:02:38,425 [-] [main] DEBUG BarleyContextDataHolder Unload Tenant Task: barley.core.internal.BarleyContextDataHolder$CarbonContextCleanupTask was registered.
+2018-12-06 18:02:38,427 [-] [main] DEBUG BarleyContextDataHolder Loading Cache Configuration
+2018-12-06 18:02:38,467 [-] [main] DEBUG StAXUtils XMLStreamReader is org.apache.axiom.util.stax.dialect.WoodstoxStreamReaderWrapper
+2018-12-06 18:02:38,467 [-] [main] DEBUG CacheConfiguration Successfully loaded Cache Configuration
+2018-12-06 18:02:38,471 [-] [main] DEBUG BarleyContextDataHolder Initializing Cache Manager
+2018-12-06 18:02:38,471 [-] [main] DEBUG InfinispanCacheManager Starting Cache Manager initialization
+2018-12-06 18:02:38,494 [-] [main] DEBUG InfinispanCacheManager Infinispan Cache Mode : local
+2018-12-06 18:02:38,495 [-] [main] DEBUG InfinispanCacheManager Infinispan L1 maxIdleTime : 1800000
+2018-12-06 18:02:38,543 [-] [main] DEBUG GlobalComponentRegistry Looking in configuration for an instance of interface java.util.concurrent.ExecutorService that may have been injected from an external source.
+2018-12-06 18:02:38,567 [-] [main] DEBUG InfinispanCacheManager Successfully Initialized Infinispan Cache Manager
+2018-12-06 18:02:38,582 [-] [main] DEBUG BarleyContextDataHolder Unload Tenant Task: barley.core.internal.BarleyContextDataHolder$MultitenantCarbonCacheManager$CacheCleanupTask was registered.
+2018-12-06 18:02:38,583 [-] [main] DEBUG BarleyContextDataHolder there can be a possibility of the same class loading twice and then trying to reset the initial context factory builder
+2018-12-06 18:02:38,590 [-] [main] DEBUG AbstractContext OnDemandLogger initialized for class org.apache.axis2.context.AbstractContext is:org.apache.commons.logging.impl.Log4JLogger@3e96bacf
+2018-12-06 18:02:38,736 [-] [main] DEBUG StAXUtils XMLStreamReader is org.apache.axiom.util.stax.dialect.WoodstoxStreamReaderWrapper
+2018-12-06 18:02:38,740 [-] [main] DEBUG RealmConfigXMLProcessor External password management is disabled.
+2018-12-06 18:02:38,830 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.eviction.EvictionManager that may have been injected from an external source.
+2018-12-06 18:02:38,833 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface java.util.concurrent.ScheduledExecutorService that may have been injected from an external source.
+2018-12-06 18:02:38,834 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.Cache that may have been injected from an external source.
+2018-12-06 18:02:38,835 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.context.InvocationContextContainer that may have been injected from an external source.
+2018-12-06 18:02:38,839 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface javax.transaction.TransactionManager that may have been injected from an external source.
+2018-12-06 18:02:38,840 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of class org.infinispan.transaction.xa.TransactionTable that may have been injected from an external source.
+2018-12-06 18:02:38,842 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.commands.CommandsFactory that may have been injected from an external source.
+2018-12-06 18:02:38,856 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.container.DataContainer that may have been injected from an external source.
+2018-12-06 18:02:38,862 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.notifications.cachelistener.CacheNotifier that may have been injected from an external source.
+2018-12-06 18:02:38,870 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface java.util.concurrent.ExecutorService that may have been injected from an external source.
+2018-12-06 18:02:38,871 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of class org.infinispan.interceptors.InterceptorChain that may have been injected from an external source.
+2018-12-06 18:02:38,872 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.util.concurrent.locks.LockManager that may have been injected from an external source.
+2018-12-06 18:02:38,874 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface javax.transaction.TransactionManager that may have been injected from an external source.
+2018-12-06 18:02:38,881 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface javax.transaction.TransactionManager that may have been injected from an external source.
+2018-12-06 18:02:38,881 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of class org.infinispan.transaction.TransactionLog that may have been injected from an external source.
+2018-12-06 18:02:38,885 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.container.EntryFactory that may have been injected from an external source.
+2018-12-06 18:02:38,890 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.distribution.DistributionManager that may have been injected from an external source.
+2018-12-06 18:02:38,890 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.remoting.rpc.RpcManager that may have been injected from an external source.
+2018-12-06 18:02:38,891 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of class org.infinispan.transaction.xa.GlobalTransactionFactory that may have been injected from an external source.
+2018-12-06 18:02:38,892 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface javax.transaction.TransactionManager that may have been injected from an external source.
+2018-12-06 18:02:38,892 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of class org.infinispan.batch.BatchContainer that may have been injected from an external source.
+2018-12-06 18:02:38,893 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface javax.transaction.TransactionManager that may have been injected from an external source.
+2018-12-06 18:02:38,893 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.remoting.rpc.RpcManager that may have been injected from an external source.
+2018-12-06 18:02:38,894 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.marshall.StreamingMarshaller that may have been injected from an external source.
+2018-12-06 18:02:38,915 [-] [main] DEBUG GlobalComponentRegistry Looking in configuration for an instance of class org.infinispan.commands.RemoteCommandsFactory that may have been injected from an external source.
+2018-12-06 18:02:38,915 [-] [main] DEBUG GlobalComponentRegistry Looking in configuration for an instance of interface org.infinispan.remoting.transport.Transport that may have been injected from an external source.
+2018-12-06 18:02:38,916 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.remoting.responses.ResponseGenerator that may have been injected from an external source.
+2018-12-06 18:02:38,917 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.distribution.DistributionManager that may have been injected from an external source.
+2018-12-06 18:02:38,917 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.statetransfer.StateTransferManager that may have been injected from an external source.
+2018-12-06 18:02:38,917 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.loaders.CacheLoaderManager that may have been injected from an external source.
+2018-12-06 18:02:38,920 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface javax.transaction.TransactionManager that may have been injected from an external source.
+2018-12-06 18:02:38,920 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.remoting.rpc.RpcManager that may have been injected from an external source.
+2018-12-06 18:02:38,920 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.distribution.DistributionManager that may have been injected from an external source.
+2018-12-06 18:02:38,920 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.statetransfer.StateTransferManager that may have been injected from an external source.
+2018-12-06 18:02:38,923 [-] [main] DEBUG JBossMarshaller Using JBoss Marshalling
+2018-12-06 18:02:38,981 [-] [main]  INFO GlobalComponentRegistry Infinispan version: Infinispan 'Radegast' 4.1.0.CR2
+2018-12-06 18:02:38,986 [-] [main] DEBUG InterceptorChain Interceptor chain size: 6
+2018-12-06 18:02:38,986 [-] [main] DEBUG InterceptorChain Interceptor chain is: 
+	>> org.infinispan.interceptors.InvocationContextInterceptor
+	>> org.infinispan.interceptors.CacheMgmtInterceptor
+	>> org.infinispan.interceptors.TxInterceptor
+	>> org.infinispan.interceptors.NotificationInterceptor
+	>> org.infinispan.interceptors.LockingInterceptor
+	>> org.infinispan.interceptors.CallInterceptor
+2018-12-06 18:02:39,074 [-] [main] DEBUG ResourceDMBean @MBean description set - Manager that handles MVCC locks for entries
+2018-12-06 18:02:39,076 [-] [main] DEBUG ResourceDMBean @MBean description set - General statistics such as timings, hit/miss ratio, etc.
+2018-12-06 18:02:39,078 [-] [main] DEBUG ResourceDMBean @MBean description set - Component that acts as a manager, factory and container for caches in the system.
+2018-12-06 18:02:39,083 [-] [main] DEBUG ResourceDMBean @MBean description set - Component that manages the cache's participation in JTA transactions.
+2018-12-06 18:02:39,084 [-] [main] DEBUG ResourceDMBean @MBean description set - Component that acts as a manager, factory and container for caches in the system.
+2018-12-06 18:02:39,086 [-] [main]  INFO ComponentsJmxRegistration Could not register object with name: infinispan:cache-name=TENANT_CACHE(local),jmx-resource=Cache
+2018-12-06 18:02:39,086 [-] [main]  INFO CacheJmxRegistration MBeans were successfully registered to the platform mbean server.
+2018-12-06 18:02:39,086 [-] [main]  INFO ComponentRegistry Infinispan version: Infinispan 'Radegast' 4.1.0.CR2
+2018-12-06 18:02:39,086 [-] [main] DEBUG BarleyContextDataHolder Retrieving named cache: TENANT_CACHE
+2018-12-06 18:02:39,154 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.eviction.EvictionManager that may have been injected from an external source.
+2018-12-06 18:02:39,155 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface java.util.concurrent.ScheduledExecutorService that may have been injected from an external source.
+2018-12-06 18:02:39,155 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.Cache that may have been injected from an external source.
+2018-12-06 18:02:39,155 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.context.InvocationContextContainer that may have been injected from an external source.
+2018-12-06 18:02:39,155 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface javax.transaction.TransactionManager that may have been injected from an external source.
+2018-12-06 18:02:39,155 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of class org.infinispan.transaction.xa.TransactionTable that may have been injected from an external source.
+2018-12-06 18:02:39,155 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.commands.CommandsFactory that may have been injected from an external source.
+2018-12-06 18:02:39,156 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.container.DataContainer that may have been injected from an external source.
+2018-12-06 18:02:39,156 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.notifications.cachelistener.CacheNotifier that may have been injected from an external source.
+2018-12-06 18:02:39,156 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface java.util.concurrent.ExecutorService that may have been injected from an external source.
+2018-12-06 18:02:39,156 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of class org.infinispan.interceptors.InterceptorChain that may have been injected from an external source.
+2018-12-06 18:02:39,157 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.util.concurrent.locks.LockManager that may have been injected from an external source.
+2018-12-06 18:02:39,157 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface javax.transaction.TransactionManager that may have been injected from an external source.
+2018-12-06 18:02:39,157 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface javax.transaction.TransactionManager that may have been injected from an external source.
+2018-12-06 18:02:39,158 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of class org.infinispan.transaction.TransactionLog that may have been injected from an external source.
+2018-12-06 18:02:39,158 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.container.EntryFactory that may have been injected from an external source.
+2018-12-06 18:02:39,158 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.distribution.DistributionManager that may have been injected from an external source.
+2018-12-06 18:02:39,158 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.remoting.rpc.RpcManager that may have been injected from an external source.
+2018-12-06 18:02:39,158 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of class org.infinispan.transaction.xa.GlobalTransactionFactory that may have been injected from an external source.
+2018-12-06 18:02:39,158 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface javax.transaction.TransactionManager that may have been injected from an external source.
+2018-12-06 18:02:39,159 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of class org.infinispan.batch.BatchContainer that may have been injected from an external source.
+2018-12-06 18:02:39,159 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface javax.transaction.TransactionManager that may have been injected from an external source.
+2018-12-06 18:02:39,159 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.remoting.rpc.RpcManager that may have been injected from an external source.
+2018-12-06 18:02:39,159 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.remoting.responses.ResponseGenerator that may have been injected from an external source.
+2018-12-06 18:02:39,160 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.distribution.DistributionManager that may have been injected from an external source.
+2018-12-06 18:02:39,160 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.statetransfer.StateTransferManager that may have been injected from an external source.
+2018-12-06 18:02:39,160 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.loaders.CacheLoaderManager that may have been injected from an external source.
+2018-12-06 18:02:39,160 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface javax.transaction.TransactionManager that may have been injected from an external source.
+2018-12-06 18:02:39,160 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.remoting.rpc.RpcManager that may have been injected from an external source.
+2018-12-06 18:02:39,161 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.distribution.DistributionManager that may have been injected from an external source.
+2018-12-06 18:02:39,161 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.statetransfer.StateTransferManager that may have been injected from an external source.
+2018-12-06 18:02:39,162 [-] [main] DEBUG InterceptorChain Interceptor chain size: 6
+2018-12-06 18:02:39,162 [-] [main] DEBUG InterceptorChain Interceptor chain is: 
+	>> org.infinispan.interceptors.InvocationContextInterceptor
+	>> org.infinispan.interceptors.CacheMgmtInterceptor
+	>> org.infinispan.interceptors.TxInterceptor
+	>> org.infinispan.interceptors.NotificationInterceptor
+	>> org.infinispan.interceptors.LockingInterceptor
+	>> org.infinispan.interceptors.CallInterceptor
+2018-12-06 18:02:39,163 [-] [main] DEBUG ResourceDMBean @MBean description set - Component that acts as a manager, factory and container for caches in the system.
+2018-12-06 18:02:39,164 [-] [main] DEBUG ResourceDMBean @MBean description set - Component that acts as a manager, factory and container for caches in the system.
+2018-12-06 18:02:39,164 [-] [main] DEBUG ResourceDMBean @MBean description set - General statistics such as timings, hit/miss ratio, etc.
+2018-12-06 18:02:39,165 [-] [main] DEBUG ResourceDMBean @MBean description set - Component that manages the cache's participation in JTA transactions.
+2018-12-06 18:02:39,166 [-] [main] DEBUG ResourceDMBean @MBean description set - Manager that handles MVCC locks for entries
+2018-12-06 18:02:39,166 [-] [main]  INFO ComponentsJmxRegistration Could not register object with name: infinispan:cache-name=CUSTOM_TENANT_CACHE(local),jmx-resource=Cache
+2018-12-06 18:02:39,167 [-] [main]  INFO CacheJmxRegistration MBeans were successfully registered to the platform mbean server.
+2018-12-06 18:02:39,167 [-] [main]  INFO ComponentRegistry Infinispan version: Infinispan 'Radegast' 4.1.0.CR2
+2018-12-06 18:02:39,167 [-] [main] DEBUG BarleyContextDataHolder Retrieving named cache: CUSTOM_TENANT_CACHE
+2018-12-06 18:02:39,212 [-] [main] DEBUG DatabaseUtil Initializing realm data source
+2018-12-06 18:02:40,060 [-] [main] DEBUG CacheImpl Using local cache
+2018-12-06 18:02:40,073 [-] [main] DEBUG ClaimInvalidationCache My Hash code of Claim cache is : 1
+2018-12-06 18:02:40,153 [-] [main] DEBUG DefaultRealm Start initializing class with the first option
+2018-12-06 18:02:40,180 [-] [main]  INFO AbstractUserStoreManager User Roles Cache is not configured. Default value: true is taken.
+2018-12-06 18:02:40,182 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.eviction.EvictionManager that may have been injected from an external source.
+2018-12-06 18:02:40,182 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface java.util.concurrent.ScheduledExecutorService that may have been injected from an external source.
+2018-12-06 18:02:40,182 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.Cache that may have been injected from an external source.
+2018-12-06 18:02:40,182 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.context.InvocationContextContainer that may have been injected from an external source.
+2018-12-06 18:02:40,182 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface javax.transaction.TransactionManager that may have been injected from an external source.
+2018-12-06 18:02:40,182 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of class org.infinispan.transaction.xa.TransactionTable that may have been injected from an external source.
+2018-12-06 18:02:40,183 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.commands.CommandsFactory that may have been injected from an external source.
+2018-12-06 18:02:40,183 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.container.DataContainer that may have been injected from an external source.
+2018-12-06 18:02:40,183 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.notifications.cachelistener.CacheNotifier that may have been injected from an external source.
+2018-12-06 18:02:40,183 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface java.util.concurrent.ExecutorService that may have been injected from an external source.
+2018-12-06 18:02:40,183 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of class org.infinispan.interceptors.InterceptorChain that may have been injected from an external source.
+2018-12-06 18:02:40,183 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.util.concurrent.locks.LockManager that may have been injected from an external source.
+2018-12-06 18:02:40,183 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface javax.transaction.TransactionManager that may have been injected from an external source.
+2018-12-06 18:02:40,184 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface javax.transaction.TransactionManager that may have been injected from an external source.
+2018-12-06 18:02:40,184 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of class org.infinispan.transaction.TransactionLog that may have been injected from an external source.
+2018-12-06 18:02:40,184 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.container.EntryFactory that may have been injected from an external source.
+2018-12-06 18:02:40,184 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.distribution.DistributionManager that may have been injected from an external source.
+2018-12-06 18:02:40,185 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.remoting.rpc.RpcManager that may have been injected from an external source.
+2018-12-06 18:02:40,185 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of class org.infinispan.transaction.xa.GlobalTransactionFactory that may have been injected from an external source.
+2018-12-06 18:02:40,185 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface javax.transaction.TransactionManager that may have been injected from an external source.
+2018-12-06 18:02:40,185 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of class org.infinispan.batch.BatchContainer that may have been injected from an external source.
+2018-12-06 18:02:40,185 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface javax.transaction.TransactionManager that may have been injected from an external source.
+2018-12-06 18:02:40,185 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.remoting.rpc.RpcManager that may have been injected from an external source.
+2018-12-06 18:02:40,185 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.remoting.responses.ResponseGenerator that may have been injected from an external source.
+2018-12-06 18:02:40,186 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.distribution.DistributionManager that may have been injected from an external source.
+2018-12-06 18:02:40,186 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.statetransfer.StateTransferManager that may have been injected from an external source.
+2018-12-06 18:02:40,186 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.loaders.CacheLoaderManager that may have been injected from an external source.
+2018-12-06 18:02:40,186 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface javax.transaction.TransactionManager that may have been injected from an external source.
+2018-12-06 18:02:40,186 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.remoting.rpc.RpcManager that may have been injected from an external source.
+2018-12-06 18:02:40,186 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.distribution.DistributionManager that may have been injected from an external source.
+2018-12-06 18:02:40,186 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.statetransfer.StateTransferManager that may have been injected from an external source.
+2018-12-06 18:02:40,187 [-] [main] DEBUG InterceptorChain Interceptor chain size: 6
+2018-12-06 18:02:40,187 [-] [main] DEBUG InterceptorChain Interceptor chain is: 
+	>> org.infinispan.interceptors.InvocationContextInterceptor
+	>> org.infinispan.interceptors.CacheMgmtInterceptor
+	>> org.infinispan.interceptors.TxInterceptor
+	>> org.infinispan.interceptors.NotificationInterceptor
+	>> org.infinispan.interceptors.LockingInterceptor
+	>> org.infinispan.interceptors.CallInterceptor
+2018-12-06 18:02:40,187 [-] [main] DEBUG ResourceDMBean @MBean description set - General statistics such as timings, hit/miss ratio, etc.
+2018-12-06 18:02:40,188 [-] [main] DEBUG ResourceDMBean @MBean description set - Component that acts as a manager, factory and container for caches in the system.
+2018-12-06 18:02:40,188 [-] [main] DEBUG ResourceDMBean @MBean description set - Component that acts as a manager, factory and container for caches in the system.
+2018-12-06 18:02:40,189 [-] [main] DEBUG ResourceDMBean @MBean description set - Component that manages the cache's participation in JTA transactions.
+2018-12-06 18:02:40,189 [-] [main] DEBUG ResourceDMBean @MBean description set - Manager that handles MVCC locks for entries
+2018-12-06 18:02:40,190 [-] [main]  INFO ComponentsJmxRegistration Could not register object with name: infinispan:cache-name=USER_ROLES_CACHE(local),jmx-resource=Cache
+2018-12-06 18:02:40,190 [-] [main]  INFO CacheJmxRegistration MBeans were successfully registered to the platform mbean server.
+2018-12-06 18:02:40,190 [-] [main]  INFO ComponentRegistry Infinispan version: Infinispan 'Radegast' 4.1.0.CR2
+2018-12-06 18:02:40,190 [-] [main] DEBUG BarleyContextDataHolder Retrieving named cache: USER_ROLES_CACHE
+2018-12-06 18:02:40,190 [-] [main] DEBUG JDBCUserStoreManager Started 1544086960190
+2018-12-06 18:02:40,190 [-] [main] DEBUG JDBCUserStoreManager The jdbcDataSource being used by JDBCUserStoreManager :: 1558103808
+2018-12-06 18:02:40,256 [-] [main] DEBUG JDBCUserStoreManager Ended 1544086960256
+2018-12-06 18:02:40,257 [-] [main]  INFO AbstractUserStoreManager User Roles Cache is not configured. Default value: true is taken.
+2018-12-06 18:02:40,310 [-] [main] DEBUG DefaultRealm Start initializing class with the first option
+2018-12-06 18:02:40,312 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.eviction.EvictionManager that may have been injected from an external source.
+2018-12-06 18:02:40,312 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface java.util.concurrent.ScheduledExecutorService that may have been injected from an external source.
+2018-12-06 18:02:40,312 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.Cache that may have been injected from an external source.
+2018-12-06 18:02:40,313 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.context.InvocationContextContainer that may have been injected from an external source.
+2018-12-06 18:02:40,313 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface javax.transaction.TransactionManager that may have been injected from an external source.
+2018-12-06 18:02:40,313 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of class org.infinispan.transaction.xa.TransactionTable that may have been injected from an external source.
+2018-12-06 18:02:40,313 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.commands.CommandsFactory that may have been injected from an external source.
+2018-12-06 18:02:40,314 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.container.DataContainer that may have been injected from an external source.
+2018-12-06 18:02:40,314 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.notifications.cachelistener.CacheNotifier that may have been injected from an external source.
+2018-12-06 18:02:40,315 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface java.util.concurrent.ExecutorService that may have been injected from an external source.
+2018-12-06 18:02:40,315 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of class org.infinispan.interceptors.InterceptorChain that may have been injected from an external source.
+2018-12-06 18:02:40,315 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.util.concurrent.locks.LockManager that may have been injected from an external source.
+2018-12-06 18:02:40,315 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface javax.transaction.TransactionManager that may have been injected from an external source.
+2018-12-06 18:02:40,316 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface javax.transaction.TransactionManager that may have been injected from an external source.
+2018-12-06 18:02:40,316 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of class org.infinispan.transaction.TransactionLog that may have been injected from an external source.
+2018-12-06 18:02:40,316 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.container.EntryFactory that may have been injected from an external source.
+2018-12-06 18:02:40,316 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.distribution.DistributionManager that may have been injected from an external source.
+2018-12-06 18:02:40,317 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.remoting.rpc.RpcManager that may have been injected from an external source.
+2018-12-06 18:02:40,317 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of class org.infinispan.transaction.xa.GlobalTransactionFactory that may have been injected from an external source.
+2018-12-06 18:02:40,317 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface javax.transaction.TransactionManager that may have been injected from an external source.
+2018-12-06 18:02:40,317 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of class org.infinispan.batch.BatchContainer that may have been injected from an external source.
+2018-12-06 18:02:40,317 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface javax.transaction.TransactionManager that may have been injected from an external source.
+2018-12-06 18:02:40,317 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.remoting.rpc.RpcManager that may have been injected from an external source.
+2018-12-06 18:02:40,318 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.remoting.responses.ResponseGenerator that may have been injected from an external source.
+2018-12-06 18:02:40,318 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.distribution.DistributionManager that may have been injected from an external source.
+2018-12-06 18:02:40,318 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.statetransfer.StateTransferManager that may have been injected from an external source.
+2018-12-06 18:02:40,318 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.loaders.CacheLoaderManager that may have been injected from an external source.
+2018-12-06 18:02:40,318 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface javax.transaction.TransactionManager that may have been injected from an external source.
+2018-12-06 18:02:40,318 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.remoting.rpc.RpcManager that may have been injected from an external source.
+2018-12-06 18:02:40,318 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.distribution.DistributionManager that may have been injected from an external source.
+2018-12-06 18:02:40,318 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.statetransfer.StateTransferManager that may have been injected from an external source.
+2018-12-06 18:02:40,320 [-] [main] DEBUG InterceptorChain Interceptor chain size: 6
+2018-12-06 18:02:40,320 [-] [main] DEBUG InterceptorChain Interceptor chain is: 
+	>> org.infinispan.interceptors.InvocationContextInterceptor
+	>> org.infinispan.interceptors.CacheMgmtInterceptor
+	>> org.infinispan.interceptors.TxInterceptor
+	>> org.infinispan.interceptors.NotificationInterceptor
+	>> org.infinispan.interceptors.LockingInterceptor
+	>> org.infinispan.interceptors.CallInterceptor
+2018-12-06 18:02:40,320 [-] [main] DEBUG ResourceDMBean @MBean description set - Component that acts as a manager, factory and container for caches in the system.
+2018-12-06 18:02:40,321 [-] [main] DEBUG ResourceDMBean @MBean description set - Component that manages the cache's participation in JTA transactions.
+2018-12-06 18:02:40,321 [-] [main] DEBUG ResourceDMBean @MBean description set - General statistics such as timings, hit/miss ratio, etc.
+2018-12-06 18:02:40,322 [-] [main] DEBUG ResourceDMBean @MBean description set - Manager that handles MVCC locks for entries
+2018-12-06 18:02:40,322 [-] [main] DEBUG ResourceDMBean @MBean description set - Component that acts as a manager, factory and container for caches in the system.
+2018-12-06 18:02:40,323 [-] [main]  INFO ComponentsJmxRegistration Could not register object with name: infinispan:cache-name=AUTHORIZATION_CACHE(local),jmx-resource=Cache
+2018-12-06 18:02:40,323 [-] [main]  INFO CacheJmxRegistration MBeans were successfully registered to the platform mbean server.
+2018-12-06 18:02:40,323 [-] [main]  INFO ComponentRegistry Infinispan version: Infinispan 'Radegast' 4.1.0.CR2
+2018-12-06 18:02:40,323 [-] [main] DEBUG BarleyContextDataHolder Retrieving named cache: AUTHORIZATION_CACHE
+2018-12-06 18:02:40,345 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.eviction.EvictionManager that may have been injected from an external source.
+2018-12-06 18:02:40,345 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface java.util.concurrent.ScheduledExecutorService that may have been injected from an external source.
+2018-12-06 18:02:40,346 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.Cache that may have been injected from an external source.
+2018-12-06 18:02:40,346 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.context.InvocationContextContainer that may have been injected from an external source.
+2018-12-06 18:02:40,346 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface javax.transaction.TransactionManager that may have been injected from an external source.
+2018-12-06 18:02:40,346 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of class org.infinispan.transaction.xa.TransactionTable that may have been injected from an external source.
+2018-12-06 18:02:40,346 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.commands.CommandsFactory that may have been injected from an external source.
+2018-12-06 18:02:40,346 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.container.DataContainer that may have been injected from an external source.
+2018-12-06 18:02:40,347 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.notifications.cachelistener.CacheNotifier that may have been injected from an external source.
+2018-12-06 18:02:40,347 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface java.util.concurrent.ExecutorService that may have been injected from an external source.
+2018-12-06 18:02:40,347 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of class org.infinispan.interceptors.InterceptorChain that may have been injected from an external source.
+2018-12-06 18:02:40,347 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.util.concurrent.locks.LockManager that may have been injected from an external source.
+2018-12-06 18:02:40,347 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface javax.transaction.TransactionManager that may have been injected from an external source.
+2018-12-06 18:02:40,347 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface javax.transaction.TransactionManager that may have been injected from an external source.
+2018-12-06 18:02:40,348 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of class org.infinispan.transaction.TransactionLog that may have been injected from an external source.
+2018-12-06 18:02:40,348 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.container.EntryFactory that may have been injected from an external source.
+2018-12-06 18:02:40,349 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.distribution.DistributionManager that may have been injected from an external source.
+2018-12-06 18:02:40,349 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.remoting.rpc.RpcManager that may have been injected from an external source.
+2018-12-06 18:02:40,349 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of class org.infinispan.transaction.xa.GlobalTransactionFactory that may have been injected from an external source.
+2018-12-06 18:02:40,349 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface javax.transaction.TransactionManager that may have been injected from an external source.
+2018-12-06 18:02:40,350 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of class org.infinispan.batch.BatchContainer that may have been injected from an external source.
+2018-12-06 18:02:40,350 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface javax.transaction.TransactionManager that may have been injected from an external source.
+2018-12-06 18:02:40,350 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.remoting.rpc.RpcManager that may have been injected from an external source.
+2018-12-06 18:02:40,350 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.remoting.responses.ResponseGenerator that may have been injected from an external source.
+2018-12-06 18:02:40,351 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.distribution.DistributionManager that may have been injected from an external source.
+2018-12-06 18:02:40,351 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.statetransfer.StateTransferManager that may have been injected from an external source.
+2018-12-06 18:02:40,351 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.loaders.CacheLoaderManager that may have been injected from an external source.
+2018-12-06 18:02:40,351 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface javax.transaction.TransactionManager that may have been injected from an external source.
+2018-12-06 18:02:40,351 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.remoting.rpc.RpcManager that may have been injected from an external source.
+2018-12-06 18:02:40,351 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.distribution.DistributionManager that may have been injected from an external source.
+2018-12-06 18:02:40,351 [-] [main] DEBUG ComponentRegistry Looking in configuration for an instance of interface org.infinispan.statetransfer.StateTransferManager that may have been injected from an external source.
+2018-12-06 18:02:40,353 [-] [main] DEBUG InterceptorChain Interceptor chain size: 6
+2018-12-06 18:02:40,353 [-] [main] DEBUG InterceptorChain Interceptor chain is: 
+	>> org.infinispan.interceptors.InvocationContextInterceptor
+	>> org.infinispan.interceptors.CacheMgmtInterceptor
+	>> org.infinispan.interceptors.TxInterceptor
+	>> org.infinispan.interceptors.NotificationInterceptor
+	>> org.infinispan.interceptors.LockingInterceptor
+	>> org.infinispan.interceptors.CallInterceptor
+2018-12-06 18:02:40,354 [-] [main] DEBUG ResourceDMBean @MBean description set - Component that acts as a manager, factory and container for caches in the system.
+2018-12-06 18:02:40,354 [-] [main] DEBUG ResourceDMBean @MBean description set - General statistics such as timings, hit/miss ratio, etc.
+2018-12-06 18:02:40,355 [-] [main] DEBUG ResourceDMBean @MBean description set - Manager that handles MVCC locks for entries
+2018-12-06 18:02:40,355 [-] [main] DEBUG ResourceDMBean @MBean description set - Component that manages the cache's participation in JTA transactions.
+2018-12-06 18:02:40,355 [-] [main] DEBUG ResourceDMBean @MBean description set - Component that acts as a manager, factory and container for caches in the system.
+2018-12-06 18:02:40,356 [-] [main]  INFO ComponentsJmxRegistration Could not register object with name: infinispan:cache-name=PERMISSION_CACHE(local),jmx-resource=Cache
+2018-12-06 18:02:40,356 [-] [main]  INFO CacheJmxRegistration MBeans were successfully registered to the platform mbean server.
+2018-12-06 18:02:40,356 [-] [main]  INFO ComponentRegistry Infinispan version: Infinispan 'Radegast' 4.1.0.CR2
+2018-12-06 18:02:40,356 [-] [main] DEBUG BarleyContextDataHolder Retrieving named cache: PERMISSION_CACHE
+2018-12-06 18:02:40,377 [-] [main] DEBUG JDBCAuthorizationManager The jdbcDataSource being used by JDBCAuthorizationManager :: 1558103808
+2018-12-06 18:02:40,546 [-] [main] DEBUG StAXUtils XMLStreamReader is org.apache.axiom.util.stax.dialect.WoodstoxStreamReaderWrapper
+2018-12-06 18:02:40,575 [-] [main] DEBUG StAXUtils XMLStreamReader is org.apache.axiom.util.stax.dialect.WoodstoxStreamReaderWrapper
+2018-12-06 18:02:40,576 [-] [main] DEBUG ClaimInvalidationCache My Hash code of Claim cache is : 2
+2018-12-06 18:02:40,577 [-] [main] DEBUG DefaultRealm Start initializing class with the first option
+2018-12-06 18:02:40,577 [-] [main]  INFO AbstractUserStoreManager User Roles Cache is not configured. Default value: true is taken.
+2018-12-06 18:02:40,577 [-] [main] DEBUG JDBCUserStoreManager Started 1544086960577
+2018-12-06 18:02:40,577 [-] [main] DEBUG JDBCUserStoreManager The jdbcDataSource being used by JDBCUserStoreManager :: 1558103808
+2018-12-06 18:02:40,607 [-] [main] DEBUG JDBCUserStoreManager Ended 1544086960607
+2018-12-06 18:02:40,607 [-] [main]  INFO AbstractUserStoreManager User Roles Cache is not configured. Default value: true is taken.
+2018-12-06 18:02:40,607 [-] [main] DEBUG DefaultRealm Start initializing class with the first option
+2018-12-06 18:02:40,607 [-] [main] DEBUG JDBCAuthorizationManager The jdbcDataSource being used by JDBCAuthorizationManager :: 1558103808
+2018-12-06 18:02:41,301 [-] [main] DEBUG StAXUtils XMLStreamReader is org.apache.axiom.util.stax.dialect.WoodstoxStreamReaderWrapper
+2018-12-06 18:02:41,824 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant id from tenant domain
+2018-12-06 18:02:41,900 [-] [main] DEBUG CacheImpl Using local cache
+2018-12-06 18:02:41,900 [-] [main] DEBUG CacheImpl Using local cache
+2018-12-06 18:02:41,900 [-] [main] DEBUG CacheImpl Using local cache
+2018-12-06 18:02:41,900 [-] [main] DEBUG CacheImpl Using local cache
+2018-12-06 18:02:41,900 [-] [main] DEBUG CacheImpl Using local cache
+2018-12-06 18:02:41,900 [-] [main] DEBUG CacheImpl Using local cache
+2018-12-06 18:02:42,840 [-] [main]  INFO EmbeddedRegistryService Configured Registry in 938ms
+2018-12-06 18:02:42,948 [-] [main] DEBUG HandlerManager Registered the handler barley.registry.core.jdbc.handlers.filters.URLMatcher --> barley.registry.core.jdbc.handlers.builtin.OperationStatisticsHandler for all methods.
+2018-12-06 18:02:42,948 [-] [main] DEBUG HandlerManager Registered the handler barley.registry.core.jdbc.handlers.filters.URLMatcher --> barley.registry.core.jdbc.handlers.builtin.CommentURLHandler for GET DELETE methods.
+2018-12-06 18:02:42,948 [-] [main] DEBUG HandlerManager Registered the handler barley.registry.core.jdbc.handlers.filters.URLMatcher --> barley.registry.core.jdbc.handlers.builtin.CommentCollectionURLHandler for GET methods.
+2018-12-06 18:02:42,948 [-] [main] DEBUG HandlerManager Registered the handler barley.registry.core.jdbc.handlers.filters.URLMatcher --> barley.registry.core.jdbc.handlers.builtin.RatingURLHandler for GET methods.
+2018-12-06 18:02:42,948 [-] [main] DEBUG HandlerManager Registered the handler barley.registry.core.jdbc.handlers.filters.URLMatcher --> barley.registry.core.jdbc.handlers.builtin.RatingCollectionURLHandler for GET methods.
+2018-12-06 18:02:42,949 [-] [main] DEBUG HandlerManager Registered the handler barley.registry.core.jdbc.handlers.filters.URLMatcher --> barley.registry.core.jdbc.handlers.builtin.TagURLHandler for GET methods.
+2018-12-06 18:02:42,949 [-] [main] DEBUG HandlerManager Registered the handler barley.registry.core.jdbc.handlers.filters.MediaTypeMatcher --> barley.registry.core.jdbc.handlers.builtin.SQLQueryHandler for GET PUT methods.
+2018-12-06 18:02:42,951 [-] [main] DEBUG HandlerManager Registered the handler barley.registry.core.jdbc.handlers.filters.SimulationFilter --> barley.registry.core.jdbc.handlers.builtin.SimulationHandler for all methods.
+2018-12-06 18:02:42,953 [-] [main] DEBUG HandlerManager Registered the handler barley.registry.core.jdbc.handlers.filters.URLMatcher --> barley.registry.core.caching.CachingHandler for all methods.
+2018-12-06 18:02:42,953 [-] [main] DEBUG HandlerManager Registered the handler barley.registry.core.jdbc.handlers.filters.URLMatcher --> barley.registry.core.caching.CachingHandler for all methods.
+2018-12-06 18:02:42,956 [-] [main] DEBUG HandlerManager Registered the handler barley.registry.core.jdbc.handlers.filters.URLMatcher --> barley.registry.core.jdbc.handlers.builtin.RegexBaseRestrictionHandler for RENAME MOVE methods.
+2018-12-06 18:02:42,979 [-] [main] DEBUG StAXUtils XMLStreamReader is org.apache.axiom.util.stax.dialect.WoodstoxStreamReaderWrapper
+2018-12-06 18:02:43,123 [-] [main] DEBUG StAXUtils XMLStreamReader is org.apache.axiom.util.stax.dialect.WoodstoxStreamReaderWrapper
+2018-12-06 18:02:43,139 [-] [main] DEBUG StAXUtils XMLStreamReader is org.apache.axiom.util.stax.dialect.WoodstoxStreamReaderWrapper
+2018-12-06 18:02:43,140 [-] [main] DEBUG RealmConfigXMLProcessor External password management is disabled.
+2018-12-06 18:02:43,140 [-] [main] DEBUG StAXUtils XMLStreamReader is org.apache.axiom.util.stax.dialect.WoodstoxStreamReaderWrapper
+2018-12-06 18:02:43,141 [-] [main] DEBUG RealmConfigXMLProcessor External password management is disabled.
+2018-12-06 18:02:43,199 [-] [main] DEBUG APIMgtDBUtil Initializing data source
+2018-12-06 18:02:43,208 [-] [main]  INFO APIManagerComponent No RXTs Found.
+2018-12-06 18:02:43,208 [-] [main]  INFO APIManagerComponent Default tier policies not found in : D:/Workspace_STS_SaaSPlatform/Workspace_STS_APIM/barley.apimgt/barley.apimgt.impl/src/test/resources/repository/conf/\repository\resources\default-tiers\default-tiers.xml
+2018-12-06 18:02:43,208 [-] [main]  INFO APIManagerComponent Default tier policies not found in : D:/Workspace_STS_SaaSPlatform/Workspace_STS_APIM/barley.apimgt/barley.apimgt.impl/src/test/resources/repository/conf/\repository\resources\default-tiers\default-app-tiers.xml
+2018-12-06 18:02:43,208 [-] [main]  INFO APIManagerComponent Default tier policies not found in : D:/Workspace_STS_SaaSPlatform/Workspace_STS_APIM/barley.apimgt/barley.apimgt.impl/src/test/resources/repository/conf/\repository\resources\default-tiers\default-res-tiers.xml
+2018-12-06 18:02:43,235 [-] [main] DEBUG StAXUtils XMLStreamReader is org.apache.axiom.util.stax.dialect.WoodstoxStreamReaderWrapper
+2018-12-06 18:02:43,291 [-] [main] DEBUG APIUtil External Stores configuration already uploaded to the registry
+2018-12-06 18:02:43,336 [-] [main] DEBUG APIUtil Adding Self signup configuration to the tenant's registry
+2018-12-06 18:02:43,343 [-] [main] DEBUG StAXUtils XMLStreamReader is org.apache.axiom.util.stax.dialect.WoodstoxStreamReaderWrapper
+2018-12-06 18:02:43,344 [-] [main] DEBUG RealmConfigXMLProcessor External password management is disabled.
+2018-12-06 18:02:43,361 [-] [main] DEBUG CacheImpl Using local cache
+2018-12-06 18:02:43,361 [-] [main] DEBUG ClaimInvalidationCache My Hash code of Claim cache is : 3
+2018-12-06 18:02:43,361 [-] [main] DEBUG DefaultRealm Start initializing class with the first option
+2018-12-06 18:02:43,361 [-] [main]  INFO AbstractUserStoreManager User Roles Cache is not configured. Default value: true is taken.
+2018-12-06 18:02:43,361 [-] [main] DEBUG JDBCUserStoreManager Started 1544086963361
+2018-12-06 18:02:43,361 [-] [main] DEBUG JDBCUserStoreManager The jdbcDataSource being used by JDBCUserStoreManager :: 1558103808
+2018-12-06 18:02:43,380 [-] [main] DEBUG JDBCUserStoreManager Ended 1544086963380
+2018-12-06 18:02:43,380 [-] [main]  INFO AbstractUserStoreManager User Roles Cache is not configured. Default value: true is taken.
+2018-12-06 18:02:43,380 [-] [main] DEBUG DefaultRealm Start initializing class with the first option
+2018-12-06 18:02:43,380 [-] [main] DEBUG JDBCAuthorizationManager The jdbcDataSource being used by JDBCAuthorizationManager :: 1558103808
+2018-12-06 18:02:43,532 [-] [main] DEBUG APIUtil Tenant conf already uploaded to the registry
+2018-12-06 18:02:43,550 [-] [main] DEBUG APIUtil Self signup configuration already uploaded to the registry
+2018-12-06 18:02:43,561 [-] [main] DEBUG APIUtil External Stores configuration already uploaded to the registry
+2018-12-06 18:02:43,708 [-] [main] DEBUG StAXUtils XMLStreamReader is org.apache.axiom.util.stax.dialect.WoodstoxStreamReaderWrapper
+2018-12-06 18:02:43,866 [-] [main] DEBUG StAXUtils XMLStreamReader is org.apache.axiom.util.stax.dialect.WoodstoxStreamReaderWrapper
+2018-12-06 18:02:44,390 [-] [main] DEBUG DatabaseUtil Executed querry is DELETE FROM UM_ROLE_PERMISSION WHERE UM_ROLE_NAME=? AND UM_PERMISSION_ID = (SELECT UM_ID FROM UM_PERMISSION WHERE UM_RESOURCE_ID = ? AND UM_ACTION = ? AND UM_TENANT_ID=?) AND UM_TENANT_ID=? and number of updated rows :: 1
+2018-12-06 18:02:44,392 [-] [main] DEBUG DatabaseUtil Executed querry is INSERT INTO UM_ROLE_PERMISSION (UM_PERMISSION_ID, UM_ROLE_NAME, UM_IS_ALLOWED, UM_TENANT_ID) VALUES (?, ?, ?, ?) and number of updated rows :: 1
+2018-12-06 18:02:44,466 [-] [main] DEBUG DatabaseUtil Executed querry is DELETE FROM UM_ROLE_PERMISSION WHERE UM_ROLE_NAME=? AND UM_PERMISSION_ID = (SELECT UM_ID FROM UM_PERMISSION WHERE UM_RESOURCE_ID = ? AND UM_ACTION = ? AND UM_TENANT_ID=?) AND UM_TENANT_ID=? and number of updated rows :: 1
+2018-12-06 18:02:44,467 [-] [main] DEBUG DatabaseUtil Executed querry is INSERT INTO UM_ROLE_PERMISSION (UM_PERMISSION_ID, UM_ROLE_NAME, UM_IS_ALLOWED, UM_TENANT_ID) VALUES (?, ?, ?, ?) and number of updated rows :: 1
+2018-12-06 18:02:44,543 [-] [main] DEBUG DatabaseUtil Executed querry is DELETE FROM UM_ROLE_PERMISSION WHERE UM_ROLE_NAME=? AND UM_PERMISSION_ID = (SELECT UM_ID FROM UM_PERMISSION WHERE UM_RESOURCE_ID = ? AND UM_ACTION = ? AND UM_TENANT_ID=?) AND UM_TENANT_ID=? and number of updated rows :: 1
+2018-12-06 18:02:44,544 [-] [main] DEBUG DatabaseUtil Executed querry is INSERT INTO UM_ROLE_PERMISSION (UM_PERMISSION_ID, UM_ROLE_NAME, UM_IS_ALLOWED, UM_TENANT_ID) VALUES (?, ?, ?, ?) and number of updated rows :: 1
+2018-12-06 18:02:44,670 [-] [main] DEBUG APIUtil Tier policies already uploaded to the tenant's registry space
+2018-12-06 18:02:44,695 [-] [main] DEBUG APIUtil Tier policies already uploaded to the tenant's registry space
+2018-12-06 18:02:44,707 [-] [main] DEBUG APIUtil Tier policies already uploaded to the tenant's registry space
+2018-12-06 18:02:44,716 [-] [main] ERROR APIUtil Custom sequence template location unavailable for custom sequence type in : D:/Workspace_STS_SaaSPlatform/Workspace_STS_APIM/barley.apimgt/barley.apimgt.impl/src/test/resources/\repository\resources\customsequences\in
+2018-12-06 18:02:44,716 [-] [main] ERROR APIUtil Custom sequence template location unavailable for custom sequence type out : D:/Workspace_STS_SaaSPlatform/Workspace_STS_APIM/barley.apimgt/barley.apimgt.impl/src/test/resources/\repository\resources\customsequences\out
+2018-12-06 18:02:44,716 [-] [main] ERROR APIUtil Custom sequence template location unavailable for custom sequence type fault : D:/Workspace_STS_SaaSPlatform/Workspace_STS_APIM/barley.apimgt/barley.apimgt.impl/src/test/resources/\repository\resources\customsequences\fault
+2018-12-06 18:02:44,730 [-] [main] DEBUG DatabaseUtil Executed querry is DELETE FROM UM_ROLE_PERMISSION WHERE UM_ROLE_NAME=? AND UM_PERMISSION_ID = (SELECT UM_ID FROM UM_PERMISSION WHERE UM_RESOURCE_ID = ? AND UM_ACTION = ? AND UM_TENANT_ID=?) AND UM_TENANT_ID=? and number of updated rows :: 1
+2018-12-06 18:02:44,732 [-] [main] DEBUG DatabaseUtil Executed querry is INSERT INTO UM_ROLE_PERMISSION (UM_PERMISSION_ID, UM_ROLE_NAME, UM_IS_ALLOWED, UM_TENANT_ID) VALUES (?, ?, ?, ?) and number of updated rows :: 1
+2018-12-06 18:02:44,886 [-] [main] DEBUG DatabaseUtil Executed querry is DELETE FROM UM_ROLE_PERMISSION WHERE UM_ROLE_NAME=? AND UM_PERMISSION_ID = (SELECT UM_ID FROM UM_PERMISSION WHERE UM_RESOURCE_ID = ? AND UM_ACTION = ? AND UM_TENANT_ID=?) AND UM_TENANT_ID=? and number of updated rows :: 1
+2018-12-06 18:02:44,888 [-] [main] DEBUG DatabaseUtil Executed querry is INSERT INTO UM_ROLE_PERMISSION (UM_PERMISSION_ID, UM_ROLE_NAME, UM_IS_ALLOWED, UM_TENANT_ID) VALUES (?, ?, ?, ?) and number of updated rows :: 1
+2018-12-06 18:02:44,974 [-] [main] DEBUG DatabaseUtil Executed querry is DELETE FROM UM_ROLE_PERMISSION WHERE UM_ROLE_NAME=? AND UM_PERMISSION_ID = (SELECT UM_ID FROM UM_PERMISSION WHERE UM_RESOURCE_ID = ? AND UM_ACTION = ? AND UM_TENANT_ID=?) AND UM_TENANT_ID=? and number of updated rows :: 1
+2018-12-06 18:02:44,976 [-] [main] DEBUG DatabaseUtil Executed querry is INSERT INTO UM_ROLE_PERMISSION (UM_PERMISSION_ID, UM_ROLE_NAME, UM_IS_ALLOWED, UM_TENANT_ID) VALUES (?, ?, ?, ?) and number of updated rows :: 1
+2018-12-06 18:02:45,076 [-] [main] DEBUG DatabaseUtil Executed querry is DELETE FROM UM_ROLE_PERMISSION WHERE UM_ROLE_NAME=? AND UM_PERMISSION_ID = (SELECT UM_ID FROM UM_PERMISSION WHERE UM_RESOURCE_ID = ? AND UM_ACTION = ? AND UM_TENANT_ID=?) AND UM_TENANT_ID=? and number of updated rows :: 1
+2018-12-06 18:02:45,077 [-] [main] DEBUG DatabaseUtil Executed querry is INSERT INTO UM_ROLE_PERMISSION (UM_PERMISSION_ID, UM_ROLE_NAME, UM_IS_ALLOWED, UM_TENANT_ID) VALUES (?, ?, ?, ?) and number of updated rows :: 1
+2018-12-06 18:02:45,145 [-] [main] DEBUG APIUtil Tier policies already uploaded to the tenant's registry space
+2018-12-06 18:02:45,176 [-] [main] DEBUG APIUtil Tier policies already uploaded to the tenant's registry space
+2018-12-06 18:02:45,199 [-] [main] DEBUG APIUtil Tier policies already uploaded to the tenant's registry space
+2018-12-06 18:02:45,212 [-] [main] ERROR APIUtil Custom sequence template location unavailable for custom sequence type in : D:/Workspace_STS_SaaSPlatform/Workspace_STS_APIM/barley.apimgt/barley.apimgt.impl/src/test/resources/\repository\resources\customsequences\in
+2018-12-06 18:02:45,212 [-] [main] ERROR APIUtil Custom sequence template location unavailable for custom sequence type out : D:/Workspace_STS_SaaSPlatform/Workspace_STS_APIM/barley.apimgt/barley.apimgt.impl/src/test/resources/\repository\resources\customsequences\out
+2018-12-06 18:02:45,212 [-] [main] ERROR APIUtil Custom sequence template location unavailable for custom sequence type fault : D:/Workspace_STS_SaaSPlatform/Workspace_STS_APIM/barley.apimgt/barley.apimgt.impl/src/test/resources/\repository\resources\customsequences\fault
+2018-12-06 18:02:45,680 [-] [main] DEBUG StAXUtils XMLStreamReader is org.apache.axiom.util.stax.dialect.WoodstoxStreamReaderWrapper
+2018-12-06 18:02:45,744 [-] [main] DEBUG StAXUtils XMLStreamReader is org.apache.axiom.util.stax.dialect.WoodstoxStreamReaderWrapper
+2018-12-06 18:02:45,761 [-] [main] DEBUG StAXUtils XMLStreamReader is org.apache.axiom.util.stax.dialect.WoodstoxStreamReaderWrapper
+2018-12-06 18:02:45,773 [-] [main] DEBUG StAXUtils XMLStreamReader is org.apache.axiom.util.stax.dialect.WoodstoxStreamReaderWrapper
+2018-12-06 18:02:45,786 [-] [main] DEBUG StAXUtils XMLStreamReader is org.apache.axiom.util.stax.dialect.WoodstoxStreamReaderWrapper
+2018-12-06 18:02:45,801 [-] [main] DEBUG StAXUtils XMLStreamReader is org.apache.axiom.util.stax.dialect.WoodstoxStreamReaderWrapper
+2018-12-06 18:02:45,814 [-] [main] DEBUG StAXUtils XMLStreamReader is org.apache.axiom.util.stax.dialect.WoodstoxStreamReaderWrapper
+2018-12-06 18:02:45,844 [-] [main] DEBUG CarbonContextHolderBase Unload Tenant Task: org.wso2.carbon.base.CarbonContextHolderBase$CarbonContextCleanupTask was registered.
+2018-12-06 18:02:45,844 [-] [main] DEBUG CarbonContextHolderBase Unload Tenant Task: barley.governance.api.util.GovernanceUtils$1 was registered.
+2018-12-06 18:02:46,697 [-] [main]  WARN APIUtil The configurations related to show multiple versions of API in APIStore are missing in api-manager.xml.
+2018-12-06 18:02:46,697 [-] [main]  WARN APIUtil The configurations related to show deprecated APIs in APIStore are missing in api-manager.xml.
+2018-12-06 18:02:46,707 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant domain from tenant id
+2018-12-06 18:02:46,707 [-] [main] DEBUG CacheImpl Using local cache
+2018-12-06 18:02:46,712 [-] [main] DEBUG CacheImpl Using local cache
+2018-12-06 18:02:46,784 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant id from tenant domain
+2018-12-06 18:02:46,784 [-] [main] DEBUG CacheImpl Using local cache
+2018-12-06 18:02:46,786 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant id from tenant domain
+2018-12-06 18:02:46,788 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant id from tenant domain
+2018-12-06 18:02:46,790 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant id from tenant domain
+2018-12-06 18:02:46,934 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant domain from tenant id
+2018-12-06 18:02:46,968 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant id from tenant domain
+2018-12-06 18:02:46,969 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant id from tenant domain
+2018-12-06 18:02:46,969 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant id from tenant domain
+2018-12-06 18:02:46,969 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant id from tenant domain
+2018-12-06 18:02:47,062 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant domain from tenant id
+2018-12-06 18:02:47,124 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant id from tenant domain
+2018-12-06 18:02:47,203 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant domain from tenant id
+2018-12-06 18:02:47,280 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant domain from tenant id
+2018-12-06 18:02:47,305 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant id from tenant domain
+2018-12-06 18:02:47,306 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant id from tenant domain
+2018-12-06 18:02:47,306 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant id from tenant domain
+2018-12-06 18:02:47,306 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant id from tenant domain
+2018-12-06 18:02:47,338 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant id from tenant domain
+2018-12-06 18:02:47,372 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant domain from tenant id
+2018-12-06 18:02:47,393 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant id from tenant domain
+2018-12-06 18:02:47,440 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant domain from tenant id
+2018-12-06 18:02:47,474 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant id from tenant domain
+2018-12-06 18:02:47,474 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant id from tenant domain
+2018-12-06 18:02:47,474 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant id from tenant domain
+2018-12-06 18:02:47,474 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant id from tenant domain
+2018-12-06 18:02:47,519 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant domain from tenant id
+2018-12-06 18:02:47,547 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant id from tenant domain
+2018-12-06 18:02:47,547 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant id from tenant domain
+2018-12-06 18:02:47,673 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant domain from tenant id
+2018-12-06 18:02:47,718 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant id from tenant domain
+2018-12-06 18:02:47,741 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant domain from tenant id
+2018-12-06 18:02:47,773 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant id from tenant domain
+2018-12-06 18:02:47,774 [-] [main] DEBUG PrivilegedBarleyContext Resolving tenant id from tenant domain
+2018-12-06 18:02:47,858 [-] [Thread-0] DEBUG ComponentStatus Ignoring call to stop() as current state is STOPPING

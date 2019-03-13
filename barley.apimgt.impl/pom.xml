@@ -1,0 +1,270 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  
+	<parent>
+	     <groupId>barley.apimgt</groupId>
+	     <artifactId>barley.apimgt</artifactId>
+	     <version>0.0.1</version>
+	     <relativePath>../pom.xml</relativePath>
+	</parent>
+	
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>barley.apimgt.impl</artifactId>
+	<packaging>jar</packaging>
+	
+	<name>CodeFarm Barley - API Management Impl</name>
+	
+	<repositories>
+	    <repository>
+	        <id>maven-restlet</id>
+	        <name>Public online Restlet repository</name>
+	        <url>http://maven.restlet.org</url>
+	    </repository>
+	</repositories>
+
+	<dependencies> 
+	
+		<!-- <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>1.6.6</version>
+        </dependency> -->       
+		<dependency>
+	        <groupId>org.apache.solr</groupId>
+	        <artifactId>solr-core</artifactId>
+	        <version>5.2.1</version>
+	    </dependency>
+	    <!-- <dependency>
+	        <groupId>org.apache.solr</groupId>
+	        <artifactId>solr-solrj</artifactId>
+	        <version>5.2.1</version>
+	    </dependency> -->
+	    
+	    <!-- <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>1.7.22</version>
+        </dependency>
+	    <dependency>
+	        <groupId>org.apache.solr</groupId>
+	        <artifactId>solr-solrj</artifactId>
+	        <version>7.1.0</version>
+	    </dependency>
+	    <dependency>
+		    <groupId>org.apache.lucene</groupId>
+		    <artifactId>lucene-analyzers-common</artifactId>
+		    <version>7.1.0</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.restlet.jee</groupId>
+		    <artifactId>org.restlet</artifactId>
+		    <version>2.3.1</version>
+		</dependency> -->
+
+		<dependency>
+            <groupId>javax.cache.barley</groupId>
+            <artifactId>javax.cache.barley</artifactId>
+        </dependency>
+		<dependency>
+		    <groupId>barley.registry</groupId>
+		    <artifactId>barley.registry.core</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>barley.identity</groupId>
+		    <artifactId>barley.identity.core</artifactId>
+		    <exclusions>
+		    	<exclusion>
+		    		<groupId>org.slf4j</groupId>
+		    		<artifactId>slf4j-jdk14</artifactId>
+		    	</exclusion>
+		    </exclusions>
+		</dependency>
+		<dependency>
+		    <groupId>barley.identity</groupId>
+		    <artifactId>barley.identity.oauth</artifactId>
+		</dependency>
+		<dependency>
+            <groupId>barley.identity</groupId>
+            <artifactId>barley.identity.application.authentication.framework</artifactId>
+        </dependency>
+	
+		<dependency>
+        	<groupId>org.apache.httpcomponents</groupId>
+	    	<artifactId>httpclient</artifactId>
+		</dependency>
+		<dependency>
+        	<groupId>org.wso2.orbit.org.apache.httpcomponents</groupId>
+	    	<artifactId>httpclient</artifactId>
+		</dependency>
+	
+		<!-- wso2 lib -->
+		<!-- <dependency>
+            <groupId>org.wso2.carbon.identity</groupId>
+            <artifactId>org.wso2.carbon.identity.core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.carbon.identity</groupId>
+            <artifactId>org.wso2.carbon.identity.oauth</artifactId>
+        </dependency> -->
+        <dependency>
+            <groupId>org.wso2.carbon.apimgt</groupId>
+            <artifactId>org.wso2.carbon.apimgt.keymgt.client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.carbon.analytics-common</groupId>
+            <artifactId>org.wso2.carbon.event.output.adapter.core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.carbon.analytics-common</groupId>
+            <artifactId>org.wso2.carbon.event.output.adapter.email</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.carbon.analytics-common</groupId>
+            <artifactId>org.wso2.carbon.event.output.adapter.sms</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.carbon.analytics-common</groupId>
+            <artifactId>org.wso2.carbon.databridge.agent</artifactId>
+        </dependency>        
+        
+        <!-- wso2 stub -->
+        <dependency>
+            <groupId>org.wso2.carbon.event-processing</groupId>
+            <artifactId>org.wso2.carbon.event.processor.stub</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.carbon.apimgt</groupId>
+            <artifactId>org.wso2.carbon.apimgt.handlers.security.stub</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.carbon.apimgt</groupId>
+            <artifactId>org.wso2.carbon.apimgt.keymgt.stub</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.carbon.apimgt</groupId>
+            <artifactId>org.wso2.carbon.apimgt.gateway.stub</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.carbon.identity</groupId>
+            <artifactId>org.wso2.carbon.identity.oauth.stub</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.carbon.identity</groupId>
+            <artifactId>org.wso2.carbon.identity.application.mgt.stub</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.carbon.identity</groupId>
+            <artifactId>org.wso2.carbon.um.ws.api.stub</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.carbon.identity</groupId>
+            <artifactId>org.wso2.carbon.user.mgt.stub</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.carbon.apimgt</groupId>
+            <artifactId>org.wso2.carbon.apimgt.statsupdate.stub</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.carbon.apimgt</groupId>
+            <artifactId>org.wso2.carbon.apimgt.registry.cache.stub</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.carbon.apimgt</groupId>
+            <artifactId>org.wso2.carbon.apimgt.tier.cache.stub</artifactId>
+        </dependency>
+		
+		<dependency>
+			<groupId>org.apache.thrift</groupId>
+		  	<artifactId>libthrift</artifactId>
+		</dependency>
+		<dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpmime</artifactId>
+        </dependency>	
+        <dependency>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity</artifactId>
+        </dependency>	  	
+        
+        <dependency>
+            <groupId>org.wso2.orbit.io.swagger</groupId>
+            <artifactId>swagger-codegen</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-models</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.orbit.io.swagger</groupId>
+            <artifactId>swagger-parser</artifactId>
+        </dependency>
+        
+        <dependency>    
+			<groupId>com.fasterxml.jackson.core</groupId>    
+			<artifactId>jackson-databind</artifactId>    
+		</dependency>
+		<dependency>
+		    <groupId>org.codehaus.jackson</groupId>
+		    <artifactId>jackson-mapper-asl</artifactId>
+		</dependency>
+		
+        <dependency>
+		    <groupId>barley.apimgt</groupId>
+		    <artifactId>barley.apimgt.api</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>barley.governance</groupId> 
+		    <artifactId>barley.governance.api</artifactId>
+		    <exclusions>
+		    	<exclusion>
+		    		<groupId>org.wso2.orbit.org.apache.solr</groupId>
+		    		<artifactId>solr</artifactId>
+		    	</exclusion>
+		    </exclusions>
+		</dependency>
+		<dependency>
+		    <groupId>barley.governance</groupId> 
+		    <artifactId>barley.governance.lcm</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>barley.governance</groupId> 
+		    <artifactId>barley.governance.custom.lifecycle.checklist</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>barley.governance</groupId> 
+		    <artifactId>barley.governance.registry.extensions</artifactId>
+		</dependency>
+        
+        <!-- test -->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <scope>test</scope>
+            <version>1.10.19</version>
+        </dependency>
+        <!-- <dependency>
+        	<groupId>org.slf4j</groupId>
+		    <artifactId>log4j-over-slf4j</artifactId>
+		    <version>1.7.7</version>
+        </dependency> -->
+        
+        <!-- <dependency>
+            <groupId>org.wso2.orbit.org.apache.solr</groupId>
+            <artifactId>solr</artifactId>
+            <version>5.2.1.wso2v1</version>
+        </dependency>        
+        <dependency>
+            <groupId>org.wso2.orbit.org.apache.lucene</groupId>
+            <artifactId>lucene</artifactId>
+            <version>5.2.1.wso2v1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.zookeeper.wso2</groupId>
+            <artifactId>apache-zookeeper</artifactId>
+            <version>3.3.4.wso2v1</version>
+        </dependency> -->
+        
+		
+	</dependencies>
+  
+</project>

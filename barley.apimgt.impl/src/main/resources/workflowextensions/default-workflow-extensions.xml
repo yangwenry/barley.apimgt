@@ -1,0 +1,60 @@
+<WorkFlowExtensions>
+    <ApplicationCreation executor="barley.apimgt.impl.workflow.ApplicationCreationSimpleWorkflowExecutor"/>
+    <!--ApplicationCreation executor="barley.apimgt.impl.workflow.ApplicationCreationWSWorkflowExecutor">
+         <Property name="serviceEndpoint">http://localhost:9765/services/ApplicationApprovalWorkFlowProcess/</Property>
+         <Property name="username">admin</Property>
+         <Property name="password">admin</Property>
+         <Property name="callbackURL">https://localhost:8243/services/WorkflowCallbackService</Property>
+    </ApplicationCreation-->
+    <ProductionApplicationRegistration executor="barley.apimgt.impl.workflow.ApplicationRegistrationSimpleWorkflowExecutor"/>
+    <!--ProductionApplicationRegistration executor="barley.apimgt.impl.workflow.ApplicationRegistrationWSWorkflowExecutor">
+        <Property name="serviceEndpoint">http://localhost:9765/services/ApplicationRegistrationWorkFlowProcess/</Property>
+        <Property name="username">admin</Property>
+        <Property name="password">admin</Property>
+        <Property name="callbackURL">https://localhost:8248/services/WorkflowCallbackService</Property>
+    </ProductionApplicationRegistration-->
+    <SandboxApplicationRegistration executor="barley.apimgt.impl.workflow.ApplicationRegistrationSimpleWorkflowExecutor"/>
+    <!--SandboxApplicationRegistration executor="barley.apimgt.impl.workflow.ApplicationRegistrationWSWorkflowExecutor">
+        <Property name="serviceEndpoint">http://localhost:9765/services/ApplicationRegistrationWorkFlowProcess/</Property>
+        <Property name="username">admin</Property>
+        <Property name="password">admin</Property>
+        <Property name="callbackURL">https://localhost:8248/services/WorkflowCallbackService</Property>
+    </SandboxApplicationRegistration-->
+    <SubscriptionCreation executor="barley.apimgt.impl.workflow.SubscriptionCreationSimpleWorkflowExecutor"/>
+    <!--SubscriptionCreation executor="barley.apimgt.impl.workflow.SubscriptionCreationWSWorkflowExecutor">
+         <Property name="serviceEndpoint">http://localhost:9765/services/SubscriptionApprovalWorkFlowProcess/</Property>
+         <Property name="username">admin</Property>
+         <Property name="password">admin</Property>
+         <Property name="callbackURL">https://localhost:8243/services/WorkflowCallbackService</Property>
+    </SubscriptionCreation-->
+    <UserSignUp executor="barley.apimgt.impl.workflow.UserSignUpSimpleWorkflowExecutor"/>
+    <!--UserSignUp executor="barley.apimgt.impl.workflow.UserSignUpWSWorkflowExecutor">
+         <Property name="serviceEndpoint">http://localhost:9765/services/UserSignupProcess/</Property>
+         <Property name="username">admin</Property>
+         <Property name="password">admin</Property>
+         <Property name="callbackURL">https://localhost:8243/services/WorkflowCallbackService</Property>
+    </UserSignUp-->
+
+	<!--
+	***NOTE:***
+        Users of deletion workflows are expected to implement their own deletion workflow executors and services.
+        By default API Manager only implements the core functionalities required to support deletion workflows and
+        simple deletion workflow executors. Default WS deletion workflow implementations are not available with the
+        distribution.
+    -->
+
+    <SubscriptionDeletion executor="barley.apimgt.impl.workflow.SubscriptionDeletionSimpleWorkflowExecutor"/>
+    <!--SubscriptionDeletion executor="barley.apimgt.impl.workflow.SubscriptionDeletionSimpleWorkflowExecutor">
+         <Property name="serviceEndpoint">http://localhost:9765/services/SubscriptionApprovalWorkFlowProcess/</Property>
+         <Property name="username">admin</Property>
+         <Property name="password">admin</Property>
+         <Property name="callbackURL">https://localhost:8243/services/WorkflowCallbackService</Property>
+    </SubscriptionDeletion -->
+    <ApplicationDeletion executor="barley.apimgt.impl.workflow.ApplicationDeletionSimpleWorkflowExecutor"/>
+    <!--ApplicationDeletion executor="barley.apimgt.impl.workflow.ApplicationDeletionSimpleWorkflowExecutor">
+         <Property name="serviceEndpoint">http://localhost:9765/services/ApplicationApprovalWorkFlowProcess/</Property>
+         <Property name="username">admin</Property>
+         <Property name="password">admin</Property>
+         <Property name="callbackURL">https://localhost:8243/services/WorkflowCallbackService</Property>
+    </ApplicationDeletion-->
+</WorkFlowExtensions>

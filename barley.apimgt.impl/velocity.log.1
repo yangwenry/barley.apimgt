@@ -1,0 +1,1040 @@
+2018-04-05 15:43:52,720 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
+2018-04-05 15:43:52,720 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
+2018-04-05 15:43:52,723 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2018-04-05 15:43:52,724 - ResourceLoader instantiated: org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2018-04-05 15:43:52,730 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+2018-04-05 15:43:52,733 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2018-04-05 15:43:52,734 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2018-04-05 15:43:52,737 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2018-04-05 15:43:52,738 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2018-04-05 15:43:52,738 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2018-04-05 15:43:52,761 - Created '20' parsers.
+2018-04-05 15:43:52,769 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
+2018-04-05 15:43:52,772 - Velocimacro : Default library not found.
+2018-04-05 15:43:52,772 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2018-04-05 15:43:52,772 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2018-04-05 15:43:52,772 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
+2018-04-05 15:43:52,772 - Velocimacro : autoload off : VM system will not automatically reload global library macros
+2018-04-05 15:43:52,793 - Velocimacro : added #print_if_exist(  field default ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-05 15:43:52,794 - Velocimacro : added #print_string_if_exist(  field default ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-05 15:43:52,795 - Velocimacro : added #print_if_exist_only(  tagname field ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-05 15:43:52,802 - Velocimacro : added #print_list(  tagname list ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-05 15:43:52,810 - Velocimacro : added #timeout(  config ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-05 15:43:52,810 - Velocimacro : added #http_endpoint(  name ep ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-05 15:43:52,813 - Velocimacro : added #address_endpoint(  name ep ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-05 15:43:52,822 - Velocimacro : added #draw_endpoint(  type endpoint_config ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-05 15:43:52,861 - ResourceManager : found repository\resources\api_templates\velocity_template.xml with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2018-04-05 15:43:52,881 - Null reference [template 'repository\resources\api_templates\velocity_template.xml', line 298, column 17] : $ctx cannot be resolved.
+2018-04-05 15:43:52,883 - VM #timeout: error : too few arguments to macro. Wanted 1 got 0
+2018-04-05 15:43:52,883 - VM #timeout: error : too few arguments to macro. Wanted 1 got 0
+2018-04-05 15:43:52,901 - Left side ($config.get("actionSelect")) of '==' operation has null value. If a reference, it may not be in the context. Operation not possible. repository\resources\api_templates\velocity_template.xml [line 1, column 44]
+2018-04-05 15:43:52,904 - VM #timeout: error : too few arguments to macro. Wanted 1 got 0
+2018-04-05 15:43:52,905 - VM #timeout: error : too few arguments to macro. Wanted 1 got 0
+2018-04-05 15:43:52,913 - Left side ($config.get("actionSelect")) of '==' operation has null value. If a reference, it may not be in the context. Operation not possible. repository\resources\api_templates\velocity_template.xml [line 1, column 44]
+2018-04-05 15:46:48,557 - Log4JLogChute initialized using file 'velocity.log'
+2018-04-05 15:46:48,557 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
+2018-04-05 15:46:48,557 - Default Properties File: org\apache\velocity\runtime\defaults\velocity.properties
+2018-04-05 15:46:48,557 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
+2018-04-05 15:46:48,558 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogChute or necessary supporting classes in classpath.
+java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
+	at java.lang.Class.forName0(Native Method)
+	at java.lang.Class.forName(Class.java:348)
+	at org.apache.velocity.util.ClassUtils.getClass(ClassUtils.java:63)
+	at org.apache.velocity.util.ClassUtils.getNewInstance(ClassUtils.java:95)
+	at org.apache.velocity.runtime.log.LogManager.createLogChute(LogManager.java:147)
+	at org.apache.velocity.runtime.log.LogManager.updateLog(LogManager.java:208)
+	at org.apache.velocity.runtime.RuntimeInstance.initializeLog(RuntimeInstance.java:728)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:240)
+	at org.apache.velocity.app.VelocityEngine.init(VelocityEngine.java:116)
+	at barley.apimgt.impl.template.APITemplateBuilderImpl.getConfigStringForTemplate(APITemplateBuilderImpl.java:102)
+	at barley.apimgt.impl.utils.APIGatewayAdminRestClient.addApi(APIGatewayAdminRestClient.java:79)
+	at barley.apimgt.impl.APIGatewayManager.publishToGateway(APIGatewayManager.java:173)
+	at barley.apimgt.impl.APIProviderImpl.publishToGateway(APIProviderImpl.java:1531)
+	at barley.apimgt.impl.APIProviderImpl.changeAPIStatus(APIProviderImpl.java:1253)
+	at barley.apimgt.impl.UserAwareAPIProvider.changeAPIStatus(UserAwareAPIProvider.java:91)
+	at barley.apimgt.impl.APIProviderImplTest.testAddApiAndPublish(APIProviderImplTest.java:359)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at junit.framework.TestCase.runTest(TestCase.java:176)
+	at junit.framework.TestCase.runBare(TestCase.java:141)
+	at junit.framework.TestResult$1.protect(TestResult.java:122)
+	at junit.framework.TestResult.runProtected(TestResult.java:142)
+	at junit.framework.TestResult.run(TestResult.java:125)
+	at junit.framework.TestCase.run(TestCase.java:129)
+	at junit.framework.TestSuite.runTest(TestSuite.java:252)
+	at junit.framework.TestSuite.run(TestSuite.java:247)
+	at org.junit.internal.runners.JUnit38ClassRunner.run(JUnit38ClassRunner.java:86)
+	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:86)
+	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:459)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:678)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:382)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:192)
+Caused by: java.lang.ClassNotFoundException: org.apache.log.format.Formatter
+	at java.net.URLClassLoader.findClass(URLClassLoader.java:381)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:424)
+	at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:331)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:357)
+	... 35 more
+2018-04-05 15:46:48,559 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
+2018-04-05 15:46:48,559 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
+2018-04-05 15:46:48,561 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2018-04-05 15:46:48,562 - ResourceLoader instantiated: org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2018-04-05 15:46:48,568 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+2018-04-05 15:46:48,570 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2018-04-05 15:46:48,572 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2018-04-05 15:46:48,574 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2018-04-05 15:46:48,575 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2018-04-05 15:46:48,575 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2018-04-05 15:46:48,597 - Created '20' parsers.
+2018-04-05 15:46:48,604 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
+2018-04-05 15:46:48,606 - Velocimacro : Default library not found.
+2018-04-05 15:46:48,606 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2018-04-05 15:46:48,606 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2018-04-05 15:46:48,606 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
+2018-04-05 15:46:48,606 - Velocimacro : autoload off : VM system will not automatically reload global library macros
+2018-04-05 15:46:48,617 - Velocimacro : added #print_if_exist(  field default ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-05 15:46:48,617 - Velocimacro : added #print_string_if_exist(  field default ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-05 15:46:48,618 - Velocimacro : added #print_if_exist_only(  tagname field ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-05 15:46:48,622 - Velocimacro : added #print_list(  tagname list ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-05 15:46:48,626 - Velocimacro : added #timeout(  config ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-05 15:46:48,627 - Velocimacro : added #http_endpoint(  name ep ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-05 15:46:48,628 - Velocimacro : added #address_endpoint(  name ep ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-05 15:46:48,635 - Velocimacro : added #draw_endpoint(  type endpoint_config ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-05 15:46:48,668 - ResourceManager : found repository\resources\api_templates\velocity_template.xml with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2018-04-05 15:46:48,689 - Null reference [template 'repository\resources\api_templates\velocity_template.xml', line 298, column 17] : $ctx cannot be resolved.
+2018-04-05 15:46:48,691 - VM #timeout: error : too few arguments to macro. Wanted 1 got 0
+2018-04-05 15:46:48,692 - VM #timeout: error : too few arguments to macro. Wanted 1 got 0
+2018-04-05 15:46:48,710 - Left side ($config.get("actionSelect")) of '==' operation has null value. If a reference, it may not be in the context. Operation not possible. repository\resources\api_templates\velocity_template.xml [line 1, column 44]
+2018-04-05 15:46:48,713 - VM #timeout: error : too few arguments to macro. Wanted 1 got 0
+2018-04-05 15:46:48,714 - VM #timeout: error : too few arguments to macro. Wanted 1 got 0
+2018-04-05 15:46:48,722 - Left side ($config.get("actionSelect")) of '==' operation has null value. If a reference, it may not be in the context. Operation not possible. repository\resources\api_templates\velocity_template.xml [line 1, column 44]
+2018-04-05 15:53:31,952 - Log4JLogChute initialized using file 'velocity.log'
+2018-04-05 15:53:31,952 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
+2018-04-05 15:53:31,953 - Default Properties File: org\apache\velocity\runtime\defaults\velocity.properties
+2018-04-05 15:53:31,953 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
+2018-04-05 15:53:31,953 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogChute or necessary supporting classes in classpath.
+java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
+	at java.lang.Class.forName0(Native Method)
+	at java.lang.Class.forName(Class.java:348)
+	at org.apache.velocity.util.ClassUtils.getClass(ClassUtils.java:63)
+	at org.apache.velocity.util.ClassUtils.getNewInstance(ClassUtils.java:95)
+	at org.apache.velocity.runtime.log.LogManager.createLogChute(LogManager.java:147)
+	at org.apache.velocity.runtime.log.LogManager.updateLog(LogManager.java:208)
+	at org.apache.velocity.runtime.RuntimeInstance.initializeLog(RuntimeInstance.java:728)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:240)
+	at org.apache.velocity.app.VelocityEngine.init(VelocityEngine.java:116)
+	at barley.apimgt.impl.template.APITemplateBuilderImpl.getConfigStringForTemplate(APITemplateBuilderImpl.java:102)
+	at barley.apimgt.impl.utils.APIGatewayAdminRestClient.addApi(APIGatewayAdminRestClient.java:79)
+	at barley.apimgt.impl.APIGatewayManager.publishToGateway(APIGatewayManager.java:173)
+	at barley.apimgt.impl.APIProviderImpl.publishToGateway(APIProviderImpl.java:1531)
+	at barley.apimgt.impl.APIProviderImpl.changeAPIStatus(APIProviderImpl.java:1253)
+	at barley.apimgt.impl.UserAwareAPIProvider.changeAPIStatus(UserAwareAPIProvider.java:91)
+	at barley.apimgt.impl.APIProviderImplTest.testAddApiAndPublish(APIProviderImplTest.java:359)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at junit.framework.TestCase.runTest(TestCase.java:176)
+	at junit.framework.TestCase.runBare(TestCase.java:141)
+	at junit.framework.TestResult$1.protect(TestResult.java:122)
+	at junit.framework.TestResult.runProtected(TestResult.java:142)
+	at junit.framework.TestResult.run(TestResult.java:125)
+	at junit.framework.TestCase.run(TestCase.java:129)
+	at junit.framework.TestSuite.runTest(TestSuite.java:252)
+	at junit.framework.TestSuite.run(TestSuite.java:247)
+	at org.junit.internal.runners.JUnit38ClassRunner.run(JUnit38ClassRunner.java:86)
+	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:86)
+	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:459)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:678)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:382)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:192)
+Caused by: java.lang.ClassNotFoundException: org.apache.log.format.Formatter
+	at java.net.URLClassLoader.findClass(URLClassLoader.java:381)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:424)
+	at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:331)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:357)
+	... 35 more
+2018-04-05 15:53:31,955 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
+2018-04-05 15:53:31,955 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
+2018-04-05 15:53:31,959 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2018-04-05 15:53:31,960 - ResourceLoader instantiated: org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2018-04-05 15:53:31,966 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+2018-04-05 15:53:31,967 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2018-04-05 15:53:31,970 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2018-04-05 15:53:31,972 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2018-04-05 15:53:31,974 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2018-04-05 15:53:31,975 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2018-04-05 15:53:32,002 - Created '20' parsers.
+2018-04-05 15:53:32,011 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
+2018-04-05 15:53:32,014 - Velocimacro : Default library not found.
+2018-04-05 15:53:32,014 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2018-04-05 15:53:32,014 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2018-04-05 15:53:32,014 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
+2018-04-05 15:53:32,014 - Velocimacro : autoload off : VM system will not automatically reload global library macros
+2018-04-05 15:53:32,027 - Velocimacro : added #print_if_exist(  field default ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-05 15:53:32,028 - Velocimacro : added #print_string_if_exist(  field default ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-05 15:53:32,028 - Velocimacro : added #print_if_exist_only(  tagname field ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-05 15:53:32,032 - Velocimacro : added #print_list(  tagname list ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-05 15:53:32,038 - Velocimacro : added #timeout(  config ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-05 15:53:32,038 - Velocimacro : added #http_endpoint(  name ep ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-05 15:53:32,040 - Velocimacro : added #address_endpoint(  name ep ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-05 15:53:32,047 - Velocimacro : added #draw_endpoint(  type endpoint_config ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-05 15:53:32,080 - ResourceManager : found repository\resources\api_templates\velocity_template.xml with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2018-04-05 15:53:32,098 - Null reference [template 'repository\resources\api_templates\velocity_template.xml', line 298, column 17] : $ctx cannot be resolved.
+2018-04-05 15:53:32,100 - VM #timeout: error : too few arguments to macro. Wanted 1 got 0
+2018-04-05 15:53:32,100 - VM #timeout: error : too few arguments to macro. Wanted 1 got 0
+2018-04-05 15:53:32,116 - Left side ($config.get("actionSelect")) of '==' operation has null value. If a reference, it may not be in the context. Operation not possible. repository\resources\api_templates\velocity_template.xml [line 1, column 44]
+2018-04-05 15:53:32,120 - VM #timeout: error : too few arguments to macro. Wanted 1 got 0
+2018-04-05 15:53:32,120 - VM #timeout: error : too few arguments to macro. Wanted 1 got 0
+2018-04-05 15:53:32,129 - Left side ($config.get("actionSelect")) of '==' operation has null value. If a reference, it may not be in the context. Operation not possible. repository\resources\api_templates\velocity_template.xml [line 1, column 44]
+2018-04-05 16:00:00,703 - Log4JLogChute initialized using file 'velocity.log'
+2018-04-05 16:00:00,703 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
+2018-04-05 16:00:00,703 - Default Properties File: org\apache\velocity\runtime\defaults\velocity.properties
+2018-04-05 16:00:00,703 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
+2018-04-05 16:00:00,704 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogChute or necessary supporting classes in classpath.
+java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
+	at java.lang.Class.forName0(Native Method)
+	at java.lang.Class.forName(Class.java:348)
+	at org.apache.velocity.util.ClassUtils.getClass(ClassUtils.java:63)
+	at org.apache.velocity.util.ClassUtils.getNewInstance(ClassUtils.java:95)
+	at org.apache.velocity.runtime.log.LogManager.createLogChute(LogManager.java:147)
+	at org.apache.velocity.runtime.log.LogManager.updateLog(LogManager.java:208)
+	at org.apache.velocity.runtime.RuntimeInstance.initializeLog(RuntimeInstance.java:728)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:240)
+	at org.apache.velocity.app.VelocityEngine.init(VelocityEngine.java:116)
+	at barley.apimgt.impl.template.APITemplateBuilderImpl.getConfigStringForTemplate(APITemplateBuilderImpl.java:102)
+	at barley.apimgt.impl.utils.APIGatewayAdminRestClient.addApi(APIGatewayAdminRestClient.java:79)
+	at barley.apimgt.impl.APIGatewayManager.publishToGateway(APIGatewayManager.java:173)
+	at barley.apimgt.impl.APIProviderImpl.publishToGateway(APIProviderImpl.java:1531)
+	at barley.apimgt.impl.APIProviderImpl.changeAPIStatus(APIProviderImpl.java:1253)
+	at barley.apimgt.impl.UserAwareAPIProvider.changeAPIStatus(UserAwareAPIProvider.java:91)
+	at barley.apimgt.impl.APIProviderImplTest.testAddApiAndPublish(APIProviderImplTest.java:359)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at junit.framework.TestCase.runTest(TestCase.java:176)
+	at junit.framework.TestCase.runBare(TestCase.java:141)
+	at junit.framework.TestResult$1.protect(TestResult.java:122)
+	at junit.framework.TestResult.runProtected(TestResult.java:142)
+	at junit.framework.TestResult.run(TestResult.java:125)
+	at junit.framework.TestCase.run(TestCase.java:129)
+	at junit.framework.TestSuite.runTest(TestSuite.java:252)
+	at junit.framework.TestSuite.run(TestSuite.java:247)
+	at org.junit.internal.runners.JUnit38ClassRunner.run(JUnit38ClassRunner.java:86)
+	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:86)
+	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:459)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:678)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:382)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:192)
+Caused by: java.lang.ClassNotFoundException: org.apache.log.format.Formatter
+	at java.net.URLClassLoader.findClass(URLClassLoader.java:381)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:424)
+	at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:331)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:357)
+	... 35 more
+2018-04-05 16:00:00,706 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
+2018-04-05 16:00:00,706 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
+2018-04-05 16:00:00,709 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2018-04-05 16:00:00,711 - ResourceLoader instantiated: org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2018-04-05 16:00:00,720 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+2018-04-05 16:00:00,722 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2018-04-05 16:00:00,724 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2018-04-05 16:00:00,727 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2018-04-05 16:00:00,729 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2018-04-05 16:00:00,730 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2018-04-05 16:00:00,760 - Created '20' parsers.
+2018-04-05 16:00:00,774 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
+2018-04-05 16:00:00,776 - Velocimacro : Default library not found.
+2018-04-05 16:00:00,777 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2018-04-05 16:00:00,777 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2018-04-05 16:00:00,777 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
+2018-04-05 16:00:00,777 - Velocimacro : autoload off : VM system will not automatically reload global library macros
+2018-04-05 16:00:00,797 - Velocimacro : added #print_if_exist(  field default ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-05 16:00:00,798 - Velocimacro : added #print_string_if_exist(  field default ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-05 16:00:00,799 - Velocimacro : added #print_if_exist_only(  tagname field ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-05 16:00:00,806 - Velocimacro : added #print_list(  tagname list ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-05 16:00:00,814 - Velocimacro : added #timeout(  config ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-05 16:00:00,815 - Velocimacro : added #http_endpoint(  name ep ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-05 16:00:00,817 - Velocimacro : added #address_endpoint(  name ep ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-05 16:00:00,825 - Velocimacro : added #draw_endpoint(  type endpoint_config ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-05 16:00:00,870 - ResourceManager : found repository\resources\api_templates\velocity_template.xml with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2018-04-05 16:00:00,892 - Null reference [template 'repository\resources\api_templates\velocity_template.xml', line 298, column 17] : $ctx cannot be resolved.
+2018-04-05 16:00:00,894 - VM #timeout: error : too few arguments to macro. Wanted 1 got 0
+2018-04-05 16:00:00,894 - VM #timeout: error : too few arguments to macro. Wanted 1 got 0
+2018-04-05 16:00:00,917 - Left side ($config.get("actionSelect")) of '==' operation has null value. If a reference, it may not be in the context. Operation not possible. repository\resources\api_templates\velocity_template.xml [line 1, column 44]
+2018-04-05 16:00:00,921 - VM #timeout: error : too few arguments to macro. Wanted 1 got 0
+2018-04-05 16:00:00,921 - VM #timeout: error : too few arguments to macro. Wanted 1 got 0
+2018-04-05 16:00:00,930 - Left side ($config.get("actionSelect")) of '==' operation has null value. If a reference, it may not be in the context. Operation not possible. repository\resources\api_templates\velocity_template.xml [line 1, column 44]
+2018-04-05 16:06:23,778 - Log4JLogChute initialized using file 'velocity.log'
+2018-04-05 16:06:23,778 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
+2018-04-05 16:06:23,778 - Default Properties File: org\apache\velocity\runtime\defaults\velocity.properties
+2018-04-05 16:06:23,778 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
+2018-04-05 16:06:23,779 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogChute or necessary supporting classes in classpath.
+java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
+	at java.lang.Class.forName0(Native Method)
+	at java.lang.Class.forName(Class.java:348)
+	at org.apache.velocity.util.ClassUtils.getClass(ClassUtils.java:63)
+	at org.apache.velocity.util.ClassUtils.getNewInstance(ClassUtils.java:95)
+	at org.apache.velocity.runtime.log.LogManager.createLogChute(LogManager.java:147)
+	at org.apache.velocity.runtime.log.LogManager.updateLog(LogManager.java:208)
+	at org.apache.velocity.runtime.RuntimeInstance.initializeLog(RuntimeInstance.java:728)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:240)
+	at org.apache.velocity.app.VelocityEngine.init(VelocityEngine.java:116)
+	at barley.apimgt.impl.template.APITemplateBuilderImpl.getConfigStringForTemplate(APITemplateBuilderImpl.java:102)
+	at barley.apimgt.impl.utils.APIGatewayAdminRestClient.addApi(APIGatewayAdminRestClient.java:79)
+	at barley.apimgt.impl.APIGatewayManager.publishToGateway(APIGatewayManager.java:173)
+	at barley.apimgt.impl.APIProviderImpl.publishToGateway(APIProviderImpl.java:1531)
+	at barley.apimgt.impl.APIProviderImpl.changeAPIStatus(APIProviderImpl.java:1253)
+	at barley.apimgt.impl.UserAwareAPIProvider.changeAPIStatus(UserAwareAPIProvider.java:91)
+	at barley.apimgt.impl.APIProviderImplTest.testAddApiAndPublish(APIProviderImplTest.java:359)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at junit.framework.TestCase.runTest(TestCase.java:176)
+	at junit.framework.TestCase.runBare(TestCase.java:141)
+	at junit.framework.TestResult$1.protect(TestResult.java:122)
+	at junit.framework.TestResult.runProtected(TestResult.java:142)
+	at junit.framework.TestResult.run(TestResult.java:125)
+	at junit.framework.TestCase.run(TestCase.java:129)
+	at junit.framework.TestSuite.runTest(TestSuite.java:252)
+	at junit.framework.TestSuite.run(TestSuite.java:247)
+	at org.junit.internal.runners.JUnit38ClassRunner.run(JUnit38ClassRunner.java:86)
+	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:86)
+	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:459)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:678)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:382)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:192)
+Caused by: java.lang.ClassNotFoundException: org.apache.log.format.Formatter
+	at java.net.URLClassLoader.findClass(URLClassLoader.java:381)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:424)
+	at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:331)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:357)
+	... 35 more
+2018-04-05 16:06:23,780 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
+2018-04-05 16:06:23,780 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
+2018-04-05 16:06:23,784 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2018-04-05 16:06:23,785 - ResourceLoader instantiated: org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2018-04-05 16:06:23,790 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+2018-04-05 16:06:23,791 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2018-04-05 16:06:23,793 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2018-04-05 16:06:23,794 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2018-04-05 16:06:23,795 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2018-04-05 16:06:23,796 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2018-04-05 16:06:23,817 - Created '20' parsers.
+2018-04-05 16:06:23,823 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
+2018-04-05 16:06:23,825 - Velocimacro : Default library not found.
+2018-04-05 16:06:23,825 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2018-04-05 16:06:23,825 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2018-04-05 16:06:23,825 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
+2018-04-05 16:06:23,825 - Velocimacro : autoload off : VM system will not automatically reload global library macros
+2018-04-05 16:06:23,837 - Velocimacro : added #print_if_exist(  field default ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-05 16:06:23,838 - Velocimacro : added #print_string_if_exist(  field default ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-05 16:06:23,838 - Velocimacro : added #print_if_exist_only(  tagname field ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-05 16:06:23,842 - Velocimacro : added #print_list(  tagname list ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-05 16:06:23,849 - Velocimacro : added #timeout(  config ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-05 16:06:23,849 - Velocimacro : added #http_endpoint(  name ep ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-05 16:06:23,851 - Velocimacro : added #address_endpoint(  name ep ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-05 16:06:23,856 - Velocimacro : added #draw_endpoint(  type endpoint_config ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-05 16:06:23,891 - ResourceManager : found repository\resources\api_templates\velocity_template.xml with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2018-04-05 16:06:23,906 - Null reference [template 'repository\resources\api_templates\velocity_template.xml', line 298, column 17] : $ctx cannot be resolved.
+2018-04-05 16:06:23,908 - VM #timeout: error : too few arguments to macro. Wanted 1 got 0
+2018-04-05 16:06:23,908 - VM #timeout: error : too few arguments to macro. Wanted 1 got 0
+2018-04-05 16:06:23,925 - Left side ($config.get("actionSelect")) of '==' operation has null value. If a reference, it may not be in the context. Operation not possible. repository\resources\api_templates\velocity_template.xml [line 1, column 44]
+2018-04-05 16:06:23,927 - VM #timeout: error : too few arguments to macro. Wanted 1 got 0
+2018-04-05 16:06:23,927 - VM #timeout: error : too few arguments to macro. Wanted 1 got 0
+2018-04-05 16:06:23,935 - Left side ($config.get("actionSelect")) of '==' operation has null value. If a reference, it may not be in the context. Operation not possible. repository\resources\api_templates\velocity_template.xml [line 1, column 44]
+2018-04-05 16:09:40,327 - Log4JLogChute initialized using file 'velocity.log'
+2018-04-05 16:09:40,327 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
+2018-04-05 16:09:40,327 - Default Properties File: org\apache\velocity\runtime\defaults\velocity.properties
+2018-04-05 16:09:40,327 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
+2018-04-05 16:09:40,328 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogChute or necessary supporting classes in classpath.
+java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
+	at java.lang.Class.forName0(Native Method)
+	at java.lang.Class.forName(Class.java:348)
+	at org.apache.velocity.util.ClassUtils.getClass(ClassUtils.java:63)
+	at org.apache.velocity.util.ClassUtils.getNewInstance(ClassUtils.java:95)
+	at org.apache.velocity.runtime.log.LogManager.createLogChute(LogManager.java:147)
+	at org.apache.velocity.runtime.log.LogManager.updateLog(LogManager.java:208)
+	at org.apache.velocity.runtime.RuntimeInstance.initializeLog(RuntimeInstance.java:728)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:240)
+	at org.apache.velocity.app.VelocityEngine.init(VelocityEngine.java:116)
+	at barley.apimgt.impl.template.APITemplateBuilderImpl.getConfigStringForTemplate(APITemplateBuilderImpl.java:102)
+	at barley.apimgt.impl.utils.APIGatewayAdminRestClient.addApi(APIGatewayAdminRestClient.java:79)
+	at barley.apimgt.impl.APIGatewayManager.publishToGateway(APIGatewayManager.java:173)
+	at barley.apimgt.impl.APIProviderImpl.publishToGateway(APIProviderImpl.java:1531)
+	at barley.apimgt.impl.APIProviderImpl.changeAPIStatus(APIProviderImpl.java:1253)
+	at barley.apimgt.impl.UserAwareAPIProvider.changeAPIStatus(UserAwareAPIProvider.java:91)
+	at barley.apimgt.impl.APIProviderImplTest.testAddApiAndPublish(APIProviderImplTest.java:359)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at junit.framework.TestCase.runTest(TestCase.java:176)
+	at junit.framework.TestCase.runBare(TestCase.java:141)
+	at junit.framework.TestResult$1.protect(TestResult.java:122)
+	at junit.framework.TestResult.runProtected(TestResult.java:142)
+	at junit.framework.TestResult.run(TestResult.java:125)
+	at junit.framework.TestCase.run(TestCase.java:129)
+	at junit.framework.TestSuite.runTest(TestSuite.java:252)
+	at junit.framework.TestSuite.run(TestSuite.java:247)
+	at org.junit.internal.runners.JUnit38ClassRunner.run(JUnit38ClassRunner.java:86)
+	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:86)
+	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:459)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:678)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:382)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:192)
+Caused by: java.lang.ClassNotFoundException: org.apache.log.format.Formatter
+	at java.net.URLClassLoader.findClass(URLClassLoader.java:381)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:424)
+	at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:331)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:357)
+	... 35 more
+2018-04-05 16:09:40,329 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
+2018-04-05 16:09:40,329 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
+2018-04-05 16:09:40,331 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2018-04-05 16:09:40,332 - ResourceLoader instantiated: org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2018-04-05 16:09:40,339 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+2018-04-05 16:09:40,341 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2018-04-05 16:09:40,344 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2018-04-05 16:09:40,346 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2018-04-05 16:09:40,348 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2018-04-05 16:09:40,349 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2018-04-05 16:09:40,371 - Created '20' parsers.
+2018-04-05 16:09:40,379 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
+2018-04-05 16:09:40,381 - Velocimacro : Default library not found.
+2018-04-05 16:09:40,381 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2018-04-05 16:09:40,381 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2018-04-05 16:09:40,381 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
+2018-04-05 16:09:40,381 - Velocimacro : autoload off : VM system will not automatically reload global library macros
+2018-04-05 16:09:40,395 - Velocimacro : added #print_if_exist(  field default ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-05 16:09:40,395 - Velocimacro : added #print_string_if_exist(  field default ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-05 16:09:40,395 - Velocimacro : added #print_if_exist_only(  tagname field ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-05 16:09:40,399 - Velocimacro : added #print_list(  tagname list ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-05 16:09:40,404 - Velocimacro : added #timeout(  config ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-05 16:09:40,404 - Velocimacro : added #http_endpoint(  name ep ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-05 16:09:40,406 - Velocimacro : added #address_endpoint(  name ep ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-05 16:09:40,413 - Velocimacro : added #draw_endpoint(  type endpoint_config ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-05 16:09:40,442 - ResourceManager : found repository\resources\api_templates\velocity_template.xml with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2018-04-05 16:09:40,464 - Null reference [template 'repository\resources\api_templates\velocity_template.xml', line 298, column 17] : $ctx cannot be resolved.
+2018-04-05 16:09:40,466 - VM #timeout: error : too few arguments to macro. Wanted 1 got 0
+2018-04-05 16:09:40,466 - VM #timeout: error : too few arguments to macro. Wanted 1 got 0
+2018-04-05 16:09:40,486 - Left side ($config.get("actionSelect")) of '==' operation has null value. If a reference, it may not be in the context. Operation not possible. repository\resources\api_templates\velocity_template.xml [line 1, column 44]
+2018-04-05 16:09:40,490 - VM #timeout: error : too few arguments to macro. Wanted 1 got 0
+2018-04-05 16:09:40,490 - VM #timeout: error : too few arguments to macro. Wanted 1 got 0
+2018-04-05 16:09:40,500 - Left side ($config.get("actionSelect")) of '==' operation has null value. If a reference, it may not be in the context. Operation not possible. repository\resources\api_templates\velocity_template.xml [line 1, column 44]
+2018-04-05 16:42:21,148 - Log4JLogChute initialized using file 'velocity.log'
+2018-04-05 16:42:21,149 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
+2018-04-05 16:42:21,149 - Default Properties File: org\apache\velocity\runtime\defaults\velocity.properties
+2018-04-05 16:42:21,149 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
+2018-04-05 16:42:21,149 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogChute or necessary supporting classes in classpath.
+java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
+	at java.lang.Class.forName0(Native Method)
+	at java.lang.Class.forName(Class.java:348)
+	at org.apache.velocity.util.ClassUtils.getClass(ClassUtils.java:63)
+	at org.apache.velocity.util.ClassUtils.getNewInstance(ClassUtils.java:95)
+	at org.apache.velocity.runtime.log.LogManager.createLogChute(LogManager.java:147)
+	at org.apache.velocity.runtime.log.LogManager.updateLog(LogManager.java:208)
+	at org.apache.velocity.runtime.RuntimeInstance.initializeLog(RuntimeInstance.java:728)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:240)
+	at org.apache.velocity.app.VelocityEngine.init(VelocityEngine.java:116)
+	at barley.apimgt.impl.template.APITemplateBuilderImpl.getConfigStringForTemplate(APITemplateBuilderImpl.java:102)
+	at barley.apimgt.impl.utils.APIGatewayAdminRestClient.addApi(APIGatewayAdminRestClient.java:79)
+	at barley.apimgt.impl.APIGatewayManager.publishToGateway(APIGatewayManager.java:173)
+	at barley.apimgt.impl.APIProviderImpl.publishToGateway(APIProviderImpl.java:1531)
+	at barley.apimgt.impl.APIProviderImpl.changeAPIStatus(APIProviderImpl.java:1253)
+	at barley.apimgt.impl.UserAwareAPIProvider.changeAPIStatus(UserAwareAPIProvider.java:91)
+	at barley.apimgt.impl.APIProviderImplTest.testAddApiAndPublish(APIProviderImplTest.java:359)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at junit.framework.TestCase.runTest(TestCase.java:176)
+	at junit.framework.TestCase.runBare(TestCase.java:141)
+	at junit.framework.TestResult$1.protect(TestResult.java:122)
+	at junit.framework.TestResult.runProtected(TestResult.java:142)
+	at junit.framework.TestResult.run(TestResult.java:125)
+	at junit.framework.TestCase.run(TestCase.java:129)
+	at junit.framework.TestSuite.runTest(TestSuite.java:252)
+	at junit.framework.TestSuite.run(TestSuite.java:247)
+	at org.junit.internal.runners.JUnit38ClassRunner.run(JUnit38ClassRunner.java:86)
+	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:86)
+	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:459)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:678)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:382)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:192)
+Caused by: java.lang.ClassNotFoundException: org.apache.log.format.Formatter
+	at java.net.URLClassLoader.findClass(URLClassLoader.java:381)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:424)
+	at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:331)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:357)
+	... 35 more
+2018-04-05 16:42:21,150 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
+2018-04-05 16:42:21,150 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
+2018-04-05 16:42:21,153 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2018-04-05 16:42:21,154 - ResourceLoader instantiated: org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2018-04-05 16:42:21,159 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+2018-04-05 16:42:21,160 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2018-04-05 16:42:21,161 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2018-04-05 16:42:21,162 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2018-04-05 16:42:21,164 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2018-04-05 16:42:21,165 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2018-04-05 16:42:21,184 - Created '20' parsers.
+2018-04-05 16:42:21,190 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
+2018-04-05 16:42:21,191 - Velocimacro : Default library not found.
+2018-04-05 16:42:21,192 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2018-04-05 16:42:21,192 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2018-04-05 16:42:21,192 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
+2018-04-05 16:42:21,192 - Velocimacro : autoload off : VM system will not automatically reload global library macros
+2018-04-05 16:42:21,204 - Velocimacro : added #print_if_exist(  field default ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-05 16:42:21,204 - Velocimacro : added #print_string_if_exist(  field default ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-05 16:42:21,205 - Velocimacro : added #print_if_exist_only(  tagname field ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-05 16:42:21,209 - Velocimacro : added #print_list(  tagname list ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-05 16:42:21,213 - Velocimacro : added #timeout(  config ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-05 16:42:21,213 - Velocimacro : added #http_endpoint(  name ep ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-05 16:42:21,215 - Velocimacro : added #address_endpoint(  name ep ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-05 16:42:21,221 - Velocimacro : added #draw_endpoint(  type endpoint_config ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-05 16:42:21,251 - ResourceManager : found repository\resources\api_templates\velocity_template.xml with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2018-04-05 16:42:21,269 - Null reference [template 'repository\resources\api_templates\velocity_template.xml', line 298, column 17] : $ctx cannot be resolved.
+2018-04-05 16:42:21,271 - VM #timeout: error : too few arguments to macro. Wanted 1 got 0
+2018-04-05 16:42:21,272 - VM #timeout: error : too few arguments to macro. Wanted 1 got 0
+2018-04-05 16:42:21,287 - Left side ($config.get("actionSelect")) of '==' operation has null value. If a reference, it may not be in the context. Operation not possible. repository\resources\api_templates\velocity_template.xml [line 1, column 44]
+2018-04-05 16:42:21,290 - VM #timeout: error : too few arguments to macro. Wanted 1 got 0
+2018-04-05 16:42:21,290 - VM #timeout: error : too few arguments to macro. Wanted 1 got 0
+2018-04-05 16:42:21,298 - Left side ($config.get("actionSelect")) of '==' operation has null value. If a reference, it may not be in the context. Operation not possible. repository\resources\api_templates\velocity_template.xml [line 1, column 44]
+2018-04-05 16:44:33,340 - Log4JLogChute initialized using file 'velocity.log'
+2018-04-05 16:44:33,340 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
+2018-04-05 16:44:33,340 - Default Properties File: org\apache\velocity\runtime\defaults\velocity.properties
+2018-04-05 16:44:33,340 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
+2018-04-05 16:44:33,341 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogChute or necessary supporting classes in classpath.
+java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
+	at java.lang.Class.forName0(Native Method)
+	at java.lang.Class.forName(Class.java:348)
+	at org.apache.velocity.util.ClassUtils.getClass(ClassUtils.java:63)
+	at org.apache.velocity.util.ClassUtils.getNewInstance(ClassUtils.java:95)
+	at org.apache.velocity.runtime.log.LogManager.createLogChute(LogManager.java:147)
+	at org.apache.velocity.runtime.log.LogManager.updateLog(LogManager.java:208)
+	at org.apache.velocity.runtime.RuntimeInstance.initializeLog(RuntimeInstance.java:728)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:240)
+	at org.apache.velocity.app.VelocityEngine.init(VelocityEngine.java:116)
+	at barley.apimgt.impl.template.APITemplateBuilderImpl.getConfigStringForTemplate(APITemplateBuilderImpl.java:102)
+	at barley.apimgt.impl.utils.APIGatewayAdminRestClient.addApi(APIGatewayAdminRestClient.java:79)
+	at barley.apimgt.impl.APIGatewayManager.publishToGateway(APIGatewayManager.java:173)
+	at barley.apimgt.impl.APIProviderImpl.publishToGateway(APIProviderImpl.java:1531)
+	at barley.apimgt.impl.APIProviderImpl.changeAPIStatus(APIProviderImpl.java:1253)
+	at barley.apimgt.impl.UserAwareAPIProvider.changeAPIStatus(UserAwareAPIProvider.java:91)
+	at barley.apimgt.impl.APIProviderImplTest.testAddApiAndPublish(APIProviderImplTest.java:359)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at junit.framework.TestCase.runTest(TestCase.java:176)
+	at junit.framework.TestCase.runBare(TestCase.java:141)
+	at junit.framework.TestResult$1.protect(TestResult.java:122)
+	at junit.framework.TestResult.runProtected(TestResult.java:142)
+	at junit.framework.TestResult.run(TestResult.java:125)
+	at junit.framework.TestCase.run(TestCase.java:129)
+	at junit.framework.TestSuite.runTest(TestSuite.java:252)
+	at junit.framework.TestSuite.run(TestSuite.java:247)
+	at org.junit.internal.runners.JUnit38ClassRunner.run(JUnit38ClassRunner.java:86)
+	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:86)
+	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:459)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:678)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:382)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:192)
+Caused by: java.lang.ClassNotFoundException: org.apache.log.format.Formatter
+	at java.net.URLClassLoader.findClass(URLClassLoader.java:381)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:424)
+	at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:331)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:357)
+	... 35 more
+2018-04-05 16:44:33,342 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
+2018-04-05 16:44:33,342 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
+2018-04-05 16:44:33,345 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2018-04-05 16:44:33,347 - ResourceLoader instantiated: org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2018-04-05 16:44:33,354 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+2018-04-05 16:44:33,356 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2018-04-05 16:44:33,358 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2018-04-05 16:44:33,361 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2018-04-05 16:44:33,363 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2018-04-05 16:44:33,364 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2018-04-05 16:44:33,388 - Created '20' parsers.
+2018-04-05 16:44:33,395 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
+2018-04-05 16:44:33,397 - Velocimacro : Default library not found.
+2018-04-05 16:44:33,397 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2018-04-05 16:44:33,397 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2018-04-05 16:44:33,397 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
+2018-04-05 16:44:33,398 - Velocimacro : autoload off : VM system will not automatically reload global library macros
+2018-04-05 16:44:33,413 - Velocimacro : added #print_if_exist(  field default ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-05 16:44:33,414 - Velocimacro : added #print_string_if_exist(  field default ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-05 16:44:33,414 - Velocimacro : added #print_if_exist_only(  tagname field ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-05 16:44:33,419 - Velocimacro : added #print_list(  tagname list ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-05 16:44:33,423 - Velocimacro : added #timeout(  config ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-05 16:44:33,423 - Velocimacro : added #http_endpoint(  name ep ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-05 16:44:33,425 - Velocimacro : added #address_endpoint(  name ep ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-05 16:44:33,432 - Velocimacro : added #draw_endpoint(  type endpoint_config ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-05 16:44:33,465 - ResourceManager : found repository\resources\api_templates\velocity_template.xml with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2018-04-05 16:44:33,486 - Null reference [template 'repository\resources\api_templates\velocity_template.xml', line 298, column 17] : $ctx cannot be resolved.
+2018-04-05 16:44:33,488 - VM #timeout: error : too few arguments to macro. Wanted 1 got 0
+2018-04-05 16:44:33,488 - VM #timeout: error : too few arguments to macro. Wanted 1 got 0
+2018-04-05 16:44:33,507 - Left side ($config.get("actionSelect")) of '==' operation has null value. If a reference, it may not be in the context. Operation not possible. repository\resources\api_templates\velocity_template.xml [line 1, column 44]
+2018-04-05 16:44:33,510 - VM #timeout: error : too few arguments to macro. Wanted 1 got 0
+2018-04-05 16:44:33,510 - VM #timeout: error : too few arguments to macro. Wanted 1 got 0
+2018-04-05 16:44:33,521 - Left side ($config.get("actionSelect")) of '==' operation has null value. If a reference, it may not be in the context. Operation not possible. repository\resources\api_templates\velocity_template.xml [line 1, column 44]
+2018-04-06 15:59:00,652 - Log4JLogChute initialized using file 'velocity.log'
+2018-04-06 15:59:00,655 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
+2018-04-06 15:59:00,656 - Default Properties File: org\apache\velocity\runtime\defaults\velocity.properties
+2018-04-06 15:59:00,656 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
+2018-04-06 15:59:00,656 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogChute or necessary supporting classes in classpath.
+java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
+	at java.lang.Class.forName0(Native Method)
+	at java.lang.Class.forName(Class.java:348)
+	at org.apache.velocity.util.ClassUtils.getClass(ClassUtils.java:63)
+	at org.apache.velocity.util.ClassUtils.getNewInstance(ClassUtils.java:95)
+	at org.apache.velocity.runtime.log.LogManager.createLogChute(LogManager.java:147)
+	at org.apache.velocity.runtime.log.LogManager.updateLog(LogManager.java:208)
+	at org.apache.velocity.runtime.RuntimeInstance.initializeLog(RuntimeInstance.java:728)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:240)
+	at org.apache.velocity.app.VelocityEngine.init(VelocityEngine.java:116)
+	at barley.apimgt.impl.template.APITemplateBuilderImpl.getConfigStringForTemplate(APITemplateBuilderImpl.java:102)
+	at barley.apimgt.impl.utils.APIGatewayAdminRestClient.updateApi(APIGatewayAdminRestClient.java:237)
+	at barley.apimgt.impl.APIGatewayManager.publishToGateway(APIGatewayManager.java:132)
+	at barley.apimgt.impl.APIProviderImpl.publishToGateway(APIProviderImpl.java:1531)
+	at barley.apimgt.impl.APIProviderImpl.changeAPIStatus(APIProviderImpl.java:1253)
+	at barley.apimgt.impl.UserAwareAPIProvider.changeAPIStatus(UserAwareAPIProvider.java:91)
+	at barley.apimgt.impl.APIProviderImplTest.testAddApiAndPublish(APIProviderImplTest.java:359)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at junit.framework.TestCase.runTest(TestCase.java:176)
+	at junit.framework.TestCase.runBare(TestCase.java:141)
+	at junit.framework.TestResult$1.protect(TestResult.java:122)
+	at junit.framework.TestResult.runProtected(TestResult.java:142)
+	at junit.framework.TestResult.run(TestResult.java:125)
+	at junit.framework.TestCase.run(TestCase.java:129)
+	at junit.framework.TestSuite.runTest(TestSuite.java:252)
+	at junit.framework.TestSuite.run(TestSuite.java:247)
+	at org.junit.internal.runners.JUnit38ClassRunner.run(JUnit38ClassRunner.java:86)
+	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:86)
+	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:459)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:678)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:382)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:192)
+Caused by: java.lang.ClassNotFoundException: org.apache.log.format.Formatter
+	at java.net.URLClassLoader.findClass(URLClassLoader.java:381)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:424)
+	at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:331)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:357)
+	... 35 more
+2018-04-06 15:59:00,659 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
+2018-04-06 15:59:00,659 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
+2018-04-06 15:59:00,663 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2018-04-06 15:59:00,665 - ResourceLoader instantiated: org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2018-04-06 15:59:00,673 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+2018-04-06 15:59:00,674 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2018-04-06 15:59:00,676 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2018-04-06 15:59:00,678 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2018-04-06 15:59:00,679 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2018-04-06 15:59:00,681 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2018-04-06 15:59:00,707 - Created '20' parsers.
+2018-04-06 15:59:00,717 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
+2018-04-06 15:59:00,719 - Velocimacro : Default library not found.
+2018-04-06 15:59:00,719 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2018-04-06 15:59:00,719 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2018-04-06 15:59:00,719 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
+2018-04-06 15:59:00,719 - Velocimacro : autoload off : VM system will not automatically reload global library macros
+2018-04-06 15:59:00,777 - Velocimacro : added #print_if_exist(  field default ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-06 15:59:00,780 - Velocimacro : added #print_string_if_exist(  field default ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-06 15:59:00,782 - Velocimacro : added #print_if_exist_only(  tagname field ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-06 15:59:00,790 - Velocimacro : added #print_list(  tagname list ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-06 15:59:00,813 - Velocimacro : added #timeout(  config ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-06 15:59:00,819 - Velocimacro : added #http_endpoint(  name ep ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-06 15:59:00,834 - Velocimacro : added #address_endpoint(  name ep ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-06 15:59:00,880 - Velocimacro : added #draw_endpoint(  type endpoint_config ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-06 15:59:01,189 - ResourceManager : found repository\resources\api_templates\velocity_template.xml with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2018-04-06 15:59:01,207 - Null reference [template 'repository\resources\api_templates\velocity_template.xml', line 298, column 17] : $ctx cannot be resolved.
+2018-04-06 15:59:01,231 - VM #timeout: error : too few arguments to macro. Wanted 1 got 0
+2018-04-06 15:59:01,231 - VM #timeout: error : too few arguments to macro. Wanted 1 got 0
+2018-04-06 15:59:01,333 - Left side ($config.get("actionSelect")) of '==' operation has null value. If a reference, it may not be in the context. Operation not possible. repository\resources\api_templates\velocity_template.xml [line 1, column 44]
+2018-04-06 15:59:01,373 - VM #timeout: error : too few arguments to macro. Wanted 1 got 0
+2018-04-06 15:59:01,373 - VM #timeout: error : too few arguments to macro. Wanted 1 got 0
+2018-04-06 15:59:01,586 - Left side ($config.get("actionSelect")) of '==' operation has null value. If a reference, it may not be in the context. Operation not possible. repository\resources\api_templates\velocity_template.xml [line 1, column 44]
+2018-04-06 16:02:12,311 - Log4JLogChute initialized using file 'velocity.log'
+2018-04-06 16:02:12,311 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
+2018-04-06 16:02:12,311 - Default Properties File: org\apache\velocity\runtime\defaults\velocity.properties
+2018-04-06 16:02:12,311 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
+2018-04-06 16:02:12,312 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogChute or necessary supporting classes in classpath.
+java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
+	at java.lang.Class.forName0(Native Method)
+	at java.lang.Class.forName(Class.java:348)
+	at org.apache.velocity.util.ClassUtils.getClass(ClassUtils.java:63)
+	at org.apache.velocity.util.ClassUtils.getNewInstance(ClassUtils.java:95)
+	at org.apache.velocity.runtime.log.LogManager.createLogChute(LogManager.java:147)
+	at org.apache.velocity.runtime.log.LogManager.updateLog(LogManager.java:208)
+	at org.apache.velocity.runtime.RuntimeInstance.initializeLog(RuntimeInstance.java:728)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:240)
+	at org.apache.velocity.app.VelocityEngine.init(VelocityEngine.java:116)
+	at barley.apimgt.impl.template.APITemplateBuilderImpl.getConfigStringForTemplate(APITemplateBuilderImpl.java:102)
+	at barley.apimgt.impl.utils.APIGatewayAdminRestClient.updateApi(APIGatewayAdminRestClient.java:237)
+	at barley.apimgt.impl.APIGatewayManager.publishToGateway(APIGatewayManager.java:132)
+	at barley.apimgt.impl.APIProviderImpl.publishToGateway(APIProviderImpl.java:1531)
+	at barley.apimgt.impl.APIProviderImpl.changeAPIStatus(APIProviderImpl.java:1253)
+	at barley.apimgt.impl.UserAwareAPIProvider.changeAPIStatus(UserAwareAPIProvider.java:91)
+	at barley.apimgt.impl.APIProviderImplTest.testAddApiAndPublish(APIProviderImplTest.java:359)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at junit.framework.TestCase.runTest(TestCase.java:176)
+	at junit.framework.TestCase.runBare(TestCase.java:141)
+	at junit.framework.TestResult$1.protect(TestResult.java:122)
+	at junit.framework.TestResult.runProtected(TestResult.java:142)
+	at junit.framework.TestResult.run(TestResult.java:125)
+	at junit.framework.TestCase.run(TestCase.java:129)
+	at junit.framework.TestSuite.runTest(TestSuite.java:252)
+	at junit.framework.TestSuite.run(TestSuite.java:247)
+	at org.junit.internal.runners.JUnit38ClassRunner.run(JUnit38ClassRunner.java:86)
+	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:86)
+	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:459)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:678)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:382)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:192)
+Caused by: java.lang.ClassNotFoundException: org.apache.log.format.Formatter
+	at java.net.URLClassLoader.findClass(URLClassLoader.java:381)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:424)
+	at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:331)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:357)
+	... 35 more
+2018-04-06 16:02:12,313 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
+2018-04-06 16:02:12,313 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
+2018-04-06 16:02:12,317 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2018-04-06 16:02:12,318 - ResourceLoader instantiated: org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2018-04-06 16:02:12,326 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+2018-04-06 16:02:12,328 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2018-04-06 16:02:12,329 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2018-04-06 16:02:12,332 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2018-04-06 16:02:12,334 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2018-04-06 16:02:12,335 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2018-04-06 16:02:12,366 - Created '20' parsers.
+2018-04-06 16:02:12,381 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
+2018-04-06 16:02:12,383 - Velocimacro : Default library not found.
+2018-04-06 16:02:12,383 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2018-04-06 16:02:12,383 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2018-04-06 16:02:12,383 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
+2018-04-06 16:02:12,383 - Velocimacro : autoload off : VM system will not automatically reload global library macros
+2018-04-06 16:02:12,400 - Velocimacro : added #print_if_exist(  field default ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-06 16:02:12,402 - Velocimacro : added #print_string_if_exist(  field default ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-06 16:02:12,403 - Velocimacro : added #print_if_exist_only(  tagname field ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-06 16:02:12,411 - Velocimacro : added #print_list(  tagname list ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-06 16:02:12,431 - Velocimacro : added #timeout(  config ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-06 16:02:12,436 - Velocimacro : added #http_endpoint(  name ep ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-06 16:02:12,450 - Velocimacro : added #address_endpoint(  name ep ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-06 16:02:12,494 - Velocimacro : added #draw_endpoint(  type endpoint_config ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-06 16:02:12,786 - ResourceManager : found repository\resources\api_templates\velocity_template.xml with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2018-04-06 16:02:12,805 - Null reference [template 'repository\resources\api_templates\velocity_template.xml', line 298, column 17] : $ctx cannot be resolved.
+2018-04-06 16:02:12,831 - VM #timeout: error : too few arguments to macro. Wanted 1 got 0
+2018-04-06 16:02:12,831 - VM #timeout: error : too few arguments to macro. Wanted 1 got 0
+2018-04-06 16:02:12,946 - Left side ($config.get("actionSelect")) of '==' operation has null value. If a reference, it may not be in the context. Operation not possible. repository\resources\api_templates\velocity_template.xml [line 1, column 44]
+2018-04-06 16:02:12,970 - VM #timeout: error : too few arguments to macro. Wanted 1 got 0
+2018-04-06 16:02:12,970 - VM #timeout: error : too few arguments to macro. Wanted 1 got 0
+2018-04-06 16:02:13,060 - Left side ($config.get("actionSelect")) of '==' operation has null value. If a reference, it may not be in the context. Operation not possible. repository\resources\api_templates\velocity_template.xml [line 1, column 44]
+2018-04-06 17:58:50,416 - Log4JLogChute initialized using file 'velocity.log'
+2018-04-06 17:58:50,416 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
+2018-04-06 17:58:50,416 - Default Properties File: org\apache\velocity\runtime\defaults\velocity.properties
+2018-04-06 17:58:50,416 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
+2018-04-06 17:58:50,417 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogChute or necessary supporting classes in classpath.
+java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
+	at java.lang.Class.forName0(Native Method)
+	at java.lang.Class.forName(Class.java:348)
+	at org.apache.velocity.util.ClassUtils.getClass(ClassUtils.java:63)
+	at org.apache.velocity.util.ClassUtils.getNewInstance(ClassUtils.java:95)
+	at org.apache.velocity.runtime.log.LogManager.createLogChute(LogManager.java:147)
+	at org.apache.velocity.runtime.log.LogManager.updateLog(LogManager.java:208)
+	at org.apache.velocity.runtime.RuntimeInstance.initializeLog(RuntimeInstance.java:728)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:240)
+	at org.apache.velocity.app.VelocityEngine.init(VelocityEngine.java:116)
+	at barley.apimgt.impl.template.APITemplateBuilderImpl.getConfigStringForTemplate(APITemplateBuilderImpl.java:102)
+	at barley.apimgt.impl.utils.APIGatewayAdminRestClient.updateApi(APIGatewayAdminRestClient.java:237)
+	at barley.apimgt.impl.APIGatewayManager.publishToGateway(APIGatewayManager.java:132)
+	at barley.apimgt.impl.APIProviderImpl.publishToGateway(APIProviderImpl.java:1531)
+	at barley.apimgt.impl.APIProviderImpl.changeAPIStatus(APIProviderImpl.java:1253)
+	at barley.apimgt.impl.UserAwareAPIProvider.changeAPIStatus(UserAwareAPIProvider.java:91)
+	at barley.apimgt.impl.APIProviderImplTest.testAddApiAndPublish(APIProviderImplTest.java:359)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at junit.framework.TestCase.runTest(TestCase.java:176)
+	at junit.framework.TestCase.runBare(TestCase.java:141)
+	at junit.framework.TestResult$1.protect(TestResult.java:122)
+	at junit.framework.TestResult.runProtected(TestResult.java:142)
+	at junit.framework.TestResult.run(TestResult.java:125)
+	at junit.framework.TestCase.run(TestCase.java:129)
+	at junit.framework.TestSuite.runTest(TestSuite.java:252)
+	at junit.framework.TestSuite.run(TestSuite.java:247)
+	at org.junit.internal.runners.JUnit38ClassRunner.run(JUnit38ClassRunner.java:86)
+	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:86)
+	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:459)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:678)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:382)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:192)
+Caused by: java.lang.ClassNotFoundException: org.apache.log.format.Formatter
+	at java.net.URLClassLoader.findClass(URLClassLoader.java:381)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:424)
+	at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:331)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:357)
+	... 35 more
+2018-04-06 17:58:50,418 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
+2018-04-06 17:58:50,418 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
+2018-04-06 17:58:50,422 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2018-04-06 17:58:50,424 - ResourceLoader instantiated: org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2018-04-06 17:58:50,432 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+2018-04-06 17:58:50,434 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2018-04-06 17:58:50,436 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2018-04-06 17:58:50,439 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2018-04-06 17:58:50,440 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2018-04-06 17:58:50,441 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2018-04-06 17:58:50,468 - Created '20' parsers.
+2018-04-06 17:58:50,477 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
+2018-04-06 17:58:50,478 - Velocimacro : Default library not found.
+2018-04-06 17:58:50,479 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2018-04-06 17:58:50,479 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2018-04-06 17:58:50,479 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
+2018-04-06 17:58:50,479 - Velocimacro : autoload off : VM system will not automatically reload global library macros
+2018-04-06 17:58:50,495 - Velocimacro : added #print_if_exist(  field default ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-06 17:58:50,497 - Velocimacro : added #print_string_if_exist(  field default ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-06 17:58:50,499 - Velocimacro : added #print_if_exist_only(  tagname field ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-06 17:58:50,506 - Velocimacro : added #print_list(  tagname list ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-06 17:58:50,530 - Velocimacro : added #timeout(  config ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-06 17:58:50,535 - Velocimacro : added #http_endpoint(  name ep ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-06 17:58:50,548 - Velocimacro : added #address_endpoint(  name ep ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-06 17:58:50,592 - Velocimacro : added #draw_endpoint(  type endpoint_config ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-06 17:58:51,200 - ResourceManager : found repository\resources\api_templates\velocity_template.xml with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2018-04-06 17:58:51,229 - Null reference [template 'repository\resources\api_templates\velocity_template.xml', line 298, column 17] : $ctx cannot be resolved.
+2018-04-06 17:58:51,262 - VM #timeout: error : too few arguments to macro. Wanted 1 got 0
+2018-04-06 17:58:51,262 - VM #timeout: error : too few arguments to macro. Wanted 1 got 0
+2018-04-06 17:58:51,396 - Left side ($config.get("actionSelect")) of '==' operation has null value. If a reference, it may not be in the context. Operation not possible. repository\resources\api_templates\velocity_template.xml [line 1, column 44]
+2018-04-06 17:58:51,422 - VM #timeout: error : too few arguments to macro. Wanted 1 got 0
+2018-04-06 17:58:51,422 - VM #timeout: error : too few arguments to macro. Wanted 1 got 0
+2018-04-06 17:58:51,527 - Left side ($config.get("actionSelect")) of '==' operation has null value. If a reference, it may not be in the context. Operation not possible. repository\resources\api_templates\velocity_template.xml [line 1, column 44]
+2018-04-06 18:06:38,988 - Log4JLogChute initialized using file 'velocity.log'
+2018-04-06 18:06:38,988 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
+2018-04-06 18:06:38,989 - Default Properties File: org\apache\velocity\runtime\defaults\velocity.properties
+2018-04-06 18:06:38,989 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
+2018-04-06 18:06:38,989 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogChute or necessary supporting classes in classpath.
+java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
+	at java.lang.Class.forName0(Native Method)
+	at java.lang.Class.forName(Class.java:348)
+	at org.apache.velocity.util.ClassUtils.getClass(ClassUtils.java:63)
+	at org.apache.velocity.util.ClassUtils.getNewInstance(ClassUtils.java:95)
+	at org.apache.velocity.runtime.log.LogManager.createLogChute(LogManager.java:147)
+	at org.apache.velocity.runtime.log.LogManager.updateLog(LogManager.java:208)
+	at org.apache.velocity.runtime.RuntimeInstance.initializeLog(RuntimeInstance.java:728)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:240)
+	at org.apache.velocity.app.VelocityEngine.init(VelocityEngine.java:116)
+	at barley.apimgt.impl.template.APITemplateBuilderImpl.getConfigStringForTemplate(APITemplateBuilderImpl.java:102)
+	at barley.apimgt.impl.utils.APIGatewayAdminRestClient.addApi(APIGatewayAdminRestClient.java:79)
+	at barley.apimgt.impl.APIGatewayManager.publishToGateway(APIGatewayManager.java:173)
+	at barley.apimgt.impl.APIProviderImpl.publishToGateway(APIProviderImpl.java:1531)
+	at barley.apimgt.impl.APIProviderImpl.changeAPIStatus(APIProviderImpl.java:1253)
+	at barley.apimgt.impl.UserAwareAPIProvider.changeAPIStatus(UserAwareAPIProvider.java:91)
+	at barley.apimgt.impl.APIProviderImplTest.testAddApiAndPublish(APIProviderImplTest.java:359)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at junit.framework.TestCase.runTest(TestCase.java:176)
+	at junit.framework.TestCase.runBare(TestCase.java:141)
+	at junit.framework.TestResult$1.protect(TestResult.java:122)
+	at junit.framework.TestResult.runProtected(TestResult.java:142)
+	at junit.framework.TestResult.run(TestResult.java:125)
+	at junit.framework.TestCase.run(TestCase.java:129)
+	at junit.framework.TestSuite.runTest(TestSuite.java:252)
+	at junit.framework.TestSuite.run(TestSuite.java:247)
+	at org.junit.internal.runners.JUnit38ClassRunner.run(JUnit38ClassRunner.java:86)
+	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:86)
+	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:459)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:678)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:382)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:192)
+Caused by: java.lang.ClassNotFoundException: org.apache.log.format.Formatter
+	at java.net.URLClassLoader.findClass(URLClassLoader.java:381)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:424)
+	at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:331)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:357)
+	... 35 more
+2018-04-06 18:06:38,991 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
+2018-04-06 18:06:38,991 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
+2018-04-06 18:06:38,994 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2018-04-06 18:06:38,996 - ResourceLoader instantiated: org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2018-04-06 18:06:39,004 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+2018-04-06 18:06:39,006 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2018-04-06 18:06:39,008 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2018-04-06 18:06:39,012 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2018-04-06 18:06:39,014 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2018-04-06 18:06:39,016 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2018-04-06 18:06:39,048 - Created '20' parsers.
+2018-04-06 18:06:39,060 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
+2018-04-06 18:06:39,062 - Velocimacro : Default library not found.
+2018-04-06 18:06:39,062 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2018-04-06 18:06:39,062 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2018-04-06 18:06:39,062 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
+2018-04-06 18:06:39,062 - Velocimacro : autoload off : VM system will not automatically reload global library macros
+2018-04-06 18:06:39,084 - Velocimacro : added #print_if_exist(  field default ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-06 18:06:39,086 - Velocimacro : added #print_string_if_exist(  field default ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-06 18:06:39,087 - Velocimacro : added #print_if_exist_only(  tagname field ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-06 18:06:39,095 - Velocimacro : added #print_list(  tagname list ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-06 18:06:39,115 - Velocimacro : added #timeout(  config ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-06 18:06:39,121 - Velocimacro : added #http_endpoint(  name ep ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-06 18:06:39,134 - Velocimacro : added #address_endpoint(  name ep ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-06 18:06:39,175 - Velocimacro : added #draw_endpoint(  type endpoint_config ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-06 18:06:39,465 - ResourceManager : found repository\resources\api_templates\velocity_template.xml with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2018-04-06 18:06:39,487 - Null reference [template 'repository\resources\api_templates\velocity_template.xml', line 298, column 17] : $ctx cannot be resolved.
+2018-04-06 18:06:39,511 - VM #timeout: error : too few arguments to macro. Wanted 1 got 0
+2018-04-06 18:06:39,511 - VM #timeout: error : too few arguments to macro. Wanted 1 got 0
+2018-04-06 18:06:39,621 - Left side ($config.get("actionSelect")) of '==' operation has null value. If a reference, it may not be in the context. Operation not possible. repository\resources\api_templates\velocity_template.xml [line 1, column 44]
+2018-04-06 18:06:39,645 - VM #timeout: error : too few arguments to macro. Wanted 1 got 0
+2018-04-06 18:06:39,645 - VM #timeout: error : too few arguments to macro. Wanted 1 got 0
+2018-04-06 18:06:39,741 - Left side ($config.get("actionSelect")) of '==' operation has null value. If a reference, it may not be in the context. Operation not possible. repository\resources\api_templates\velocity_template.xml [line 1, column 44]
+2018-04-06 18:15:32,057 - Log4JLogChute initialized using file 'velocity.log'
+2018-04-06 18:15:32,057 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
+2018-04-06 18:15:32,057 - Default Properties File: org\apache\velocity\runtime\defaults\velocity.properties
+2018-04-06 18:15:32,057 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
+2018-04-06 18:15:32,058 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogChute or necessary supporting classes in classpath.
+java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
+	at java.lang.Class.forName0(Native Method)
+	at java.lang.Class.forName(Class.java:348)
+	at org.apache.velocity.util.ClassUtils.getClass(ClassUtils.java:63)
+	at org.apache.velocity.util.ClassUtils.getNewInstance(ClassUtils.java:95)
+	at org.apache.velocity.runtime.log.LogManager.createLogChute(LogManager.java:147)
+	at org.apache.velocity.runtime.log.LogManager.updateLog(LogManager.java:208)
+	at org.apache.velocity.runtime.RuntimeInstance.initializeLog(RuntimeInstance.java:728)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:240)
+	at org.apache.velocity.app.VelocityEngine.init(VelocityEngine.java:116)
+	at barley.apimgt.impl.template.APITemplateBuilderImpl.getConfigStringForTemplate(APITemplateBuilderImpl.java:102)
+	at barley.apimgt.impl.utils.APIGatewayAdminRestClient.addApi(APIGatewayAdminRestClient.java:79)
+	at barley.apimgt.impl.APIGatewayManager.publishToGateway(APIGatewayManager.java:173)
+	at barley.apimgt.impl.APIProviderImpl.publishToGateway(APIProviderImpl.java:1531)
+	at barley.apimgt.impl.APIProviderImpl.changeAPIStatus(APIProviderImpl.java:1253)
+	at barley.apimgt.impl.UserAwareAPIProvider.changeAPIStatus(UserAwareAPIProvider.java:91)
+	at barley.apimgt.impl.APIProviderImplTest.testAddApiAndPublish(APIProviderImplTest.java:359)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at junit.framework.TestCase.runTest(TestCase.java:176)
+	at junit.framework.TestCase.runBare(TestCase.java:141)
+	at junit.framework.TestResult$1.protect(TestResult.java:122)
+	at junit.framework.TestResult.runProtected(TestResult.java:142)
+	at junit.framework.TestResult.run(TestResult.java:125)
+	at junit.framework.TestCase.run(TestCase.java:129)
+	at junit.framework.TestSuite.runTest(TestSuite.java:252)
+	at junit.framework.TestSuite.run(TestSuite.java:247)
+	at org.junit.internal.runners.JUnit38ClassRunner.run(JUnit38ClassRunner.java:86)
+	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:86)
+	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:459)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:678)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:382)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:192)
+Caused by: java.lang.ClassNotFoundException: org.apache.log.format.Formatter
+	at java.net.URLClassLoader.findClass(URLClassLoader.java:381)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:424)
+	at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:331)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:357)
+	... 35 more
+2018-04-06 18:15:32,060 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
+2018-04-06 18:15:32,060 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
+2018-04-06 18:15:32,065 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2018-04-06 18:15:32,066 - ResourceLoader instantiated: org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2018-04-06 18:15:32,076 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+2018-04-06 18:15:32,079 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2018-04-06 18:15:32,082 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2018-04-06 18:15:32,085 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2018-04-06 18:15:32,087 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2018-04-06 18:15:32,089 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2018-04-06 18:15:32,121 - Created '20' parsers.
+2018-04-06 18:15:32,138 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
+2018-04-06 18:15:32,140 - Velocimacro : Default library not found.
+2018-04-06 18:15:32,140 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2018-04-06 18:15:32,140 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2018-04-06 18:15:32,140 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
+2018-04-06 18:15:32,141 - Velocimacro : autoload off : VM system will not automatically reload global library macros
+2018-04-06 18:15:32,160 - Velocimacro : added #print_if_exist(  field default ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-06 18:15:32,162 - Velocimacro : added #print_string_if_exist(  field default ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-06 18:15:32,164 - Velocimacro : added #print_if_exist_only(  tagname field ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-06 18:15:32,171 - Velocimacro : added #print_list(  tagname list ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-06 18:15:32,191 - Velocimacro : added #timeout(  config ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-06 18:15:32,198 - Velocimacro : added #http_endpoint(  name ep ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-06 18:15:32,209 - Velocimacro : added #address_endpoint(  name ep ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-06 18:15:32,249 - Velocimacro : added #draw_endpoint(  type endpoint_config ) : source = repository\resources\api_templates\velocity_template.xml
+2018-04-06 18:15:32,543 - ResourceManager : found repository\resources\api_templates\velocity_template.xml with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2018-04-06 18:15:32,560 - Null reference [template 'repository\resources\api_templates\velocity_template.xml', line 298, column 17] : $ctx cannot be resolved.
+2018-04-06 18:15:32,586 - VM #timeout: error : too few arguments to macro. Wanted 1 got 0
+2018-04-06 18:15:32,586 - VM #timeout: error : too few arguments to macro. Wanted 1 got 0
+2018-04-06 18:15:32,702 - Left side ($config.get("actionSelect")) of '==' operation has null value. If a reference, it may not be in the context. Operation not possible. repository\resources\api_templates\velocity_template.xml [line 1, column 44]
+2018-04-06 18:15:32,725 - VM #timeout: error : too few arguments to macro. Wanted 1 got 0
+2018-04-06 18:15:32,725 - VM #timeout: error : too few arguments to macro. Wanted 1 got 0
+2018-04-06 18:15:32,820 - Left side ($config.get("actionSelect")) of '==' operation has null value. If a reference, it may not be in the context. Operation not possible. repository\resources\api_templates\velocity_template.xml [line 1, column 44]
+2018-04-06 18:16:11,059 - Log4JLogChute initialized using file 'velocity.log'
+2018-04-06 18:16:11,059 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
+2018-04-06 18:16:11,059 - Default Properties File: org\apache\velocity\runtime\defaults\velocity.properties
+2018-04-06 18:16:11,059 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
+2018-04-06 18:16:11,059 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogChute or necessary supporting classes in classpath.
+java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
+	at java.lang.Class.forName0(Native Method)
+	at java.lang.Class.forName(Class.java:348)
+	at org.apache.velocity.util.ClassUtils.getClass(ClassUtils.java:63)
+	at org.apache.velocity.util.ClassUtils.getNewInstance(ClassUtils.java:95)
+	at org.apache.velocity.runtime.log.LogManager.createLogChute(LogManager.java:147)
+	at org.apache.velocity.runtime.log.LogManager.updateLog(LogManager.java:208)
+	at org.apache.velocity.runtime.RuntimeInstance.initializeLog(RuntimeInstance.java:728)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:240)
+	at org.apache.velocity.app.VelocityEngine.init(VelocityEngine.java:116)
+	at barley.apimgt.impl.template.APITemplateBuilderImpl.getConfigStringForDefaultAPITemplate(APITemplateBuilderImpl.java:183)
+	at barley.apimgt.impl.utils.APIGatewayAdminRestClient.addDefaultAPI(APIGatewayAdminRestClient.java:183)
+	at barley.apimgt.impl.APIGatewayManager.publishToGateway(APIGatewayManager.java:180)
+	at barley.apimgt.impl.APIProviderImpl.publishToGateway(APIProviderImpl.java:1531)
+	at barley.apimgt.impl.APIProviderImpl.changeAPIStatus(APIProviderImpl.java:1253)
+	at barley.apimgt.impl.UserAwareAPIProvider.changeAPIStatus(UserAwareAPIProvider.java:91)
+	at barley.apimgt.impl.APIProviderImplTest.testAddApiAndPublish(APIProviderImplTest.java:359)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at junit.framework.TestCase.runTest(TestCase.java:176)
+	at junit.framework.TestCase.runBare(TestCase.java:141)
+	at junit.framework.TestResult$1.protect(TestResult.java:122)
+	at junit.framework.TestResult.runProtected(TestResult.java:142)
+	at junit.framework.TestResult.run(TestResult.java:125)
+	at junit.framework.TestCase.run(TestCase.java:129)
+	at junit.framework.TestSuite.runTest(TestSuite.java:252)
+	at junit.framework.TestSuite.run(TestSuite.java:247)
+	at org.junit.internal.runners.JUnit38ClassRunner.run(JUnit38ClassRunner.java:86)
+	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:86)
+	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:459)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:678)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:382)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:192)
+Caused by: java.lang.ClassNotFoundException: org.apache.log.format.Formatter
+	at java.net.URLClassLoader.findClass(URLClassLoader.java:381)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:424)
+	at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:331)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:357)
+	... 35 more

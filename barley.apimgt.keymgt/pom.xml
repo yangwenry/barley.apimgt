@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>barley.apimgt</groupId>
+		<artifactId>barley.apimgt</artifactId>
+		<version>0.0.1</version>
+	</parent>
+	 
+	<artifactId>barley.apimgt.keymgt</artifactId>
+	<name>CodeFarm Barley - API Management Key-Management</name>
+	 
+	<dependencies>
+	
+		<!-- 아래 캐시로 변경함 -->
+		<!-- <dependency>
+		    <groupId>javax.cache</groupId>
+		    <artifactId>cache-api</artifactId>
+		</dependency>	 -->		
+		<dependency>
+            <groupId>javax.cache.barley</groupId>
+            <artifactId>javax.cache.barley</artifactId>
+        </dependency> 
+        
+		<dependency>
+            <groupId>barley.apimgt</groupId>
+            <artifactId>barley.apimgt.impl</artifactId>             
+        </dependency>        
+        <dependency>
+            <groupId>barley.registry</groupId>
+            <artifactId>barley.registry.core</artifactId>          
+        </dependency>
+        <dependency>
+            <groupId>barley.mediation</groupId>
+            <artifactId>barley.mediation.registry</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>barley.identity</groupId>
+            <artifactId>barley.identity.oauth</artifactId>             
+        </dependency>
+        <dependency>
+            <groupId>barley.identity</groupId>
+            <artifactId>barley.identity.application.authentication.framework</artifactId>
+        </dependency>
+        
+        <dependency>
+        	<groupId>org.wso2.carbon.identity</groupId>
+        	<artifactId>org.wso2.carbon.identity.authenticator.thrift</artifactId>
+        </dependency>
+        
+        <!-- <dependency>
+            <groupId>org.wso2.carbon.identity</groupId>
+            <artifactId>org.wso2.carbon.identity.oauth</artifactId>
+            <version>5.1.1</version>
+            <exclusions>
+            	<exclusion>
+            		<groupId>org.wso2.carbon</groupId>
+            		<artifactId>javax.cache.wso2</artifactId>
+            	</exclusion>
+            </exclusions>
+        </dependency> -->
+        
+	</dependencies>
+	
+</project>
