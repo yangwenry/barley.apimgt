@@ -385,13 +385,13 @@ public class APIManagerComponent {
     public void addTierPolicies() throws APIManagementException {
 
         String apiTierFilePath =
-                BarleyUtils.getCarbonConfigDirPath() + File.separator + "repository" + File.separator + "resources"
+                BarleyUtils.getCarbonHome() + File.separator + "repository" + File.separator + "resources"
                 + File.separator + "default-tiers" + File.separator + APIConstants.DEFAULT_API_TIER_FILE_NAME;
         String appTierFilePath =
-                BarleyUtils.getCarbonConfigDirPath() + File.separator + "repository" + File.separator + "resources"
+                BarleyUtils.getCarbonHome() + File.separator + "repository" + File.separator + "resources"
                 + File.separator + "default-tiers" + File.separator + APIConstants.DEFAULT_APP_TIER_FILE_NAME;
         String resTierFilePath =
-                BarleyUtils.getCarbonConfigDirPath() + File.separator + "repository" + File.separator + "resources"
+                BarleyUtils.getCarbonHome() + File.separator + "repository" + File.separator + "resources"
                 + File.separator + "default-tiers" + File.separator + APIConstants.DEFAULT_RES_TIER_FILE_NAME;
 
         addTierPolicy(APIConstants.API_TIER_LOCATION, apiTierFilePath);
