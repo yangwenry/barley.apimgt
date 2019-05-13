@@ -2405,7 +2405,7 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
             }
             //write API Status to a separate property. This is done to support querying APIs using custom query (SQL)
             //to gain performance
-            String apiStatus = api.getStatus().getStatus();
+            String apiStatus = api.getStatus().getStatus();            
             saveAPIStatus(artifactPath, apiStatus);
             String visibleRolesList = api.getVisibleRoles();
             String[] visibleRoles = new String[0];
@@ -2811,7 +2811,9 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
 
 		Pattern pattern;
 		Matcher matcher;
-		String searchCriteria = APIConstants.API_OVERVIEW_NAME;
+		// 기본값 수정 
+		//String searchCriteria = APIConstants.API_OVERVIEW_NAME;
+		String searchCriteria = APIConstants.API_OVERVIEW_TITLE;
 		boolean isTenantFlowStarted = false;
 		String userName = this.username;
 		try {
@@ -2823,7 +2825,10 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
 			PrivilegedBarleyContext.getThreadLocalCarbonContext().setUsername(userName);
 			GenericArtifactManager artifactManager = APIUtil.getArtifactManager(registry, APIConstants.API_KEY);
 			if (artifactManager != null) {
-				if ("Name".equalsIgnoreCase(searchType)) {
+				if ("Title".equalsIgnoreCase(searchType)) {
+					// 한글명 검색을 위해 필드추가  
+					searchCriteria = APIConstants.API_OVERVIEW_TITLE;
+				} else if ("Name".equalsIgnoreCase(searchType)) {
 					searchCriteria = APIConstants.API_OVERVIEW_NAME;
 				} else if ("Version".equalsIgnoreCase(searchType)) {
 					searchCriteria = APIConstants.API_OVERVIEW_VERSION;
@@ -2856,6 +2861,7 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
 					}
 
 				} else {
+					// api 전체를 가져온다. 
 					GenericArtifact[] genericArtifacts = artifactManager.getAllGenericArtifacts();
 					if (genericArtifacts == null || genericArtifacts.length == 0) {
 						return apiList;

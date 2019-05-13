@@ -441,9 +441,10 @@ class APIConsumerImpl extends AbstractAPIManager implements APIConsumer {
      * @throws APIManagementException
      */
     @Override
-    @Deprecated
-    public Map<String,Object> getAllPaginatedPublishedAPIs(String tenantDomain,int start,int end)
+    public Map<String,Object> getAllPaginatedPublishedAPIs(String tenantDomain, int start, int count)
             throws APIManagementException {
+    	// (주석)
+    	/*
     	Boolean displayAPIsWithMultipleStatus = APIUtil.isAllowDisplayAPIsWithMultipleStatus();
     	Map<String, List<String>> listMap = new HashMap<String, List<String>>();
         //Check the api-manager.xml config file entry <DisplayAllAPIs> value is false
@@ -453,8 +454,9 @@ class APIConsumerImpl extends AbstractAPIManager implements APIConsumer {
                 add(APIConstants.PUBLISHED);
             }});
         } else{
-            return getAllPaginatedAPIs(tenantDomain, start, end);
+            return getAllPaginatedAPIs(tenantDomain, start, count);
         }
+        */
 
         Map<String, Object> result = new HashMap<String, Object>();
         SortedSet<API> apiSortedSet = new TreeSet<API>(new APINameComparator());
@@ -486,12 +488,17 @@ class APIConsumerImpl extends AbstractAPIManager implements APIConsumer {
             Comparator<API> versionComparator = new APIVersionComparator();
             Boolean displayMultipleVersions = APIUtil.isAllowDisplayMultipleVersions();
 
-            PaginationContext.init(start, end, "ASC", APIConstants.API_OVERVIEW_NAME, Integer.MAX_VALUE);
+            PaginationContext.init(start, count, "ASC", APIConstants.API_OVERVIEW_NAME, Integer.MAX_VALUE);
 
             GenericArtifactManager artifactManager = APIUtil.getArtifactManager(userRegistry, APIConstants.API_KEY);
             if (artifactManager != null) {
-                GenericArtifact[] genericArtifacts = artifactManager.findGenericArtifacts(listMap);
-                totalLength = PaginationContext.getInstance().getLength();
+            	// (수정) - 라이프사이클의 상태값으로 가져오도록 변경
+//                GenericArtifact[] genericArtifacts = artifactManager.findGenericArtifacts(listMap);
+            	String status = APIStatus.PUBLISHED.getStatus();
+            	GenericArtifact[] genericArtifacts = artifactManager.getAllGenericArtifactsByLifecycleStatus(APIConstants.API_LIFE_CYCLE, status);
+//                totalLength = PaginationContext.getInstance().getLength();
+            	totalLength = Integer.MAX_VALUE;
+                
                 if (genericArtifacts == null || genericArtifacts.length == 0) {
                     result.put("apis", apiSortedSet);
                     result.put("totalLength", totalLength);
@@ -554,7 +561,7 @@ class APIConsumerImpl extends AbstractAPIManager implements APIConsumer {
      */
     @Override
     public Map<String, Object> getAllPaginatedAPIsByStatus(String tenantDomain,
-            int start, int end, final String[] apiStatus, boolean returnAPITags) throws APIManagementException {
+            int start, int count, final String[] apiStatus, boolean returnAPITags) throws APIManagementException {
 
         Map<String,Object> result=new HashMap<String, Object>();
         SortedSet<API> apiSortedSet = new TreeSet<API>(new APINameComparator());
@@ -612,18 +619,23 @@ class APIConsumerImpl extends AbstractAPIManager implements APIConsumer {
             else {
                 maxPaginationLimit = Integer.MAX_VALUE;
             }
-
-            PaginationContext.init(start, end, "ASC", APIConstants.API_OVERVIEW_NAME, maxPaginationLimit);
+            
+            PaginationContext paginationContext = 
+            		PaginationContext.init(start, count, "ASC", APIConstants.API_OVERVIEW_NAME, maxPaginationLimit);
             
             
             criteria = criteria + APIUtil.getORBasedSearchCriteria(apiStatus);
             GenericArtifactManager artifactManager = APIUtil.getArtifactManager(userRegistry, APIConstants.API_KEY);
             if (artifactManager != null) {
                 if (apiStatus != null && apiStatus.length > 0) {
-                    List<GovernanceArtifact> genericArtifacts = GovernanceUtils.findGovernanceArtifacts(criteria, userRegistry,
-                            APIConstants.API_RXT_MEDIA_TYPE);
-                    totalLength = PaginationContext.getInstance().getLength();
-                    if (genericArtifacts == null || genericArtifacts.size() == 0) {
+//                    List<GovernanceArtifact> genericArtifacts = GovernanceUtils.findGovernanceArtifacts(criteria, userRegistry,
+//                            APIConstants.API_RXT_MEDIA_TYPE);
+//                	GenericArtifact[] genericArtifacts = artifactManager.getAllGenericArtifacts();
+                	GenericArtifact[] genericArtifacts = artifactManager.getAllGenericArtifactsByLifecycleStatus("APILifeCycle", "Published");
+                	
+//                	totalLength = PaginationContext.getInstance().getLength();
+                	totalLength = maxPaginationLimit;
+                	if (genericArtifacts == null || genericArtifacts.length == 0) {
                         result.put("apis", apiSortedSet);
                         result.put("totalLength", totalLength);
                         result.put("isMore", isMore);
@@ -702,7 +714,7 @@ class APIConsumerImpl extends AbstractAPIManager implements APIConsumer {
         } catch (UserStoreException e) {
             handleException("Failed to get all published APIs", e);
         } finally {
-            PaginationContext.destroy();
+            //PaginationContext.destroy();
         }
         result.put("apis", apiSortedSet);
         result.put("totalLength", totalLength);

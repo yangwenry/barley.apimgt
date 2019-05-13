@@ -218,6 +218,8 @@ public final class APIConstants {
     public static final String API_OVERVIEW_VISIBLE_ROLES ="overview_visibleRoles";
     public static final String API_OVERVIEW_VISIBLE_TENANTS ="overview_visibleTenants";
     public static final String API_OVERVIEW_ENVIRONMENTS = "overview_environments";
+    // (추가)
+    public static final String API_OVERVIEW_TITLE = "overview_title";
     public static final String API_PROVIDER = "Provider";
     public static final String API_NAME = "Name";
     public static final String API_VERSION_LABEL = "Version";

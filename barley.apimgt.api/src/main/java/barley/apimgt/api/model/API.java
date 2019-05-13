@@ -33,6 +33,9 @@ public class API implements Serializable{
     // uuid of registry artifact
     // this id is provider's username independent
     private String uuid;
+    
+    // (추가) 2019.05.13 - API 한글명 때문에 필드 추가. 
+    private String title;
 
     private String description;
     private String url;
@@ -651,6 +654,16 @@ public class API implements Serializable{
     public void setApiLevelPolicy(String apiLevelPolicy) {
         this.apiLevelPolicy = apiLevelPolicy;
     }
+    
+    // (추가)
+    public String getTitle() {
+		return title;
+	}
+
+    // (추가)
+	public void setTitle(String title) {
+		this.title = title;
+	}
     
     
 }

@@ -277,12 +277,13 @@ public class APIProviderImplTest extends BaseTestCase {
     
     // REG_content 테이블의 regt_content_data에 값이 들어가 있음. 
     public void testAddApi() throws APIManagementException {
-    	APIIdentifier apiId = new APIIdentifier("admin@codefarm.co.kr", "ncsdept", "1.0.0");
+    	APIIdentifier apiId = new APIIdentifier("yangwenry@codefarm.co.kr", "ncsdept", "v1");
         API api = new API(apiId);
-        api.setContext("/wso2earth");
-        api.setContextTemplate("/wso2earth/{version}");
+        api.setTitle("한글 테스트를 위한 api");
+        api.setContext("/earth");
+        api.setContextTemplate("/earth/{version}");
         api.setStatus(APIStatus.CREATED);
-        api.setApiOwner("wso2.system.user@carbon.super");
+        api.setApiOwner("yangwenry@codefarm.co.kr");
         api.setVisibleRoles("admin");
         api.setVisibility("public");        
         api.setImplementation(APIConstants.IMPLEMENTATION_TYPE_ENDPOINT);
@@ -870,7 +871,7 @@ public class APIProviderImplTest extends BaseTestCase {
     }
     
     public void testGetApi() throws APIManagementException {
-    	APIIdentifier apiId = new APIIdentifier("admin@codefarm.co.kr", "myapi", "v1");
+    	APIIdentifier apiId = new APIIdentifier("yangwenry@codefarm.co.kr", "ncsdept", "v1");
     	API api = provider.getAPI(apiId);
     	assertNotNull(api);
     }
