@@ -507,7 +507,9 @@ class APIConsumerImpl extends AbstractAPIManager implements APIConsumer {
 
                 for (GenericArtifact artifact : genericArtifacts) {
                     // adding the API provider can mark the latest API .
-                    API api = APIUtil.getAPI(artifact);
+                	// (수정) 날짜를 가져오기 위해 변경
+                    //API api = APIUtil.getAPI(artifact);
+                	API api = APIUtil.getAPI(artifact, userRegistry);
                     if (api != null) {
                         String key;
                         //Check the configuration to allow showing multiple versions of an API true/false
@@ -939,7 +941,7 @@ class APIConsumerImpl extends AbstractAPIManager implements APIConsumer {
      * @throws APIManagementException
      */
     @Deprecated
-    public Map<String,Object> getAllPaginatedAPIs(String tenantDomain,int start,int end) throws APIManagementException {
+    public Map<String,Object> getAllPaginatedAPIs(String tenantDomain, int start, int count) throws APIManagementException {
         Map<String,Object> result=new HashMap<String, Object>();
         SortedSet<API> apiSortedSet = new TreeSet<API>(new APINameComparator());
         SortedSet<API> apiVersionsSortedSet = new TreeSet<API>(new APIVersionComparator());
@@ -967,20 +969,28 @@ class APIConsumerImpl extends AbstractAPIManager implements APIConsumer {
 
             GenericArtifactManager artifactManager = APIUtil.getArtifactManager(userRegistry, APIConstants.API_KEY);
 
-            PaginationContext.init(start, end, "ASC", APIConstants.API_OVERVIEW_NAME, Integer.MAX_VALUE);
+            PaginationContext.init(start, count, "ASC", APIConstants.API_OVERVIEW_NAME, Integer.MAX_VALUE);
 
 
             boolean noPublishedAPIs = false;
             if (artifactManager != null) {
 
+            	/* (주석)
             	//Create the search attribute map for PUBLISHED APIs
             	Map<String, List<String>> listMap = new HashMap<String, List<String>>();
                 listMap.put(APIConstants.API_OVERVIEW_STATUS, new ArrayList<String>() {{
                         add(APIConstants.PUBLISHED);
                     }});
+                    */
 
-                GenericArtifact[] genericArtifacts = artifactManager.findGenericArtifacts(listMap);
-                totalLength = PaginationContext.getInstance().getLength();
+                // (수정) 검색엔진이 아닌 쿼리로 변경 
+//                GenericArtifact[] genericArtifacts = artifactManager.findGenericArtifacts(listMap);
+                String status = APIStatus.PUBLISHED.getStatus();
+            	GenericArtifact[] genericArtifacts = artifactManager.getAllGenericArtifactsByLifecycleStatus(APIConstants.API_LIFE_CYCLE, status);
+            	
+//                totalLength = PaginationContext.getInstance().getLength();
+            	totalLength = Integer.MAX_VALUE;
+                
                 if (genericArtifacts == null || genericArtifacts.length == 0) {
                 	noPublishedAPIs = true;
                 }
@@ -1019,16 +1029,16 @@ class APIConsumerImpl extends AbstractAPIManager implements APIConsumer {
                 } else {
                 	publishedAPICount = multiVersionedAPIs.size();
                 }
-                if ((start + end) > publishedAPICount) {
+                if ((start + count) > publishedAPICount) {
                 	if (publishedAPICount > 0) {
                 		/*Starting to retrieve DEPRECATED APIs*/
                 		start = 0;
                 		/* publishedAPICount is always less than end*/
-                		end = end - publishedAPICount;
+                		count = count - publishedAPICount;
                 	} else {
                 		start = start - totalLength;
                 	}
-                	PaginationContext.init(start, end, "ASC", APIConstants.API_OVERVIEW_NAME, Integer.MAX_VALUE);
+                	PaginationContext.init(start, count, "ASC", APIConstants.API_OVERVIEW_NAME, Integer.MAX_VALUE);
 	                //Create the search attribute map for DEPRECATED APIs
 	                Map<String, List<String>> listMapForDeprecatedAPIs = new HashMap<String, List<String>>();
 	                listMapForDeprecatedAPIs.put(APIConstants.API_OVERVIEW_STATUS, new ArrayList<String>() {{

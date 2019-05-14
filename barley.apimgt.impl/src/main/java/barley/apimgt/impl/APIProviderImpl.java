@@ -781,7 +781,7 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
     	String apiSourcePath = APIUtil.getAPIPath(api.getId());
     	boolean isValid = false;
 
-    	try{
+    	try {
     		Resource apiSourceArtifact = registry.get(apiSourcePath);
             GenericArtifactManager artifactManager = APIUtil.getArtifactManager(registry, APIConstants.API_KEY);
             GenericArtifact artifact = artifactManager.getGenericArtifact(apiSourceArtifact.getUUID());
@@ -801,7 +801,7 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
             	}
             }
 
-    	}catch(RegistryException ex){
+    	} catch(RegistryException ex) {
     		 handleException("Error while validate user for API publishing", ex);
     	}
     	return isValid;
@@ -821,7 +821,7 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
     public void updateAPI(API api) throws APIManagementException, FaultGatewaysException {
 
     	boolean isValid = isAPIUpdateValid(api);
-    	if(!isValid){
+    	if(!isValid) {
     		throw new APIManagementException(" User doesn't have permission for update");
     	}
 
@@ -832,25 +832,25 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
                 String previousDefaultVersion = getDefaultVersion(api.getId());
                 String publishedDefaultVersion = getPublishedDefaultVersion(api.getId());
 
-                if(previousDefaultVersion!=null){
+                if (previousDefaultVersion!=null) {
 
-                APIIdentifier defaultAPIId = new APIIdentifier(api.getId().getProviderName(), api.getId().getApiName(),
-                        previousDefaultVersion);
-                if (api.isDefaultVersion() ^ api.getId().getVersion().equals(previousDefaultVersion)) { // A change has
-                                                                                                        // happen
-                    // Remove the previous default API entry from the Registry
-                    updateDefaultAPIInRegistry(defaultAPIId, false);
-                    if (!api.isDefaultVersion()) {// default api tick is removed
-                        // todo: if it is ok, these two variables can be put to the top of the function to remove
-                        // duplication
-                        APIManagerConfiguration config = ServiceReferenceHolder.getInstance()
-                                .getAPIManagerConfigurationService().getAPIManagerConfiguration();
-                        String gatewayType = config.getFirstProperty(APIConstants.API_GATEWAY_TYPE);
-                        if (APIConstants.API_GATEWAY_TYPE_SYNAPSE.equalsIgnoreCase(gatewayType)) {
-                            removeDefaultAPIFromGateway(api);
-                        }
-                    }
-                }
+	                APIIdentifier defaultAPIId = new APIIdentifier(api.getId().getProviderName(), api.getId().getApiName(),
+	                        previousDefaultVersion);
+	                if (api.isDefaultVersion() ^ api.getId().getVersion().equals(previousDefaultVersion)) { // A change has
+	                                                                                                        // happen
+	                    // Remove the previous default API entry from the Registry
+	                    updateDefaultAPIInRegistry(defaultAPIId, false);
+	                    if (!api.isDefaultVersion()) {// default api tick is removed
+	                        // todo: if it is ok, these two variables can be put to the top of the function to remove
+	                        // duplication
+	                        APIManagerConfiguration config = ServiceReferenceHolder.getInstance()
+	                                .getAPIManagerConfigurationService().getAPIManagerConfiguration();
+	                        String gatewayType = config.getFirstProperty(APIConstants.API_GATEWAY_TYPE);
+	                        if (APIConstants.API_GATEWAY_TYPE_SYNAPSE.equalsIgnoreCase(gatewayType)) {
+	                            removeDefaultAPIFromGateway(api);
+	                        }
+	                    }
+	                }
                 }
 
                 //Update WSDL in the registry
@@ -4054,8 +4054,12 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
             Map<String, List<String>> listMap = new HashMap<String, List<String>>();
 
             if (artifactManager != null) {
-                GenericArtifact[] genericArtifacts = artifactManager.findGenericArtifacts(listMap);
-                totalLength = PaginationContext.getInstance().getLength();
+            	// (수정) 전체 가져오는것으로 변경
+                //GenericArtifact[] genericArtifacts = artifactManager.findGenericArtifacts(listMap);
+                //totalLength = PaginationContext.getInstance().getLength();
+            	GenericArtifact[] genericArtifacts = artifactManager.getAllGenericArtifacts();
+            	totalLength = Integer.MAX_VALUE;
+                
                 if (genericArtifacts == null || genericArtifacts.length == 0) {
                     result.put("apis", apiSortedList);
                     result.put("totalLength", totalLength);
@@ -4068,8 +4072,9 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
                 }
                 int tempLength = 0;
                 for (GenericArtifact artifact : genericArtifacts) {
-
-                    API api = APIUtil.getAPI(artifact);
+                	// 날짜를 가져오기 위해 수정 	
+                	//API api = APIUtil.getAPI(artifact);
+                    API api = APIUtil.getAPI(artifact, userRegistry);
 
                     if (api != null) {
                         apiSortedList.add(api);
@@ -4079,7 +4084,8 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
                         break;
                     }
                 }
-                Collections.sort(apiSortedList, new APINameComparator());
+                // 이미 정렬해서 오기 때문에 주석처리 
+                //Collections.sort(apiSortedList, new APINameComparator());
             }
 
         } catch (RegistryException e) {

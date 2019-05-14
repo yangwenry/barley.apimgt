@@ -308,7 +308,9 @@ public abstract class AbstractAPIManager implements APIManager {
             for (GenericArtifact artifact : artifacts) {
                 API api = null;
                 try {
-                    api = APIUtil.getAPI(artifact);
+                	// (수정) 날짜필드가 나오지 않아 변경
+                    //api = APIUtil.getAPI(artifact);
+                	api = APIUtil.getAPI(artifact, registry);
                 } catch (APIManagementException e) {
                     //log and continue since we want to load the rest of the APIs.
                     log.error("Error while loading API " + artifact.getAttribute(APIConstants.API_OVERVIEW_NAME), e);
