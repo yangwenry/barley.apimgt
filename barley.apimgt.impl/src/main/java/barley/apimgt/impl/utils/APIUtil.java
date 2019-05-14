@@ -301,7 +301,7 @@ public final class APIUtil {
             api.setResponseCache(artifact.getAttribute(APIConstants.API_OVERVIEW_RESPONSE_CACHING));
             api.setImplementation(artifact.getAttribute(APIConstants.PROTOTYPE_OVERVIEW_IMPLEMENTATION));
             api.setProductionMaxTps(artifact.getAttribute(APIConstants.API_PRODUCTION_THROTTLE_MAXTPS));
-            // (추가)
+            // (추가) 2019.05.13 - API에 title 속성 추가 
             api.setTitle(artifact.getAttribute(APIConstants.API_OVERVIEW_TITLE));
 
             int cacheTimeout = APIConstants.API_RESPONSE_CACHE_TIMEOUT;
@@ -485,9 +485,6 @@ public final class APIUtil {
 
             api.setProductionMaxTps(artifact.getAttribute(APIConstants.API_PRODUCTION_THROTTLE_MAXTPS));
             api.setSandboxMaxTps(artifact.getAttribute(APIConstants.API_SANDBOX_THROTTLE_MAXTPS));
-            
-            // (추가)
-            api.setTitle(artifact.getAttribute(APIConstants.API_OVERVIEW_TITLE));
 
             int cacheTimeout = APIConstants.API_RESPONSE_CACHE_TIMEOUT;
             try {
@@ -611,6 +608,9 @@ public final class APIUtil {
             String environments = artifact.getAttribute(APIConstants.API_OVERVIEW_ENVIRONMENTS);
             api.setEnvironments(extractEnvironmentsForAPI(environments));
             api.setCorsConfiguration(getCorsConfigurationFromArtifact(artifact));
+            
+            // (추가) 2019.05.13 - API에 title 속성 추가
+            api.setTitle(artifact.getAttribute(APIConstants.API_OVERVIEW_TITLE));
 
         } catch (GovernanceException e) {
             String msg = "Failed to get API for artifact ";
@@ -736,6 +736,10 @@ public final class APIUtil {
             String environments = artifact.getAttribute(APIConstants.API_OVERVIEW_ENVIRONMENTS);
             api.setEnvironments(extractEnvironmentsForAPI(environments));
             api.setCorsConfiguration(getCorsConfigurationFromArtifact(artifact));
+            
+            // (추가) 2019.05.13 - API에 title 속성 추가 
+            api.setTitle(artifact.getAttribute(APIConstants.API_OVERVIEW_TITLE));
+            
         } catch (GovernanceException e) {
             String msg = "Failed to get API from artifact ";
             throw new APIManagementException(msg, e);
@@ -848,9 +852,6 @@ public final class APIUtil {
             artifact.setAttribute(APIConstants.API_OVERVIEW_CONTEXT_TEMPLATE, api.getContextTemplate());
             artifact.setAttribute(APIConstants.API_OVERVIEW_VERSION_TYPE, "context");
             
-            // (추가) 2019.05.13 - API에 title 속성 추가 
-            artifact.setAttribute(APIConstants.API_OVERVIEW_TITLE, api.getTitle());
-
             APIManagerConfiguration config = ServiceReferenceHolder.getInstance().getAPIManagerConfigurationService()
                     .getAPIManagerConfiguration();
 
@@ -904,6 +905,9 @@ public final class APIUtil {
 
             artifact.setAttribute(APIConstants.API_OVERVIEW_CORS_CONFIGURATION,
                                   APIUtil.getCorsConfigurationJsonFromDto(api.getCorsConfiguration()));
+            
+            // (추가) 2019.05.13 - API에 title 속성 추가 
+            artifact.setAttribute(APIConstants.API_OVERVIEW_TITLE, api.getTitle());
 
         } catch (GovernanceException e) {
             String msg = "Failed to create API for : " + api.getId().getApiName();
@@ -2432,6 +2436,9 @@ public final class APIUtil {
             String environments = artifact.getAttribute(APIConstants.API_OVERVIEW_ENVIRONMENTS);
             api.setEnvironments(extractEnvironmentsForAPI(environments));
             api.setCorsConfiguration(getCorsConfigurationFromArtifact(artifact));
+            
+            // (추가) 2019.05.13 - API에 title 속성 추가 
+            api.setTitle(artifact.getAttribute(APIConstants.API_OVERVIEW_TITLE));
 
         } catch (GovernanceException e) {
             String msg = "Failed to get API fro artifact ";
