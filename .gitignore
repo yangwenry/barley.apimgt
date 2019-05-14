@@ -22,4 +22,4 @@ local.properties
 .recommenders/
 .checkstyle
 **/solr
-**/logs/
+logs/
