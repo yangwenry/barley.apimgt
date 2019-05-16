@@ -7991,10 +7991,8 @@ public class ApiMgtDAO {
 
         String query = SQLConstants.GET_API_NAME_NOT_MATCHING_CONTEXT_SQL;
         if (!MultitenantConstants.SUPER_TENANT_DOMAIN_NAME.equals(tenantDomain)) {
-        	// (수정) 테넌트별 구분을 하지 않기 때문에 쿼리 변경. 추후 확인이 필요. 
-            //query = SQLConstants.GET_API_NAME_MATCHING_CONTEXT_SQL;
-        	query = SQLConstants.GET_API_NAME_NOT_MATCHING_CONTEXT_SQL;
-            contextParam += tenantDomain + '/';
+        	query = SQLConstants.GET_API_NAME_MATCHING_CONTEXT_SQL;
+        	contextParam += tenantDomain + '/';
         }
 
         try {
