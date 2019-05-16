@@ -24,6 +24,14 @@ import java.util.Date;
  * This class represent the model for API comments
  */
 public class Comment {
+	
+	public int getCommentId() {
+		return commentId;
+	}
+
+	public void setCommentId(int commentId) {
+		this.commentId = commentId;
+	}
 
     public String getUser() {
         return user;
@@ -49,6 +57,7 @@ public class Comment {
         this.createdTime = createdTime;
     }
 
+    private int commentId;
     private String user;
     private String text;
     private Date createdTime;

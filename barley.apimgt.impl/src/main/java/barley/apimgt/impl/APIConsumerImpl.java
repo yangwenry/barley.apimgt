@@ -2438,9 +2438,19 @@ class APIConsumerImpl extends AbstractAPIManager implements APIConsumer {
     }
 
     @Override
-    public void addComment(APIIdentifier identifier, String commentText, String user) throws APIManagementException {
-        apiMgtDAO.addComment(identifier, commentText, user);
+    public void addComment(APIIdentifier identifier, String commentText, String userId) throws APIManagementException {
+        apiMgtDAO.addComment(identifier, commentText, userId);
     }
+    
+    @Override
+	public void updateComment(int commentId, String comment) throws APIManagementException {
+    	apiMgtDAO.updateComment(commentId, comment);
+	}
+
+	@Override
+	public void deleteComment(int commentId) throws APIManagementException {
+		apiMgtDAO.deleteComment(commentId);
+	}
 
     @Override
     public barley.apimgt.api.model.Comment[] getComments(APIIdentifier identifier)
@@ -3407,5 +3417,7 @@ class APIConsumerImpl extends AbstractAPIManager implements APIConsumer {
         }
         return false;
     }
+
+	
 
 }

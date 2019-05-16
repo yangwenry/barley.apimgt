@@ -1743,9 +1743,23 @@ public class SQLConstants {
     public static final String ADD_COMMENT_SQL =
             " INSERT INTO AM_API_COMMENTS (COMMENT_TEXT,COMMENTED_USER,DATE_COMMENTED,API_ID)" +
             " VALUES (?,?,?,?)";
+    
+    // (추가) 2019.05.16 
+    public static final String UPDATE_COMMENT_SQL =
+    		"UPDATE " +
+            "   AM_API_COMMENTS " +
+            " SET " +
+            "   COMMENT_TEXT = ? " +            
+            " WHERE " +
+            "   COMMENT_ID = ? ";
+    
+    // (추가) 2019.05.16 
+    public static final String DELETE_COMMENT_SQL =
+            " DELETE FROM AM_API_COMMENTS WHERE COMMENT_ID = ? ";
 
     public static final String GET_COMMENTS_SQL =
             " SELECT " +
+            "   AM_API_COMMENTS.COMMENT_ID AS COMMENT_ID," +
             "   AM_API_COMMENTS.COMMENT_TEXT AS COMMENT_TEXT," +
             "   AM_API_COMMENTS.COMMENTED_USER AS COMMENTED_USER," +
             "   AM_API_COMMENTS.DATE_COMMENTED AS DATE_COMMENTED " +

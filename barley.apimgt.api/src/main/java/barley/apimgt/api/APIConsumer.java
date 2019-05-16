@@ -309,7 +309,22 @@ public interface APIConsumer extends APIManager {
      * @param user Username of the comment author                        
      * @throws APIManagementException if failed to add comment for API
      */
-    void addComment(APIIdentifier identifier, String comment, String user) throws APIManagementException;
+    void addComment(APIIdentifier identifier, String comment, String userId) throws APIManagementException;
+    
+    /**
+     * 댓글 수정 
+     * @param commentId
+     * @param comment
+     * @throws APIManagementException
+     */
+    void updateComment(int commentId, String comment) throws APIManagementException;
+    
+    /**
+     * 댓글 삭제 
+     * @param commentId
+     * @throws APIManagementException
+     */
+    void deleteComment(int commentId) throws APIManagementException;
 
     /**
      * @param identifier Api identifier
