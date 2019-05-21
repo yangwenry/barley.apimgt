@@ -2070,19 +2070,30 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
 
         try {
             String apiArtifactId = registry.get(docPath).getUUID();
-            GenericArtifactManager artifactManager = APIUtil.getArtifactManager(registry,APIConstants.DOCUMENTATION_KEY);
+            GenericArtifactManager artifactManager = APIUtil.getArtifactManager(registry, APIConstants.DOCUMENTATION_KEY);
             GenericArtifact artifact = artifactManager.getGenericArtifact(apiArtifactId);
             String docFilePath =  artifact.getAttribute(APIConstants.DOC_FILE_PATH);
 
-            if(docFilePath!=null)   {
+            // 파일 삭제 
+            if(docFilePath != null)   {
                 File tempFile = new File(docFilePath);
                 String fileName = tempFile.getName();
-                docFilePath = APIUtil.getDocumentationFilePath(apiId,fileName);
+                docFilePath = APIUtil.getDocumentationFilePath(apiId, fileName);
                 if(registry.resourceExists(docFilePath))    {
                     registry.delete(docFilePath);
                 }
             }
+            
+            // (추가) contents 삭제
+            String contentPath = APIUtil.getAPIDocPath(apiId) + APIConstants.INLINE_DOCUMENT_CONTENT_DIR +
+        			RegistryConstants.PATH_SEPARATOR + docName;
+            if(contentPath != null)   {
+                if(registry.resourceExists(contentPath))    {
+                    registry.delete(contentPath);
+                }
+            }
 
+            // 연관 제거 
             Association[] associations = registry.getAssociations(docPath, APIConstants.DOCUMENTATION_KEY);
             for (Association association : associations) {
                 registry.delete(association.getDestinationPath());
@@ -2098,6 +2109,7 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
      * @param docId UUID of the doc
      * @throws APIManagementException if failed to remove documentation
      */
+    @Deprecated
     public void removeDocumentation(APIIdentifier apiId, String docId)
             throws APIManagementException {
         String docPath ;
@@ -2119,7 +2131,9 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
                     registry.delete(docFilePath);
                 }
             }
-
+            
+            // TODO contents 삭제 필요 	
+            
             Association[] associations = registry.getAssociations(docPath,
                                                                   APIConstants.DOCUMENTATION_KEY);
 
@@ -2325,46 +2339,12 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
     }
     
     public void removeFileFromDocumentation(APIIdentifier apiId, Documentation documentation, String filename) throws APIManagementException {
-
-    	if (Documentation.DocumentSourceType.FILE.equals(documentation.getSourceType())) {
+        if (Documentation.DocumentSourceType.FILE.equals(documentation.getSourceType())) {
 	        try {
-	        	API api = getAPI(apiId);
-	        	String docFilePath = APIUtil.getDocumentationFilePath(apiId, filename);
-	            String apiArtifactId = registry.get(docFilePath).getUUID();
-	            GenericArtifactManager artifactManager = APIUtil.getArtifactManager(registry, APIConstants.DOCUMENTATION_KEY);
-	            GenericArtifact artifact = artifactManager.getGenericArtifact(apiArtifactId);
-	            String docVisibility = documentation.getVisibility().name();
-	            String[] authorizedRoles = new String[0];
-	            String visibleRolesList = api.getVisibleRoles();
-	            if (visibleRolesList != null) {
-	                authorizedRoles = visibleRolesList.split(",");
-	            }
-	            String visibility = api.getVisibility();
-	            if (docVisibility != null) {
-	                if (APIConstants.DOC_SHARED_VISIBILITY.equalsIgnoreCase(docVisibility)) {
-	                    authorizedRoles = null;
-	                    visibility = APIConstants.DOC_SHARED_VISIBILITY;
-	                } else if (APIConstants.DOC_OWNER_VISIBILITY.equalsIgnoreCase(docVisibility)) {
-	                    authorizedRoles = null;
-	                    visibility = APIConstants.DOC_OWNER_VISIBILITY;
-	                }
-	            }
-	
-	            clearResourcePermissions(docFilePath, apiId);
-	            APIUtil.setResourcePermissions(api.getId().getProviderName(), visibility, authorizedRoles,
-	                                           artifact.getPath());
-	
-	            if (docFilePath != null && !"".equals(docFilePath)) {
-	                // The docFilePatch comes as
-	                // /t/tenanatdoman/registry/resource/_system/governance/apimgt/applicationdata..
-	                // We need to remove the
-	                // /t/tenanatdoman/registry/resource/_system/governance section
-	                // to set permissions.
-	                int startIndex = docFilePath.indexOf("governance") + "governance".length();
-	                String filePath = docFilePath.substring(startIndex, docFilePath.length());
-	                APIUtil.setResourcePermissions(api.getId().getProviderName(), visibility, authorizedRoles, filePath);
-	            }
-	
+	        	String docFilePath = APIUtil.getDocumentationFilePath(apiId, filename);	        	
+	        	if(registry.resourceExists(docFilePath))    {
+                    registry.delete(docFilePath);
+                }
 	        } catch (RegistryException e) {
 	            handleException("Failed to remove documentation file", e);
 	        }
