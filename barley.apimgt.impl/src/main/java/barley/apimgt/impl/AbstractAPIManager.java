@@ -675,11 +675,19 @@ public abstract class AbstractAPIManager implements APIManager {
                    + resourcePath;
             }
             else{
+            	// (수정) 2019.05.21 - 굳이 도메인 구분이 필요하지 않아서 변경 
+            	/*
                 return "/t/"+tenantDomain+ RegistryConstants.PATH_SEPARATOR + "registry"
                         + RegistryConstants.PATH_SEPARATOR + "resource"
                         + RegistryConstants.PATH_SEPARATOR + "_system"
                         + RegistryConstants.PATH_SEPARATOR + "governance"
                         + resourcePath;
+                        */
+            	return RegistryConstants.PATH_SEPARATOR + "registry"
+		                + RegistryConstants.PATH_SEPARATOR + "resource"
+		                + RegistryConstants.PATH_SEPARATOR + "_system"
+		                + RegistryConstants.PATH_SEPARATOR + "governance"
+		                + resourcePath;
             }
         } catch (RegistryException e) {
             handleException("Error while adding the resource to the registry", e);

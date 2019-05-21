@@ -1740,43 +1740,6 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
     }
 
     /**
-     * Add a file to a document of source type FILE
-     *
-     * @param apiId API identifier the document belongs to
-     * @param documentation document
-     * @param filename name of the file
-     * @param content content of the file as an Input Stream
-     * @param contentType content type of the file
-     * @throws APIManagementException if failed to add the file
-     */
-    public void addFileToDocumentation(APIIdentifier apiId, Documentation documentation, String filename,
-            InputStream content, String contentType) throws APIManagementException {
-        if (Documentation.DocumentSourceType.FILE.equals(documentation.getSourceType())) {
-            ResourceFile icon = new ResourceFile(content, contentType);
-            String filePath = APIUtil.getDocumentationFilePath(apiId, filename);
-            API api;
-            try {
-                api = getAPI(apiId);
-                String visibleRolesList = api.getVisibleRoles();
-                String[] visibleRoles = new String[0];
-                if (visibleRolesList != null) {
-                    visibleRoles = visibleRolesList.split(",");
-                }
-                APIUtil.setResourcePermissions(api.getId().getProviderName(), api.getVisibility(), visibleRoles,
-                        filePath);
-                documentation.setFilePath(addResourceFile(filePath, icon));
-                APIUtil.setFilePermission(filePath);
-            } catch (APIManagementException e) {
-                handleException("Failed to add file to document " + documentation.getName(), e);
-            }
-        } else {
-            String errorMsg = "Cannot add file to the Document. Document " + documentation.getName()
-                    + "'s Source type is not FILE.";
-            handleException(errorMsg);
-        }
-    }
-
-    /**
      * Create a new version of the <code>api</code>, with version <code>newVersion</code>
      *
      * @param api        The API to be copied
@@ -1985,8 +1948,10 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
                 }
                 createDocumentation(newAPI, doc);
                 String content = getDocumentationContent(api.getId(), doc.getName());
-                if (content != null) {
-                    addDocumentationContent(newAPI, doc.getName(), content);
+                if (content != null) {           
+                	// (수정) 인터페이스 변경에 따른 수정 
+                    //addDocumentationContent(newAPI, doc.getName(), content);
+                	addDocumentationContent(newId, doc.getName(), content);
                 }
             }
 
@@ -2189,11 +2154,10 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
      * @throws barley.apimgt.api.APIManagementException
      *          if failed to add the document as a resource to registry
      */
-    public void addDocumentationContent(API api, String documentationName, String text) throws APIManagementException {
+    public void addDocumentationContent(APIIdentifier apiId, String documentationName, String text) throws APIManagementException {
 
-    	APIIdentifier identifier = api.getId();
-    	String documentationPath = APIUtil.getAPIDocPath(identifier) + documentationName;
-    	String contentPath = APIUtil.getAPIDocPath(identifier) + APIConstants.INLINE_DOCUMENT_CONTENT_DIR +
+    	String documentationPath = APIUtil.getAPIDocPath(apiId) + documentationName;
+    	String contentPath = APIUtil.getAPIDocPath(apiId) + APIConstants.INLINE_DOCUMENT_CONTENT_DIR +
     			RegistryConstants.PATH_SEPARATOR + documentationName;
         boolean isTenantFlowStarted = false;
         try {
@@ -2203,7 +2167,7 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
 
                 PrivilegedBarleyContext.getThreadLocalCarbonContext().setTenantDomain(tenantDomain, true);
             }
-
+            
             Resource docResource = registry.get(documentationPath);
             GenericArtifactManager artifactManager = new GenericArtifactManager(registry,
                                                          APIConstants.DOCUMENTATION_KEY);
@@ -2226,7 +2190,8 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
             docContent.setMediaType(APIConstants.DOCUMENTATION_INLINE_CONTENT_TYPE);
             registry.put(contentPath, docContent);
             registry.addAssociation(documentationPath, contentPath, APIConstants.DOCUMENTATION_CONTENT_ASSOCIATION);
-            String apiPath = APIUtil.getAPIPath(identifier);
+            String apiPath = APIUtil.getAPIPath(apiId);
+            API api = getAPI(apiPath);
             String[] authorizedRoles = getAuthorizedRoles(apiPath);
             String docVisibility=doc.getVisibility().name();
             String visibility=api.getVisibility();
@@ -2243,11 +2208,11 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
             APIUtil.setResourcePermissions(api.getId().getProviderName(),visibility, authorizedRoles,contentPath);
         } catch (RegistryException e) {
             String msg = "Failed to add the documentation content of : "
-                         + documentationName + " of API :" + identifier.getApiName();
+                         + documentationName + " of API :" + apiId.getApiName();
             handleException(msg, e);
         } catch (UserStoreException e) {
             String msg = "Failed to add the documentation content of : "
-                         + documentationName + " of API :" + identifier.getApiName();
+                         + documentationName + " of API :" + apiId.getApiName();
             handleException(msg, e);
         } finally {
             if (isTenantFlowStarted) {
@@ -2279,7 +2244,7 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
 
         try {
             String apiArtifactId = registry.get(docPath).getUUID();
-            GenericArtifactManager artifactManager = APIUtil.getArtifactManager(registry,APIConstants.DOCUMENTATION_KEY);
+            GenericArtifactManager artifactManager = APIUtil.getArtifactManager(registry, APIConstants.DOCUMENTATION_KEY);
             GenericArtifact artifact = artifactManager.getGenericArtifact(apiArtifactId);
             String docVisibility = documentation.getVisibility().name();
             String[] authorizedRoles = new String[0];
@@ -2321,6 +2286,90 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
             handleException("Failed to update documentation", e);
         }
     }
+    
+    /**
+     * Add a file to a document of source type FILE
+     *
+     * @param apiId API identifier the document belongs to
+     * @param documentation document
+     * @param filename name of the file
+     * @param content content of the file as an Input Stream
+     * @param contentType content type of the file
+     * @throws APIManagementException if failed to add the file
+     */
+    public void addFileToDocumentation(APIIdentifier apiId, Documentation documentation, String filename,
+            InputStream content, String contentType) throws APIManagementException {
+        if (Documentation.DocumentSourceType.FILE.equals(documentation.getSourceType())) {
+            ResourceFile resource = new ResourceFile(content, contentType);
+            String filePath = APIUtil.getDocumentationFilePath(apiId, filename);
+            API api;
+            try {
+                api = getAPI(apiId);
+                String visibleRolesList = api.getVisibleRoles();
+                String[] visibleRoles = new String[0];
+                if (visibleRolesList != null) {
+                    visibleRoles = visibleRolesList.split(",");
+                }
+                APIUtil.setResourcePermissions(api.getId().getProviderName(), api.getVisibility(), visibleRoles,
+                        filePath);
+                documentation.setFilePath(addResourceFile(filePath, resource));
+                APIUtil.setFilePermission(filePath);
+            } catch (APIManagementException e) {
+                handleException("Failed to add file to document " + documentation.getName(), e);
+            }
+        } else {
+            String errorMsg = "Cannot add file to the Document. Document " + documentation.getName()
+                    + "'s Source type is not FILE.";
+            handleException(errorMsg);
+        }
+    }
+    
+    public void removeFileFromDocumentation(APIIdentifier apiId, Documentation documentation, String filename) throws APIManagementException {
+
+    	if (Documentation.DocumentSourceType.FILE.equals(documentation.getSourceType())) {
+	        try {
+	        	API api = getAPI(apiId);
+	        	String docFilePath = APIUtil.getDocumentationFilePath(apiId, filename);
+	            String apiArtifactId = registry.get(docFilePath).getUUID();
+	            GenericArtifactManager artifactManager = APIUtil.getArtifactManager(registry, APIConstants.DOCUMENTATION_KEY);
+	            GenericArtifact artifact = artifactManager.getGenericArtifact(apiArtifactId);
+	            String docVisibility = documentation.getVisibility().name();
+	            String[] authorizedRoles = new String[0];
+	            String visibleRolesList = api.getVisibleRoles();
+	            if (visibleRolesList != null) {
+	                authorizedRoles = visibleRolesList.split(",");
+	            }
+	            String visibility = api.getVisibility();
+	            if (docVisibility != null) {
+	                if (APIConstants.DOC_SHARED_VISIBILITY.equalsIgnoreCase(docVisibility)) {
+	                    authorizedRoles = null;
+	                    visibility = APIConstants.DOC_SHARED_VISIBILITY;
+	                } else if (APIConstants.DOC_OWNER_VISIBILITY.equalsIgnoreCase(docVisibility)) {
+	                    authorizedRoles = null;
+	                    visibility = APIConstants.DOC_OWNER_VISIBILITY;
+	                }
+	            }
+	
+	            clearResourcePermissions(docFilePath, apiId);
+	            APIUtil.setResourcePermissions(api.getId().getProviderName(), visibility, authorizedRoles,
+	                                           artifact.getPath());
+	
+	            if (docFilePath != null && !"".equals(docFilePath)) {
+	                // The docFilePatch comes as
+	                // /t/tenanatdoman/registry/resource/_system/governance/apimgt/applicationdata..
+	                // We need to remove the
+	                // /t/tenanatdoman/registry/resource/_system/governance section
+	                // to set permissions.
+	                int startIndex = docFilePath.indexOf("governance") + "governance".length();
+	                String filePath = docFilePath.substring(startIndex, docFilePath.length());
+	                APIUtil.setResourcePermissions(api.getId().getProviderName(), visibility, authorizedRoles, filePath);
+	            }
+	
+	        } catch (RegistryException e) {
+	            handleException("Failed to remove documentation file", e);
+	        }
+    	}
+    }
 
     /**
      * Copies current Documentation into another version of the same API.
@@ -2353,6 +2402,7 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
             handleException("Failed to copy docs to new version : " + newVersion, e);
         }
     }
+        
 
     /**
      * Create an Api
@@ -2370,7 +2420,7 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
             registry.beginTransaction();
             // api명으로 artifact를 만든다. 
             GenericArtifact genericArtifact =
-                    artifactManager.newGovernanceArtifact(new QName(api.getId().getApiName()));            
+                    artifactManager.newGovernanceArtifact(new QName(api.getId().getApiName()));
             GenericArtifact artifact = APIUtil.createAPIArtifactContent(genericArtifact, api);
             // 라이프사이클 aspect(webapi) 저장(resource_property 테이블)을 수행한다.
             artifactManager.addGenericArtifact(artifact);
@@ -2468,6 +2518,7 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
             handleException("Error while adding role permissions to API", e);
         }
     }
+    
     /**
      * Create a documentation
      *
@@ -2478,13 +2529,13 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
     private void createDocumentation(API api, Documentation documentation) throws APIManagementException {
         try {
             APIIdentifier apiId = api.getId();
-            GenericArtifactManager artifactManager = new GenericArtifactManager(registry,APIConstants.DOCUMENTATION_KEY);
+            GenericArtifactManager artifactManager = new GenericArtifactManager(registry, APIConstants.DOCUMENTATION_KEY);
             GenericArtifact artifact = artifactManager.newGovernanceArtifact(new QName(documentation.getName()));
             artifactManager.addGenericArtifact(APIUtil.createDocArtifactContent(artifact, apiId, documentation));
             String apiPath = APIUtil.getAPIPath(apiId);
 
             //Adding association from api to documentation . (API -----> doc)
-            registry.addAssociation(apiPath, artifact.getPath(),APIConstants.DOCUMENTATION_ASSOCIATION);
+            registry.addAssociation(apiPath, artifact.getPath(), APIConstants.DOCUMENTATION_ASSOCIATION);
             String docVisibility = documentation.getVisibility().name();
             String[] authorizedRoles = getAuthorizedRoles(apiPath);
             String visibility = api.getVisibility();
@@ -2504,8 +2555,8 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
                 //We need to remove the /t/tenanatdoman/registry/resource/_system/governance section to set permissions.
                 int startIndex = docFilePath.indexOf("governance") + "governance".length();
                 String filePath = docFilePath.substring(startIndex, docFilePath.length());
-                APIUtil.setResourcePermissions(api.getId().getProviderName(),visibility, authorizedRoles, filePath);
-                registry.addAssociation(artifact.getPath(), filePath,APIConstants.DOCUMENTATION_FILE_ASSOCIATION);
+                APIUtil.setResourcePermissions(api.getId().getProviderName(), visibility, authorizedRoles, filePath);
+                registry.addAssociation(artifact.getPath(), filePath, APIConstants.DOCUMENTATION_FILE_ASSOCIATION);
             }
             documentation.setId(artifact.getId());
         } catch (RegistryException e) {
@@ -2514,7 +2565,6 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
             handleException("Failed to add documentation", e);
         }
     }
-
 
 
     private String[] getAuthorizedRoles(String artifactPath) throws UserStoreException {

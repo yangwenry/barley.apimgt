@@ -368,7 +368,7 @@ public interface APIProvider extends APIManager {
      * @param text,              content of the inline documentation
      * @throws APIManagementException if failed to add the document as a resource to registry
      */
-    void addDocumentationContent(API api, String documentationName, String text) throws APIManagementException;
+    void addDocumentationContent(APIIdentifier apiId, String documentationName, String text) throws APIManagementException;
    
     /**
      * Updates a given documentation
@@ -378,6 +378,15 @@ public interface APIProvider extends APIManager {
      * @throws APIManagementException if failed to update docs
      */
     void updateDocumentation(APIIdentifier apiId, Documentation documentation) throws APIManagementException;
+    
+    /**
+     * 문서의 파일을 삭제한다.  
+     * @param apiId
+     * @param documentation
+     * @param filename
+     * @throws APIManagementException
+     */
+    void removeFileFromDocumentation(APIIdentifier apiId, Documentation documentation, String filename) throws APIManagementException;
 
     /**
      * Copies current Documentation into another version of the same API.

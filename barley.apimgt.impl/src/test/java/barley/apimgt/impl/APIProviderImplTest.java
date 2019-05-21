@@ -386,7 +386,7 @@ public class APIProviderImplTest extends BaseTestCase {
     	
     	String text = "내용입니다.";
     	API api = getApi();
-    	provider.addDocumentationContent(api, docName, text);
+    	provider.addDocumentationContent(apiId, docName, text);
     	
     	// DocumentSourceType.FILE일 경우에만 저장된다. 
 //    	String fileName = "aa.txt";

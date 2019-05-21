@@ -1038,8 +1038,10 @@ public final class APIUtil {
             }
 
             if (docSourceType == Documentation.DocumentSourceType.FILE) {
-                String filePath = prependTenantPrefix(artifact.getAttribute(APIConstants.DOC_FILE_PATH), docCreatorName);
-                documentation.setFilePath(prependWebContextRoot(filePath));
+            	// (수정) 굳이 테넌트별 구분을 하지 않는다.
+                //String filePath = prependTenantPrefix(artifact.getAttribute(APIConstants.DOC_FILE_PATH), docCreatorName);
+            	String filePath = artifact.getAttribute(APIConstants.DOC_FILE_PATH);
+                documentation.setFilePath(filePath);
             }
 
             if (documentation.getType() == DocumentationType.OTHER) {
