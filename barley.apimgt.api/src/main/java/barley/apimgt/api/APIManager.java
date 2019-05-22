@@ -27,6 +27,7 @@ import barley.apimgt.api.model.APIIdentifier;
 import barley.apimgt.api.model.APIKey;
 import barley.apimgt.api.model.Application;
 import barley.apimgt.api.model.Documentation;
+import barley.apimgt.api.model.Documentation.DocumentSourceType;
 import barley.apimgt.api.model.DocumentationType;
 import barley.apimgt.api.model.ResourceFile;
 import barley.apimgt.api.model.SubscribedAPI;
@@ -203,7 +204,7 @@ public interface APIManager {
     String getDocumentationContent(APIIdentifier identifier, String documentationName) throws APIManagementException;
 
     // (추가) 
-    byte[] getDocumentationFile(APIIdentifier apiId, DocumentationType docType, String filename) throws APIManagementException;
+    byte[] getDocumentationFile(APIIdentifier apiId, DocumentSourceType docSourceType, String filename) throws APIManagementException;
     
     /**
      * Retrieves the subscriber from the given access token

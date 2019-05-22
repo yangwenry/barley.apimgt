@@ -50,6 +50,7 @@ import barley.apimgt.api.model.ResourceFile;
 import barley.apimgt.api.model.SubscribedAPI;
 import barley.apimgt.api.model.Subscriber;
 import barley.apimgt.api.model.Tier;
+import barley.apimgt.api.model.Documentation.DocumentSourceType;
 import barley.apimgt.api.model.policy.Policy;
 import barley.apimgt.api.model.policy.PolicyConstants;
 import barley.apimgt.impl.dao.ApiMgtDAO;
@@ -930,9 +931,9 @@ public abstract class AbstractAPIManager implements APIManager {
     }
     
     // (추가) 
-    public byte[] getDocumentationFile(APIIdentifier apiId, DocumentationType docType, String filename) throws APIManagementException {
+    public byte[] getDocumentationFile(APIIdentifier apiId, DocumentSourceType docSourceType, String filename) throws APIManagementException {
     	byte[] content = null;
-    	if (Documentation.DocumentSourceType.FILE.equals(docType)) {
+    	if (Documentation.DocumentSourceType.FILE.equals(docSourceType)) {
 	    	String docFilePath = APIUtil.getDocumentationFilePath(apiId, filename);
 	    	try {
 		    	if(registry.resourceExists(docFilePath)) {

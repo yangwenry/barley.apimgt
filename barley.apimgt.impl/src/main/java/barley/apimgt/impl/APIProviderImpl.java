@@ -80,6 +80,7 @@ import barley.apimgt.api.model.APIStore;
 import barley.apimgt.api.model.BlockConditionsDTO;
 import barley.apimgt.api.model.CORSConfiguration;
 import barley.apimgt.api.model.Documentation;
+import barley.apimgt.api.model.Documentation.DocumentSourceType;
 import barley.apimgt.api.model.DocumentationType;
 import barley.apimgt.api.model.DuplicateAPIException;
 import barley.apimgt.api.model.LifeCycleEvent;
@@ -2340,8 +2341,8 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
     }
     
     // (추가) 
-    public void removeFileFromDocumentation(APIIdentifier apiId, DocumentationType docType, String filename) throws APIManagementException {
-        if (Documentation.DocumentSourceType.FILE.equals(docType)) {
+    public void removeFileFromDocumentation(APIIdentifier apiId, DocumentSourceType docSourceType, String filename) throws APIManagementException {
+        if (Documentation.DocumentSourceType.FILE.equals(docSourceType)) {
 	        try {
 	        	String docFilePath = APIUtil.getDocumentationFilePath(apiId, filename);	        	
 	        	if(registry.resourceExists(docFilePath)) {
