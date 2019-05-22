@@ -928,6 +928,23 @@ public abstract class AbstractAPIManager implements APIManager {
         }
         return null;
     }
+    
+    // (추가) 
+    public byte[] getDocumentationFile(APIIdentifier apiId, DocumentationType docType, String filename) throws APIManagementException {
+    	byte[] content = null;
+    	if (Documentation.DocumentSourceType.FILE.equals(docType)) {
+	    	String docFilePath = APIUtil.getDocumentationFilePath(apiId, filename);
+	    	try {
+		    	if(registry.resourceExists(docFilePath)) {
+	                Resource docFile = registry.get(docFilePath);
+	                content = (byte[]) docFile.getContent();
+	            }
+	        } catch (RegistryException e) {
+	            handleException("Failed to get documentation file contents", e);
+	        }
+    	}
+        return content;
+    }
 
     public Subscriber getSubscriberById(String accessToken) throws APIManagementException {
         return apiMgtDAO.getSubscriberById(accessToken);

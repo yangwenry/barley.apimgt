@@ -29,6 +29,7 @@ import barley.apimgt.api.model.APIStatus;
 import barley.apimgt.api.model.APIStore;
 import barley.apimgt.api.model.BlockConditionsDTO;
 import barley.apimgt.api.model.Documentation;
+import barley.apimgt.api.model.DocumentationType;
 import barley.apimgt.api.model.DuplicateAPIException;
 import barley.apimgt.api.model.LifeCycleEvent;
 import barley.apimgt.api.model.Provider;
@@ -386,7 +387,7 @@ public interface APIProvider extends APIManager {
      * @param filename
      * @throws APIManagementException
      */
-    void removeFileFromDocumentation(APIIdentifier apiId, Documentation documentation, String filename) throws APIManagementException;
+    void removeFileFromDocumentation(APIIdentifier apiId, DocumentationType docType, String filename) throws APIManagementException;
 
     /**
      * Copies current Documentation into another version of the same API.

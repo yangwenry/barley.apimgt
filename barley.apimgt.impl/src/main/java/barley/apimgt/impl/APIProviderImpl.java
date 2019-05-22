@@ -80,6 +80,7 @@ import barley.apimgt.api.model.APIStore;
 import barley.apimgt.api.model.BlockConditionsDTO;
 import barley.apimgt.api.model.CORSConfiguration;
 import barley.apimgt.api.model.Documentation;
+import barley.apimgt.api.model.DocumentationType;
 import barley.apimgt.api.model.DuplicateAPIException;
 import barley.apimgt.api.model.LifeCycleEvent;
 import barley.apimgt.api.model.Provider;
@@ -2093,7 +2094,7 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
                 }
             }
 
-            // 연관 제거 
+            // 연관된 타켓 리소스 삭제 
             Association[] associations = registry.getAssociations(docPath, APIConstants.DOCUMENTATION_KEY);
             for (Association association : associations) {
                 registry.delete(association.getDestinationPath());
@@ -2338,11 +2339,12 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
         }
     }
     
-    public void removeFileFromDocumentation(APIIdentifier apiId, Documentation documentation, String filename) throws APIManagementException {
-        if (Documentation.DocumentSourceType.FILE.equals(documentation.getSourceType())) {
+    // (추가) 
+    public void removeFileFromDocumentation(APIIdentifier apiId, DocumentationType docType, String filename) throws APIManagementException {
+        if (Documentation.DocumentSourceType.FILE.equals(docType)) {
 	        try {
 	        	String docFilePath = APIUtil.getDocumentationFilePath(apiId, filename);	        	
-	        	if(registry.resourceExists(docFilePath))    {
+	        	if(registry.resourceExists(docFilePath)) {
                     registry.delete(docFilePath);
                 }
 	        } catch (RegistryException e) {
@@ -2350,7 +2352,7 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
 	        }
     	}
     }
-
+    
     /**
      * Copies current Documentation into another version of the same API.
      *
@@ -2427,6 +2429,7 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
                 }
             }
 
+            // TODO endpoint 생성이 되지 않음. 확인필요 
             if (api.getUrl() != null && !api.getUrl().isEmpty())    {
                 String path = APIUtil.createEndpoint(api.getUrl(), registry);
                 if (path != null) {
@@ -2636,6 +2639,8 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
             //Delete the dependencies associated  with the api artifact
 			GovernanceArtifact[] dependenciesArray = apiArtifact.getDependencies();
 
+			// dependencies 찾아서 삭제 
+			// dependencies 포함되는 항목은 endpoint 주소가 association 테이블에 저장되어 있음.   
 			if (dependenciesArray.length > 0) {
                 for (GovernanceArtifact artifact : dependenciesArray)   {
                     registry.delete(artifact.getPath());
@@ -2652,7 +2657,7 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
             }
             
             /*Remove API Definition Resource - swagger*/
-            // (수정)
+            // (수정) swagger 삭제 
             String apiDefinitionFilePath = APIConstants.API_DOC_LOCATION + RegistryConstants.PATH_SEPARATOR +
             		identifier.getApiName() + '-'  + identifier.getVersion() + '-' +
             		APIUtil.replaceEmailDomain(identifier.getProviderName());
@@ -2703,6 +2708,7 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
                 contextCache.put(context, Boolean.FALSE);
             }
 
+            // TODO 라이프사이클 데이터가 간혹 삭제가 되지 않음.  
             apiMgtDAO.deleteAPI(identifier);
 
             if (log.isDebugEnabled()) {
@@ -2740,15 +2746,15 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
             }
 
             // (수정) 
-            String apiProviderPath=APIConstants.API_ROOT_LOCATION + RegistryConstants.PATH_SEPARATOR +
+            String apiProviderPath = APIConstants.API_ROOT_LOCATION + RegistryConstants.PATH_SEPARATOR +
             					APIUtil.replaceEmailDomain(identifier.getProviderName());
 //                                   identifier.getProviderName();
 
             if(registry.resourceExists(apiProviderPath)){
-            	Resource providerCollection=registry.get(apiProviderPath);
-            	CollectionImpl collection=(CollectionImpl)providerCollection;
+            	Resource providerCollection = registry.get(apiProviderPath);
+            	CollectionImpl collection = (CollectionImpl)providerCollection;
             	//if there is no api for given provider delete the provider directory
-            	if(collection.getChildCount() == 0){
+            	if(collection.getChildCount() == 0) {
                     if(log.isDebugEnabled()){
                         log.debug("No more APIs from the provider " + APIUtil.replaceEmailDomain(identifier.getProviderName()) + 
                         		" found. Removing provider collection from registry");

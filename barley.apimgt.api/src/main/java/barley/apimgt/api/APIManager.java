@@ -202,6 +202,9 @@ public interface APIManager {
      */
     String getDocumentationContent(APIIdentifier identifier, String documentationName) throws APIManagementException;
 
+    // (추가) 
+    byte[] getDocumentationFile(APIIdentifier apiId, DocumentationType docType, String filename) throws APIManagementException;
+    
     /**
      * Retrieves the subscriber from the given access token
      *
