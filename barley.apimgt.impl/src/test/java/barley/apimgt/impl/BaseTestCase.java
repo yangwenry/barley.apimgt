@@ -17,6 +17,7 @@
 package barley.apimgt.impl;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.concurrent.TimeUnit;
 
@@ -80,7 +81,9 @@ public class BaseTestCase extends TestCase {
             dataSource.setPassword("cdfcloud");
         	
             RealmService realmService = new InMemoryRealmService(dataSource);
-            is = this.getClass().getClassLoader().getResourceAsStream(System.getProperty("registry.config"));
+            //is = this.getClass().getClassLoader().getResourceAsStream(System.getProperty("registry.config"));
+            String registryPath = System.getProperty(ServerConstants.CARBON_CONFIG_DIR_PATH) + System.getProperty("registry.config");
+            is = new FileInputStream(new File(registryPath));
             // registry.xml 정보와 DataSource가 가미된 realmService를 인자로 주어 RegistryContext를 생성한다. 
             ctx = RegistryContext.getBaseInstance(is, realmService);
         } catch (Exception e) {

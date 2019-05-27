@@ -2,7 +2,7 @@
     <DataSourceName>java:/comp/env/jdbc/WSO2AM_DB</DataSourceName>
     
     <!-- This parameter is used when adding api management capability to other products like GReg, AS, DSS etc.-->
-    <GatewayType>Synapse</GatewayType>
+    <GatewayType>Synapse__________TEST</GatewayType>
     
     <APIGateway>
         <!-- The environments to which an API will be published -->

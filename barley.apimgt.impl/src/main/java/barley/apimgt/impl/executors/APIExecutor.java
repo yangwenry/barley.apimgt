@@ -135,7 +135,7 @@ public class APIExecutor implements Execution {
             
                 //push the state change to gateway
                 Map<String, String> failedGateways = apiProvider.propergateAPIStatusChangeToGateways(api.getId(), newStatus);
-
+                
                 if (log.isDebugEnabled()) {
                     String logMessage = "Publish changed status to the Gateway. API Name: " + api.getId().getApiName()
                             + ", API Version " + api.getId().getVersion() + ", API Context: " + api.getContext()

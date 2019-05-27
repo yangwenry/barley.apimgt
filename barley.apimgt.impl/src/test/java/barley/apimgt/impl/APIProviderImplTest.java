@@ -276,8 +276,8 @@ public class APIProviderImplTest extends BaseTestCase {
     
     
     // REG_content 테이블의 regt_content_data에 값이 들어가 있음. 
-    public void testAddApi() throws APIManagementException {
-    	APIIdentifier apiId = new APIIdentifier("yangwenry@codefarm.co.kr", "ncsdept", "v1");
+    public void testAddApi() throws APIManagementException, FaultGatewaysException {
+    	APIIdentifier apiId = new APIIdentifier("yangwenry@codefarm.co.kr", "ncsdept-sample", "v1");
         API api = new API(apiId);
         api.setTitle("한글 테스트를 위한 api");
         api.setContext("/earth");
@@ -287,7 +287,13 @@ public class APIProviderImplTest extends BaseTestCase {
         api.setVisibleRoles("admin");
         api.setVisibility("public");        
         api.setImplementation(APIConstants.IMPLEMENTATION_TYPE_ENDPOINT);
-        api.setAsDefaultVersion(true);
+        api.setAsDefaultVersion(true);        
+        
+        Set<Tier> availableTiers = new HashSet();
+        availableTiers.add(new Tier(APIConstants.DEFAULT_SUB_POLICY_SILVER));
+        availableTiers.add(new Tier(APIConstants.DEFAULT_SUB_POLICY_GOLD));
+        availableTiers.add(new Tier(APIConstants.DEFAULT_SUB_POLICY_UNLIMITED));
+        api.addAvailableTiers(availableTiers);
         
         Set<Scope> scopes = new HashSet();
         Scope defaultScope = new Scope();
@@ -296,6 +302,20 @@ public class APIProviderImplTest extends BaseTestCase {
         scopes.add(defaultScope);
         api.setScopes(scopes);
         
+        Set<URITemplate> uriTemplates = new HashSet();
+    	URITemplate template = new URITemplate();
+    	template.setUriTemplate("/dept");
+    	template.setHttpVerbs("GET");
+    	template.setHTTPVerb("GET");
+    	// AUTH_NO_AUTHENTICATION, AUTH_APPLICATION_LEVEL_TOKEN
+    	template.setAuthType(APIConstants.AUTH_NO_AUTHENTICATION);
+    	//template.setAuthType(APIConstants.AUTH_NO_AUTHENTICATION);
+    	// throttling api level 세팅이 되어 있지 않다면 동작함. api.setApiLevelPolicy
+    	template.setThrottlingTier(APIConstants.DEFAULT_SUB_POLICY_GOLD);    	
+    	
+    	uriTemplates.add(template);
+    	api.setUriTemplates(uriTemplates);
+        
         CORSConfiguration corsConfiguration = new CORSConfiguration(false, null, false, null, null);
         api.setCorsConfiguration(corsConfiguration);
         
@@ -303,9 +323,25 @@ public class APIProviderImplTest extends BaseTestCase {
         environments.add("Production and Sandbox");
         api.setEnvironments(environments);
         
+        api.setUrl("http://ncsapi.dev.codefarm.co.kr/api/");
+        String endpointConfig = "{\"production_endpoints\":{\"url\":\"http://ncsapi.dev.codefarm.co.kr/api/\",\"config\":null}," + 
+        		"\"sandbox_endpoints\":{\"url\":\"http://ncsapi.dev.codefarm.co.kr/api/\",\"config\":null}," +
+        		"\"endpoint_type\":\"http\"}";
+        api.setEndpointConfig(endpointConfig);
+        
+        // 생성 
         provider.addAPI(api);
+        
+        // 게시는  changeAPIStatus()보다 changeLifeCycleStatus()를 사용해야 한다. (사용하지 말자.) 
+//        String userId = "yangwenry";
+//        provider.changeAPIStatus(api, APIStatus.PUBLISHED, userId, true);
+        
+//      String action = "Publish";
+//    	String action = "Demote to Created";
+//    	provider.changeLifeCycleStatus(apiId, action);
     	
-    	assertNotNull(api);
+    	// 삭제 
+//    	provider.deleteAPI(apiId);
     }
     
     public void testAddApiAndPublish() throws APIManagementException, FaultGatewaysException {
@@ -421,19 +457,21 @@ public class APIProviderImplTest extends BaseTestCase {
     public void testUpdateApi() throws Exception {
     	API api = getPublishedApi();
     	
-    	Set<URITemplate> uriTemplates = new HashSet();
-    	URITemplate template = new URITemplate();
-    	template.setUriTemplate("/dept");
-    	template.setHttpVerbs("GET");
-    	template.setHTTPVerb("GET");
-    	// AUTH_NO_AUTHENTICATION, AUTH_APPLICATION_LEVEL_TOKEN
-    	template.setAuthType(APIConstants.AUTH_NO_AUTHENTICATION);
-    	//template.setAuthType(APIConstants.AUTH_NO_AUTHENTICATION);
-    	// throttling api level 세팅이 되어 있지 않다면 동작함. api.setApiLevelPolicy
-    	template.setThrottlingTier(APIConstants.DEFAULT_SUB_POLICY_GOLD);    	
+//    	Set<URITemplate> uriTemplates = new HashSet();
+//    	URITemplate template = new URITemplate();
+//    	template.setUriTemplate("/dept");
+//    	template.setHttpVerbs("GET");
+//    	template.setHTTPVerb("GET");
+//    	// AUTH_NO_AUTHENTICATION, AUTH_APPLICATION_LEVEL_TOKEN
+//    	template.setAuthType(APIConstants.AUTH_NO_AUTHENTICATION);
+//    	//template.setAuthType(APIConstants.AUTH_NO_AUTHENTICATION);
+//    	// throttling api level 세팅이 되어 있지 않다면 동작함. api.setApiLevelPolicy
+//    	template.setThrottlingTier(APIConstants.DEFAULT_SUB_POLICY_GOLD);    	
+//    	
+//    	uriTemplates.add(template);
+//    	api.setUriTemplates(uriTemplates);
     	
-    	uriTemplates.add(template);
-    	api.setUriTemplates(uriTemplates);
+    	api.setTitle("구글 지도 API");
     	
     	provider.updateAPI(api);
     	
@@ -749,7 +787,7 @@ public class APIProviderImplTest extends BaseTestCase {
     	// created, published 2개가 존재.
 //    	assertEquals(2, events.size());
     	
-    	// 오류발생. 상태값 변경전에 complete 해야 됨. registry.xml에 있는 lifecycle 항목 참조.
+    	// registry.xml에 있는 lifecycle 항목 참조.
     	// Preprequest action must be completed before Published
 //    	String action = "Publish";
     	String action = "Demote to Created";
@@ -765,10 +803,10 @@ public class APIProviderImplTest extends BaseTestCase {
 //    	String status = provider.getAPILifeCycleStatus(apiId);
 //    	assertNotNull(status);
     	
-    	// registry에 상태값 변경 
+    	// registry에 상태값 변경 - changeLifeCycleStatus()에서 호출하여 사용
 //    	provider.updateAPIforStateChange(apiId, APIStatus.PUBLISHED, null);
     	
-    	// gateway에 상태값 게시 
+    	// gateway에 상태값 게시 - changeLifeCycleStatus()에서 호출하여 사용
 //    	provider.propergateAPIStatusChangeToGateways(apiId, APIStatus.PUBLISHED);
     	
     }
@@ -855,7 +893,9 @@ public class APIProviderImplTest extends BaseTestCase {
     }
     
     private API getPublishedApi() throws APIManagementException {
-    	APIIdentifier apiId = new APIIdentifier("wso2.system.user@carbon.super", "osc", "1");
+    	String apiName = "Google Directions API";
+		String version = "v1";
+    	APIIdentifier apiId = new APIIdentifier("admin@codefarm.co.kr", apiName, version);
     	API api = provider.getAPI(apiId);
     	return api;
     } 

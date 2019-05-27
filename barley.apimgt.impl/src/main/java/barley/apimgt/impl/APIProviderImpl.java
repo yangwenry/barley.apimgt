@@ -2617,7 +2617,7 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
         try {
 
             long subsCount = apiMgtDAO.getAPISubscriptionCountByAPI(identifier);
-            if(subsCount > 0){
+            if (subsCount > 0) {
                 handleException("Cannot remove the API as active subscriptions exist.", null);
             }
 
@@ -2709,7 +2709,6 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
                 contextCache.put(context, Boolean.FALSE);
             }
 
-            // TODO 라이프사이클 데이터가 간혹 삭제가 되지 않음.  
             apiMgtDAO.deleteAPI(identifier);
 
             if (log.isDebugEnabled()) {
@@ -2734,7 +2733,7 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
 //                identifier.getProviderName() + RegistryConstants.PATH_SEPARATOR + 
                 identifier.getApiName();
             
-            if(registry.resourceExists(apiCollectionPath)){
+            if (registry.resourceExists(apiCollectionPath)) {
             	Resource apiCollection=registry.get(apiCollectionPath);
             	CollectionImpl collection=(CollectionImpl)apiCollection;
             	//if there is no other versions of apis delete the directory of the api
@@ -2751,7 +2750,7 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
             					APIUtil.replaceEmailDomain(identifier.getProviderName());
 //                                   identifier.getProviderName();
 
-            if(registry.resourceExists(apiProviderPath)){
+            if (registry.resourceExists(apiProviderPath)) {
             	Resource providerCollection = registry.get(apiProviderPath);
             	CollectionImpl collection = (CollectionImpl)providerCollection;
             	//if there is no api for given provider delete the provider directory
@@ -3828,6 +3827,8 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
         return false;
     }
 
+    // life cycle configuration에서  item 항목이 존재한다. item에 맞는 event를 실행시키는 걸로 보인다. 
+    // 설정의 forEvent 값이 비어있어서 굳이 사용할 필요는 없을 듯 하다.  
     @Override
     public boolean changeAPILCCheckListItems(APIIdentifier apiIdentifier, int checkItem, boolean checkItemValue)
             throws APIManagementException {

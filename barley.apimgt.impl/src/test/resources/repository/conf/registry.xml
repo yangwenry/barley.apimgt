@@ -33,7 +33,18 @@
         <!-- <dataSource>java:/comp/env/jdbc/WSO2REG_DB</dataSource> -->
     </dbConfig>
 
-    <versionResourcesOnChange>true</versionResourcesOnChange>
+    <versionResourcesOnChange>false</versionResourcesOnChange>
+    
+    <!-- NOTE: You can edit the options under "StaticConfiguration" only before the
+     startup. -->
+    <staticConfiguration>
+        <versioningProperties>false</versioningProperties>
+        <versioningComments>false</versioningComments>
+        <versioningTags>false</versioningTags>
+        <versioningRatings>false</versioningRatings>
+        <!-- Location you want to add service and default location will be /services/ -->
+        <!-- <servicePath>/trunk/services/</servicePath> -->
+    </staticConfiguration>
     
     <!-- <aspect name="APILifeCycle" class="barley.governance.registry.extensions.aspects.DefaultLifeCycle">
 	    <configuration type="literal">
