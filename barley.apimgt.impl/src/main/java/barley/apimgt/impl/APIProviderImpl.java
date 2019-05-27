@@ -1722,8 +1722,10 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
 
             GenericArtifactManager artifactManager = APIUtil.getArtifactManager(registry,
                     APIConstants.API_KEY);
+            // (수정) 경로수정 
             String defaultAPIPath = APIConstants.API_LOCATION + RegistryConstants.PATH_SEPARATOR +
-                    apiIdentifier.getProviderName() +
+//                    apiIdentifier.getProviderName() +
+            		APIUtil.replaceEmailDomain(apiIdentifier.getProviderName()) +
                     RegistryConstants.PATH_SEPARATOR + apiIdentifier.getApiName() +
                     RegistryConstants.PATH_SEPARATOR + apiIdentifier.getVersion() +
                     APIConstants.API_RESOURCE_NAME;
@@ -1792,9 +1794,9 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
                 //if so, change its DefaultAPIVersion attribute to false
 
                 if(defaultVersion!=null)    {
-                    APIIdentifier defaultAPIId = new APIIdentifier(api.getId().getProviderName(), api.getId().getApiName(),
+                	APIIdentifier defaultAPIId = new APIIdentifier(api.getId().getProviderName(), api.getId().getApiName(),
                                                                    defaultVersion);
-                    updateDefaultAPIInRegistry(defaultAPIId,false);
+                	updateDefaultAPIInRegistry(defaultAPIId, false);
                 }
             } else  {
                 artifact.setAttribute(APIConstants.API_OVERVIEW_IS_DEFAULT_VERSION, "false");
