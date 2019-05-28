@@ -136,7 +136,7 @@ public class RegistryCacheInvalidationClient {
         }
         */
     	
-    	String endpoint = serverURL + "/api/invalidateRegistryCache";
+    	String endpoint = serverURL + "/invalidateRegistryCache";
     	try {
 			// Request parameters.
 	        List<NameValuePair> urlParams = new ArrayList<NameValuePair>(0);

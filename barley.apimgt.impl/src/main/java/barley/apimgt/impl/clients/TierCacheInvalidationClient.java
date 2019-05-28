@@ -106,7 +106,7 @@ public class TierCacheInvalidationClient {
         tierCacheServiceStub.invalidateCache(tenantDomain);
         */
     	
-    	String endpoint = serverURL + "/api/invalidateTierCache";
+    	String endpoint = serverURL + "/invalidateTierCache";
     	try {
 			// Request parameters.
 	        List<NameValuePair> urlParams = new ArrayList<NameValuePair>(0);
