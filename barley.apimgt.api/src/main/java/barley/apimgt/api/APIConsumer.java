@@ -47,7 +47,7 @@ public interface APIConsumer extends APIManager {
      * @return Subscriber
      * @throws APIManagementException if failed to get Subscriber
      */
-    Subscriber getSubscriber(String subscriberId) throws APIManagementException;
+    Subscriber getSubscriber(String subscriberName) throws APIManagementException;
 
     /**
      * Returns a list of #{@link org.wso2.carbon.apimgt.api.model.API} bearing the selected tag
@@ -291,7 +291,9 @@ public interface APIConsumer extends APIManager {
      * @param userId     id of the user
      * @throws APIManagementException if failed to add subscription details to database
      */
-    void removeSubscriber(APIIdentifier identifier, String userId) throws APIManagementException;
+    // (수정) 인터페이스 파라미터 수정 
+    //void removeSubscriber(APIIdentifier identifier, String userId) throws APIManagementException;
+    void removeSubscriber(String subscriberName, String applicationName, String groupingId) throws APIManagementException;
 
     /**
      * This method is to update the subscriber.

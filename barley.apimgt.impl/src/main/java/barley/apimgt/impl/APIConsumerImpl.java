@@ -167,10 +167,10 @@ class APIConsumerImpl extends AbstractAPIManager implements APIConsumer {
     }
 
     @Override
-    public Subscriber getSubscriber(String subscriberId) throws APIManagementException {
+    public Subscriber getSubscriber(String subscriberName) throws APIManagementException {
         Subscriber subscriber = null;
         try {
-            subscriber = apiMgtDAO.getSubscriber(subscriberId);
+            subscriber = apiMgtDAO.getSubscriber(subscriberName);
         } catch (APIManagementException e) {
             handleException("Failed to get Subscriber", e);
         }
@@ -2425,9 +2425,25 @@ class APIConsumerImpl extends AbstractAPIManager implements APIConsumer {
     }
 
     @Override
-    public void removeSubscriber(APIIdentifier identifier, String userId)
+    public void removeSubscriber(String subscriberName, String applicationName, String groupingId)
             throws APIManagementException {
-        throw new UnsupportedOperationException("Unsubscribe operation is not yet implemented");
+        //throw new UnsupportedOperationException("Unsubscribe operation is not yet implemented");
+    	// 예외처리가 되어 있어서 주석 처리 후 구현
+    	// 1. 구독자인지 확인  
+    	// 2. 구독하고 있는지 확인
+    	// 3. 삭제 - application, subscriber 
+    	Subscriber subscriber = getSubscriber(subscriberName);
+    	if (subscriber == null) {
+    		throw new APIManagementException("Subscriber for subscriberName:" + subscriberName +" does not exist.");
+    	} 
+    	Application defaultApp = getApplicationsByName(subscriberName, applicationName, groupingId);
+    	if (defaultApp == null) {
+    		throw new APIManagementException("Application for subscriberName:" + subscriberName +" does not exist.");
+    	} 
+    	
+    	// 기본 어플리케이션 삭제
+    	apiMgtDAO.deleteApplication(defaultApp);
+    	apiMgtDAO.removeSubscriber(subscriber.getId());
     }
 
     @Override

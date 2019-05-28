@@ -1042,6 +1042,35 @@ public class ApiMgtDAO {
             APIMgtDBUtil.closeAllConnections(ps, conn, null);
         }
     }
+    
+    // (추가) 2019.05.28 - 새롭게 구현 
+    public void removeSubscriber(int subscriberId) throws APIManagementException {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = APIMgtDBUtil.getConnection();
+            conn.setAutoCommit(false);
+
+            String query = SQLConstants.REMOVE_SUBSCRIBER_SQL;
+
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, subscriberId);
+            ps.executeUpdate();
+            
+            conn.commit();
+        } catch (SQLException e) {
+            if (conn != null) {
+                try {
+                    conn.rollback();
+                } catch (SQLException e1) {
+                    log.error("Error while rolling back the failed operation", e1);
+                }
+            }
+            handleException("Error in deleting subscriber: " + e.getMessage(), e);
+        } finally {
+            APIMgtDBUtil.closeAllConnections(ps, conn, null);
+        }
+    }
 
     public Subscriber getSubscriber(int subscriberId) throws APIManagementException {
         Connection conn = null;

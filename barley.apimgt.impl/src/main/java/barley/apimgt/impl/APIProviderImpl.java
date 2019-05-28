@@ -1917,6 +1917,39 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
                 newAPI.setAsDefaultVersion(false);
             }
 
+            //Copy Swagger 2.0 resources for New version.
+            // 굳이 경로를 수정할 필요없음. APIUtil에서 경로 처리함 
+            String resourcePath = APIUtil.getSwagger20DefinitionFilePath(api.getId().getApiName(),
+                                                                         api.getId().getVersion(),
+                                                                         api.getId().getProviderName());
+            if (registry.resourceExists(resourcePath + APIConstants.API_DOC_2_0_RESOURCE_NAME)) {
+                JSONObject swaggerObject = (JSONObject) new JSONParser()
+                        .parse(definitionFromSwagger20.getAPIDefinition(api.getId(), registry));
+                JSONObject infoObject = (JSONObject) swaggerObject.get("info");
+                infoObject.remove("version");
+                infoObject.put("version", newAPI.getId().getVersion());
+                definitionFromSwagger20.saveAPIDefinition(newAPI, swaggerObject.toJSONString(), registry);
+            }
+
+            // Make sure to unset the isLatest flag on the old version
+            GenericArtifact oldArtifact = artifactManager.getGenericArtifact(
+                    apiSourceArtifact.getUUID());
+            oldArtifact.setAttribute(APIConstants.API_OVERVIEW_IS_LATEST, "false");
+            artifactManager.updateGenericArtifact(oldArtifact);
+
+            int tenantId;
+            String tenantDomain = MultitenantUtils.getTenantDomain(APIUtil.replaceEmailDomainBack(api.getId().getProviderName()));
+            try {
+                tenantId = ServiceReferenceHolder.getInstance().getRealmService().getTenantManager().getTenantId(tenantDomain);
+            } catch (UserStoreException e) {
+                throw new APIManagementException("Error in retrieving Tenant Information while adding api :"
+                        +api.getId().getApiName(),e);
+            }
+
+            apiMgtDAO.addAPI(newAPI, tenantId);
+            
+            // apiDAO 처리 후 실횅해야 에러가 발생하지 않는다. apiDAO에서 api번호를 가져오기 때문에 우선적으로 저장되어야 한다.
+            // 원래 swagger 복사 로직 위에 있었으나 위치를 변경함. 
             for (Documentation doc : docs) {
                 /* copying the file in registry for new api */
                 Documentation.DocumentSourceType sourceType = doc.getSourceType();
@@ -1958,37 +1991,7 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
                 	addDocumentationContent(newId, doc.getName(), content);
                 }
             }
-
-            //Copy Swagger 2.0 resources for New version.
-            // 굳이 경로를 수정할 필요없음. APIUtil에서 경로 처리함 
-            String resourcePath = APIUtil.getSwagger20DefinitionFilePath(api.getId().getApiName(),
-                                                                         api.getId().getVersion(),
-                                                                         api.getId().getProviderName());
-            if (registry.resourceExists(resourcePath + APIConstants.API_DOC_2_0_RESOURCE_NAME)) {
-                JSONObject swaggerObject = (JSONObject) new JSONParser()
-                        .parse(definitionFromSwagger20.getAPIDefinition(api.getId(), registry));
-                JSONObject infoObject = (JSONObject) swaggerObject.get("info");
-                infoObject.remove("version");
-                infoObject.put("version", newAPI.getId().getVersion());
-                definitionFromSwagger20.saveAPIDefinition(newAPI, swaggerObject.toJSONString(), registry);
-            }
-
-            // Make sure to unset the isLatest flag on the old version
-            GenericArtifact oldArtifact = artifactManager.getGenericArtifact(
-                    apiSourceArtifact.getUUID());
-            oldArtifact.setAttribute(APIConstants.API_OVERVIEW_IS_LATEST, "false");
-            artifactManager.updateGenericArtifact(oldArtifact);
-
-            int tenantId;
-            String tenantDomain = MultitenantUtils.getTenantDomain(APIUtil.replaceEmailDomainBack(api.getId().getProviderName()));
-            try {
-                tenantId = ServiceReferenceHolder.getInstance().getRealmService().getTenantManager().getTenantId(tenantDomain);
-            } catch (UserStoreException e) {
-                throw new APIManagementException("Error in retrieving Tenant Information while adding api :"
-                        +api.getId().getApiName(),e);
-            }
-
-            apiMgtDAO.addAPI(newAPI, tenantId);
+            
             registry.commitTransaction();
             transactionCommitted = true;
 

@@ -1006,7 +1006,7 @@ public abstract class AbstractAPIManager implements APIManager {
      *
      * @throws APIManagementException if an error occurs while adding default application
      */
-    private void addDefaultApplicationForSubscriber (Subscriber subscriber) throws APIManagementException {
+    private void addDefaultApplicationForSubscriber(Subscriber subscriber) throws APIManagementException {
         Application defaultApp = new Application(APIConstants.DEFAULT_APPLICATION_NAME, subscriber);
         if (APIUtil.isEnabledUnlimitedTier()) {
             defaultApp.setTier(APIConstants.UNLIMITED_TIER);

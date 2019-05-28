@@ -383,6 +383,11 @@ public class SQLConstants {
             "   UPDATED_TIME=? " +
             " WHERE" +
             "   SUBSCRIBER_ID=?";
+    
+    // (추가)
+    public static final String REMOVE_SUBSCRIBER_SQL =
+            " DELETE FROM AM_SUBSCRIBER WHERE SUBSCRIBER_ID = ?";
+    
 
     public static final String GET_SUBSCRIBER_SQL =
             " SELECT " +
