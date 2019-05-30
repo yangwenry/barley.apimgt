@@ -300,7 +300,7 @@ public class APIGatewayManager {
 	 * @return True if the API is available in at least one Gateway. False if
 	 *         available in none.
 	 */
-    public boolean isAPIPublished(API api, String tenantDomain)throws APIManagementException {
+    public boolean isAPIPublished(API api, String tenantDomain) throws APIManagementException {
         for (Environment environment : environments.values()) {
             try {
             	// (수정)
