@@ -2347,11 +2347,15 @@ public final class APIUtil {
             if (apiId == -1) {
                 return null;
             }
-            // set rating
+            // set rating            
             String artifactPath = GovernanceUtils.getArtifactPath(registry, artifact.getId());
+            /* (주석) dao로 변경 
             BigDecimal bigDecimal = BigDecimal.valueOf(registry.getAverageRating(artifactPath));
             BigDecimal res = bigDecimal.setScale(1, RoundingMode.HALF_UP);
             api.setRating(res.floatValue());
+            */
+            api.setRating(getAverageRating(apiId));
+            
             //set description
             api.setDescription(artifact.getAttribute(APIConstants.API_OVERVIEW_DESCRIPTION));
             //set last access time
