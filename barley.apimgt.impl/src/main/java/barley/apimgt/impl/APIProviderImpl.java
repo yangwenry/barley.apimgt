@@ -2435,7 +2435,7 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
                 }
             }
 
-            // TODO endpoint 생성이 되지 않음. 확인필요 
+            // endpoint 생성 
             if (api.getUrl() != null && !api.getUrl().isEmpty())    {
                 String path = APIUtil.createEndpoint(api.getUrl(), registry);
                 if (path != null) {
