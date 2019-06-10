@@ -72,7 +72,7 @@ import barley.apimgt.impl.dto.VerbInfoDTO;
 import barley.core.context.BarleyContext;
 
 
-/**
+/*
  * This class is Handling new throttling check. This class will use inside each API as throttle handler.
  * It will fetch some of data from incoming message and use them to take throttling decisions.
  * To execute this handler requests must go through authentication handler and auth context should be present
