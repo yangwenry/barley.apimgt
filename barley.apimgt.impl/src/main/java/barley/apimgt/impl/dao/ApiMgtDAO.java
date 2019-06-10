@@ -1806,8 +1806,12 @@ public class ApiMgtDAO {
             LRUCache<Integer, Application> applicationCache = new LRUCache<Integer, Application>(100);
 
             while (result.next()) {
-                APIIdentifier apiIdentifier = new APIIdentifier(APIUtil.replaceEmailDomain(result.getString
+            	// (수정) @로 리턴하도록 변경 
+//                APIIdentifier apiIdentifier = new APIIdentifier(APIUtil.replaceEmailDomain(result.getString
+//                        ("API_PROVIDER")), result.getString("API_NAME"), result.getString("API_VERSION"));
+            	APIIdentifier apiIdentifier = new APIIdentifier(APIUtil.replaceEmailDomainBack(result.getString
                         ("API_PROVIDER")), result.getString("API_NAME"), result.getString("API_VERSION"));
+            	
 
                 SubscribedAPI subscribedAPI = new SubscribedAPI(subscriber, apiIdentifier);
                 subscribedAPI.setSubscriptionId(result.getInt("SUBS_ID"));
