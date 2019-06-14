@@ -82,6 +82,7 @@ public class OAuthAuthenticator implements Authenticator {
 
         if (headers != null) {
             requestOrigin = (String) headers.get("Origin");
+            // header에서 api-key 가져오기 
             apiKey = extractCustomerKeyFromAuthHeader(headers);
             if (log.isDebugEnabled()) {
                 log.debug(apiKey != null ? "Received Token ".concat(apiKey) : "No valid Authorization header found");
@@ -119,12 +120,12 @@ public class OAuthAuthenticator implements Authenticator {
 //        Timer timer = MetricManager.timer(org.wso2.carbon.metrics.manager.Level.INFO, MetricManager.name(
 //                APIConstants.METRICS_PREFIX, this.getClass().getSimpleName(), "GET_RESOURCE_AUTH"));
 //        Timer.Context context = timer.start();
-        // AM_API_URL_MAPPING 테이블에서 조회하여 스키마를 가져온다. 기본값은 Application
+        // AM_API_URL_MAPPING 테이블에서 조회하여 스키마를 가져온다. 값은 Application, None, Any
 		String authenticationScheme = keyValidator.getResourceAuthenticationScheme(synCtx);
 //        context.stop();
         APIKeyValidationInfoDTO info;
-        if(APIConstants.AUTH_NO_AUTHENTICATION.equals(authenticationScheme)){
-
+        // 1. 스키마가 None이라면 인증을 거치지 않는다. 
+        if(APIConstants.AUTH_NO_AUTHENTICATION.equals(authenticationScheme)) {
             if(log.isDebugEnabled()){
                 log.debug("Found Authentication Scheme: ".concat(authenticationScheme));
             }
@@ -185,6 +186,7 @@ public class OAuthAuthenticator implements Authenticator {
             }
             throw new APISecurityException(APISecurityConstants.API_AUTH_MISSING_CREDENTIALS,
                     "Required OAuth credentials not provided");
+        // 2. 스키마가 None이 아니라면 토큰 키 확인 
         } else {
             String matchingResource = (String) synCtx.getProperty(APIConstants.API_ELECTED_RESOURCE);
             if(log.isDebugEnabled()){
@@ -208,7 +210,7 @@ public class OAuthAuthenticator implements Authenticator {
         }
 
         if (info.isAuthorized()) {
-            AuthenticationContext authContext = new AuthenticationContext();
+        	AuthenticationContext authContext = new AuthenticationContext();
             authContext.setAuthenticated(true);
             authContext.setTier(info.getTier());
             authContext.setApiKey(apiKey);
@@ -224,6 +226,7 @@ public class OAuthAuthenticator implements Authenticator {
             authContext.setApplicationTier(info.getApplicationTier());
             authContext.setSubscriber(info.getSubscriber());
             authContext.setConsumerKey(info.getConsumerKey());
+            // api level tier라고 볼 수 있다. 
             authContext.setApiTier(info.getApiTier());
             authContext.setThrottlingDataList(info.getThrottlingDataList());
             authContext.setSubscriberTenantDomain(info.getSubscriberTenantDomain());
@@ -231,6 +234,7 @@ public class OAuthAuthenticator implements Authenticator {
             authContext.setSpikeArrestUnit(info.getSpikeArrestUnit());
             authContext.setStopOnQuotaReach(info.isStopOnQuotaReach());
             authContext.setIsContentAware(info.isContentAware());
+            // authContext를 생성하여 다른 handler에서도 사용가능하게 한다.
             APISecurityUtils.setAuthenticationContext(synCtx, authContext, securityContextHeader);
 
             /* Synapse properties required for BAM Mediator*/

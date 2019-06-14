@@ -147,14 +147,16 @@ public class APIKeyMgtSubscriberService {
             serviceProvider.setApplicationName(applicationName);
             serviceProvider.setDescription("Service Provider for application " + applicationName);
 
+            // (수정) 2019.06.13 - SP_APP에 이미 데이터가 있는 경우, 에러가 발생한다. 따라서 SP_APP 유뮤체크를 하도록 변경  
             ApplicationManagementService appMgtService = ApplicationManagementService.getInstance();
-            appMgtService.createApplication(serviceProvider, tenantDomain, userName);
+            ServiceProvider createdServiceProvider = appMgtService.getApplicationExcludingFileBasedSPs(applicationName, tenantDomain);
+            if(createdServiceProvider == null) {
+	            appMgtService.createApplication(serviceProvider, tenantDomain, userName);
+            }
             ServiceProvider serviceProviderCreated = appMgtService.getApplicationExcludingFileBasedSPs(applicationName, tenantDomain);
             serviceProviderCreated.setSaasApp(oauthApplicationInfo.getIsSaasApplication());
             appMgtService.updateApplication(serviceProviderCreated, tenantDomain, userName);
-
-            ServiceProvider createdServiceProvider = appMgtService.getApplicationExcludingFileBasedSPs(applicationName, tenantDomain);
-
+            createdServiceProvider = appMgtService.getApplicationExcludingFileBasedSPs(applicationName, tenantDomain);        	
             if (createdServiceProvider == null) {
                 throw new APIKeyMgtException("Couldn't create Service Provider Application " + applicationName);
             }

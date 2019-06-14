@@ -276,7 +276,7 @@ public class APIProviderImplTest extends BaseTestCase {
     
     
     // REG_content 테이블의 regt_content_data에 값이 들어가 있음. 
-    public void testAddApi() throws APIManagementException, FaultGatewaysException {
+    public void testAddApi() throws APIManagementException, FaultGatewaysException, DuplicateAPIException {
     	APIIdentifier apiId = new APIIdentifier("yangwenry@codefarm.co.kr", "ncsdept-sample", "v1");
         API api = new API(apiId);
         api.setTitle("한글 테스트를 위한 api");
@@ -332,6 +332,12 @@ public class APIProviderImplTest extends BaseTestCase {
         // 생성 
         provider.addAPI(api);
         
+        // endpoint를 생성하지 않는다..
+//        String newVersion = "v2";
+////        provider.createNewAPIVersion(api, newVersion);
+//        APIIdentifier apiNewId = new APIIdentifier("yangwenry@codefarm.co.kr", "ncsdept-sample", newVersion);
+//        provider.deleteAPI(apiNewId);
+        
         // 게시는  changeAPIStatus()보다 changeLifeCycleStatus()를 사용해야 한다. (사용하지 말자.) 
 //        String userId = "yangwenry";
 //        provider.changeAPIStatus(api, APIStatus.PUBLISHED, userId, true);
@@ -347,6 +353,7 @@ public class APIProviderImplTest extends BaseTestCase {
     public void testAddApiAndPublish() throws APIManagementException, FaultGatewaysException {
     	APIIdentifier apiId = new APIIdentifier("admin@codefarm.co.kr", "ncsdept", "1.0.0");
         API api = new API(apiId);
+        api.setTitle("ncsdept sample");
         api.setContext("/ncsdept/1.0.0");
         api.setContextTemplate("/ncsdept/{version}");
         api.setStatus(APIStatus.CREATED);
@@ -450,8 +457,9 @@ public class APIProviderImplTest extends BaseTestCase {
         // api 게시
 //    	provider.changeAPIStatus(api, APIStatus.PUBLISHED, userId, true);
     	
-    	APIIdentifier apiId = new APIIdentifier("wso2.system.user@carbon.super", "ncsdept", "1.0.0");
-    	provider.updateAPIStatus(apiId, "PUBLISHED", false, false, true);
+    	APIIdentifier apiId = new APIIdentifier("admin@codefarm.co.kr", "ncsdept", "1.0.0");
+//    	provider.updateAPIStatus(apiId, "PUBLISHED", false, false, true);    	
+    	provider.changeLifeCycleStatus(apiId, "Publish");
     }
     
     public void testUpdateApi() throws Exception {

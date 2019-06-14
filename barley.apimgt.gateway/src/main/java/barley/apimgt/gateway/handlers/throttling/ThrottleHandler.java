@@ -221,8 +221,9 @@ public class ThrottleHandler extends AbstractHandler implements ManagedLifecycle
                 subscriberTenantDomain = authContext.getSubscriberTenantDomain();
                 applicationLevelThrottleKey = applicationId + ":" + authorizedUser;
                 apiLevelThrottleKey = apiContext + ":" + apiVersion;
-                stopOnQuotaReach = authContext.isStopOnQuotaReach();
+                stopOnQuotaReach = authContext.isStopOnQuotaReach();                
                 //If request is not blocked then only we perform throttling.
+                // APIKeyValidator에서 url-mapping 테이블을 조회한 데이터를 프로퍼티에 저장한다. 
                 VerbInfoDTO verbInfoDTO = (VerbInfoDTO) synCtx.getProperty(APIConstants.VERB_INFO_DTO);
                 applicationLevelTier = authContext.getApplicationTier();
                 subscriptionLevelTier = authContext.getTier();
@@ -241,6 +242,7 @@ public class ThrottleHandler extends AbstractHandler implements ManagedLifecycle
                     return false;
                 } else {
                     //If verbInfo is present then only we will do resource level throttling
+                	// url-mapping에 있는 리소스 레벨 쓰로틀링이 unlimited라면 통과 
                     if (APIConstants.UNLIMITED_TIER.equalsIgnoreCase(verbInfoDTO.getThrottling()) && !apiLevelThrottledTriggered) {
                         //If unlimited tier throttling will not apply at resource level and pass it
                         if (log.isDebugEnabled()) {
@@ -345,7 +347,7 @@ public class ThrottleHandler extends AbstractHandler implements ManagedLifecycle
                                         isThrottled = true;
 
                                     } else {
-                                    	/* (임시주석 
+                                    	/* (임시주석) 
                                         throttleDataPublisher.publishNonThrottledEvent(
                                                 applicationLevelThrottleKey, applicationLevelTier,
                                                 apiLevelThrottleKey, apiLevelTier,

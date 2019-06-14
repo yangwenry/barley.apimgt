@@ -59,8 +59,8 @@ public class JDBCAPIKeyDataStore implements APIKeyDataStore {
                     "Error while looking up API key data in the database", e);
         }
     }
-    public ArrayList<URITemplate> getAllURITemplates(String context, String apiVersion
-    ) throws APISecurityException {
+    
+    public ArrayList<URITemplate> getAllURITemplates(String context, String apiVersion) throws APISecurityException {
         try {
             return ApiMgtDAO.getInstance().getAllURITemplates(context, apiVersion);
         } catch (APIManagementException e) {

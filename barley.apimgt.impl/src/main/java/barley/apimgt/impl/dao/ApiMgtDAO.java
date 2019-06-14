@@ -511,6 +511,7 @@ public class ApiMgtDAO {
     /**
      * Validate the provided key against the given API. First it will validate the key is valid
      * , ACTIVE and not expired.
+     * api-gateway에서 토큰 키 검증시 사용한다.
      *
      * @param context     Requested Context
      * @param version     version of the API
@@ -5986,6 +5987,7 @@ public class ApiMgtDAO {
     }
 
     /**
+     * api-gateway에서 url template 가져와 검증하기 위해 사용한다.  
      * returns all URL templates define for all active(PUBLISHED) APIs.
      */
     public ArrayList<URITemplate> getAllURITemplates(String apiContext, String version) throws APIManagementException {

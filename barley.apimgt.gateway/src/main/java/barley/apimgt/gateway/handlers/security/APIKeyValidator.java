@@ -295,6 +295,7 @@ public class APIKeyValidator {
         try {
         	verb = findMatchingVerb(synCtx);
         	if(verb != null){
+        		// 이 프로퍼티 값으로 ThrottlingHandler에서 사용한다. 
                 synCtx.setProperty(APIConstants.VERB_INFO_DTO, verb);
             }
         } catch (ResourceNotFoundException e) {

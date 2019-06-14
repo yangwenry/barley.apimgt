@@ -25,8 +25,6 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.MalformedURLException;
@@ -329,7 +327,7 @@ public final class APIUtil {
             boolean isGlobalThrottlingEnabled =  APIUtil.isAdvanceThrottlingEnabled();
 
 
-            if(isGlobalThrottlingEnabled){
+            if(isGlobalThrottlingEnabled) {
                 String apiLevelTier = ApiMgtDAO.getInstance().getAPILevelTier(apiId);
                 api.setApiLevelPolicy(apiLevelTier);
             }
@@ -514,10 +512,7 @@ public final class APIUtil {
             int tenantId = ServiceReferenceHolder.getInstance().getRealmService().getTenantManager()
                     .getTenantId(tenantDomainName);
 
-            APIManagerConfiguration config = ServiceReferenceHolder.getInstance().getAPIManagerConfigurationService()
-                    .getAPIManagerConfiguration();
             boolean isGlobalThrottlingEnabled = APIUtil.isAdvanceThrottlingEnabled();
-
             if(isGlobalThrottlingEnabled) {
                 String apiLevelTier = ApiMgtDAO.getInstance().getAPILevelTier(apiId);
                 api.setApiLevelPolicy(apiLevelTier);
@@ -625,7 +620,6 @@ public final class APIUtil {
         return api;
     }
 
-
     public static API getAPI(GovernanceArtifact artifact)
             throws APIManagementException {
 
@@ -723,6 +717,7 @@ public final class APIUtil {
             api.setBusinessOwner(artifact.getAttribute(APIConstants.API_OVERVIEW_BUSS_OWNER));
             api.setBusinessOwnerEmail(artifact.getAttribute(APIConstants.API_OVERVIEW_BUSS_OWNER_EMAIL));
             
+            // url template을 dao 가져온다.
             ArrayList<URITemplate> urlPatternsList;
             urlPatternsList = ApiMgtDAO.getInstance().getAllURITemplates(api.getContext(), api.getId().getVersion());
             Set<URITemplate> uriTemplates = new HashSet<URITemplate>(urlPatternsList);
@@ -852,9 +847,6 @@ public final class APIUtil {
             artifact.setAttribute(APIConstants.API_OVERVIEW_CONTEXT_TEMPLATE, api.getContextTemplate());
             artifact.setAttribute(APIConstants.API_OVERVIEW_VERSION_TYPE, "context");
             
-            APIManagerConfiguration config = ServiceReferenceHolder.getInstance().getAPIManagerConfigurationService()
-                    .getAPIManagerConfiguration();
-
             StringBuilder policyBuilder = new StringBuilder();
             for (Tier tier : api.getAvailableTiers()) {
                 policyBuilder.append(tier.getName());
@@ -2418,6 +2410,7 @@ public final class APIUtil {
             HashMap<String, String> resourceScopes;
             resourceScopes = ApiMgtDAO.getInstance().getResourceToScopeMapping(oldId);
 
+            // url template을 dao 가져온다. 
             urlPatternsList = ApiMgtDAO.getInstance().getAllURITemplates(oldContext, oldId.getVersion());
             Set<URITemplate> uriTemplates = new HashSet<URITemplate>(urlPatternsList);
 

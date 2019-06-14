@@ -144,16 +144,17 @@ public abstract class AbstractApplicationRegistrationWorkflowExecutor extends Wo
             //update associateApplication
             ApplicationUtils.updateOAuthAppAssociation(application, workflowDTO.getKeyType(), oAuthApplication);
 
+            AccessTokenRequest tokenRequest = ApplicationUtils.createAccessTokenRequest(oAuthApplication, null);
+            // 토큰을 생성하고 가져온다. 
+            AccessTokenInfo tokenInfo = keyManager.getNewApplicationAccessToken(tokenRequest);
+
+            // (수정) 2019.06.13 - 토큰 생성 후 dao 처리하도록 아래쪽으로 로직 이동. (token 생성 시 에러가 발생해도 completed 상태로 변경되는 걸 막기 위해) 
             //change create application status in to completed.
             dao.updateApplicationRegistration(APIConstants.AppRegistrationStatus.REGISTRATION_COMPLETED,
                     workflowDTO.getKeyType(), workflowDTO.getApplication().getId());
 
             workflowDTO.setApplicationInfo(oAuthApplication);
-
-            AccessTokenRequest tokenRequest = ApplicationUtils.createAccessTokenRequest(oAuthApplication, null);
-            // 토큰을 생성하고 가져온다. 
-            AccessTokenInfo tokenInfo = keyManager.getNewApplicationAccessToken(tokenRequest);
-
+            
             workflowDTO.setAccessTokenInfo(tokenInfo);
         } catch (Exception e) {
             APIUtil.handleException("Error occurred while executing SubscriberKeyMgtClient.", e);
