@@ -2429,6 +2429,10 @@ public class ApiMgtDAO {
             }
         } catch (SQLException e) {
             handleException("Failed to get  client of application. SQL error", e);
+        } catch (Exception e) {
+        	// 아무것도 하지 않는다... 
+        	log.error("Failed to get  client of application. ");
+        	
         } finally {
             APIMgtDBUtil.closeAllConnections(ps, connection, rs);
         }

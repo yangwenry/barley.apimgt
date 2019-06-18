@@ -119,7 +119,7 @@ public class BlockingConditionRetriever extends TimerTask {
 
 
     public void startWebServiceThrottleDataRetriever() {
-
+    	// 설정된 시간으로 스케쥴링 
         new Timer().schedule(this, ServiceReferenceHolder
                 .getInstance().getThrottleProperties().getBlockCondition().getInitDelay());
     }

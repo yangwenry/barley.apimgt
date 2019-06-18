@@ -323,17 +323,20 @@ public class ThrottleHandler extends AbstractHandler implements ManagedLifecycle
                                                        + apiVersion;
                         isSubscriptionLevelThrottled = ServiceReferenceHolder.getInstance().getThrottleDataHolder().
                                 isThrottled(subscriptionLevelThrottleKey);
+                        // 구독레벨 스파이크 체크  - 많은양의 트래픽 스파이크 혹은 DDOS 공격으로부터 보호를 위해 사용   
                         if (!isSubscriptionLevelThrottled && authContext.getSpikeArrestLimit() > 0) {
                             isSubscriptionLevelSpikeThrottled = isSubscriptionLevelSpike(synCtx, subscriptionLevelThrottleKey);
                         }
                         //if subscription level not throttled then move to application level
                         //Stop on quata reach
+                        // 구독레벨 쓰로틀링을 수행하지 않았다면 
                         if (!isSubscriptionLevelThrottled && !isSubscriptionLevelSpikeThrottled) {
                             //Application Level Throttling
                             isApplicationLevelThrottled = ServiceReferenceHolder.getInstance().getThrottleDataHolder().
                                     isThrottled(applicationLevelThrottleKey);
 
                             //if application level not throttled means it does not throttled at any level.
+                            // 어플리케이션 레벨 쓰로틀링을 수행하지 않았다면
                             if (!isApplicationLevelThrottled) {
                                 boolean keyTemplatesAvailable = ServiceReferenceHolder.getInstance().getThrottleDataHolder().isKeyTemplatesPresent();
                                 if (!keyTemplatesAvailable || !validateCustomPolicy(authorizedUser, applicationLevelThrottleKey,
@@ -343,6 +346,8 @@ public class ThrottleHandler extends AbstractHandler implements ManagedLifecycle
                                     //Pass message context and continue to avoid performance issue.
                                     //Did not throttled at any level. So let message go and publish event.
                                     //publish event to Global Policy Server
+                                	// 하드 쓰로틀링 체크 - API 생성시, ProductionMaxTps 필드에 값을 설정할 경우 하드 쓰로틀링이 수행된다. xml 생성시 프로퍼티에 추가됨.
+                                	// 현재 하드 쓰로틀링은 설정하지 않도록 한다. 
                                     if (isHardLimitThrottled(synCtx, authContext, apiContext, apiVersion)) {
                                         isThrottled = true;
 
@@ -366,7 +371,7 @@ public class ThrottleHandler extends AbstractHandler implements ManagedLifecycle
                                     isThrottled = true;
 
                                 }
-
+                            // 어플리케이션 level 쓰로틀링이 걸렸다면 
                             } else {
                                 if (log.isDebugEnabled()) {
                                     log.debug("Request throttled at application level for throttle key" +
@@ -378,6 +383,7 @@ public class ThrottleHandler extends AbstractHandler implements ManagedLifecycle
                                 synCtx.setProperty(APIThrottleConstants.THROTTLED_NEXT_ACCESS_TIMESTAMP, timestamp);
                                 isThrottled = isApplicationLevelThrottled = true;
                             }
+                        // 구독 level 쓰로틀링이 걸렸다면      
                         } else {
                             if (!stopOnQuotaReach) {
                                 // This means that we are allowing the requests to continue even after the throttling
@@ -405,6 +411,7 @@ public class ThrottleHandler extends AbstractHandler implements ManagedLifecycle
                                 isThrottled = true;
                             }
                         }
+                    // 리소스 level 쓰로틀링이 걸렸다면 리소스 사용량 초과로 메시지를 발생한다. 
                     } else {
                         if (log.isDebugEnabled()) {
                             log.debug("Request throttled at resource level for throttle key" +
@@ -415,6 +422,7 @@ public class ThrottleHandler extends AbstractHandler implements ManagedLifecycle
                                            APIThrottleConstants.RESOURCE_LIMIT_EXCEEDED);
                     }
 //                    context2.stop();
+                // api level 쓰로틀링이 걸렸다면 api 사용량 초과로 메시지를 발생한다. 
                 } else {
                     if (log.isDebugEnabled()) {
                         log.debug("Request throttled at api level for throttle key" + apiLevelThrottleKey);
@@ -921,6 +929,7 @@ public class ThrottleHandler extends AbstractHandler implements ManagedLifecycle
                " </wsp:Policy>\n";
     }
 
+    // hard 쓰로틀링 체크 
     private boolean isHardLimitThrottled(MessageContext synCtx, AuthenticationContext authContext, String apiContext,
                                          String apiVersion) {
         boolean status = false;
@@ -939,6 +948,7 @@ public class ThrottleHandler extends AbstractHandler implements ManagedLifecycle
                         hardThrottleContext.setConfigurationContext(cc);
                     }
 
+                    // 리미트 체크 
                     if (APIConstants.API_KEY_TYPE_PRODUCTION.equals(authContext.getKeyType())) {
                         hardThrottleContext.setThrottleId(id + APIThrottleConstants.PRODUCTION_HARD_LIMIT);
                         info = roleBasedAccessController.canAccess(hardThrottleContext, throttleKey,

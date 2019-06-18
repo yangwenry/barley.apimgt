@@ -18,6 +18,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import barley.apimgt.api.APIManagementException;
+import ch.ethz.ssh2.log.Logger;
 
 public class HttpUtils {
 	
@@ -49,6 +50,7 @@ public class HttpUtils {
 	        }
 		} catch (IOException e) {
             handleException("Error while " + endpoint + " - " + e.getMessage(), e);
+			//log.error("Error while " + endpoint + " - " + e.getMessage());
         } finally {
         	httpPost.reset();
         }
@@ -83,10 +85,12 @@ public class HttpUtils {
             } else {
             	return responseStr;
             }
-    	} catch (IOException e) {
-            handleException("Error while " + endpoint + " - " + e.getMessage(), e);
+    	} catch (Throwable e) {
+            //handleException("Error while " + endpoint + " - " + e.getMessage(), e);
+    		log.error("Error while " + endpoint + " - " + e.getMessage());
+    		e.printStackTrace();
         } finally {
-        	httpPost.reset();
+        	if(httpPost != null) httpPost.reset();
         }	
     	return responseStr;
     }

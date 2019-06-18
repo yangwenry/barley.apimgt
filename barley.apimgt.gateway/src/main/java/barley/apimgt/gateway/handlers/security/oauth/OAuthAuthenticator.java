@@ -230,6 +230,7 @@ public class OAuthAuthenticator implements Authenticator {
             authContext.setApiTier(info.getApiTier());
             authContext.setThrottlingDataList(info.getThrottlingDataList());
             authContext.setSubscriberTenantDomain(info.getSubscriberTenantDomain());
+            // RATE_LIMIT_COUNT 필드에서 값을 가져온다. 
             authContext.setSpikeArrestLimit(info.getSpikeArrestLimit());
             authContext.setSpikeArrestUnit(info.getSpikeArrestUnit());
             authContext.setStopOnQuotaReach(info.isStopOnQuotaReach());

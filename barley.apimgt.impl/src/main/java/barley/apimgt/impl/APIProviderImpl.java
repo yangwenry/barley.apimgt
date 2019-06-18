@@ -1619,9 +1619,8 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
     // /repository/resources/api_templates/* 파일들을 호출하여 템플릿 생성 
     private APITemplateBuilder getAPITemplateBuilder(API api) throws APIManagementException {
         APITemplateBuilderImpl vtb = new APITemplateBuilderImpl(api);
-        // (임시주석)
-//        vtb.addHandler("barley.apimgt.gateway.handlers.common.APIMgtLatencyStatsHandler", Collections
-//                .<String, String>emptyMap());
+        vtb.addHandler("barley.apimgt.gateway.handlers.common.APIMgtLatencyStatsHandler", Collections
+                .<String, String>emptyMap());
         Map<String, String> corsProperties = new HashMap<String, String>();
         corsProperties.put(APIConstants.CORSHeaders.IMPLEMENTATION_TYPE_HANDLER_VALUE, api.getImplementation());
 
