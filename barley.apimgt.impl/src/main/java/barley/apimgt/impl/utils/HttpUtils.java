@@ -13,6 +13,7 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -48,11 +49,11 @@ public class HttpUtils {
 	                log.debug("Successfully submitted request. HTTP status : 200");
 	            }
 	        }
-		} catch (IOException e) {
-            handleException("Error while " + endpoint + " - " + e.getMessage(), e);
-			//log.error("Error while " + endpoint + " - " + e.getMessage());
+		} catch (Exception e) {
+			log.error("Error while " + endpoint + " - " + e.getMessage());
+			handleException("Error while " + endpoint + " - " + e.getMessage(), e);
         } finally {
-        	httpPost.reset();
+        	if(httpPost != null) httpPost.reset();
         }
     }
 	
@@ -65,7 +66,7 @@ public class HttpUtils {
 	        int endpointPort = endpointURL.getPort();
 	
 	        HttpClient endpointClient = APIUtil.getHttpClient(endpointPort, endpointProtocol);
-	
+	        
 	        httpPost = new HttpPost(endpoint);
 	        httpPost.setEntity(new UrlEncodedFormEntity(urlParams, "UTF-8"));
 	
@@ -85,10 +86,9 @@ public class HttpUtils {
             } else {
             	return responseStr;
             }
-    	} catch (Throwable e) {
-            //handleException("Error while " + endpoint + " - " + e.getMessage(), e);
+    	} catch (Exception e) {
     		log.error("Error while " + endpoint + " - " + e.getMessage());
-    		e.printStackTrace();
+    		handleException("Error while " + endpoint + " - " + e.getMessage(), e);
         } finally {
         	if(httpPost != null) httpPost.reset();
         }	
