@@ -104,9 +104,9 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.w3c.dom.Document;
 import org.wso2.carbon.apimgt.keymgt.client.SubscriberKeyMgtClient;
-import org.wso2.carbon.core.commons.stub.loggeduserinfo.ExceptionException;
-import org.wso2.carbon.core.commons.stub.loggeduserinfo.LoggedUserInfo;
-import org.wso2.carbon.core.commons.stub.loggeduserinfo.LoggedUserInfoAdminStub;
+//import org.wso2.carbon.core.commons.stub.loggeduserinfo.ExceptionException;
+//import org.wso2.carbon.core.commons.stub.loggeduserinfo.LoggedUserInfo;
+//import org.wso2.carbon.core.commons.stub.loggeduserinfo.LoggedUserInfoAdminStub;
 import org.wso2.carbon.core.multitenancy.utils.TenantAxisUtils;
 import org.wso2.carbon.core.util.PermissionUpdateUtil;
 import org.wso2.carbon.utils.NetworkUtils;
@@ -2256,6 +2256,7 @@ public final class APIUtil {
      * @throws ExceptionException 
      * @throws RemoteException 
      */
+    /* (임시주석)
     public static LoggedUserInfo getLoggedInUserInfo(String cookie, String serviceUrl) throws RemoteException, ExceptionException {
         LoggedUserInfoAdminStub stub = new LoggedUserInfoAdminStub(null,
                 serviceUrl + "LoggedUserInfoAdmin");
@@ -2265,6 +2266,7 @@ public final class APIUtil {
         options.setProperty(HTTPConstants.COOKIE_STRING, cookie);
         return stub.getUserInfo();
     }
+    */
 
     /**
      * Retrieves the role list of a user

@@ -16,22 +16,17 @@
 
 package barley.apimgt.impl;
 
-import static org.mockito.Mockito.when;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.Security;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.cache.CacheManager;
-import javax.cache.Caching;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -44,39 +39,28 @@ import org.apache.commons.dbcp.BasicDataSource;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.mockito.Mockito;
-import org.wso2.carbon.identity.core.util.IdentityConfigParser;
-import barley.registry.indexing.service.TenantIndexingLoader;
 
 import barley.apimgt.api.APIConsumer;
 import barley.apimgt.api.APIManagementException;
 import barley.apimgt.api.model.API;
 import barley.apimgt.api.model.APIIdentifier;
 import barley.apimgt.api.model.APIKey;
-import barley.apimgt.api.model.APIRating;
-import barley.apimgt.api.model.APIStatus;
 import barley.apimgt.api.model.Application;
-import barley.apimgt.api.model.Comment;
 import barley.apimgt.api.model.Documentation;
-import barley.apimgt.api.model.DocumentationType;
-import barley.apimgt.api.model.ResourceFile;
-import barley.apimgt.api.model.Scope;
-import barley.apimgt.api.model.SubscribedAPI;
-import barley.apimgt.api.model.Subscriber;
-import barley.apimgt.api.model.SubscriptionResponse;
-import barley.apimgt.api.model.Tag;
-import barley.apimgt.api.model.Tier;
 import barley.apimgt.api.model.Documentation.DocumentSourceType;
 import barley.apimgt.api.model.Documentation.DocumentVisibility;
+import barley.apimgt.api.model.DocumentationType;
+import barley.apimgt.api.model.ResourceFile;
+import barley.apimgt.api.model.SubscribedAPI;
+import barley.apimgt.api.model.Subscriber;
+import barley.apimgt.api.model.Tier;
 import barley.apimgt.api.model.policy.Policy;
-import barley.apimgt.impl.dto.Environment;
 import barley.apimgt.impl.factory.SQLConstantManagerFactory;
 import barley.apimgt.impl.internal.APIManagerComponent;
 import barley.apimgt.impl.internal.ServiceReferenceHolder;
 import barley.apimgt.impl.utils.APIMgtDBUtil;
 import barley.apimgt.impl.utils.APIUtil;
 import barley.apimgt.impl.utils.KeyMgtProviderRestClient;
-import barley.apimgt.impl.workflow.TenantWorkflowConfigHolder;
 import barley.core.MultitenantConstants;
 import barley.core.RegistryResources;
 import barley.core.configuration.ServerConfiguration;
@@ -84,24 +68,20 @@ import barley.core.context.PrivilegedBarleyContext;
 import barley.core.internal.OSGiDataHolder;
 import barley.core.utils.CryptoException;
 import barley.core.utils.CryptoUtil;
-import barley.registry.api.GhostResource;
-import barley.registry.core.RegistryConstants;
+import barley.identity.core.util.IdentityConfigParser;
 import barley.registry.core.Resource;
-import barley.registry.core.caching.RegistryCacheEntry;
-import barley.registry.core.caching.RegistryCacheKey;
 import barley.registry.core.exceptions.RegistryException;
 import barley.registry.core.jdbc.EmbeddedRegistryService;
 import barley.registry.core.service.TenantRegistryLoader;
 import barley.registry.core.session.UserRegistry;
+import barley.registry.indexing.service.TenantIndexingLoader;
 import barley.user.api.ProfileConfigurationManager;
 import barley.user.api.UserStoreException;
-import barley.user.core.Permission;
 import barley.user.core.UserMgtConstants;
 import barley.user.core.claim.Claim;
 import barley.user.core.claim.ClaimMapping;
 import barley.user.core.profile.ProfileConfiguration;
 import barley.user.core.service.RealmService;
-import junit.framework.Assert;
 
 public class APICommonImplTest extends BaseTestCase {
 

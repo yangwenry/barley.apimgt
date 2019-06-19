@@ -25,8 +25,7 @@ import barley.registry.indexing.solr.IndexDocument;
 public class MSExcelIndexer implements Indexer {
 	public static final Log log = LogFactory.getLog(MSExcelIndexer.class);
 	
-	public IndexDocument getIndexedDocument(File2Index fileData)
-			throws SolrException {
+	public IndexDocument getIndexedDocument(File2Index fileData) throws SolrException {
 		try {
 
             String excelText = null;

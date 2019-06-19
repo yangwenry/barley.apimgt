@@ -19,7 +19,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import barley.apimgt.api.APIManagementException;
-import ch.ethz.ssh2.log.Logger;
 
 public class HttpUtils {
 	

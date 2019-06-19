@@ -36,7 +36,6 @@ import org.apache.axiom.om.OMElement;
 import org.apache.axiom.om.impl.builder.StAXOMBuilder;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.apache.commons.io.FileUtils;
-import org.wso2.carbon.identity.core.util.IdentityConfigParser;
 
 import barley.apimgt.api.APIManagementException;
 import barley.apimgt.api.dto.UserApplicationAPIUsage;
@@ -71,6 +70,7 @@ import barley.apimgt.impl.dto.APIKeyInfoDTO;
 import barley.apimgt.impl.internal.ServiceReferenceHolder;
 import barley.apimgt.impl.utils.APIMgtDBUtil;
 import barley.core.MultitenantConstants;
+import barley.identity.core.util.IdentityConfigParser;
 import junit.framework.TestCase;
 
 public class APIMgtDAOTest extends TestCase {
