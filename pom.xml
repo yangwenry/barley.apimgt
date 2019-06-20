@@ -263,6 +263,13 @@
 	            <artifactId>velocity</artifactId>
 	            <version>${velocity.version}</version>
 	        </dependency>
+	        
+	        <!-- database driver -->
+	        <dependency>
+	        	<groupId>mysql</groupId>
+	        	<artifactId>mysql-connector-java</artifactId>
+	        	<version>${mysql.version}</version>
+	        </dependency>
 			
 			<!-- swagger -->
 			<dependency>
@@ -506,6 +513,7 @@
         <bcprov.nhttp.version>1.49</bcprov.nhttp.version>
         <plexus.utils.version>1.5.4</plexus.utils.version>
         <velocity.version>1.7</velocity.version>
+        <mysql.version>5.1.37</mysql.version>
 
         <!-- dependencies of Synapse extensions module -->
         <wso2commons.version>1.2</wso2commons.version>
