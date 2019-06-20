@@ -524,7 +524,8 @@ public class APIThrottleHandler extends AbstractHandler {
                 accessToken = authContext.getApiKey();
                 consumerKey = authContext.getConsumerKey();
                 authorizedUser = authContext.getUsername();
-                roleID = authContext.getTier();
+                //roleID = authContext.getTier();
+                roleID = authContext.getSubscriptionTier();
                 applicationTier = authContext.getApplicationTier();
                 applicationId = authContext.getApplicationId();
 

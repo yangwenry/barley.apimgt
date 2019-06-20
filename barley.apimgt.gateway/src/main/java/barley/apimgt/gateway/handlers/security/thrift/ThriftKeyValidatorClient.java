@@ -102,7 +102,7 @@ public class ThriftKeyValidatorClient {
         apiKeyValidationInfoDTO.setEndUserName(thriftDTO.getEndUserName());
         apiKeyValidationInfoDTO.setEndUserToken(thriftDTO.getEndUserToken());
         apiKeyValidationInfoDTO.setSubscriber(thriftDTO.getSubscriber());
-        apiKeyValidationInfoDTO.setTier(thriftDTO.getTier());
+        apiKeyValidationInfoDTO.setSubscriptionTier(thriftDTO.getSubscriptionTier());
         apiKeyValidationInfoDTO.setType(thriftDTO.getType());
         apiKeyValidationInfoDTO.setValidationStatus(thriftDTO.getValidationStatus());
         apiKeyValidationInfoDTO.setApplicationId(thriftDTO.getApplicationId());

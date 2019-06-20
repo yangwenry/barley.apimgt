@@ -287,8 +287,8 @@ public class APIProviderImplTest extends BaseTestCase {
     	
     	uriTemplates.add(template);
     	api.setUriTemplates(uriTemplates);
-        
-        CORSConfiguration corsConfiguration = new CORSConfiguration(false, null, false, null, null);
+    	
+    	CORSConfiguration corsConfiguration = new CORSConfiguration(false, null, false, null, null);
         api.setCorsConfiguration(corsConfiguration);
         
         Set<String> environments = new HashSet<String>();

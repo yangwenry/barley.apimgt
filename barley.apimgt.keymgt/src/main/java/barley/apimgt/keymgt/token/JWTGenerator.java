@@ -53,7 +53,7 @@ public class JWTGenerator extends AbstractJWTGenerator {
         String subscriber = validationContext.getValidationInfoDTO().getSubscriber();
         String applicationName = validationContext.getValidationInfoDTO().getApplicationName();
         String applicationId = validationContext.getValidationInfoDTO().getApplicationId();
-        String tier = validationContext.getValidationInfoDTO().getTier();
+        String tier = validationContext.getValidationInfoDTO().getSubscriptionTier();
         String endUserName = validationContext.getValidationInfoDTO().getEndUserName();
         String keyType = validationContext.getValidationInfoDTO().getType();
         String userType = validationContext.getValidationInfoDTO().getUserType();

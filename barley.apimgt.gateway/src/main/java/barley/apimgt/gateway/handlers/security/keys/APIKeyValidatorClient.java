@@ -122,7 +122,7 @@ public class APIKeyValidatorClient {
         APIKeyValidationInfoDTO dto = new APIKeyValidationInfoDTO();
         dto.setSubscriber(generatedDto.getSubscriber());
         dto.setAuthorized(generatedDto.getAuthorized());
-        dto.setTier(generatedDto.getTier());
+        dto.setSubscriptionTier(generatedDto.getTier());
         dto.setType(generatedDto.getType());
         dto.setEndUserToken(generatedDto.getEndUserToken());
         dto.setEndUserName(generatedDto.getEndUserName());

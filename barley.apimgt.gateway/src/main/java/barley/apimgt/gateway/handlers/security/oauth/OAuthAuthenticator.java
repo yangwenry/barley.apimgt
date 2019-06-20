@@ -154,7 +154,8 @@ public class OAuthAuthenticator implements Authenticator {
             // Type without subscription information..
             AuthenticationContext authContext = new AuthenticationContext();
             authContext.setAuthenticated(true);
-            authContext.setTier(APIConstants.UNAUTHENTICATED_TIER);
+            // 구독 등급 설정 
+            authContext.setSubscriptionTier(APIConstants.UNAUTHENTICATED_TIER);
             authContext.setStopOnQuotaReach(true);//Since we don't have details on unauthenticated tier we setting stop on quota reach true
             //Requests are throttled by the ApiKey that is set here. In an unauthenticated scenario,
             //we will use the client's IP address for throttling.
@@ -212,7 +213,7 @@ public class OAuthAuthenticator implements Authenticator {
         if (info.isAuthorized()) {
         	AuthenticationContext authContext = new AuthenticationContext();
             authContext.setAuthenticated(true);
-            authContext.setTier(info.getTier());
+            authContext.setSubscriptionTier(info.getSubscriptionTier());
             authContext.setApiKey(apiKey);
             authContext.setKeyType(info.getType());
             if (info.getEndUserName() != null) {

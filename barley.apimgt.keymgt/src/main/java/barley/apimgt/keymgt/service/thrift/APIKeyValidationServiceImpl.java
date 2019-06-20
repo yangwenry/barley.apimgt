@@ -137,7 +137,7 @@ public class APIKeyValidationServiceImpl extends AbstractAdmin
                         thriftKeyValidationInfoDTO = new APIKeyValidationInfoDTO();
                         thriftKeyValidationInfoDTO.setAuthorized(keyValidationInfoDTO.isAuthorized());
                         thriftKeyValidationInfoDTO.setSubscriber(keyValidationInfoDTO.getSubscriber());
-                        thriftKeyValidationInfoDTO.setTier(keyValidationInfoDTO.getTier());
+                        thriftKeyValidationInfoDTO.setSubscriptionTier(keyValidationInfoDTO.getSubscriptionTier());
                         thriftKeyValidationInfoDTO.setType(keyValidationInfoDTO.getType());
                         thriftKeyValidationInfoDTO.setEndUserToken(keyValidationInfoDTO.getEndUserToken());
                         thriftKeyValidationInfoDTO.setEndUserName(keyValidationInfoDTO.getEndUserName());

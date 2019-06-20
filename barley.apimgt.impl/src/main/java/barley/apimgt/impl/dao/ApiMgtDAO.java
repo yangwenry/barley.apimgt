@@ -526,7 +526,7 @@ public class ApiMgtDAO {
         PreparedStatement ps = null;
         ResultSet rs = null;
 
-        String tier;
+        String subscriptionTier;
         String status;
         String type;
         String userType;
@@ -589,7 +589,7 @@ public class ApiMgtDAO {
             rs = ps.executeQuery();
             if (rs.next()) {
                 status = rs.getString(APIConstants.IDENTITY_OAUTH2_FIELD_TOKEN_STATE);
-                tier = rs.getString(APIConstants.SUBSCRIPTION_FIELD_TIER_ID);
+                subscriptionTier = rs.getString(APIConstants.SUBSCRIPTION_FIELD_TIER_ID);
                 type = rs.getString(APIConstants.SUBSCRIPTION_KEY_TYPE);
                 userType = rs.getString(APIConstants.SUBSCRIPTION_USER_TYPE);
                 subscriberName = rs.getString(APIConstants.SUBSCRIBER_FIELD_USER_ID);
@@ -618,7 +618,7 @@ public class ApiMgtDAO {
                 keyValidationInfoDTO.setConsumerKey(consumerKey);
                 keyValidationInfoDTO.setEndUserName(endUsernameWithDomain);
                 keyValidationInfoDTO.setIssuedTime(issuedTime);
-                keyValidationInfoDTO.setTier(tier);
+                keyValidationInfoDTO.setSubscriptionTier(subscriptionTier);
                 keyValidationInfoDTO.setType(type);
                 keyValidationInfoDTO.setUserType(userType);
                 keyValidationInfoDTO.setValidityPeriod(validityPeriod);
@@ -840,7 +840,7 @@ public class ApiMgtDAO {
                 String apiProvider = rs.getString("API_PROVIDER");
                 String subTier = rs.getString("TIER_ID");
                 String appTier = rs.getString("APPLICATION_TIER");
-                infoDTO.setTier(subTier);
+                infoDTO.setSubscriptionTier(subTier);
                 infoDTO.setSubscriber(rs.getString("USER_ID"));
                 infoDTO.setApplicationId(rs.getString("APPLICATION_ID"));
                 infoDTO.setApiName(rs.getString("API_NAME"));

@@ -218,6 +218,7 @@ public class ThrottleHandler extends AbstractHandler implements ManagedLifecycle
                 synCtx.setProperty(APIThrottleConstants.THROTTLED_OUT_REASON, APIThrottleConstants.REQUEST_BLOCKED);
                 isThrottled = true;
             } else {
+            	// authContext는 OAuthAuthenticator에서 생성하여 전달한다.             	
                 subscriberTenantDomain = authContext.getSubscriberTenantDomain();
                 applicationLevelThrottleKey = applicationId + ":" + authorizedUser;
                 apiLevelThrottleKey = apiContext + ":" + apiVersion;
@@ -226,7 +227,7 @@ public class ThrottleHandler extends AbstractHandler implements ManagedLifecycle
                 // APIKeyValidator에서 url-mapping 테이블을 조회한 데이터를 프로퍼티에 저장한다. 
                 VerbInfoDTO verbInfoDTO = (VerbInfoDTO) synCtx.getProperty(APIConstants.VERB_INFO_DTO);
                 applicationLevelTier = authContext.getApplicationTier();
-                subscriptionLevelTier = authContext.getTier();
+                subscriptionLevelTier = authContext.getSubscriptionTier();
                 resourceLevelThrottleKey = verbInfoDTO.getRequestKey();
                 apiLevelTier = authContext.getApiTier();
                 resourceLevelTier = verbInfoDTO.getThrottling();
@@ -242,14 +243,15 @@ public class ThrottleHandler extends AbstractHandler implements ManagedLifecycle
                     return false;
                 } else {
                     //If verbInfo is present then only we will do resource level throttling
-                	// url-mapping에 있는 리소스 레벨 쓰로틀링이 unlimited라면 통과 
+                	// url-mapping에 있는 리소스 레벨 쓰로틀링이 unlimited라면 통과
+                	// 1-1. API 수준의 쓰로틀링이고 Unlimited라면 리소스 쓰로틀링을 수행하지 않는다. 
                     if (APIConstants.UNLIMITED_TIER.equalsIgnoreCase(verbInfoDTO.getThrottling()) && !apiLevelThrottledTriggered) {
                         //If unlimited tier throttling will not apply at resource level and pass it
                         if (log.isDebugEnabled()) {
                             log.debug("Resource level throttling set as unlimited and request will pass " +
                                       "resource level");
                         }
-                    } else {
+                    } else {                    	
                         if (APIConstants.API_POLICY_USER_LEVEL.equalsIgnoreCase(verbInfoDTO.getApplicableLevel())) {
                             resourceLevelThrottleKey = resourceLevelThrottleKey + "_" + authorizedUser;
                             policyLevelUserTriggered = true;
@@ -264,6 +266,7 @@ public class ThrottleHandler extends AbstractHandler implements ManagedLifecycle
 //                        Timer.Context
 //                                context1 = timer1.start();
 
+                        // 1-2. 리소스 쓰로틀링 수행 
                         if (conditionGroupDTOs != null && conditionGroupDTOs.length > 0) {
 
                             // Checking Applicability of Conditions is a relatively expensive operation. So we are
@@ -318,7 +321,7 @@ public class ThrottleHandler extends AbstractHandler implements ManagedLifecycle
                     //Else go for subscription level and application level throttling
                     //if resource level not throttled then move to subscription level
                     if (!isResourceLevelThrottled) {
-                        //Subscription Level Throttling
+                        // 2. Subscription Level Throttling
                         subscriptionLevelThrottleKey = authContext.getApplicationId() + ":" + apiContext + ":"
                                                        + apiVersion;
                         isSubscriptionLevelThrottled = ServiceReferenceHolder.getInstance().getThrottleDataHolder().
@@ -331,7 +334,7 @@ public class ThrottleHandler extends AbstractHandler implements ManagedLifecycle
                         //Stop on quata reach
                         // 구독레벨 쓰로틀링을 수행하지 않았다면 
                         if (!isSubscriptionLevelThrottled && !isSubscriptionLevelSpikeThrottled) {
-                            //Application Level Throttling
+                            // 3. Application Level Throttling
                             isApplicationLevelThrottled = ServiceReferenceHolder.getInstance().getThrottleDataHolder().
                                     isThrottled(applicationLevelThrottleKey);
 
@@ -350,8 +353,12 @@ public class ThrottleHandler extends AbstractHandler implements ManagedLifecycle
                                 	// 현재 하드 쓰로틀링은 설정하지 않도록 한다. 
                                     if (isHardLimitThrottled(synCtx, authContext, apiContext, apiVersion)) {
                                         isThrottled = true;
-
+                                        
                                     } else {
+                                    	if (log.isDebugEnabled()) {
+                                            log.debug("Publishing throttled Event");
+                                        }
+                                    	// 쓰로틀링 결과 퍼블링싱 
                                     	/* (임시주석) 
                                         throttleDataPublisher.publishNonThrottledEvent(
                                                 applicationLevelThrottleKey, applicationLevelTier,
@@ -736,7 +743,7 @@ public class ThrottleHandler extends AbstractHandler implements ManagedLifecycle
     private void initThrottleForSubscriptionLevelSpikeArrest(MessageContext synCtx,
                                                              AuthenticationContext authenticationContext) {
         AuthenticationContext authContext = authenticationContext;
-        policyKey = authContext.getTier();
+        policyKey = authContext.getSubscriptionTier();
         String apiContext = (String) synCtx.getProperty(RESTConstants.REST_API_CONTEXT);
         String apiVersion = (String) synCtx.getProperty(RESTConstants.SYNAPSE_REST_API_VERSION);
         String subscriptionLevelThrottleKey = authContext.getApplicationId() + ":" + apiContext + ":" + apiVersion;

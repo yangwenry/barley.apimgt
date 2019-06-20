@@ -63,7 +63,7 @@ public class APIKeyValidationInfoDTO implements org.apache.thrift.TBase<APIKeyVa
 
   public boolean authorized; // optional
   public String subscriber; // optional
-  public String tier; // optional
+  public String subscriptionTier; // optional
   public String type; // optional
   public String endUserToken; // optional
   public String endUserName; // optional
@@ -294,8 +294,8 @@ public class APIKeyValidationInfoDTO implements org.apache.thrift.TBase<APIKeyVa
     if (other.isSetSubscriber()) {
       this.subscriber = other.subscriber;
     }
-    if (other.isSetTier()) {
-      this.tier = other.tier;
+    if (other.isSetSubscriptionTier()) {
+      this.subscriptionTier = other.subscriptionTier;
     }
     if (other.isSetType()) {
       this.type = other.type;
@@ -371,7 +371,7 @@ public class APIKeyValidationInfoDTO implements org.apache.thrift.TBase<APIKeyVa
     setAuthorizedIsSet(false);
     this.authorized = false;
     this.subscriber = null;
-    this.tier = null;
+    this.subscriptionTier = null;
     this.type = null;
     this.endUserToken = null;
     this.endUserName = null;
@@ -448,27 +448,27 @@ public class APIKeyValidationInfoDTO implements org.apache.thrift.TBase<APIKeyVa
     }
   }
 
-  public String getTier() {
-    return this.tier;
+  public String getSubscriptionTier() {
+    return this.subscriptionTier;
   }
 
-  public APIKeyValidationInfoDTO setTier(String tier) {
-    this.tier = tier;
+  public APIKeyValidationInfoDTO setSubscriptionTier(String tier) {
+    this.subscriptionTier = tier;
     return this;
   }
 
-  public void unsetTier() {
-    this.tier = null;
+  public void unsetSubscriptionTier() {
+    this.subscriptionTier = null;
   }
 
   /** Returns true if field tier is set (has been assigned a value) and false otherwise */
-  public boolean isSetTier() {
-    return this.tier != null;
+  public boolean isSetSubscriptionTier() {
+    return this.subscriptionTier != null;
   }
 
-  public void setTierIsSet(boolean value) {
+  public void setSubscriptionTierIsSet(boolean value) {
     if (!value) {
-      this.tier = null;
+      this.subscriptionTier = null;
     }
   }
 
@@ -1035,9 +1035,9 @@ public class APIKeyValidationInfoDTO implements org.apache.thrift.TBase<APIKeyVa
 
     case TIER:
       if (value == null) {
-        unsetTier();
+        unsetSubscriptionTier();
       } else {
-        setTier((String)value);
+        setSubscriptionTier((String)value);
       }
       break;
 
@@ -1221,7 +1221,7 @@ public class APIKeyValidationInfoDTO implements org.apache.thrift.TBase<APIKeyVa
       return getSubscriber();
 
     case TIER:
-      return getTier();
+      return getSubscriptionTier();
 
     case TYPE:
       return getType();
@@ -1302,7 +1302,7 @@ public class APIKeyValidationInfoDTO implements org.apache.thrift.TBase<APIKeyVa
     case SUBSCRIBER:
       return isSetSubscriber();
     case TIER:
-      return isSetTier();
+      return isSetSubscriptionTier();
     case TYPE:
       return isSetType();
     case END_USER_TOKEN:
@@ -1380,12 +1380,12 @@ public class APIKeyValidationInfoDTO implements org.apache.thrift.TBase<APIKeyVa
         return false;
     }
 
-    boolean this_present_tier = true && this.isSetTier();
-    boolean that_present_tier = true && that.isSetTier();
+    boolean this_present_tier = true && this.isSetSubscriptionTier();
+    boolean that_present_tier = true && that.isSetSubscriptionTier();
     if (this_present_tier || that_present_tier) {
       if (!(this_present_tier && that_present_tier))
         return false;
-      if (!this.tier.equals(that.tier))
+      if (!this.subscriptionTier.equals(that.subscriptionTier))
         return false;
     }
 
@@ -1614,12 +1614,12 @@ public class APIKeyValidationInfoDTO implements org.apache.thrift.TBase<APIKeyVa
         return lastComparison;
       }
     }
-    lastComparison = Boolean.valueOf(isSetTier()).compareTo(typedOther.isSetTier());
+    lastComparison = Boolean.valueOf(isSetSubscriptionTier()).compareTo(typedOther.isSetSubscriptionTier());
     if (lastComparison != 0) {
       return lastComparison;
     }
-    if (isSetTier()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.tier, typedOther.tier);
+    if (isSetSubscriptionTier()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.subscriptionTier, typedOther.subscriptionTier);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -1869,13 +1869,13 @@ public class APIKeyValidationInfoDTO implements org.apache.thrift.TBase<APIKeyVa
       }
       first = false;
     }
-    if (isSetTier()) {
+    if (isSetSubscriptionTier()) {
       if (!first) sb.append(", ");
       sb.append("tier:");
-      if (this.tier == null) {
+      if (this.subscriptionTier == null) {
         sb.append("null");
       } else {
-        sb.append(this.tier);
+        sb.append(this.subscriptionTier);
       }
       first = false;
     }
@@ -2127,8 +2127,8 @@ public class APIKeyValidationInfoDTO implements org.apache.thrift.TBase<APIKeyVa
             break;
           case 3: // TIER
             if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
-              struct.tier = iprot.readString();
-              struct.setTierIsSet(true);
+              struct.subscriptionTier = iprot.readString();
+              struct.setSubscriptionTierIsSet(true);
             } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
@@ -2358,10 +2358,10 @@ public class APIKeyValidationInfoDTO implements org.apache.thrift.TBase<APIKeyVa
           oprot.writeFieldEnd();
         }
       }
-      if (struct.tier != null) {
-        if (struct.isSetTier()) {
+      if (struct.subscriptionTier != null) {
+        if (struct.isSetSubscriptionTier()) {
           oprot.writeFieldBegin(TIER_FIELD_DESC);
-          oprot.writeString(struct.tier);
+          oprot.writeString(struct.subscriptionTier);
           oprot.writeFieldEnd();
         }
       }
@@ -2545,7 +2545,7 @@ public class APIKeyValidationInfoDTO implements org.apache.thrift.TBase<APIKeyVa
       if (struct.isSetSubscriber()) {
         optionals.set(1);
       }
-      if (struct.isSetTier()) {
+      if (struct.isSetSubscriptionTier()) {
         optionals.set(2);
       }
       if (struct.isSetType()) {
@@ -2618,8 +2618,8 @@ public class APIKeyValidationInfoDTO implements org.apache.thrift.TBase<APIKeyVa
       if (struct.isSetSubscriber()) {
         oprot.writeString(struct.subscriber);
       }
-      if (struct.isSetTier()) {
-        oprot.writeString(struct.tier);
+      if (struct.isSetSubscriptionTier()) {
+        oprot.writeString(struct.subscriptionTier);
       }
       if (struct.isSetType()) {
         oprot.writeString(struct.type);
@@ -2717,8 +2717,8 @@ public class APIKeyValidationInfoDTO implements org.apache.thrift.TBase<APIKeyVa
         struct.setSubscriberIsSet(true);
       }
       if (incoming.get(2)) {
-        struct.tier = iprot.readString();
-        struct.setTierIsSet(true);
+        struct.subscriptionTier = iprot.readString();
+        struct.setSubscriptionTierIsSet(true);
       }
       if (incoming.get(3)) {
         struct.type = iprot.readString();

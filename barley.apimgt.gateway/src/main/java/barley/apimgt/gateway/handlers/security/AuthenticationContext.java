@@ -27,7 +27,9 @@ public class AuthenticationContext {
     private boolean authenticated;
     private String username;
     private String applicationTier;
-    private String tier;
+    // (수정) 2019.06.20 - 용어가 불분명하여 subscriptionTier로 변경
+    //private String tier;
+    private String subscriptionTier;
     private String apiTier;
     private boolean isContentAwareTierPresent;
     private String apiKey;
@@ -85,8 +87,22 @@ public class AuthenticationContext {
         return username;
     }
 
+    
+    /* (아래코드로 수정)
     public String getTier() {
         return tier;
+    }
+    
+    public void setTier(String tier) {
+        this.tier = tier;
+    }*/
+    
+    public String getSubscriptionTier() {
+        return subscriptionTier;
+    }
+    
+    public void setSubscriptionTier(String subscriptionTier) {
+        this.subscriptionTier = subscriptionTier;
     }
 
     public String getApiKey() {
@@ -103,10 +119,6 @@ public class AuthenticationContext {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public void setTier(String tier) {
-        this.tier = tier;
     }
 
     public String getKeyType() {

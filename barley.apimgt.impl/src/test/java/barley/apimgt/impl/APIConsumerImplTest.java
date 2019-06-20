@@ -475,8 +475,8 @@ public class APIConsumerImplTest extends BaseTestCase {
     	// 1. am_application_registration, AM_APPLICATION_KEY_MAPPING 테이블에 승인 데이터를 생성한다.
     	// 2. 게이트웨이를 통해 토큰 키를 생성한다. - 현재 주석처리하여 동작하지 않음. 
     	// 어플리케이션 승인요청. IDN_OAUTH_CONSUMER_APPS 테이블에 사용자의 어플이 존재하면 에러발생함.
-//    	consumer.requestApprovalForApplicationRegistration(username, applicationName, tokenType, callbackUrl, allowedDomains, 
-//    			validityTime, tokenScope, groupId, jsonString);
+    	consumer.requestApprovalForApplicationRegistration(username, applicationName, tokenType, callbackUrl, allowedDomains, 
+    			validityTime, tokenScope, groupId, jsonString);
     	
     	// 어플리케이션 승인완료 => AM_APPLICATION_KEY_MAPPING 테이블이 승인상태일 경우에만 동작. 토큰키 생성 후 complete 완료.  
     	// SP_APP 테이블에 데이터 생성.

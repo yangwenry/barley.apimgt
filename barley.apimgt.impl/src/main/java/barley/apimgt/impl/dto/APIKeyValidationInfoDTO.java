@@ -32,7 +32,9 @@ public class APIKeyValidationInfoDTO implements Serializable {
 
     private boolean authorized;
     private String subscriber;
-    private String tier;
+    // (수정)
+    //private String tier;
+    private String subscriptionTier;
     private String type;
     //isContentAware property is here to notify if there is at least one content based tier associated with request
     //If this property is true then throttle handler should build message or get content length and pass it to
@@ -99,12 +101,21 @@ public class APIKeyValidationInfoDTO implements Serializable {
         this.authorized = authorized;
     }
 
+    /* (수정)
     public String getTier() {
         return tier;
     }
 
     public void setTier(String tier) {
         this.tier = tier;
+    }
+    */
+    public String getSubscriptionTier() {
+        return subscriptionTier;
+    }
+    
+    public void setSubscriptionTier(String subscriptionTier) {
+        this.subscriptionTier = subscriptionTier;
     }
 
     public String getSubscriber() {
@@ -240,7 +251,7 @@ public class APIKeyValidationInfoDTO implements Serializable {
         StringBuilder builder = new StringBuilder(20);
         builder.append("APIKeyValidationInfoDTO = { authorized:").append(authorized).
                 append(" , subscriber:").append(subscriber).
-                append(" , tier:").append(tier).
+                append(" , tier:").append(subscriptionTier).
                 append(" , type:").append(type).
                 append(" , userType:").append(userType).
                 append(" , endUserToken:").append(endUserToken).
