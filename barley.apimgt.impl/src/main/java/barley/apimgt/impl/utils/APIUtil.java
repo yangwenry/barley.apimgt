@@ -1114,6 +1114,7 @@ public final class APIUtil {
     }
 
     //remove getSwagger12DefinitionFilePath once getSwagger20DefinitionFilePath operates
+    @Deprecated
     public static String getSwagger12DefinitionFilePath(String apiName, String apiVersion, String apiProvider) {
     	// (수정)
         return APIConstants.API_DOC_LOCATION + RegistryConstants.PATH_SEPARATOR +
