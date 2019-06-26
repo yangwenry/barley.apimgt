@@ -358,7 +358,7 @@ public class ThrottleHandler extends AbstractHandler implements ManagedLifecycle
                                     	if (log.isDebugEnabled()) {
                                             log.debug("Publishing throttled Event");
                                         }
-                                    	// 쓰로틀링 결과 퍼블링싱 
+                                    	// 쓰로틀링 결과 퍼블링싱 - 바이너리 통신으로 데이터분석기에 데이터 전달 
                                     	/* (임시주석) 
                                         throttleDataPublisher.publishNonThrottledEvent(
                                                 applicationLevelThrottleKey, applicationLevelTier,
