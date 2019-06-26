@@ -215,6 +215,7 @@
             <artifactId>velocity</artifactId>
         </dependency>	  	
         
+        <!-- APIClientGenerationManager.java에서 사용됨. 실질적으로 필요없음 -->
         <dependency>
             <groupId>org.wso2.orbit.io.swagger</groupId>
             <artifactId>swagger-codegen</artifactId>
