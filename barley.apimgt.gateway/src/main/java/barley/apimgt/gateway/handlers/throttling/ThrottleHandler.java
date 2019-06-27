@@ -227,11 +227,14 @@ public class ThrottleHandler extends AbstractHandler implements ManagedLifecycle
                 // APIKeyValidator에서 url-mapping 테이블을 조회한 데이터를 프로퍼티에 저장한다. 
                 VerbInfoDTO verbInfoDTO = (VerbInfoDTO) synCtx.getProperty(APIConstants.VERB_INFO_DTO);
                 applicationLevelTier = authContext.getApplicationTier();
+                // AM_SUBSCRIPTION 테이블의 tier_id 필드에서 가져온다.
                 subscriptionLevelTier = authContext.getSubscriptionTier();
                 resourceLevelThrottleKey = verbInfoDTO.getRequestKey();
+                // AM_API 테이블의 api_tier 필드에서 가져온다. 
                 apiLevelTier = authContext.getApiTier();
                 resourceLevelTier = verbInfoDTO.getThrottling();
                 //If API level throttle policy is present then it will apply and no resource level policy will apply for it
+                // api 레벨이 있으나 Unlimited가 아니라면 api 쓰로틀링을 수행해야 한다. 
                 if (!StringUtils.isEmpty(apiLevelTier) && !APIConstants.UNLIMITED_TIER.equalsIgnoreCase(apiLevelTier)) {
                     resourceLevelThrottleKey = apiLevelThrottleKey;
                     apiLevelThrottledTriggered = true;
@@ -244,8 +247,8 @@ public class ThrottleHandler extends AbstractHandler implements ManagedLifecycle
                 } else {
                     //If verbInfo is present then only we will do resource level throttling
                 	// url-mapping에 있는 리소스 레벨 쓰로틀링이 unlimited라면 통과
-                	// 1-1. API 수준의 쓰로틀링이고 Unlimited라면 리소스 쓰로틀링을 수행하지 않는다. 
-                    if (APIConstants.UNLIMITED_TIER.equalsIgnoreCase(verbInfoDTO.getThrottling()) && !apiLevelThrottledTriggered) {
+                	// 1-1. 리소스 레벨이 Unlimited이고 api 레벨이 Unlimited라면    
+                    if (APIConstants.UNLIMITED_TIER.equalsIgnoreCase(resourceLevelTier) && !apiLevelThrottledTriggered) {
                         //If unlimited tier throttling will not apply at resource level and pass it
                         if (log.isDebugEnabled()) {
                             log.debug("Resource level throttling set as unlimited and request will pass " +
@@ -266,7 +269,9 @@ public class ThrottleHandler extends AbstractHandler implements ManagedLifecycle
 //                        Timer.Context
 //                                context1 = timer1.start();
 
-                        // 1-2. 리소스 쓰로틀링 수행 
+                        // 1-2. api 레벨 혹은 리소스 레벨 쓰로틀링 수행
+                        // 1) api 레벨 수준이 Unlimited가 아니지만 리소스 수준이 Unlimited일 경우 = isApiLevelThrottled
+                        // 2) api 레벨 수준이 Unlimited지만 리소스 수준이 Unlimited가 아닐 경우 = isResourceLevelThrottled
                         if (conditionGroupDTOs != null && conditionGroupDTOs.length > 0) {
 
                             // Checking Applicability of Conditions is a relatively expensive operation. So we are
@@ -287,6 +292,7 @@ public class ThrottleHandler extends AbstractHandler implements ManagedLifecycle
                                         log.debug("Checking condition : " + combinedResourceLevelThrottleKey);
                                     }
 
+                                    // 리소스 레벨 쓰로틀링 체크하고  api 레벨이 Unlimited가 아니였다면 쓰로틀링 결과를 isApiLevelThrottled에 담아 처리를 완료시킨다. 
                                     if (ServiceReferenceHolder.getInstance().getThrottleDataHolder().
                                             isThrottled(combinedResourceLevelThrottleKey)) {
                                         if (!apiLevelThrottledTriggered) {
@@ -321,7 +327,7 @@ public class ThrottleHandler extends AbstractHandler implements ManagedLifecycle
                     //Else go for subscription level and application level throttling
                     //if resource level not throttled then move to subscription level
                     if (!isResourceLevelThrottled) {
-                        // 2. Subscription Level Throttling
+                        // 2. 구독레벨 쓰로틀링 (Subscription Level Throttling)
                         subscriptionLevelThrottleKey = authContext.getApplicationId() + ":" + apiContext + ":"
                                                        + apiVersion;
                         isSubscriptionLevelThrottled = ServiceReferenceHolder.getInstance().getThrottleDataHolder().
