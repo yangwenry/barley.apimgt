@@ -2618,7 +2618,9 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
 
         String apiArtifactPath = APIUtil.getAPIPath(identifier);
 
+        boolean transactionCommitted = false;
         try {
+        	registry.beginTransaction();
 
             long subsCount = apiMgtDAO.getAPISubscriptionCountByAPI(identifier);
             if (subsCount > 0) {
@@ -2713,8 +2715,6 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
                 contextCache.put(context, Boolean.FALSE);
             }
 
-            apiMgtDAO.deleteAPI(identifier);
-
             if (log.isDebugEnabled()) {
                 String logMessage =
                         "API Name: " + api.getId().getApiName() + ", API Version " + api.getId().getVersion()
@@ -2766,8 +2766,28 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
             		registry.delete(apiProviderPath);
             	}
             }
-        } catch (RegistryException e) {
+            
+            // (수정) registry 삭제 후 삭제하도록 위치 변경 
+            apiMgtDAO.deleteAPI(identifier);
+            
+            registry.commitTransaction();
+            transactionCommitted = true;
+        } catch (Exception e) {
+        	try {
+                registry.rollbackTransaction();
+            } catch (RegistryException re) {
+                // Throwing an error from this level will mask the original exception
+                log.error("Error while rolling back the transaction for API: " + identifier.getApiName(), re);
+            }
             handleException("Failed to remove the API from : " + path, e);
+        } finally {
+            try {
+                if (!transactionCommitted) {
+                    registry.rollbackTransaction();
+                }
+            } catch (RegistryException ex) {
+                handleException("Error occurred while rolling back the transaction.", ex);
+            }
         }
     }
 
