@@ -728,7 +728,7 @@ public final class APIConstants {
     public static final String AUTH_NO_AUTHENTICATION = "None";
     public static final String AUTH_APPLICATION_LEVEL_TOKEN = "Application";
     public static final String AUTH_APPLICATION_USER_LEVEL_TOKEN = "Application_User";
-    public static final String AUTH_APP_AND_USER ="Application_User";
+//    public static final String AUTH_APP_AND_USER ="Application_User";
     public static final String AUTH_APPLICATION_OR_USER_LEVEL_TOKEN = "Any";
     public static final String NO_MATCHING_AUTH_SCHEME = "noMatchedAuthScheme";
 
