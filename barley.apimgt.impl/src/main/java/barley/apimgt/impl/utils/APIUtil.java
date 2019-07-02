@@ -1096,7 +1096,9 @@ public final class APIUtil {
      */
     public static String getIconPath(APIIdentifier identifier) {
         String artifactPath = APIConstants.API_IMAGE_LOCATION + RegistryConstants.PATH_SEPARATOR +
-                identifier.getProviderName() + RegistryConstants.PATH_SEPARATOR +
+        		// (수정) 경로 수정 
+//                identifier.getProviderName() + RegistryConstants.PATH_SEPARATOR +
+        		APIUtil.replaceEmailDomain(identifier.getProviderName()) + RegistryConstants.PATH_SEPARATOR +
                 identifier.getApiName() + RegistryConstants.PATH_SEPARATOR + identifier.getVersion();
         return artifactPath + RegistryConstants.PATH_SEPARATOR + APIConstants.API_ICON_IMAGE;
     }
