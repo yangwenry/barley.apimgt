@@ -14,7 +14,8 @@
 	 	<module>barley.apimgt.api</module>
 	 	<module>barley.apimgt.gateway</module>
     	<module>barley.apimgt.keymgt</module>
-	</modules>
+    	<module>barley.apimgt.usage</module>
+  </modules>
 	
 	<dependencyManagement>
 		<dependencies>
@@ -118,6 +119,16 @@
 	        <dependency>
 	            <groupId>barley.identity</groupId>
 	            <artifactId>barley.identity.application.authentication.framework</artifactId>
+	            <version>${project.version}</version>
+	        </dependency>
+	        <dependency>
+	            <groupId>barley.analytics-common</groupId>
+	            <artifactId>barley.databridge.commons</artifactId>
+	            <version>${project.version}</version>
+	        </dependency>
+	        <dependency>
+	            <groupId>barley.analytics-common</groupId>
+	            <artifactId>barley.databridge.agent</artifactId>
 	            <version>${project.version}</version>
 	        </dependency>
 	        
