@@ -35,7 +35,7 @@ public class APIThrottleConstants {
     public static final String SUBSCRIPTION_LIMIT_EXCEEDED = APIConstants.THROTTLE_OUT_REASON_SUBSCRIPTION_LIMIT_EXCEEDED;
     public static final String CUSTOM_POLICY_LIMIT_EXCEED = "CUSTOM_POLICY_LIMIT_EXCEED";
 
-    public static final String API_THROTTLE_NS = "http://wso2.org/apimanager/throttling";
+    public static final String API_THROTTLE_NS = "http://codefarm.co.kr/apimanager/throttling";
     public static final String API_THROTTLE_NS_PREFIX = "amt";
     public static final String API_THROTTLE_OUT_HANDLER = "_throttle_out_handler_";
     public static final String HARD_THROTTLING_CONFIGURATION = "hard_throttling_limits";

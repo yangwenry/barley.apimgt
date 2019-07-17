@@ -21,7 +21,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.http.HttpStatus;
@@ -45,6 +48,8 @@ import barley.apimgt.gateway.handlers.Utils;
 import barley.apimgt.gateway.internal.ServiceReferenceHolder;
 import barley.apimgt.impl.APIConstants;
 import barley.apimgt.impl.utils.APIUtil;
+import barley.core.MultitenantConstants;
+import barley.core.multitenancy.MultitenantUtils;
 
 import org.apache.axis2.Constants;
 
@@ -155,14 +160,14 @@ public class CORSRequestHandler extends AbstractHandler implements ManagedLifecy
                     }
                 }
 				//If no acceptable resources are found
-				else{
+				else {
 					//We're going to send a 405 or a 404. Run the following logic to determine which.
 					handleResourceNotFound(messageContext, Arrays.asList(allAPIResources));
 					return false;
 				}
 
 				//No matching resource found
-				if(selectedResource == null){
+				if(selectedResource == null) {
 					//Respond with a 404
 					onResourceNotFoundError(messageContext, HttpStatus.SC_NOT_FOUND,
 							APIMgtGatewayConstants.RESOURCE_NOT_FOUND_ERROR_MSG);
@@ -240,9 +245,60 @@ public class CORSRequestHandler extends AbstractHandler implements ManagedLifecy
 		messageContext.setProperty(APIConstants.CUSTOM_ERROR_MESSAGE, errorMessage);
 		Mediator resourceMisMatchedSequence = messageContext.getSequence(RESTConstants.NO_MATCHING_RESOURCE_HANDLER);
 		if (resourceMisMatchedSequence != null) {
+			// (추가) 2019.07.17 
+			setAPIParametersToMessageContext(messageContext);
 			resourceMisMatchedSequence.mediate(messageContext);
 		}
 	}
+	
+	// (추가) 2019.07.17 - wso2 있는 소스는 아니지만 fault 실행시 Null데이터가 많아서 프로퍼티 추가를 위해 구현함   
+	private void setAPIParametersToMessageContext(MessageContext messageContext) {
+
+        org.apache.axis2.context.MessageContext axis2MsgContext =
+                ((Axis2MessageContext) messageContext).getAxis2MessageContext();
+
+        String context = (String) messageContext.getProperty(RESTConstants.REST_API_CONTEXT);
+        String apiFullName = (String) messageContext.getProperty(RESTConstants.SYNAPSE_REST_API);
+
+        String apiPublisher = (String) messageContext.getProperty(APIMgtGatewayConstants.API_PUBLISHER);
+
+        int index = apiFullName.indexOf("--");
+
+        String apiVersion = apiFullName;
+        if (index != -1) {
+            apiVersion = apiFullName.substring(index + 2);
+            if (apiPublisher == null) {
+                apiPublisher = APIUtil.replaceEmailDomainBack(apiFullName.substring(0, index));
+            }
+        } 
+
+        String api = apiVersion.split(":")[0];
+        String version = (String) messageContext.getProperty(RESTConstants.SYNAPSE_REST_API_VERSION);
+
+        String resource = extractResource(messageContext);
+        String method = (String) (axis2MsgContext.getProperty(Constants.Configuration.HTTP_METHOD));
+        String hostName = APIUtil.getHostAddress();
+
+        messageContext.setProperty(APIMgtGatewayConstants.CONTEXT, context);
+        messageContext.setProperty(APIMgtGatewayConstants.API_VERSION, apiVersion);
+        messageContext.setProperty(APIMgtGatewayConstants.API, api);
+        messageContext.setProperty(APIMgtGatewayConstants.VERSION, version);
+        messageContext.setProperty(APIMgtGatewayConstants.RESOURCE, resource);
+        messageContext.setProperty(APIMgtGatewayConstants.HTTP_METHOD, method);
+        messageContext.setProperty(APIMgtGatewayConstants.HOST_NAME, hostName);
+        messageContext.setProperty(APIMgtGatewayConstants.API_PUBLISHER, apiPublisher);
+    }
+	
+	// (추가) 2019.07.17
+	private String extractResource(MessageContext mc) {
+        String resource = "/";
+        Pattern pattern = Pattern.compile(APIMgtGatewayConstants.RESOURCE_PATTERN);
+        Matcher matcher = pattern.matcher((String) mc.getProperty(RESTConstants.REST_FULL_REQUEST_PATH));
+        if (matcher.find()) {
+            resource = matcher.group(1);
+        }
+        return resource;
+    }
 
 	/**
 	 * This method used to set CORS headers into message context

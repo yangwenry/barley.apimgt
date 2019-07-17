@@ -51,7 +51,7 @@ public class APIMgtUsageHandler extends AbstractHandler {
         boolean enabled = APIUtil.isAnalyticsEnabled();
         boolean skipEventReceiverConnection = DataPublisherUtil.getApiManagerAnalyticsConfiguration().
                 isSkipEventReceiverConnection();
-
+        
         if (!enabled || skipEventReceiverConnection) {
             return true;
         }

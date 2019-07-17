@@ -78,9 +78,17 @@ public class DataBridgeFaultPublisherDTO extends FaultPublisherDTO{
 
     }
 
-    public Object createPayload(){
+    // (수정) 2019.07.17 - 항목에 null이 많아 변경함.
+    /*
+    public Object createPayload() {
         return new Object[]{getConsumerKey(), getContext(), getApiVersion(), getApi(), getResourcePath(), getMethod(),
                             getVersion(), getErrorCode(), getErrorMessage(), getRequestTime(), getUsername(),
                             getTenantDomain(), getHostName(), getApiPublisher(), getApplicationName(), getApplicationId(), getProtocol()};
+    }
+    */
+    public Object createPayload() {
+        return new Object[]{getContext(), getApiVersion(), getApi(), getResourcePath(), getMethod(),
+                            getVersion(), getErrorCode(), getErrorMessage(), getRequestTime(), 
+                            getTenantDomain(), getHostName(), getApiPublisher(), getProtocol()};
     }
 }

@@ -470,7 +470,7 @@ public class ThrottleHandler extends AbstractHandler implements ManagedLifecycle
 //        Timer.Context context3 = timer3.start();
         long executionStartTime = System.currentTimeMillis();
         try {
-            return doThrottle(messageContext);
+        	return doThrottle(messageContext);
         } finally {
             messageContext.setProperty(APIMgtGatewayConstants.THROTTLING_LATENCY,
                     System.currentTimeMillis() - executionStartTime);
@@ -515,7 +515,7 @@ public class ThrottleHandler extends AbstractHandler implements ManagedLifecycle
 //            context.stop();
         }
         boolean isThrottled = false;
-
+        
         if (!messageContext.isResponse()) {
             //org.apache.axis2.context.MessageContext axis2MC = ((Axis2MessageContext) messageContext).
             //      getAxis2MessageContext();

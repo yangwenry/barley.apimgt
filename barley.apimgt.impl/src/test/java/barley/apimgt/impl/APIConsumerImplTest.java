@@ -344,15 +344,15 @@ public class APIConsumerImplTest extends BaseTestCase {
     
     // am_application
     public void testApplication() throws APIManagementException {
-    	String userId = "admin@codefarm.co.kr";
+    	String userId = "yangwenry@codefarm.co.kr";
     	int applicationId = 6;
     	String groupId = "1";
     	String applicationName = "DefaultApplication";
     	
-//    	Subscriber subscriber = new Subscriber(userId); 
-//    	Application newApplication = new Application("DefaultApplication", subscriber);
-//    	newApplication.setGroupId(groupId);
-//    	consumer.addApplication(newApplication, userId);
+    	Subscriber subscriber = new Subscriber(userId); 
+    	Application newApplication = new Application("DefaultApplication", subscriber);
+    	newApplication.setGroupId(groupId);
+    	consumer.addApplication(newApplication, userId);
     	
 //    	Application application = consumer.getApplicationById(applicationId);
 ////    	assertEquals("DefaultApplication", application.getName());
@@ -404,8 +404,8 @@ public class APIConsumerImplTest extends BaseTestCase {
     // AM_SUBSCRIBER 테이블에 입력 
     public void testSubscriber() throws APIManagementException {
     	int tenantId = 1;
-        String username = "yangwenry@codefarm.com";
-        String tenantDomain = "codefarm.com";
+        String username = "yangwenry@codefarm.co.kr";
+        String tenantDomain = "codefarm.co.kr";
     	
     	String groupingId = null;    	
     	String applicationName = "DefaultApplication";

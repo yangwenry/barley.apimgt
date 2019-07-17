@@ -1682,6 +1682,7 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
                 properties.put("sandboxMaxCount", api.getSandboxMaxTps());
             }
 
+            // Advanced Throttling을 수행하므로 ThrottleHandler 사용 
             if(isGlobalThrottlingEnabled){
                 vtb.addHandler("barley.apimgt.gateway.handlers.throttling.ThrottleHandler", properties);
             } else {

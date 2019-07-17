@@ -289,7 +289,7 @@ public class APIKeyValidator {
         return true;
     }
 
-    public String getResourceAuthenticationScheme(MessageContext synCtx) throws APISecurityException{
+    public String getResourceAuthenticationScheme(MessageContext synCtx) throws APISecurityException {
     	//return APIConstants.AUTH_NO_AUTHENTICATION;
         VerbInfoDTO verb = null;
         try {

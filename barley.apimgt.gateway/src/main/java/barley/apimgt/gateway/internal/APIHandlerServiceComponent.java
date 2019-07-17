@@ -75,16 +75,24 @@ public class APIHandlerServiceComponent {
 
                     //First do web service call and update map.
                     //Then init JMS listener to listen que and update it.
-                    //Following method will initialize JMS listnet and listen all updates and keep throttle data map
+                    //Following method will initialize JMS listener and listen all updates and keep throttle data map
                     // up to date
                     //start web service throttle data retriever as separate thread and start it.
-                    if (configuration.getThrottleProperties().getBlockCondition().isEnabled()){
+                    if (configuration.getThrottleProperties().getBlockCondition().isEnabled()) {
+                    	// 블랙리스트 IP 데이터 리시버
+                    	// Restful 서비스를 통해 AM_POLICY_GLOBAL 테이블 조회하여 결과를 리턴받는다. 
                         BlockingConditionRetriever webServiceThrottleDataRetriever = new
                                 BlockingConditionRetriever();
                         webServiceThrottleDataRetriever.startWebServiceThrottleDataRetriever();
+                        
+                        // 키 템플릿 
                         KeyTemplateRetriever webServiceBlockConditionsRetriever = new
                                 KeyTemplateRetriever();
                         webServiceBlockConditionsRetriever.startKeyTemplateDataRetriever();
+                        
+                        // 왜 쓰로틀링 데이터 리시버는 없는지 의문이다. Restful 서비스는 존재하는데 사용하지 않는다. 
+                        // throttling.service 프로젝트에 ThrottleTable을 조회하는 서비스가 있으나 사용하지 않는 것으로 보인다. 
+                        // 위 주석으로 볼때 JMS Listener를 통해 쓰레드 로컬 변수로 데이터 처리하는 것으로 예상된다.   
                     }
                 }
             }
@@ -93,7 +101,7 @@ public class APIHandlerServiceComponent {
 		}
     }
 
-    protected void deactivate(ComponentContext context) {
+    public void deactivate() {
         if (log.isDebugEnabled()) {
             log.debug("API handlers component deactivated");
         }

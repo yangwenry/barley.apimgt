@@ -144,7 +144,7 @@ public class APISecurityConstants {
         return errorDescription;
     }
 
-    public static final String API_SECURITY_NS = "http://wso2.org/apimanager/security";
+    public static final String API_SECURITY_NS = "http://codefarm.co.kr/apimanager/security";
     public static final String API_SECURITY_NS_PREFIX = "ams";
     
     public static final int DEFAULT_MAX_VALID_KEYS = 250;

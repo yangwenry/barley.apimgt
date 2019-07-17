@@ -132,9 +132,15 @@ public class APIMgtResponseHandler extends APIMgtCommonExecutionPublisher {
             ResponsePublisherDTO responsePublisherDTO = new ResponsePublisherDTO();
             responsePublisherDTO.setConsumerKey((String) mc.getProperty(APIMgtGatewayConstants.CONSUMER_KEY));
             responsePublisherDTO.setUsername((String) mc.getProperty(APIMgtGatewayConstants.USER_ID));
+            /* (수정) 2019.07.15 - 테넌트가 Null이라서 다른 프로퍼티로 변경 
             String tenantDomain = (responsePublisherDTO.getUsername() == null ? null :
                     MultitenantUtils.getTenantDomain(responsePublisherDTO.getUsername()));
             responsePublisherDTO.setTenantDomain(tenantDomain);
+                    */
+            String apiPublisher = (String) mc.getProperty(APIMgtGatewayConstants.API_PUBLISHER);
+            String tenantDomain = MultitenantUtils.getTenantDomain(apiPublisher);
+            responsePublisherDTO.setTenantDomain(tenantDomain);
+            
             responsePublisherDTO.setContext((String) mc.getProperty(APIMgtGatewayConstants.CONTEXT));
             responsePublisherDTO.setApiVersion((String) mc.getProperty(RESTConstants.SYNAPSE_REST_API));
             responsePublisherDTO.setApi((String) mc.getProperty(APIMgtGatewayConstants.API));

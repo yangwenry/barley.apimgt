@@ -115,7 +115,7 @@ public class APIAuthenticationHandler extends AbstractHandler implements Managed
         try {
             if (APIUtil.isAnalyticsEnabled()) {
                 long currentTime = System.currentTimeMillis();
-                messageContext.setProperty("api.ut.requestTime", Long.toString(currentTime));
+                messageContext.setProperty(APIMgtGatewayConstants.REQUEST_START_TIME, Long.toString(currentTime));
             }
             if (authenticator == null) {
                 initializeAuthenticator();
@@ -319,7 +319,7 @@ public class APIAuthenticationHandler extends AbstractHandler implements Managed
             tenantDomain = MultitenantConstants.SUPER_TENANT_DOMAIN_NAME;
         }
         if (apiPublisher == null) {
-            apiPublisher = APIUtil.getAPIProviderFromRESTAPI(apiVersion,tenantDomain);
+            apiPublisher = APIUtil.getAPIProviderFromRESTAPI(apiVersion, tenantDomain);
         }
 
         String resource = extractResource(messageContext);
