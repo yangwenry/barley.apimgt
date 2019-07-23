@@ -51,7 +51,9 @@ public class APIMgtResponseHandler extends APIMgtCommonExecutionPublisher {
     }
 
     public boolean mediate(MessageContext mc) {
+    	// executionTimePublisherDTO로 publisher 수행함. 
         super.mediate(mc);
+        
         if (publisher == null) {
             this.initializeDataPublisher();
         }

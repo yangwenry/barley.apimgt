@@ -43,13 +43,17 @@ public class APIMgtCommonExecutionPublisher extends AbstractMediator {
             String apiName = (String) messageContext.getProperty(RESTConstants.SYNAPSE_REST_API);
             String apiVersion = (String) messageContext.getProperty(RESTConstants.SYNAPSE_REST_API_VERSION);
             String apiContext = (String) messageContext.getProperty(RESTConstants.REST_API_CONTEXT);
+            /* (수정) 
             String tenantDomain = MultitenantUtils.getTenantDomainFromRequestURL(RESTUtils.getFullRequestPath
                     (messageContext));
             if(StringUtils.isEmpty(tenantDomain)){
                 tenantDomain = MultitenantConstants.SUPER_TENANT_DOMAIN_NAME;
             }
             String provider = APIUtil.getAPIProviderFromRESTAPI(apiName, tenantDomain);
-
+            */
+            String provider = (String) messageContext.getProperty(APIMgtGatewayConstants.API_PUBLISHER);
+            String tenantDomain = MultitenantUtils.getTenantDomain(provider);
+            
             ExecutionTimePublisherDTO executionTimePublisherDTO = new ExecutionTimePublisherDTO();
             executionTimePublisherDTO.setApiName(APIUtil.getAPINamefromRESTAPI(apiName));
             executionTimePublisherDTO.setVersion(apiVersion);

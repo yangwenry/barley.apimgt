@@ -231,7 +231,7 @@ public class CORSRequestHandler extends AbstractHandler implements ManagedLifecy
 		}
 
 		//If a resource with a matching URI was not found.
-		if(uriMatchingResource == null){
+		if(uriMatchingResource == null) {
 			//Respond with a 404.
 			onResourceNotFoundError(messageContext, HttpStatus.SC_NOT_FOUND,
 					APIMgtGatewayConstants.RESOURCE_NOT_FOUND_ERROR_MSG);
@@ -239,7 +239,7 @@ public class CORSRequestHandler extends AbstractHandler implements ManagedLifecy
 		}
 	}
 
-	private void onResourceNotFoundError(MessageContext messageContext, int statusCode, String errorMessage){
+	private void onResourceNotFoundError(MessageContext messageContext, int statusCode, String errorMessage) {
 		messageContext.setProperty(APIConstants.CUSTOM_HTTP_STATUS_CODE, statusCode);
 		messageContext.setProperty(APIConstants.CUSTOM_ERROR_CODE, statusCode);
 		messageContext.setProperty(APIConstants.CUSTOM_ERROR_MESSAGE, errorMessage);
@@ -251,24 +251,23 @@ public class CORSRequestHandler extends AbstractHandler implements ManagedLifecy
 		}
 	}
 	
-	// (추가) 2019.07.17 - wso2 있는 소스는 아니지만 fault 실행시 Null데이터가 많아서 프로퍼티 추가를 위해 구현함   
+	// (추가) 2019.07.17 - wso2 소스는 아니지만 fault 실행시 Null데이터가 많아서 프로퍼티 추가를 위해 구현함   
 	private void setAPIParametersToMessageContext(MessageContext messageContext) {
 
         org.apache.axis2.context.MessageContext axis2MsgContext =
                 ((Axis2MessageContext) messageContext).getAxis2MessageContext();
 
         String context = (String) messageContext.getProperty(RESTConstants.REST_API_CONTEXT);
-        String apiFullName = (String) messageContext.getProperty(RESTConstants.SYNAPSE_REST_API);
+        String apiName = (String) messageContext.getProperty(RESTConstants.SYNAPSE_REST_API);
 
         String apiPublisher = (String) messageContext.getProperty(APIMgtGatewayConstants.API_PUBLISHER);
 
-        int index = apiFullName.indexOf("--");
-
-        String apiVersion = apiFullName;
+        int index = apiName.indexOf("--");
+        String apiVersion = apiName;
         if (index != -1) {
-            apiVersion = apiFullName.substring(index + 2);
+            apiVersion = apiName.substring(index + 2);
             if (apiPublisher == null) {
-                apiPublisher = APIUtil.replaceEmailDomainBack(apiFullName.substring(0, index));
+                apiPublisher = APIUtil.replaceEmailDomainBack(apiName.substring(0, index));
             }
         } 
 

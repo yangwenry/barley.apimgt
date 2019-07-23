@@ -284,6 +284,7 @@ public class APIThrottleHandler extends AbstractHandler {
 
         messageContext.setProperty(SynapseConstants.ERROR_CODE, errorCode);
         messageContext.setProperty(SynapseConstants.ERROR_MESSAGE, errorMessage);
+        // _throttle_out_handler_ 시퀀스 수행 - 데이터 분석기로 전달 
         Mediator sequence = messageContext.getSequence(APIThrottleConstants.API_THROTTLE_OUT_HANDLER);
 
         // Invoke the custom error handler specified by the user
