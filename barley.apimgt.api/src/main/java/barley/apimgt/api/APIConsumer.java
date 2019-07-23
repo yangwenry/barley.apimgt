@@ -293,7 +293,8 @@ public interface APIConsumer extends APIManager {
      */
     // (수정) 인터페이스 파라미터 수정 
     //void removeSubscriber(APIIdentifier identifier, String userId) throws APIManagementException;
-    void removeSubscriber(String subscriberName, String applicationName, String groupingId) throws APIManagementException;
+    //void removeSubscriber(String subscriberName, String applicationName, String groupingId) throws APIManagementException;
+    void removeSubscriber(String subscriberName) throws APIManagementException;
 
     /**
      * This method is to update the subscriber.

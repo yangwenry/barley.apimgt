@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -2423,10 +2424,56 @@ class APIConsumerImpl extends AbstractAPIManager implements APIConsumer {
     private void invalidateCachedKeys(int applicationId) throws APIManagementException {
         CacheInvalidator.getInstance().invalidateCacheForApp(applicationId);
     }
+    
+    public void addSubscriber(String username, String groupingId)
+            throws APIManagementException {
+
+        Subscriber subscriber = new Subscriber(username);
+        subscriber.setSubscribedDate(new Date());
+        //TODO : need to set the proper email
+        subscriber.setEmail("");
+        try {
+            int tenantId = ServiceReferenceHolder.getInstance().getRealmService().getTenantManager()
+                    .getTenantId(MultitenantUtils.getTenantDomain(username));
+            subscriber.setTenantId(tenantId);
+            apiMgtDAO.addSubscriber(subscriber, groupingId);
+            //Add a default application once subscriber is added
+            // (추가) 2019.07.23 - Default application 존재여부 확인
+            Application defaultApp = getApplicationsByName(username, APIConstants.DEFAULT_APPLICATION_NAME, groupingId);
+        	if (defaultApp == null) {
+        		addDefaultApplicationForSubscriber(subscriber);
+        	} 
+        } catch (APIManagementException e) {
+            handleException("Error while adding the subscriber " + subscriber.getName(), e);
+        } catch (barley.user.api.UserStoreException e) {
+            handleException("Error while adding the subscriber " + subscriber.getName(), e);
+        }
+    }
+    
+    /**
+     * Add default application on the first time a subscriber is added to the database
+     * @param subscriber Subscriber
+     *
+     * @throws APIManagementException if an error occurs while adding default application
+     */
+    private void addDefaultApplicationForSubscriber(Subscriber subscriber) throws APIManagementException {
+        Application defaultApp = new Application(APIConstants.DEFAULT_APPLICATION_NAME, subscriber);
+        if (APIUtil.isEnabledUnlimitedTier()) {
+            defaultApp.setTier(APIConstants.UNLIMITED_TIER);
+        } else {
+            Map<String, Tier> throttlingTiers = APIUtil.getTiers(APIConstants.TIER_APPLICATION_TYPE,
+                                                                 MultitenantUtils.getTenantDomain(subscriber.getName()));
+            Set<Tier> tierValueList = new HashSet<Tier>(throttlingTiers.values());
+            List<Tier> sortedTierList = APIUtil.sortTiers(tierValueList);
+            defaultApp.setTier(sortedTierList.get(0).getName());
+        }
+        //application will not be shared within the group
+        defaultApp.setGroupId("");
+        apiMgtDAO.addApplication(defaultApp, subscriber.getName());
+    }
 
     @Override
-    public void removeSubscriber(String subscriberName, String applicationName, String groupingId)
-            throws APIManagementException {
+    public void removeSubscriber(String subscriberName) throws APIManagementException {
         //throw new UnsupportedOperationException("Unsubscribe operation is not yet implemented");
     	// 예외처리가 되어 있어서 주석 처리 후 구현
     	// 1. 구독자인지 확인  
@@ -2436,6 +2483,7 @@ class APIConsumerImpl extends AbstractAPIManager implements APIConsumer {
     	if (subscriber == null) {
     		throw new APIManagementException("Subscriber for subscriberName:" + subscriberName +" does not exist.");
     	} 
+    	/* addSubscriber 수행시에 default 어플리케이션이 있는지 체크하여 등록하도록 한다. 
     	Application defaultApp = getApplicationsByName(subscriberName, applicationName, groupingId);
     	if (defaultApp == null) {
     		throw new APIManagementException("Application for subscriberName:" + subscriberName +" does not exist.");
@@ -2443,6 +2491,7 @@ class APIConsumerImpl extends AbstractAPIManager implements APIConsumer {
     	
     	// 기본 어플리케이션 삭제
     	apiMgtDAO.deleteApplication(defaultApp);
+    	*/
     	apiMgtDAO.removeSubscriber(subscriber.getId());
     }
 
