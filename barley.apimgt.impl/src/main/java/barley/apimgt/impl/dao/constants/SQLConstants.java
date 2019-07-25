@@ -388,6 +388,9 @@ public class SQLConstants {
     public static final String REMOVE_SUBSCRIBER_SQL =
             " DELETE FROM AM_SUBSCRIBER WHERE SUBSCRIBER_ID = ?";
     
+    public static final String REMOVE_SUBSCRIBER_FROM_API_RATING_SQL = 
+    		" DELETE FROM AM_API_RATINGS WHERE SUBSCRIBER_ID = ?";
+    
 
     public static final String GET_SUBSCRIBER_SQL =
             " SELECT " +

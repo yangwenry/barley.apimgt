@@ -636,6 +636,7 @@ public class ThrottleHandler extends AbstractHandler implements ManagedLifecycle
 
         messageContext.setProperty(SynapseConstants.ERROR_CODE, errorCode);
         messageContext.setProperty(SynapseConstants.ERROR_MESSAGE, errorMessage);
+        // 쓰로틀링 핸들러 수행 
         Mediator sequence = messageContext.getSequence(APIThrottleConstants.API_THROTTLE_OUT_HANDLER);
 
         // Invoke the custom error handler specified by the user
