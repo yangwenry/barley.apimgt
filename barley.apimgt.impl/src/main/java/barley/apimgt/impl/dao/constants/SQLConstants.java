@@ -2542,6 +2542,39 @@ public class SQLConstants {
             "AND CON_APP.CONSUMER_KEY=AKM.CONSUMER_KEY " +
             "AND AKM.APPLICATION_ID = APP.APPLICATION_ID";
 
+    public static final String GET_SORTED_RATING_API_SQL =
+    		"SELECT " + 
+					"CONCAT_WS('_', TB.API_PROVIDER, TB.API_NAME, TB.API_VERSION) AS API_ID " +	
+					//"TA.API_ID, TC.NEW_STATE AS STATE, TA.RATING, TB.API_PROVIDER, TB.API_NAME, TB.API_VERSION " +					
+				"FROM( " +
+					"SELECT " +
+						"T.API_ID, AVG(T.RATING) AS RATING " +
+					"FROM AM_API_RATINGS T " +
+					"GROUP BY T.API_ID " +
+					"HAVING AVG(T.RATING) " +
+					"ORDER BY AVG(T.RATING) DESC " +
+					") TA " +
+				"LEFT JOIN AM_API TB " +
+					"ON TA.API_ID = TB.API_ID " +
+				"LEFT JOIN ( " +
+							"SELECT " + 
+								"SB.API_ID, SB.EVENT_ID, SB.NEW_STATE " +
+							"FROM ( " +
+								"SELECT " + 
+								  	"API_ID " +
+								  ", MAX(EVENT_ID) AS EVENT_ID " + 
+								"FROM AM_API_LC_EVENT " + 
+								"GROUP BY API_ID " +
+								  ") SA " +
+							"LEFT JOIN AM_API_LC_EVENT SB " +
+								"ON (SA.API_ID = sb.API_ID AND SA.EVENT_ID = SB.EVENT_ID) " +
+							"WHERE SB.NEW_STATE = 'PUBLISHED' " +
+						   ") TC " +
+				"ON TA.API_ID = TC.API_ID " +
+				"ORDER BY TA.RATING DESC, TB.CREATED_TIME DESC " +
+				"LIMIT ?, ?";
+    
+
     /** Throttle related constants**/
 
     public static class ThrottleSQLConstants{

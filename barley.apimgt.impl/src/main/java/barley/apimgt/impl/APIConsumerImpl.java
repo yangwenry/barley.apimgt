@@ -40,12 +40,14 @@ import javax.cache.Caching;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import barley.apimgt.api.APIConsumer;
 import barley.apimgt.api.APIManagementException;
+import barley.apimgt.api.APIProvider;
 import barley.apimgt.api.LoginPostExecutor;
 import barley.apimgt.api.WorkflowResponse;
 import barley.apimgt.api.model.API;
@@ -381,6 +383,8 @@ class APIConsumerImpl extends AbstractAPIManager implements APIConsumer {
                 for (GenericArtifact artifact : genericArtifacts) {
                     // adding the API provider can mark the latest API .
                     String status = artifact.getAttribute(APIConstants.API_OVERVIEW_STATUS);
+                    
+                    //artifact.
 
                     API api = null;
                     //Check the api-manager.xml config file entry <DisplayAllAPIs> value is false
@@ -3479,6 +3483,45 @@ class APIConsumerImpl extends AbstractAPIManager implements APIConsumer {
         return false;
     }
 
+    @Override
+    public List<API> getSortedRatingApiList(int page, int count) throws APIManagementException {
+    	
+    	List<API> result = new ArrayList<API>();    	
+    	List<APIIdentifier> apiList = apiMgtDAO.getSortedRatingApi(page, count);
+	
+    	for(int i=0; i<apiList.size(); i++) {
+    		
+    		/*
+    	    JSONObject apiObj = (JSONObject) apiList.get(i);
+    	    String providerName = apiObj.get("providerName").toString();
+    	    String apiName = apiObj.get("apiName").toString();
+    	    String version = apiObj.get("version").toString();
+    	    
+    	    APIIdentifier apiId = new APIIdentifier(providerName, apiName, version);
+    	    */
+    	    try {
+				API api = getAPI(apiList.get(i));
+				
+				/*
+				if(api.getStatus()==APIStatus.PUBLISHED){
+	    	    	result.add(api);
+	    	    }
+				
+				if(result.size()==count) break;
+				*/
+				
+				result.add(api);
+				
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}   
+    	}
+    	
+    	//result.put("apis",apiVersionsSortedSet);
+    	
+    	return result;
+    }
 	
 
 }
