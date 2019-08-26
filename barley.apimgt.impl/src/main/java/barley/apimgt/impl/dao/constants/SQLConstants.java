@@ -2571,7 +2571,7 @@ public class SQLConstants {
 							"WHERE SB.NEW_STATE = 'PUBLISHED' " +
 						   ") TC " +
 				"ON TA.API_ID = TC.API_ID " +
-				"ORDER BY TA.RATING DESC, TB.CREATED_TIME DESC " +
+				"ORDER BY TA.RATING DESC, TB.API_ID DESC " +
 				"LIMIT ?, ?";
     
 
