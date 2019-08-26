@@ -49,6 +49,7 @@ public class API implements Serializable{
     private Set<Documentation> documents = new LinkedHashSet<Documentation>();
     private String httpVerb;
     private Date lastUpdated;
+    private Date createdDate;
     private Set<Tier> availableTiers = new LinkedHashSet<Tier>();
     private Set<Policy> availableSubscriptionLevelPolicies = new LinkedHashSet<Policy>();
     private String apiLevelPolicy;
@@ -335,6 +336,14 @@ public class API implements Serializable{
 
     public void setLastUpdated(Date lastUpdated) {
         this.lastUpdated = new Date(lastUpdated.getTime());
+    }
+    
+    public Date getCreatedDate() {
+        return new Date(createdDate.getTime());
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = new Date(createdDate.getTime());
     }
 
     public Set<Tier> getAvailableTiers() {

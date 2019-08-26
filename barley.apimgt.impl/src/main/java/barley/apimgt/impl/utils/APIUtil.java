@@ -274,6 +274,7 @@ public final class APIUtil {
             api.setDescription(artifact.getAttribute(APIConstants.API_OVERVIEW_DESCRIPTION));
             //set last access time
             api.setLastUpdated(registry.get(artifactPath).getLastModified());
+            api.setCreatedDate(registry.get(artifactPath).getCreatedTime());
             //set uuid
             api.setUUID(artifact.getId());
             // set url
@@ -405,6 +406,7 @@ public final class APIUtil {
             }
             api.addTags(tags);
             api.setLastUpdated(registry.get(artifactPath).getLastModified());
+            api.setCreatedDate(registry.get(artifactPath).getCreatedTime());
             api.setImplementation(artifact.getAttribute(APIConstants.PROTOTYPE_OVERVIEW_IMPLEMENTATION));
             String environments = artifact.getAttribute(APIConstants.API_OVERVIEW_ENVIRONMENTS);
             api.setEnvironments(extractEnvironmentsForAPI(environments));
@@ -458,6 +460,7 @@ public final class APIUtil {
             api.setDescription(artifact.getAttribute(APIConstants.API_OVERVIEW_DESCRIPTION));
             //set last access time
             api.setLastUpdated(registry.get(artifactPath).getLastModified());
+            api.setCreatedDate(registry.get(artifactPath).getCreatedTime());
             // set url
             api.setStatus(getApiStatus(artifact.getAttribute(APIConstants.API_OVERVIEW_STATUS)));
             api.setThumbnailUrl(artifact.getAttribute(APIConstants.API_OVERVIEW_THUMBNAIL_URL));
@@ -599,6 +602,7 @@ public final class APIUtil {
             }
             api.addTags(tags);
             api.setLastUpdated(registry.get(artifactPath).getLastModified());
+            api.setCreatedDate(registry.get(artifactPath).getCreatedTime());
             api.setImplementation(artifact.getAttribute(APIConstants.PROTOTYPE_OVERVIEW_IMPLEMENTATION));
             String environments = artifact.getAttribute(APIConstants.API_OVERVIEW_ENVIRONMENTS);
             api.setEnvironments(extractEnvironmentsForAPI(environments));
@@ -2357,6 +2361,7 @@ public final class APIUtil {
             api.setDescription(artifact.getAttribute(APIConstants.API_OVERVIEW_DESCRIPTION));
             //set last access time
             api.setLastUpdated(registry.get(artifactPath).getLastModified());
+            api.setCreatedDate(registry.get(artifactPath).getCreatedTime());
             //set uuid
             api.setUUID(artifact.getId());
             // set url
@@ -2435,6 +2440,7 @@ public final class APIUtil {
             }
             api.addTags(tags);
             api.setLastUpdated(registry.get(artifactPath).getLastModified());
+            api.setCreatedDate(registry.get(artifactPath).getCreatedTime());
             api.setAsDefaultVersion(Boolean.parseBoolean(artifact.getAttribute(APIConstants.API_OVERVIEW_IS_DEFAULT_VERSION)));
 
             String environments = artifact.getAttribute(APIConstants.API_OVERVIEW_ENVIRONMENTS);

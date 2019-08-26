@@ -278,12 +278,12 @@ public class APIConsumerImplTest extends BaseTestCase {
     }
     
     public void testGetAllApis() throws Exception {
-//    	String tenantDomain = "codefarm.co.kr";
-    	String tenantDomain = MultitenantConstants.SUPER_TENANT_DOMAIN_NAME;
+    	String tenantDomain = "codefarm.co.kr";
+//    	String tenantDomain = MultitenantConstants.SUPER_TENANT_DOMAIN_NAME;
     	    	
 //    	APIConsumer consumer = APIManagerFactory.getInstance().getAPIConsumer("wso2.anonymous.user@codefarm.co.kr");
-//    	APIConsumer consumer = APIManagerFactory.getInstance().getAPIConsumer("admin@codefarm.co.kr");
-    	APIConsumer consumer = APIManagerFactory.getInstance().getAPIConsumer("wso2.system.user@carbon.super");
+    	APIConsumer consumer = APIManagerFactory.getInstance().getAPIConsumer("admin@codefarm.co.kr");
+//    	APIConsumer consumer = APIManagerFactory.getInstance().getAPIConsumer("wso2.system.user@carbon.super");
 //    	List<API> apis = consumer.getAllAPIs();
 //    	assertNotNull(apis);
 //    	assertEquals(1, apis.size());

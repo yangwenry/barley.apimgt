@@ -26,6 +26,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -460,8 +461,12 @@ class APIConsumerImpl extends AbstractAPIManager implements APIConsumer {
         */
 
         Map<String, Object> result = new HashMap<String, Object>();
-        SortedSet<API> apiSortedSet = new TreeSet<API>(new APINameComparator());
-        SortedSet<API> apiVersionsSortedSet = new TreeSet<API>(new APIVersionComparator());
+        // (수정) 이미 일자별 정렬해서 넘어오므로 정렬 컬렉션을 사용하지 않는다.  
+        //SortedSet<API> apiSortedSet = new TreeSet<API>(new APINameComparator());
+        //SortedSet<API> apiVersionsSortedSet = new TreeSet<API>(new APIVersionComparator());
+        List<API> apiSortedSet = new ArrayList<API>();
+        List<API> apiVersionsSortedSet = new ArrayList<API>();
+        
         int totalLength = 0;
         try {
             Registry userRegistry;
@@ -484,7 +489,9 @@ class APIConsumerImpl extends AbstractAPIManager implements APIConsumer {
             this.isTenantModeStoreView = isTenantMode;
             this.requestedTenant = tenantDomain;
 
-            Map<String, API> latestPublishedAPIs = new HashMap<String, API>();
+            // (수정) 순서를 보장하기 위해 컬렉션 변경 
+            //Map<String, API> latestPublishedAPIs = new HashMap<String, API>();
+            Map<String, API> latestPublishedAPIs = new LinkedHashMap<String, API>();
             List<API> multiVersionedAPIs = new ArrayList<API>();
             Comparator<API> versionComparator = new APIVersionComparator();
             Boolean displayMultipleVersions = APIUtil.isAllowDisplayMultipleVersions();
