@@ -526,6 +526,7 @@ class APIConsumerImpl extends AbstractAPIManager implements APIConsumer {
                         String key;
                         //Check the configuration to allow showing multiple versions of an API true/false
                         if (!displayMultipleVersions) { //If allow only showing the latest version of an API
+                        	/* (주석) 2019.08.27 - 버전 상관없이 다 들고오도록 변경 
                             key = api.getId().getProviderName() + COLON_CHAR + api.getId().getApiName();
                             API existingAPI = latestPublishedAPIs.get(key);
                             if (existingAPI != null) {
@@ -538,6 +539,9 @@ class APIConsumerImpl extends AbstractAPIManager implements APIConsumer {
                                 // We haven't seen this API before
                                 latestPublishedAPIs.put(key, api);
                             }
+                            */
+                        	key = api.getId().getProviderName() + COLON_CHAR + api.getId().getApiName() + COLON_CHAR + api.getId().getVersion();
+                        	latestPublishedAPIs.put(key, api);
                         } else { //If allow showing multiple versions of an API
                             multiVersionedAPIs.add(api);
                         }
