@@ -2546,32 +2546,64 @@ public class SQLConstants {
     		"SELECT " + 
 					"CONCAT_WS('_', TB.API_PROVIDER, TB.API_NAME, TB.API_VERSION) AS API_ID " +	
 					//"TA.API_ID, TC.NEW_STATE AS STATE, TA.RATING, TB.API_PROVIDER, TB.API_NAME, TB.API_VERSION " +					
-				"FROM( " +
-					"SELECT " +
-						"T.API_ID, AVG(T.RATING) AS RATING " +
-					"FROM AM_API_RATINGS T " +
-					"GROUP BY T.API_ID " +
-					"HAVING AVG(T.RATING) " +
-					"ORDER BY AVG(T.RATING) DESC " +
+				"FROM( " +				
+					"SELECT " + 
+					"SB.API_ID, SB.EVENT_ID, SB.NEW_STATE " +
+					"FROM ( " +
+						"SELECT " + 
+						  	"API_ID " +
+						  ", MAX(EVENT_ID) AS EVENT_ID " + 
+						"FROM AM_API_LC_EVENT " + 
+						"GROUP BY API_ID " +
+						  ") SA " +
+						"LEFT JOIN AM_API_LC_EVENT SB " +
+						"ON (SA.API_ID = SB.API_ID AND SA.EVENT_ID = SB.EVENT_ID) " +
+						"WHERE SB.NEW_STATE = 'PUBLISHED' " +
 					") TA " +
-				"LEFT JOIN AM_API TB " +
-					"ON TA.API_ID = TB.API_ID " +
+				"INNER JOIN AM_API TB " +
+					"ON (TA.API_ID = TB.API_ID AND SUBSTRING_INDEX(TB.API_PROVIDER, '@', -1) = ?) " +
 				"LEFT JOIN ( " +
-							"SELECT " + 
-								"SB.API_ID, SB.EVENT_ID, SB.NEW_STATE " +
-							"FROM ( " +
-								"SELECT " + 
-								  	"API_ID " +
-								  ", MAX(EVENT_ID) AS EVENT_ID " + 
-								"FROM AM_API_LC_EVENT " + 
-								"GROUP BY API_ID " +
-								  ") SA " +
-							"LEFT JOIN AM_API_LC_EVENT SB " +
-								"ON (SA.API_ID = sb.API_ID AND SA.EVENT_ID = SB.EVENT_ID) " +
-							"WHERE SB.NEW_STATE = 'PUBLISHED' " +
+							"SELECT " +
+								"T.API_ID, AVG(T.RATING) AS RATING " +
+							"FROM AM_API_RATINGS T " +
+							"GROUP BY T.API_ID " +
+							"HAVING AVG(T.RATING) " +
+							"ORDER BY AVG(T.RATING) DESC " +
 						   ") TC " +
 				"ON TA.API_ID = TC.API_ID " +
-				"ORDER BY TA.RATING DESC, TB.API_ID DESC " +
+				"ORDER BY TC.RATING DESC, TA.API_ID DESC " +
+				"LIMIT ?, ?";
+    
+    public static final String GET_SORTED_SUBS_CNT_API_SQL =
+    		"SELECT " + 
+					"CONCAT_WS('_', TB.API_PROVIDER, TB.API_NAME, TB.API_VERSION) AS API_ID " +	
+					//"TA.API_ID, TC.NEW_STATE AS STATE, TA.RATING, TB.API_PROVIDER, TB.API_NAME, TB.API_VERSION " +					
+				"FROM( " +				
+					"SELECT " + 
+					"SB.API_ID, SB.EVENT_ID, SB.NEW_STATE " +
+					"FROM ( " +
+						"SELECT " + 
+						  	"API_ID " +
+						  ", MAX(EVENT_ID) AS EVENT_ID " + 
+						"FROM AM_API_LC_EVENT " + 
+						"GROUP BY API_ID " +
+						  ") SA " +
+						"LEFT JOIN AM_API_LC_EVENT SB " +
+						"ON (SA.API_ID = SB.API_ID AND SA.EVENT_ID = SB.EVENT_ID) " +
+						"WHERE SB.NEW_STATE = 'PUBLISHED' " +
+					") TA " +
+				"INNER JOIN AM_API TB " +
+					"ON (TA.API_ID = TB.API_ID AND SUBSTRING_INDEX(TB.API_PROVIDER, '@', -1) = ?) " +
+				"LEFT JOIN ( " +
+							"SELECT " +
+								"T.API_ID, COUNT(T.API_ID) AS SUBS_CNT " +
+							"FROM AM_SUBSCRIPTION T " +
+							"GROUP BY T.API_ID " +
+							//"HAVING COUNT(T.API_ID) " +
+							"ORDER BY COUNT(T.API_ID) DESC " +
+						   ") TC " +
+				"ON TA.API_ID = TC.API_ID " +
+				"ORDER BY TC.SUBS_CNT DESC, TA.API_ID DESC " +
 				"LIMIT ?, ?";
     
 

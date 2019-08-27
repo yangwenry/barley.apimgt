@@ -3495,10 +3495,10 @@ class APIConsumerImpl extends AbstractAPIManager implements APIConsumer {
     }
 
     @Override
-    public List<API> getSortedRatingApiList(int page, int count) throws APIManagementException {
+    public List<API> getSortedRatingApiList(String tenantDomain, int page, int count) throws APIManagementException {
     	
     	List<API> result = new ArrayList<API>();    	
-    	List<APIIdentifier> apiList = apiMgtDAO.getSortedRatingApi(page, count);
+    	List<APIIdentifier> apiList = apiMgtDAO.getSortedRatingApi(tenantDomain, page, count);
 	
     	for(int i=0; i<apiList.size(); i++) {
     		
@@ -3531,6 +3531,29 @@ class APIConsumerImpl extends AbstractAPIManager implements APIConsumer {
     	
     	//result.put("apis",apiVersionsSortedSet);
     	
+    	return result;
+    }
+    
+    
+    @Override
+    public List<API> getSortedSubscribersCountApiList(String tenantDomain, int page, int count) throws APIManagementException {
+    	
+    	List<API> result = new ArrayList<API>();    	
+    	List<APIIdentifier> apiList = apiMgtDAO.getSortedSubscribersCountApi(tenantDomain, page, count);
+	
+    	for(int i=0; i<apiList.size(); i++) {
+    		
+    	    try {
+				API api = getAPI(apiList.get(i));
+							
+				result.add(api);
+				
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}   
+    	}
+    		
     	return result;
     }
 	

@@ -638,6 +638,7 @@ public interface APIConsumer extends APIManager {
 
     boolean isMonetizationEnabled(String tenantDomain) throws APIManagementException;
 
-	List<API> getSortedRatingApiList(int page, int count) throws APIManagementException;
+	List<API> getSortedRatingApiList(String tenantDomain, int page, int count) throws APIManagementException;
 
+	List<API> getSortedSubscribersCountApiList(String tenantDomain, int page, int count) throws APIManagementException;
 }
