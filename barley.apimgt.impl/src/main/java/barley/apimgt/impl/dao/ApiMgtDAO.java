@@ -11152,51 +11152,66 @@ public class ApiMgtDAO {
     }
     
    
-    public List<APIIdentifier> getSortedRatingApi(int page, int count) throws APIManagementException {
+    public List<APIIdentifier> getSortedRatingApi(String tenantDomain, int page, int count) throws APIManagementException {
         Connection connection = null;
         PreparedStatement selectPreparedStatement = null;
         ResultSet resultSet = null;
         
         int startNo = (page-1) * count;
-        //JSONArray apiList = new JSONArray();
+
         List<APIIdentifier> apiList = new ArrayList<APIIdentifier>();
         
         try {
             String query = SQLConstants.GET_SORTED_RATING_API_SQL;
         	
-            /*
-            //prev version(backup)
-        	String query =  "SELECT " + 
-        					"TA.API_ID " + //"TA.API_ID, TA.RATING, TB.API_PROVIDER, TB.API_NAME, TB.API_VERSION " +
-        					"FROM( " +
-        						"SELECT T.API_ID, AVG(T.RATING) AS RATING " +
-        						"FROM AM_API_RATINGS T " +
-        						"GROUP BY T.API_ID " +
-        						"HAVING AVG(T.RATING) " +
-        						"ORDER BY AVG(T.RATING) DESC " +
-        					") TA " +
-        					"LEFT JOIN AM_API TB " +
-        					"ON TA.API_ID = TB.API_ID " +
-        					"ORDER BY TA.RATING DESC, TB.CREATED_TIME DESC ";
-        	*/
-        	
             connection = APIMgtDBUtil.getConnection();
             connection.setAutoCommit(true);
             selectPreparedStatement = connection.prepareStatement(query);
-            selectPreparedStatement.setInt(1, startNo);
-            selectPreparedStatement.setInt(2, count);
+            selectPreparedStatement.setNString(1, tenantDomain);
+            selectPreparedStatement.setInt(2, startNo);
+            selectPreparedStatement.setInt(3, count);
             resultSet = selectPreparedStatement.executeQuery();
             while (resultSet.next()) {
+            	        	
+            	apiList.add(new APIIdentifier(resultSet.getString("API_ID")));
             	
-                /*JSONObject apiObj = new JSONObject();
-                
-                apiObj.put("apiId", resultSet.getInt("API_ID"));
-                apiObj.put("rating", resultSet.getFloat("RATING"));
-                apiObj.put("providerName" ,resultSet.getString("API_PROVIDER"));
-                apiObj.put("apiName", resultSet.getString("API_NAME"));
-                apiObj.put("version", resultSet.getString("API_VERSION"));
-                
-            	apiList.add(apiObj);*/
+            }
+        } catch (SQLException e) {
+            if (connection != null) {
+                try {
+                    connection.rollback();
+                } catch (SQLException ex) {
+                    handleException("Failed to rollback getting Block conditions ", ex);
+                }
+            }
+            handleException("Failed to get Block conditions", e);
+        } finally {
+            APIMgtDBUtil.closeAllConnections(selectPreparedStatement, connection, resultSet);
+        }
+        
+        return apiList;
+    }
+    
+    
+    public List<APIIdentifier> getSortedSubscribersCountApi(String tenantDomain, int page, int count) throws APIManagementException {
+        Connection connection = null;
+        PreparedStatement selectPreparedStatement = null;
+        ResultSet resultSet = null;
+        
+        int startNo = (page-1) * count;
+        List<APIIdentifier> apiList = new ArrayList<APIIdentifier>();
+        
+        try {
+            String query = SQLConstants.GET_SORTED_SUBS_CNT_API_SQL;
+        		
+            connection = APIMgtDBUtil.getConnection();
+            connection.setAutoCommit(true);
+            selectPreparedStatement = connection.prepareStatement(query);
+            selectPreparedStatement.setNString(1, tenantDomain);
+            selectPreparedStatement.setInt(2, startNo);
+            selectPreparedStatement.setInt(3, count);
+            resultSet = selectPreparedStatement.executeQuery();
+            while (resultSet.next()) {
             	
             	apiList.add(new APIIdentifier(resultSet.getString("API_ID")));
             	
