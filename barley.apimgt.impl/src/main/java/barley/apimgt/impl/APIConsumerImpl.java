@@ -407,6 +407,7 @@ class APIConsumerImpl extends AbstractAPIManager implements APIConsumer {
                         String key;
                         //Check the configuration to allow showing multiple versions of an API true/false
                         if (!displayMultipleVersions) { //If allow only showing the latest version of an API
+                        	/*
                             key = api.getId().getProviderName() + COLON_CHAR + api.getId().getApiName();
                             API existingAPI = latestPublishedAPIs.get(key);
                             if (existingAPI != null) {
@@ -419,6 +420,9 @@ class APIConsumerImpl extends AbstractAPIManager implements APIConsumer {
                                 // We haven't seen this API before
                                 latestPublishedAPIs.put(key, api);
                             }
+                            */
+                        	key = api.getId().getProviderName() + COLON_CHAR + api.getId().getApiName() + COLON_CHAR + api.getId().getVersion();
+                        	latestPublishedAPIs.put(key, api);
                         } else { //If allow showing multiple versions of an API
                             multiVersionedAPIs.add(api);
                         }
@@ -691,6 +695,7 @@ class APIConsumerImpl extends AbstractAPIManager implements APIConsumer {
                             String key;
                             //Check the configuration to allow showing multiple versions of an API true/false
                             if (!displayMultipleVersions) { //If allow only showing the latest version of an API
+                            	/*
                                 key = api.getId().getProviderName() + COLON_CHAR + api.getId().getApiName();
                                 API existingAPI = latestPublishedAPIs.get(key);
                                 if (existingAPI != null) {
@@ -703,6 +708,9 @@ class APIConsumerImpl extends AbstractAPIManager implements APIConsumer {
                                     // We haven't seen this API before
                                     latestPublishedAPIs.put(key, api);
                                 }
+                                */
+                            	key = api.getId().getProviderName() + COLON_CHAR + api.getId().getApiName() + COLON_CHAR + api.getId().getVersion();
+                            	latestPublishedAPIs.put(key, api);
                             } else { //If allow showing multiple versions of an API
                                 multiVersionedAPIs.add(api);
                             }
@@ -868,6 +876,7 @@ class APIConsumerImpl extends AbstractAPIManager implements APIConsumer {
                         String key;
                         //Check the configuration to allow showing multiple versions of an API true/false
                         if (!displayMultipleVersions) { //If allow only showing the latest version of an API
+                        	/*
                             key = api.getId().getProviderName() + COLON_CHAR + api.getId().getApiName();
                             API existingAPI = latestPublishedAPIs.get(key);
                             if (existingAPI != null) {
@@ -880,6 +889,9 @@ class APIConsumerImpl extends AbstractAPIManager implements APIConsumer {
                                 // We haven't seen this API before
                                 latestPublishedAPIs.put(key, api);
                             }
+                            */
+                        	key = api.getId().getProviderName() + COLON_CHAR + api.getId().getApiName() + COLON_CHAR + api.getId().getVersion();
+                        	latestPublishedAPIs.put(key, api);
                         } else { //If allow showing multiple versions of an API
                             multiVersionedAPIs.add(api);
                         }
@@ -1020,6 +1032,7 @@ class APIConsumerImpl extends AbstractAPIManager implements APIConsumer {
                             String key;
                             //Check the configuration to allow showing multiple versions of an API true/false
                             if (!displayMultipleVersions) { //If allow only showing the latest version of an API
+                            	/*
                                 key = api.getId().getProviderName() + COLON_CHAR + api.getId().getApiName();
                                 API existingAPI = latestPublishedAPIs.get(key);
                                 if (existingAPI != null) {
@@ -1032,6 +1045,9 @@ class APIConsumerImpl extends AbstractAPIManager implements APIConsumer {
                                     // We haven't seen this API before
                                     latestPublishedAPIs.put(key, api);
                                 }
+                                */
+                            	key = api.getId().getProviderName() + COLON_CHAR + api.getId().getApiName() + COLON_CHAR + api.getId().getVersion();
+                            	latestPublishedAPIs.put(key, api);
                             } else { //If allow showing multiple versions of an API
     //                            key = api.getId().getProviderName() + ":" + api.getId().getApiName() + ":" + api.getId()
     //                                    .getVersion();
@@ -1079,6 +1095,7 @@ class APIConsumerImpl extends AbstractAPIManager implements APIConsumer {
                                 String key;
                                 //Check the configuration to allow showing multiple versions of an API true/false
                                 if (!displayMultipleVersions) { //If allow only showing the latest version of an API
+                                	/*
                                     key = api.getId().getProviderName() + COLON_CHAR + api.getId().getApiName();
                                     API existingAPI = latestPublishedAPIs.get(key);
                                     if (existingAPI != null) {
@@ -1091,6 +1108,10 @@ class APIConsumerImpl extends AbstractAPIManager implements APIConsumer {
                                         // We haven't seen this API before
                                         latestPublishedAPIs.put(key, api);
                                     }
+                                    */
+                                	key = api.getId().getProviderName() + COLON_CHAR + api.getId().getApiName() + COLON_CHAR + api.getId().getVersion();
+                                	latestPublishedAPIs.put(key, api);
+                                	
                                 } else { //If allow showing multiple versions of an API
                                     multiVersionedAPIs.add(api);
                                 }
@@ -1256,6 +1277,7 @@ class APIConsumerImpl extends AbstractAPIManager implements APIConsumer {
 					Comparator<API> versionComparator = new APIVersionComparator();
 					String key;
 					for (API api : allAPIs) {
+						/*
 						key = api.getId().getProviderName() + COLON_CHAR + api.getId().getApiName();
 						API existingAPI = latestPublishedAPIs.get(key);
 						if (existingAPI != null) {
@@ -1269,6 +1291,9 @@ class APIConsumerImpl extends AbstractAPIManager implements APIConsumer {
 							// We haven't seen this API before
 							latestPublishedAPIs.put(key, api);
 						}
+						*/
+						key = api.getId().getProviderName() + COLON_CHAR + api.getId().getApiName() + COLON_CHAR + api.getId().getVersion();
+						latestPublishedAPIs.put(key, api);
 					}
 
                     recentlyAddedAPIs.addAll(latestPublishedAPIs.values());
@@ -1562,6 +1587,7 @@ class APIConsumerImpl extends AbstractAPIManager implements APIConsumer {
                         String key;
                         //Check the configuration to allow showing multiple versions of an API true/false
                         if (!displayMultipleVersions) { //If allow only showing the latest version of an API
+                        	/*
                             key = api.getId().getProviderName() + COLON_CHAR + api.getId().getApiName();
                             API existingAPI = latestPublishedAPIs.get(key);
                             if (existingAPI != null) {
@@ -1574,6 +1600,9 @@ class APIConsumerImpl extends AbstractAPIManager implements APIConsumer {
                                 // We haven't seen this API before
                                 latestPublishedAPIs.put(key, api);
                             }
+                            */
+                        	key = api.getId().getProviderName() + COLON_CHAR + api.getId().getApiName() + COLON_CHAR + api.getId().getVersion();
+                        	latestPublishedAPIs.put(key, api);
                         } else { //If allow showing multiple versions of an API
                             multiVersionedAPIs.add(api);
                         }
