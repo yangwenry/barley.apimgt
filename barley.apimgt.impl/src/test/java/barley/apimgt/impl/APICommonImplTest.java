@@ -107,9 +107,9 @@ public class APICommonImplTest extends BaseTestCase {
     	setUpRegistry();
     	
     	//(오세창)
-    	String baseDir = "D:\\Workspace_STS_SaaSPlatform\\barley.apimgt\\barley.apimgt.impl";
-    	System.setProperty("APIManagerDBConfigurationPath", baseDir + "/src/test/resources/am-config.xml");
-    	System.setProperty("IdentityConfigurationPath", baseDir + "/src/test/resources/identity.xml");
+    	String baseDir = "D:\\Workspace_STS_SaaSPlatform\\Workspace_STS_APIM\\barley.apimgt\\barley.apimgt.impl";
+    	System.setProperty("APIManagerDBConfigurationPath", baseDir + "/src/test/resources/repository/conf/api-manager.xml");
+    	System.setProperty("IdentityConfigurationPath", baseDir + "/src/test/resources/repository/conf/identity/identity.xml");
     	
     	String dbConfigPath = System.getProperty("APIManagerDBConfigurationPath");
         APIManagerConfiguration config = new APIManagerConfiguration();
@@ -554,19 +554,25 @@ public class APICommonImplTest extends BaseTestCase {
     	int tenantId = 1;
     	String profileName = "default";
     	
-    	String userName = "user01";
+    	String userName = "admin";
 //    	String claimURI = "http://wso2.org/claims/fullname";
 //    	String chanagedValue = "오세창";
     	
 //    	String claimURI = "http://wso2.org/claims/grpauthcode";
 //    	String chanagedValue = "S0001";
     	
-    	String claimURI = "http://wso2.org/claims/menugrpcode";
-    	String chanagedValue = "SYSTEM_MANAGER";
+//    	String claimURI = "http://wso2.org/claims/menugrpcode";
+//    	String chanagedValue = "SYSTEM_MANAGER";
+    	
+    	String claimURI = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/mobile";
+    	String chanagedValue = "01044993875";
     	
     	realmService.getTenantUserRealm(tenantId).getUserStoreManager().setUserClaimValue(userName, claimURI, chanagedValue, profileName);
     	String myName = realmService.getTenantUserRealm(tenantId).getUserStoreManager().getUserClaimValue(userName, claimURI, profileName);
     	assertEquals(chanagedValue, myName);
+    	
+    	String[] claims = {"http://schemas.xmlsoap.org/ws/2005/05/identity/claims/mobile"};
+    	realmService.getTenantUserRealm(tenantId).getUserStoreManager().deleteUserClaimValues(userName, claims, profileName);
     }
     
     
