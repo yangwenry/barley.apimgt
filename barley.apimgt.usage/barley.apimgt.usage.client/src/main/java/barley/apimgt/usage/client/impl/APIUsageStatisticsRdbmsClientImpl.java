@@ -113,7 +113,10 @@ import barley.core.utils.BarleyUtils;
  */
 public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient {
 
-    private static final String DATA_SOURCE_NAME = "jdbc/WSO2AM_STATS_DB";
+	// (수정) 2019.09.09
+    //private static final String DATA_SOURCE_NAME = "jdbc/WSO2AM_STATS_DB";
+    private static final String DATA_SOURCE_NAME = "java:/comp/env/jdbc/WSO2AM_STATS_DB";
+    
     private static volatile DataSource dataSource = null;
     private static PaymentPlan paymentPlan;
     private APIProvider apiProviderImpl;
@@ -151,10 +154,13 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
                 element = buildOMElement(new FileInputStream(filePath));
                 paymentPlan = new PaymentPlan(element);
             }
+            // (주석) targetEndpoint가 필요하지 않는데 왜 체크하는지 의문이다. 주석하자.
+            /*
             String targetEndpoint = apiManagerAnalyticsConfiguration.getDasReceiverUrlGroups();
             if (targetEndpoint == null || targetEndpoint.equals("")) {
                 throw new APIMgtUsageQueryServiceClientException("Required BAM server URL parameter unspecified");
             }
+            */
             apiProviderImpl = APIManagerFactory.getInstance().getAPIProvider(username);
 
         } catch (Exception e) {

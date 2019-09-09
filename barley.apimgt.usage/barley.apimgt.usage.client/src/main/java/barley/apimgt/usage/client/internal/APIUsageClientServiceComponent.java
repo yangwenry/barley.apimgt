@@ -51,11 +51,11 @@ public class APIUsageClientServiceComponent {
         }
     }
 
-    protected void deactivate(ComponentContext componentContext) {
+    public void deactivate() {
         log.debug("API usage client component deactivated");
     }
 
-    protected void setAPIManagerConfigurationService(APIManagerConfigurationService amcService) {
+    public void setAPIManagerConfigurationService(APIManagerConfigurationService amcService) {
         log.debug("API manager configuration service bound to the API usage client component");
         configuration = amcService.getAPIManagerConfiguration();
         analyticsConfiguration = amcService.getAPIAnalyticsConfiguration();

@@ -513,12 +513,17 @@ public class UsageClient {
             connection = APIMgtDBUtil.getConnection();
 
             String query = "select COUNT(API_ID) as y,CREATED_TIME as x from AM_API";
+            
+            /* (수정) 멀티테넌트를 구현하지 않기 때문에 굳이 t구분자가 필요없음.  
             String tenantDomain = MultitenantUtils.getTenantDomain(provider);
             if (MultitenantConstants.SUPER_TENANT_DOMAIN_NAME.equals(tenantDomain)) {
                 query += " where CONTEXT not like '/t/%' and ";
             } else {
                 query += " where CONTEXT like '/t/%' and ";
             }
+            */
+            query += " where CONTEXT not like '/t/%' and ";
+            
             if (!"All".equals(apiCreator)) {
                 query += " CREATED_BY= ? and ";
             }
