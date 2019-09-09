@@ -14,7 +14,8 @@
 	
 	<modules>
 		<module>barley.apimgt.usage.publisher</module>
-  	</modules>
+		<module>barley.apimgt.usage.client</module>
+	</modules>
 	
 	<properties>
 		<project.build.sourceEncoding>utf-8</project.build.sourceEncoding>		

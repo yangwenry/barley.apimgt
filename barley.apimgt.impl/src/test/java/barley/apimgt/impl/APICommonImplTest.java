@@ -524,18 +524,23 @@ public class APICommonImplTest extends BaseTestCase {
     	RealmService realmService = ServiceReferenceHolder.getInstance().getRealmService();
     	ProfileConfigurationManager pcm = realmService.getTenantUserRealm(tenantId).getProfileConfigurationManager();
     	
-    	String[] claimset = {CLAIM_URI1, CLAIM_URI2, CLAIM_URI3};
+//    	String[] claimset = {CLAIM_URI1, CLAIM_URI2, CLAIM_URI3};
 //    	String claimURI = "http://wso2.org/claims/grpauthcode";
 //    	String claimURI = "http://wso2.org/claims/menugrpcode";
-    	String claimURI = "http://wso2.org/claims/fullname";
+//    	String claimURI = "http://codefarm.co.kr/claims/emailaddress";
+//    	String claimURI = "http://codefarm.co.kr/claims/grpauthcode";
+//    	String claimURI = "http://codefarm.co.kr/claims/image";
+//    	String claimURI = "http://codefarm.co.kr/claims/menugrpcode";
+//    	String claimURI = "http://codefarm.co.kr/claims/phone";
+    	String claimURI = "http://codefarm.co.kr/claims/remark";
     	
     	ProfileConfiguration p4 = new ProfileConfiguration();
-        p4.setProfileName("default");
+        p4.setProfileName("codefarm");
         p4.addHiddenClaim(null);
         p4.addInheritedClaim(null);
 //        p4.addOverriddenClaim(claimset[2]);
         p4.addInheritedClaim(claimURI);
-        p4.setDialectName("http://wso2.org/claims");
+        p4.setDialectName("http://codefarm.co.kr/claims");
     	
     	//add profile configuration
         pcm.addProfileConfig(p4);
@@ -552,27 +557,27 @@ public class APICommonImplTest extends BaseTestCase {
     public void testChangeUserClaimValue() throws Exception {
     	RealmService realmService = ServiceReferenceHolder.getInstance().getRealmService();
     	int tenantId = 1;
-    	String profileName = "default";
+    	String profileName = "codefarm";
     	
     	String userName = "admin";
-//    	String claimURI = "http://wso2.org/claims/fullname";
+//    	String claimURI = "http://codefarm.co.kr/claims/name";
 //    	String chanagedValue = "오세창";
     	
-//    	String claimURI = "http://wso2.org/claims/grpauthcode";
+//    	String claimURI = "http://codefarm.co.kr/claims/grpauthcode";
 //    	String chanagedValue = "S0001";
     	
-//    	String claimURI = "http://wso2.org/claims/menugrpcode";
-//    	String chanagedValue = "SYSTEM_MANAGER";
+    	String claimURI = "http://codefarm.co.kr/claims/menugrpcode";
+    	String chanagedValue = "SYSTEM_MANAGER";
     	
-    	String claimURI = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/mobile";
-    	String chanagedValue = "01044993875";
+//    	String claimURI = "http://codefarm.co.kr/claims/name";
+//    	String chanagedValue = "관리자";
     	
     	realmService.getTenantUserRealm(tenantId).getUserStoreManager().setUserClaimValue(userName, claimURI, chanagedValue, profileName);
     	String myName = realmService.getTenantUserRealm(tenantId).getUserStoreManager().getUserClaimValue(userName, claimURI, profileName);
     	assertEquals(chanagedValue, myName);
     	
-    	String[] claims = {"http://schemas.xmlsoap.org/ws/2005/05/identity/claims/mobile"};
-    	realmService.getTenantUserRealm(tenantId).getUserStoreManager().deleteUserClaimValues(userName, claims, profileName);
+//    	String[] claims = {"http://schemas.xmlsoap.org/ws/2005/05/identity/claims/mobile"};
+//    	realmService.getTenantUserRealm(tenantId).getUserStoreManager().deleteUserClaimValues(userName, claims, profileName);
     }
     
     
