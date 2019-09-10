@@ -80,4 +80,11 @@ public class APIUsageByDestination {
         this.requestCount = requestCount;
     }
 
+	@Override
+	public String toString() {
+		return "APIUsageByDestination [apiName=" + apiName + ", apiVersion=" + apiVersion + ", context=" + context
+				+ ", destination=" + destination + ", requestCount=" + requestCount + "]";
+	}
+
+    
 }

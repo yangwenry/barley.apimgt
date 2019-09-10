@@ -70,4 +70,12 @@ public class APIUsage {
     public void setRequestCount(long requestCount) {
         this.requestCount = requestCount;
     }
+
+	@Override
+	public String toString() {
+		return "APIUsage [apiName=" + apiName + ", apiVersion=" + apiVersion + ", context=" + context
+				+ ", requestCount=" + requestCount + "]";
+	}
+    
+    
 }

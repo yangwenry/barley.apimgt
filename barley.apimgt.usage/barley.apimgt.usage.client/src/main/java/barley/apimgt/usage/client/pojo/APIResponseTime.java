@@ -79,4 +79,12 @@ public class APIResponseTime {
         this.responseCount = responseCount;
     }
 
+	@Override
+	public String toString() {
+		return "APIResponseTime [apiName=" + apiName + ", apiVersion=" + apiVersion + ", context=" + context
+				+ ", responseTime=" + responseTime + ", responseCount=" + responseCount + "]";
+	}
+    
+    
+
 }

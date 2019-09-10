@@ -43,4 +43,11 @@ public class APIFirstAccess {
     public String getDay() {
         return day;
     }
+
+	@Override
+	public String toString() {
+		return "APIFirstAccess [year=" + year + ", month=" + month + ", day=" + day + "]";
+	}
+    
+    
 }

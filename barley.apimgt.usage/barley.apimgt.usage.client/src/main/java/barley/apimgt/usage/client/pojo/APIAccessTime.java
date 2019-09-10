@@ -79,4 +79,12 @@ public class APIAccessTime {
         this.username = username;
     }
 
+	@Override
+	public String toString() {
+		return "APIAccessTime [apiName=" + apiName + ", apiVersion=" + apiVersion + ", context=" + context
+				+ ", accessTime=" + accessTime + ", username=" + username + "]";
+	}
+    
+    
+
 }

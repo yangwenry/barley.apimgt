@@ -90,4 +90,11 @@ public class APIUsageByUserName {
         this.requestCount = requestCount;
     }
 
+	@Override
+	public String toString() {
+		return "APIUsageByUserName [apiName=" + apiName + ", apiVersion=" + apiVersion + ", context=" + context
+				+ ", userID=" + userID + ", apipublisher=" + apipublisher + ", requestCount=" + requestCount + "]";
+	}
+
+    
 }

@@ -43,4 +43,11 @@ public class SubscriberCountByAPIs {
     public void setCount(long count) {
         this.count = count;
     }
+
+	@Override
+	public String toString() {
+		return "SubscriberCountByAPIs [apiName=" + apiName + ", count=" + count + "]";
+	}
+    
+    
 }

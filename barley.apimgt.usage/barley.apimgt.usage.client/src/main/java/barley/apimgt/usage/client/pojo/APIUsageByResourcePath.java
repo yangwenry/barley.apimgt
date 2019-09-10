@@ -100,4 +100,13 @@ public class APIUsageByResourcePath {
     public void setResourcePath(String resourcePath) {
         this.resourcePath = resourcePath;
     }
+
+	@Override
+	public String toString() {
+		return "APIUsageByResourcePath [apiName=" + apiName + ", apiVersion=" + apiVersion + ", method=" + method
+				+ ", context=" + context + ", requestCount=" + requestCount + ", time=" + time + ", resourcePath="
+				+ resourcePath + "]";
+	}
+    
+    
 }

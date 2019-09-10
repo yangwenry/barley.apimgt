@@ -69,4 +69,11 @@ public class APIResponseFaultCount {
         this.faultCount = faultCount;
     }
 
+	@Override
+	public String toString() {
+		return "APIResponseFaultCount [apiName=" + apiName + ", apiVersion=" + apiVersion + ", context=" + context
+				+ ", faultCount=" + faultCount + "]";
+	}
+
+    
 }

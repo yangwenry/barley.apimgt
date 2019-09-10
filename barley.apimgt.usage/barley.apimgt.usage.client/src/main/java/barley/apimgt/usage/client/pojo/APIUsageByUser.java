@@ -68,4 +68,12 @@ public class APIUsageByUser {
 
     public APIUsageByUser() {
     }
+
+	@Override
+	public String toString() {
+		return "APIUsageByUser [context=" + context + ", username=" + username + ", requestCount=" + requestCount
+				+ ", apiVersion=" + apiVersion + "]";
+	}
+    
+    
 }
