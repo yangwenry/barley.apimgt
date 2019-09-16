@@ -33,7 +33,7 @@ public final class APIUsageStatisticsClientConstants {
 
     public static final String API_VERSION_SERVICE_TIME_SUMMARY_INDEX = "APIVersionServiceTimeSummaryIndex";
 
-    public static final String API_Resource_Path_USAGE_SUMMARY = "API_Resource_USAGE_SUMMARY";
+    public static final String API_RESOURCE_PATH_USAGE_SUMMARY = "API_RESOURCE_USAGE_SUMMARY";
 
     public static final String API_VERSION_USAGE_SUMMARY = "API_VERSION_USAGE_SUMMARY";
 

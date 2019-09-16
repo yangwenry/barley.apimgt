@@ -35,6 +35,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -45,6 +46,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+import javax.xml.namespace.QName;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
@@ -652,7 +654,7 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
         for (int i = 1; i < subscriberApps.size(); i++) {
             concatenatedKeys.append(",'").append(subscriberApps.get(i)).append("'");
         }
-        return getAPICallTypeUsageData(APIUsageStatisticsClientConstants.API_Resource_Path_USAGE_SUMMARY,
+        return getAPICallTypeUsageData(APIUsageStatisticsClientConstants.API_RESOURCE_PATH_USAGE_SUMMARY,
                 concatenatedKeys.toString(), fromDate, toDate, limit);
     }
 
@@ -1051,7 +1053,7 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
             throws APIMgtUsageQueryServiceClientException {
 
         Collection<APIUsageByResourcePath> usageData = this
-                .getAPIUsageByResourcePathData(APIUsageStatisticsClientConstants.API_Resource_Path_USAGE_SUMMARY,
+                .getAPIUsageByResourcePathData(APIUsageStatisticsClientConstants.API_RESOURCE_PATH_USAGE_SUMMARY,
                         fromDate, toDate);
         List<API> providerAPIs = getAPIsByProvider(providerName);
         List<APIResourcePathUsageDTO> usageByResourcePath = new ArrayList<APIResourcePathUsageDTO>();
@@ -1266,7 +1268,7 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
             String toDate, int limit) throws APIMgtUsageQueryServiceClientException {
 
         Collection<APIAccessTime> accessTimes = getLastAccessData(
-                APIUsageStatisticsClientConstants.API_VERSION_KEY_LAST_ACCESS_SUMMARY, providerName);
+                APIUsageStatisticsClientConstants.API_LAST_ACCESS_TIME_SUMMARY, providerName);
         if (providerName.startsWith(APIUsageStatisticsClientConstants.ALL_PROVIDERS)) {
             providerName = APIUsageStatisticsClientConstants.ALL_PROVIDERS;
         }
@@ -1315,7 +1317,7 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
                             + "," + APIUsageStatisticsClientConstants.CONTEXT + ","
                             + APIUsageStatisticsClientConstants.USER_ID + ","
                             + APIUsageStatisticsClientConstants.REQUEST_TIME + " FROM "
-                            + APIUsageStatisticsClientConstants.API_LAST_ACCESS_TIME_SUMMARY);
+                            + tableName);
 
             lastAccessQuery.append(" where " + APIUsageStatisticsClientConstants.TENANT_DOMAIN + "= ?");
             if (!providerName.startsWith(APIUsageStatisticsClientConstants.ALL_PROVIDERS)) {
@@ -2355,6 +2357,7 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
                     int year = rs.getInt(APIUsageStatisticsClientConstants.YEAR);
                     int month = rs.getInt(APIUsageStatisticsClientConstants.MONTH);
                     String time;
+                    // group by hour로 실행하면 time 필드가 없어 에러가 발생
                     if (APIUsageStatisticsClientConstants.GROUP_BY_HOUR.equals(groupBy)) {
                         time = rs.getString(APIUsageStatisticsClientConstants.TIME);
                     } else {
@@ -2850,4 +2853,6 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
         }
         return result;
     }
+    
+    
 }
