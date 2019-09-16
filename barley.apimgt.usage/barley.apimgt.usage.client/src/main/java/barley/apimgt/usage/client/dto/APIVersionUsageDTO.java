@@ -39,4 +39,11 @@ public class APIVersionUsageDTO {
         this.version = version;
     }
 
+	@Override
+	public String toString() {
+		return "APIVersionUsageDTO [version=" + version + ", count=" + count + "]";
+	}
+    
+    
+
 }

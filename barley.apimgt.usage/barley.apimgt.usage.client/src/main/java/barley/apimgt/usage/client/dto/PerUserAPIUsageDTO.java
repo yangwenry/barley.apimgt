@@ -38,4 +38,11 @@ public class PerUserAPIUsageDTO {
     public void setUsername(String user){
         this.user = user;
     }
+
+	@Override
+	public String toString() {
+		return "PerUserAPIUsageDTO [user=" + user + ", count=" + count + "]";
+	}
+    
+    
 }
