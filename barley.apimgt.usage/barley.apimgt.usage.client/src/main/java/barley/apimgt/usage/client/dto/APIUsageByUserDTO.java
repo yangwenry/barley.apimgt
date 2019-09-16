@@ -59,4 +59,12 @@ public class APIUsageByUserDTO {
     public void setCount(long count) {
         this.count = count;
     }
+
+	@Override
+	public String toString() {
+		return "APIUsageByUserDTO [apiName=" + apiName + ", version=" + version + ", userID=" + userID + ", count="
+				+ count + "]";
+	}
+    
+    
 }

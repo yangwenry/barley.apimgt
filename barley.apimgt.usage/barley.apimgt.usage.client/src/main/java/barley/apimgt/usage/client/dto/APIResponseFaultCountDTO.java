@@ -109,4 +109,14 @@ public class APIResponseFaultCountDTO {
     public void setTotalRequestCount(long totalRequestCount) {
         this.totalRequestCount = totalRequestCount;
     }
+
+	@Override
+	public String toString() {
+		return "APIResponseFaultCountDTO [apiName=" + apiName + ", version=" + version + ", context=" + context
+				+ ", faultPercentage=" + faultPercentage + ", requestTime=" + requestTime + ", count=" + count
+				+ ", totalRequestCount=" + totalRequestCount + ", appName=" + appName + ", consumerKey=" + consumerKey
+				+ "]";
+	}
+    
+    
 }

@@ -68,4 +68,12 @@ public class APIDestinationUsageDTO {
     public void setCount(long count) {
         this.count = count;
     }
+
+	@Override
+	public String toString() {
+		return "APIDestinationUsageDTO [apiName=" + apiName + ", version=" + version + ", context=" + context
+				+ ", destination=" + destination + ", count=" + count + "]";
+	}
+    
+    
 }

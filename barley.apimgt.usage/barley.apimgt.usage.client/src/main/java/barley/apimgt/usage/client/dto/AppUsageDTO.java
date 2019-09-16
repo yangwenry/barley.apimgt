@@ -45,6 +45,12 @@ public class AppUsageDTO {
         usage.setCount(count);
         this.userCountArray.add(usage);
     }
+
+	@Override
+	public String toString() {
+		return "AppUsageDTO [appName=" + appName + ", userCountArray=" + userCountArray + "]";
+	}
+    
 }
 class UserCountArray{
     String user;
@@ -65,4 +71,10 @@ class UserCountArray{
     public void setCount(long count) {
         this.count = count;
     }
+
+	@Override
+	public String toString() {
+		return "UserCountArray [user=" + user + ", count=" + count + "]";
+	}
+    
 }

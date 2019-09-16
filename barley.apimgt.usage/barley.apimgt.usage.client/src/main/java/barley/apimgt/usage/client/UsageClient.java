@@ -411,7 +411,7 @@ public class UsageClient {
      */
     public static List<SubscriptionOverTimeDTO> getAPISubscriptionsPerApp(String apiName, String provider,
             String apiFilter, String fromDate, String toDate, int limit)
-            throws SQLException, APIMgtUsageQueryServiceClientException {
+            throws APIMgtUsageQueryServiceClientException {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet rs = null;

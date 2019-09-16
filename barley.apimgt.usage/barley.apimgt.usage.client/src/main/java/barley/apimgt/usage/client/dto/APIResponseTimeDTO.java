@@ -38,4 +38,11 @@ public class APIResponseTimeDTO {
     public void setServiceTime(double serviceTime) {
         this.serviceTime = serviceTime;
     }
+
+	@Override
+	public String toString() {
+		return "APIResponseTimeDTO [apiName=" + apiName + ", serviceTime=" + serviceTime + "]";
+	}
+    
+    
 }

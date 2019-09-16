@@ -48,4 +48,11 @@ public class UserAgentUsageCount {
         this.count = count_sum;
         this.key_os_browser_facet = ColumnNames;
     }
+
+	@Override
+	public String toString() {
+		return "UserAgentUsageCount [count=" + count + ", key_os_browser_facet=" + key_os_browser_facet + "]";
+	}
+    
+    
 }

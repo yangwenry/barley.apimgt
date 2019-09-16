@@ -72,5 +72,14 @@ public class APIThrottlingOverTimeDTO {
     public String getTime() {
         return time;
     }
+
+	@Override
+	public String toString() {
+		return "APIThrottlingOverTimeDTO [apiName=" + apiName + ", apiPublisher=" + apiPublisher
+				+ ", successRequestCount=" + successRequestCount + ", throttleOutCount=" + throttleOutCount + ", time="
+				+ time + "]";
+	}
+    
+    
     
 }

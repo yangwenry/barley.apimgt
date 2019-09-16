@@ -85,4 +85,12 @@ public class APIResourcePathUsageDTO {
     public void setResourcePath(String resourcePath) {
         this.resourcePath = resourcePath;
     }
+
+	@Override
+	public String toString() {
+		return "APIResourcePathUsageDTO [apiName=" + apiName + ", version=" + version + ", context=" + context
+				+ ", method=" + method + ", count=" + count + ", time=" + time + ", resourcePath=" + resourcePath + "]";
+	}
+    
+    
 }

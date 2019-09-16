@@ -45,4 +45,10 @@ public class SubscriptionOverTimeDTO {
     public void setY(long y) {
         this.y = y;
     }
+
+	@Override
+	public String toString() {
+		return "SubscriptionOverTimeDTO [x=" + x + ", y=" + y + "]";
+	}  
+    
 }

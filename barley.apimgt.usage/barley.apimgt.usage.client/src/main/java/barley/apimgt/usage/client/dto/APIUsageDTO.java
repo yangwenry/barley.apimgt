@@ -47,5 +47,11 @@ public class APIUsageDTO {
         this.count = count;
     }
 
+	@Override
+	public String toString() {
+		return "APIUsageDTO [appName=" + appName + ", apiName=" + apiName + ", consumerKey=" + consumerKey + ", count="
+				+ count + "]";
+	}
 
+    
 }

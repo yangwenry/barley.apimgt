@@ -790,7 +790,7 @@ public abstract class APIUsageStatisticsClient {
      * @return List of Geolocation  usage
      * @throws APIMgtUsageQueryServiceClientException
      */
-
+    @Deprecated
     public abstract List<Result<PerGeoLocationUsageCount>> getGeoLocationsByApi(String apiName, String version,
                                                                                 String tenantDomain, String fromDate,
                                                                                 String toDate, String drillDown)

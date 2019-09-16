@@ -30,6 +30,13 @@ public class AppCallTypeDTO {
         apiCallTypeArray.setCallType(callType);
         this.apiCallTypeArray.add(apiCallTypeArray);
     }
+
+	@Override
+	public String toString() {
+		return "AppCallTypeDTO [appName=" + appName + ", apiCallTypeArray=" + apiCallTypeArray + "]";
+	}
+    
+    
 }
 
 class ApiCallTypeArray {
@@ -51,4 +58,11 @@ class ApiCallTypeArray {
     public void setCallType(List<String> callType) {
         this.callType = callType;
     }
+
+	@Override
+	public String toString() {
+		return "ApiCallTypeArray [apiName=" + apiName + ", callType=" + callType + "]";
+	}
+    
+    
 }

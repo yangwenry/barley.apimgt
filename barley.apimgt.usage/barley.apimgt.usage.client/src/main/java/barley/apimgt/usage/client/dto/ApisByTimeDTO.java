@@ -42,4 +42,11 @@ public class ApisByTimeDTO {
     public void setY(long y) {
         this.y = y;
     }
+
+	@Override
+	public String toString() {
+		return "ApisByTimeDTO [x=" + x + ", y=" + y + "]";
+	}
+    
+    
 }
