@@ -425,7 +425,9 @@ public class UsageClient {
             String where = "where api.api_id=subc.api_id ";
             String groupAndOrder = "group by subc.created_time" + " order by subc.created_time asc ";
             String time = " and subc.created_time between ? and ? ";
-            if (!"allAPIs".equals(apiFilter)) {
+            // (수정) ALL로 변경 
+            //if (!"allAPIs".equals(apiFilter)) {
+            if (!"ALL".equals(apiFilter)) {	
                 where += " and api.api_provider = '" + provider + "' ";
             } else {
                 List<String> providerList = getApiProviders(provider);
@@ -524,13 +526,13 @@ public class UsageClient {
             */
             query += " where CONTEXT not like '/t/%' and ";
             
-            if (!"All".equals(apiCreator)) {
+            if (!"ALL".equals(apiCreator)) {
                 query += " CREATED_BY= ? and ";
             }
             query += " CREATED_TIME between ? and ?" + " group by CREATED_TIME order by CREATED_TIME ASC ";
             statement = connection.prepareStatement(query);
             int cnt = 0;
-            if (!"All".equals(apiCreator)) {
+            if (!"ALL".equals(apiCreator)) {
                 statement.setString(++cnt, apiCreator);
             }
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");

@@ -273,7 +273,7 @@ public abstract class APIUsageStatisticsClient {
      * @throws APIMgtUsageQueryServiceClientException
      */
     public abstract List<APIThrottlingOverTimeDTO> getThrottleDataOfAPIAndApplication(String apiName, String provider,
-                                                                                      String appName, String fromDate, String toDate, String groupBy)
+                                                                                      String apiPublisher, String fromDate, String toDate, String groupBy)
             throws APIMgtUsageQueryServiceClientException;
 
     /**

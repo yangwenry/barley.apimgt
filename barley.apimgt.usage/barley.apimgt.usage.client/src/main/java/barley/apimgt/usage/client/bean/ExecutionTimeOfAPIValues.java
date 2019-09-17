@@ -206,4 +206,18 @@ public class ExecutionTimeOfAPIValues {
     public void setOtherLatency(long otherLatency) {
         this.otherLatency = otherLatency;
     }
+
+	@Override
+	public String toString() {
+		return "ExecutionTimeOfAPIValues [api=" + api + ", version=" + version + ", time=" + time + ", mediationName="
+				+ mediationName + ", apiPublisher=" + apiPublisher + ", context=" + context + ", year=" + year
+				+ ", hour=" + hour + ", month=" + month + ", day=" + day + ", minutes=" + minutes + ", seconds="
+				+ seconds + ", executionTime=" + executionTime + ", apiResponseTime=" + apiResponseTime
+				+ ", securityLatency=" + securityLatency + ", throttlingLatency=" + throttlingLatency
+				+ ", requestMediationLatency=" + requestMediationLatency + ", responseMediationLatency="
+				+ responseMediationLatency + ", backendLatency=" + backendLatency + ", otherLatency=" + otherLatency
+				+ "]";
+	}
+    
+    
 }

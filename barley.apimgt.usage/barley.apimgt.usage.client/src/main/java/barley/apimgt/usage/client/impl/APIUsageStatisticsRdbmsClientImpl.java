@@ -2288,7 +2288,7 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
      *
      * @param apiName  Name of the API
      * @param provider Provider name
-     * @param appName  Application name
+     * @param apiPublisher  Application name
      * @param fromDate Start date of the time span
      * @param toDate   End date of time span
      * @param groupBy  Group by parameter. Supported parameters are :day,hour
@@ -2297,7 +2297,7 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
      */
     @Override
     public List<APIThrottlingOverTimeDTO> getThrottleDataOfAPIAndApplication(String apiName, String provider,
-            String appName, String fromDate, String toDate, String groupBy)
+            String apiPublisher, String fromDate, String toDate, String groupBy)
             throws APIMgtUsageQueryServiceClientException {
 
         if (dataSource == null) {
@@ -2330,7 +2330,9 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
                         (provider.startsWith(APIUsageStatisticsClientConstants.ALL_PROVIDERS) ?
                                 "" :
                                 "AND " + APIUsageStatisticsClientConstants.API_PUBLISHER + " = ?") +
-                        (StringUtils.isEmpty(appName) ?
+                        // (수정) All로 변경 
+                        // (StringUtils.isEmpty(apiPublisher) ?
+                        ("ALL".equals(apiPublisher) ?
                                 "" :
                                 " AND " + APIUsageStatisticsClientConstants.APPLICATION_NAME + " = ?") +
                         " AND " + APIUsageStatisticsClientConstants.TIME + " BETWEEN ? AND ? " +
@@ -2344,8 +2346,10 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
                 if (!provider.startsWith(APIUsageStatisticsClientConstants.ALL_PROVIDERS)) {
                     preparedStatement.setString(index++, provider);
                 }
-                if (!StringUtils.isEmpty(appName)) {
-                    preparedStatement.setString(index++, appName);
+                // (수정) All로 변경 
+                //if (!StringUtils.isEmpty(apiPublisher)) {
+                if (!"ALL".equals(apiPublisher)) {	
+                    preparedStatement.setString(index++, apiPublisher);
                 }
                 preparedStatement.setString(index++, fromDate);
                 preparedStatement.setString(index, toDate);
