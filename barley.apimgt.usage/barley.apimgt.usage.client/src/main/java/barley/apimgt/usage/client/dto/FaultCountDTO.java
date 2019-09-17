@@ -46,6 +46,13 @@ public class FaultCountDTO {
         usage.setCount(count);
         this.apiCountArray.add(usage);
     }
+
+	@Override
+	public String toString() {
+		return "FaultCountDTO [appName=" + appName + ", apiCountArray=" + apiCountArray + "]";
+	}
+    
+    
 }
 
 /**
@@ -70,4 +77,11 @@ class ApiFaultCountArray {
     public void setCount(long count) {
         this.count = count;
     }
+
+	@Override
+	public String toString() {
+		return "ApiFaultCountArray [apiName=" + apiName + ", count=" + count + "]";
+	}
+    
+    
 }

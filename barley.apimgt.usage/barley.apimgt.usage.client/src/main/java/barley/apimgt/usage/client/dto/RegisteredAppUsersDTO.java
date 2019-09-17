@@ -43,5 +43,12 @@ public class RegisteredAppUsersDTO {
     public void addToUserArray(String user) {
         this.userArray.add(user);
     }
+
+	@Override
+	public String toString() {
+		return "RegisteredAppUsersDTO [appName=" + appName + ", userArray=" + userArray + "]";
+	}
+    
+    
 }
 
