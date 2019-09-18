@@ -187,7 +187,9 @@ public class UsageClient {
                     List<String> apiName = new ArrayList<String>();
                     apiName.add(api.getId().getApiName());
                     apiName.add(api.getId().getVersion());
-                    apiName.add(api.getId().getProviderName());
+                    // (수정) -AT- 변경 
+                    //apiName.add(api.getId().getProviderName());
+                    apiName.add(APIUtil.replaceEmailDomainBack(api.getId().getProviderName()));
 
                     apiSub.setCount(count);
                     apiSub.setApiName(apiName);
