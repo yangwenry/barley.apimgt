@@ -65,6 +65,7 @@ import barley.apimgt.api.model.policy.SubscriptionPolicy;
 import barley.apimgt.impl.APIConstants.SubscriptionStatus;
 import barley.apimgt.impl.internal.APIManagerComponent;
 import barley.apimgt.impl.internal.ServiceReferenceHolder;
+import barley.apimgt.impl.utils.APIUtil;
 import barley.core.BarleyConstants;
 import barley.core.MultitenantConstants;
 import barley.core.context.PrivilegedBarleyContext;
@@ -163,7 +164,8 @@ public class APIProviderImplTest extends BaseTestCase {
         barley.registry.indexing.Utils.setRegistryService(embeddedRegistryService);
         try {
             if (Utils.isIndexingConfigAvailable()) {
-                IndexingManager.getInstance().startIndexing();
+            	// (주석)
+                //IndexingManager.getInstance().startIndexing();
             } else {
                 log.debug("<indexingConfiguration/> not available in registry.xml to start the resource indexing task");
             }
@@ -202,7 +204,7 @@ public class APIProviderImplTest extends BaseTestCase {
 
     private void initializeDatabase() {
 
-    	String configFilePath = BarleyUtils.getCarbonConfigDirPath() + "api-manager.xml";
+    	String configFilePath = APIUtil.getApiManagerConfigDirPath() + "api-manager.xml";
         InputStream in = null;
         try {
             in = FileUtils.openInputStream(new File(configFilePath));
