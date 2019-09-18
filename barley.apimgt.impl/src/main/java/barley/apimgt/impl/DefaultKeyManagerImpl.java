@@ -420,8 +420,10 @@ public class DefaultKeyManagerImpl extends AbstractKeyManager {
             IdentityConfigParser configParser;
             
             // (수정) 2018.08.14 - identity.xml 파일 위치를 변경
+            // (수정) 2019.09.18 - 시스템 변수를 프로젝트 별 변수로 변경 
             //String configFile = BarleyUtils.getCarbonConfigDirPath() + File.separator + "identity.xml";
-            String configFile = BarleyUtils.getCarbonConfigDirPath() + File.separator + "identity" + File.separator + "identity.xml";
+            //String configFile = BarleyUtils.getCarbonConfigDirPath() + File.separator + "identity" + File.separator + "identity.xml";
+            String configFile = APIUtil.getApiManagerConfigDirPath() + File.separator + "identity" + File.separator + "identity.xml";
             configParser = IdentityConfigParser.getInstance(configFile);
             OMElement oauthElem = configParser.getConfigElement(CONFIG_ELEM_OAUTH);
 

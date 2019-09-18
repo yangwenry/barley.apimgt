@@ -150,7 +150,9 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
             String billingConfig = config.getFirstProperty("EnableBillingAndUsage");
             boolean isBillingEnabled = Boolean.parseBoolean(billingConfig);
             if (isBillingEnabled) {
-                String filePath = (new StringBuilder()).append(BarleyUtils.getCarbonHome()).append(File.separator)
+            	// (수정) 메소드 변경 
+                //String filePath = (new StringBuilder()).append(BarleyUtils.getCarbonHome()).append(File.separator)
+            	String filePath = (new StringBuilder()).append(APIUtil.getApiManagerHome()).append(File.separator)
                         .append("repository").append(File.separator).append("conf").append(File.separator)
                         .append("billing-conf.xml").toString();
                 element = buildOMElement(new FileInputStream(filePath));

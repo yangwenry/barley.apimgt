@@ -1200,6 +1200,11 @@ public final class APIConstants {
     public static final String MULTI_ATTRIBUTE_SEPARATOR_DEFAULT = ",";
     public static final String MULTI_ATTRIBUTE_SEPARATOR = "MultiAttributeSeparator";
 
+    // (추가) 2019.09.18 
+	public static final String API_MANAGER_HOME = "api.manager.home";
+	public static final String API_MANAGER_CONFIG_DIR_PATH = "api.manager.config.dir.path";
+	
+
     public static class AuditLogConstants {
         public static final String CREATED = "created";
         public static final String UPDATED = "updated";
