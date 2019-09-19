@@ -140,10 +140,8 @@ public class APIManagerComponent {
             //load self sigup configuration to the registry
             APIUtil.loadTenantSelfSignUpConfigurations(tenantId);
 
-            // (수정) 2019.09.18 - 시스템 변수를 프로젝트 별 변수로 변경 
-            //String filePath = BarleyUtils.getCarbonHome() + File.separator + "repository" +
-            //                  File.separator + "conf" + File.separator + "api-manager.xml";
-            String filePath = APIUtil.getApiManagerConfigDirPath() + File.separator + "api-manager.xml";
+            String filePath = BarleyUtils.getCarbonHome() + File.separator + "repository" +
+                              File.separator + "conf" + File.separator + "api-manager.xml";
             configuration.load(filePath);
 
             String gatewayType = configuration.getFirstProperty(APIConstants.API_GATEWAY_TYPE);
@@ -313,11 +311,8 @@ public class APIManagerComponent {
     }
     
     public void addRxtConfigs() throws APIManagementException {
-    	// (수정) 2019.09.18 - 시스템 변수를 프로젝트 별 변수로 변경 
-//        String rxtDir = BarleyUtils.getCarbonHome() + File.separator + "repository" + File.separator +
-//                        "resources" + File.separator + "rxts";
-    	String rxtDir = APIUtil.getApiManagerHome() + File.separator + "repository" + File.separator +
-                "resources" + File.separator + "rxts";
+        String rxtDir = BarleyUtils.getCarbonHome() + File.separator + "repository" + File.separator +
+                        "resources" + File.separator + "rxts";
         File file = new File(rxtDir);
         //create a FilenameFilter
         FilenameFilter filenameFilter = new FilenameFilter() {
@@ -384,24 +379,15 @@ public class APIManagerComponent {
     }
 
     public void addTierPolicies() throws APIManagementException {
-    	// (수정) 2019.09.18 - 시스템 변수를 프로젝트 별 변수로 변경 
-//        String apiTierFilePath =
-//                BarleyUtils.getCarbonHome() + File.separator + "repository" + File.separator + "resources"
-//                + File.separator + "default-tiers" + File.separator + APIConstants.DEFAULT_API_TIER_FILE_NAME;
-//        String appTierFilePath =
-//                BarleyUtils.getCarbonHome() + File.separator + "repository" + File.separator + "resources"
-//                + File.separator + "default-tiers" + File.separator + APIConstants.DEFAULT_APP_TIER_FILE_NAME;
-//        String resTierFilePath =
-//                BarleyUtils.getCarbonHome() + File.separator + "repository" + File.separator + "resources"
-//                + File.separator + "default-tiers" + File.separator + APIConstants.DEFAULT_RES_TIER_FILE_NAME;
-    	String apiTierFilePath =
-    			APIUtil.getApiManagerHome() + File.separator + "repository" + File.separator + "resources"
+
+        String apiTierFilePath =
+                BarleyUtils.getCarbonHome() + File.separator + "repository" + File.separator + "resources"
                 + File.separator + "default-tiers" + File.separator + APIConstants.DEFAULT_API_TIER_FILE_NAME;
         String appTierFilePath =
-        		APIUtil.getApiManagerHome() + File.separator + "repository" + File.separator + "resources"
+                BarleyUtils.getCarbonHome() + File.separator + "repository" + File.separator + "resources"
                 + File.separator + "default-tiers" + File.separator + APIConstants.DEFAULT_APP_TIER_FILE_NAME;
         String resTierFilePath =
-        		APIUtil.getApiManagerHome() + File.separator + "repository" + File.separator + "resources"
+                BarleyUtils.getCarbonHome() + File.separator + "repository" + File.separator + "resources"
                 + File.separator + "default-tiers" + File.separator + APIConstants.DEFAULT_RES_TIER_FILE_NAME;
 
         addTierPolicy(APIConstants.API_TIER_LOCATION, apiTierFilePath);

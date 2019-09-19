@@ -2742,10 +2742,8 @@ public final class APIUtil {
     }
 
     public static void loadTenantAPIPolicy(String tenant, int tenantID) throws APIManagementException {
-        // (수정) 메소드 변경 
-//        String tierBasePath = BarleyUtils.getCarbonHome() + File.separator + "repository" + File.separator + "resources"
-//                + File.separator + "default-tiers" + File.separator;
-    	String tierBasePath = APIUtil.getApiManagerHome() + File.separator + "repository" + File.separator + "resources"
+        
+        String tierBasePath = BarleyUtils.getCarbonHome() + File.separator + "repository" + File.separator + "resources"
                 + File.separator + "default-tiers" + File.separator;
 
         String apiTierFilePath = tierBasePath + APIConstants.DEFAULT_API_TIER_FILE_NAME;
@@ -2989,9 +2987,7 @@ public final class APIUtil {
                 return;
             }
 
-            // (수정) 메소드 변경 
-//            String tenantConfLocation = BarleyUtils.getCarbonHome() + File.separator +
-            String tenantConfLocation = APIUtil.getApiManagerHome() + File.separator +
+            String tenantConfLocation = BarleyUtils.getCarbonHome() + File.separator +
                     APIConstants.RESOURCE_FOLDER_LOCATION + File.separator +
                     APIConstants.API_TENANT_CONF;
 
@@ -3095,9 +3091,7 @@ public final class APIUtil {
             throws APIManagementException {
 
         InputStream inSeqStream = null;
-        // (수정) 메소드 변경 
-//        String seqFolderLocation = BarleyUtils.getCarbonHome() + File.separator +
-        String seqFolderLocation = APIUtil.getApiManagerHome() + File.separator +
+        String seqFolderLocation = BarleyUtils.getCarbonHome() + File.separator + 
                 APIConstants.API_CUSTOM_SEQUENCES_FOLDER_LOCATION + File.separator +
                         customSequenceType;
 
@@ -3192,10 +3186,7 @@ public final class APIUtil {
             throw new APIManagementException("Error when create registry instance ", e);
         }
 
-        // (수정) 메소드 변경  
-//        String rxtDir = BarleyUtils.getCarbonHome() + File.separator + "repository" + File.separator + "resources" +
-//                File.separator + "rxts";
-        String rxtDir = APIUtil.getApiManagerHome() + File.separator + "repository" + File.separator + "resources" +
+        String rxtDir = BarleyUtils.getCarbonHome() + File.separator + "repository" + File.separator + "resources" +
                 File.separator + "rxts";
         File file = new File(rxtDir);
         FilenameFilter filenameFilter = new FilenameFilter() {
@@ -6154,25 +6145,5 @@ public final class APIUtil {
     public static String getAnalyticsServerPassword() {
         return ServiceReferenceHolder.getInstance().getAPIManagerConfigurationService().getAPIAnalyticsConfiguration().
                 getDasReceiverServerPassword();
-    }
-    
-    // (추가) 2019.09.18 - 환경변수를 프로젝트 별로 분할 
-    public static String getApiManagerHome() {
-        String homeDirPath = System.getProperty(APIConstants.API_MANAGER_HOME);
-        if (homeDirPath == null) {
-            homeDirPath = BarleyUtils.getCarbonHome();
-            System.setProperty(APIConstants.API_MANAGER_HOME, homeDirPath);
-        }
-        return homeDirPath;
-    }
-
-    public static String getApiManagerConfigDirPath() {
-        String configDirPath = System.getProperty(APIConstants.API_MANAGER_CONFIG_DIR_PATH);
-        if (configDirPath == null) {
-            if (configDirPath == null) {
-                return getApiManagerHome() + File.separator + "repository" + File.separator + "conf";
-            }
-        }
-        return configDirPath;
     }
 }
