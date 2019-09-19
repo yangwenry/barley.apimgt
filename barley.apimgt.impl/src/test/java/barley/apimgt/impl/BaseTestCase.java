@@ -63,8 +63,6 @@ public class BaseTestCase extends TestCase {
         */
         System.setProperty(ServerConstants.CARBON_HOME, "D:/Workspace_STS_SaaSPlatform/Workspace_STS_APIM/barley.apimgt/barley.apimgt.impl/src/test/resources/");
         System.setProperty(ServerConstants.CARBON_CONFIG_DIR_PATH, "D:/Workspace_STS_SaaSPlatform/Workspace_STS_APIM/barley.apimgt/barley.apimgt.impl/src/test/resources/repository/conf/");
-        System.setProperty(APIConstants.API_MANAGER_HOME, "D:/Workspace_STS_SaaSPlatform/Workspace_STS_APIM/barley.apimgt/barley.apimgt.impl/src/test/resources/");
-        System.setProperty(APIConstants.API_MANAGER_CONFIG_DIR_PATH, "D:/Workspace_STS_SaaSPlatform/Workspace_STS_APIM/barley.apimgt/barley.apimgt.impl/src/test/resources/repository/conf/");
         
         System.setProperty("registry.config", "registry.xml");
         // BLOB 값을 쓰고 읽을 때 사용 

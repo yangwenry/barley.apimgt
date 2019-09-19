@@ -204,7 +204,7 @@ public class APIProviderImplTest extends BaseTestCase {
 
     private void initializeDatabase() {
 
-    	String configFilePath = APIUtil.getApiManagerConfigDirPath() + "api-manager.xml";
+    	String configFilePath = BarleyUtils.getCarbonConfigDirPath() + "api-manager.xml";
         InputStream in = null;
         try {
             in = FileUtils.openInputStream(new File(configFilePath));
