@@ -73,7 +73,7 @@ public class APIKeyMgtServiceComponent {
     //private static KeyManagerUserOperationListener listener = null;
     private ServiceRegistration serviceRegistration = null;
 
-    protected void activate(ComponentContext ctxt) {
+    public void activate() {
         try {
 
             APIKeyMgtDataHolder.initData();
