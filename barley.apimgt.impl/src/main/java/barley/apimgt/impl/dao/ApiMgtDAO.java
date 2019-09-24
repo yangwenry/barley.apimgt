@@ -4697,6 +4697,7 @@ public class ApiMgtDAO {
                 application.setUUID(rs.getString("UUID"));
                 application.setIsBlackListed(rs.getBoolean("ENABLED"));
 
+                // restful api 호출하여 application key 가져오기 
                 Set<APIKey> keys = getApplicationKeys(subscriber.getName(), application.getId());
                 Map<String, OAuthApplicationInfo> keyMap = getOAuthApplications(application.getId());
 
@@ -11118,7 +11119,8 @@ public class ApiMgtDAO {
 
     /**
      * Get a list of access tokens issued for given user under the given app. Returned object carries consumer key
-     * and secret information related to the access token
+     * and secret information related to the access token.
+     * API Key 서비스에서 토큰 revoke 때 사용한다. (keymgt.APIKeyMgtSubscriberService.revokeTokensOfUserByApp)
      *
      * @param userName end user name
      * @param appName application name
