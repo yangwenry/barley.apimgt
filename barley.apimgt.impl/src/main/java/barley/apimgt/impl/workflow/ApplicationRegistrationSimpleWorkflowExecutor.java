@@ -53,7 +53,8 @@ public class ApplicationRegistrationSimpleWorkflowExecutor extends AbstractAppli
 
         workFlowDTO.setStatus(WorkflowStatus.APPROVED);
         complete(workFlowDTO);
-        super.publishEvents(workFlowDTO);
+        // (주석) 2019.09.23 - 워크플로는 데이터분석기가 데이터 수집하지 않는다.
+        //super.publishEvents(workFlowDTO);
 		return new GeneralWorkflowResponse();
     }
 
