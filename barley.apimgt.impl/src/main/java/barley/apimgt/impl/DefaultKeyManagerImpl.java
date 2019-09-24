@@ -114,9 +114,7 @@ public class DefaultKeyManagerImpl extends AbstractKeyManager {
             info = keyMgtClient.createOAuthApplicationbyApplicationInfo(applicationToCreate);
         } catch (Exception e) {
             handleException("Can not create OAuth application  : " + applicationName, e);
-        } finally {
-            
-        }
+        } 
 
         if (info == null || info.getJsonString() == null) {
             handleException("OAuth app does not contains required data  : " + applicationName,
@@ -359,13 +357,13 @@ public class DefaultKeyManagerImpl extends AbstractKeyManager {
                 HttpResponse tokResponse = tokenEPClient.execute(httpTokpost);
                 HttpEntity tokEntity = tokResponse.getEntity();
                 
-                String responseStr = EntityUtils.toString(tokEntity);
-                JSONObject responseObj = new JSONObject(responseStr);
-                
                 if (tokResponse.getStatusLine().getStatusCode() != 200) {
                     throw new RuntimeException("Error occurred while calling token endpoint: HTTP error code : " +
-                    		responseObj.getString("statusType"));
+                    		tokResponse.getStatusLine().getStatusCode());
                 } else {
+                	String responseStr = EntityUtils.toString(tokEntity);
+                    JSONObject responseObj = new JSONObject(responseStr);
+                    
                     tokenInfo = new AccessTokenInfo();
                     newAccessToken = responseObj.get(OAUTH_RESPONSE_ACCESSTOKEN).toString();
                     validityPeriod = Long.parseLong(responseObj.get(OAUTH_RESPONSE_EXPIRY_TIME).toString());
