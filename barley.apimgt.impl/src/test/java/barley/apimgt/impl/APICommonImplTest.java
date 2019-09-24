@@ -439,16 +439,23 @@ public class APICommonImplTest extends BaseTestCase {
     public void testlistUsers() throws Exception {
     	RealmService realmService = ServiceReferenceHolder.getInstance().getRealmService();
     	int tenantId = 1;
-    	String userName = "";
     	int page = 1;
     	int limit = 10;
-    	String state = "COMPLETED";
+    	//String state = "COMPLETED";
+    	//String state = "APPROVAL";
+    	String state = null;
     	
     	//String[] userIds = realmService.getTenantUserRealm(tenantId).getUserStoreManager().listUsers(userName, 10);
     	//assertEquals(userIds[0], userName);
     	
-    	String[] userIds = realmService.getTenantUserRealm(tenantId).getUserStoreManager().listUsers(userName, state, page, limit);
-    	assertEquals(userIds.length, limit);
+    	String userId = "";
+    	String searchType = "name";
+    	String searchValue = "";
+    	String[] userIds = realmService.getTenantUserRealm(tenantId).getUserStoreManager().listUsers(searchType, searchValue, userId, state, page, limit);
+    	//assertEquals(userIds.length, limit);
+    	for(String getUserId: userIds) {
+    		System.out.println(getUserId);
+    	}
     }
     
     public void testUpdateUserState() throws Exception {

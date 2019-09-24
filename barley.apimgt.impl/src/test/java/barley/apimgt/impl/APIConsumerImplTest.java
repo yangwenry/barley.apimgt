@@ -43,15 +43,18 @@ import barley.apimgt.api.APIConsumer;
 import barley.apimgt.api.APIManagementException;
 import barley.apimgt.api.model.API;
 import barley.apimgt.api.model.APIIdentifier;
+import barley.apimgt.api.model.APIKey;
 import barley.apimgt.api.model.APIRating;
 import barley.apimgt.api.model.Application;
 import barley.apimgt.api.model.Comment;
 import barley.apimgt.api.model.Documentation;
+import barley.apimgt.api.model.KeyManager;
 import barley.apimgt.api.model.Scope;
 import barley.apimgt.api.model.SubscribedAPI;
 import barley.apimgt.api.model.Subscriber;
 import barley.apimgt.api.model.SubscriptionResponse;
 import barley.apimgt.api.model.Tag;
+import barley.apimgt.impl.dao.ApiMgtDAO;
 import barley.apimgt.impl.factory.KeyManagerHolder;
 import barley.apimgt.impl.factory.SQLConstantManagerFactory;
 import barley.apimgt.impl.internal.APIManagerComponent;
@@ -515,6 +518,35 @@ public class APIConsumerImplTest extends BaseTestCase {
     public void testApplicationTokenExists() throws APIManagementException {
     	String accessToken = null;
     	consumer.isApplicationTokenExists(accessToken);
+    }
+    
+    public void testGetAccessTokenByApplication() throws APIManagementException {
+    	// Application 정보 가져오기 -> consumerKey 가져오기 
+    	String userId = "admin@codefarm.co.kr";
+    	String groupId = "1";
+    	Subscriber subscriber = new Subscriber(userId);
+    	Application[] apps = consumer.getApplications(subscriber, groupId);
+    	for(Application app: apps) {
+    		//consumerKey = app.getOAuthApp("PRODUCTION").getClientId();
+    		List<APIKey> apiKeys = app.getKeys();
+    		for(APIKey key : apiKeys) {
+    			String consumerKey = key.getConsumerKey();
+    			String accessToken = key.getAccessToken();
+    			System.out.println("consumerKey: " + consumerKey);
+    			System.out.println("accessToken: " + accessToken);
+    		}
+    	}
+    }
+    
+    public void testGetAccessToken() throws APIManagementException {
+    	// consumer.getApplications()를 통해 OAuth APP 정보를 모두 가져오므로 굳이 사용할 이유는 없을 듯 하다.
+    	// keyManager를 직접 생성하여 호출하는 방식도 좋지 못한 것 같다. restful을 거치지 않는 다는 점에서 마음에 든다. 
+    	KeyManager keyManager = KeyManagerHolder.getKeyManagerInstance();
+    	String consumerKey = "WzRxGQ9CW9xcVbZ4T8ByONAl6C0a";
+    	Set<String> tokens = keyManager.getActiveTokensByConsumerKey(consumerKey);
+    	for(String accessToken : tokens) {
+    		log.info("액세스 토큰: " + accessToken);
+    	}
     }
     
     public void testTag() throws APIManagementException {
