@@ -478,6 +478,13 @@ public interface APIConsumer extends APIManager {
     Set<SubscribedAPI> getSubscribedIdentifiers(Subscriber subscriber,
                                                        APIIdentifier identifier, String groupingId) throws APIManagementException;
     
+    /**
+     * AM_SUBSCRIPTION_KEY_MAPPING 테이블을 사용하지 않는다. 
+     * @param accessToken
+     * @return
+     * @throws APIManagementException
+     */
+    @Deprecated
     Set<APIIdentifier> getAPIByConsumerKey(String accessToken) throws APIManagementException;
 
     Set<API> searchAPI(String searchTerm, String searchType,String tenantDomain) throws APIManagementException;
