@@ -196,6 +196,7 @@ public interface KeyManager {
 
     /**
      * Gives details of the Access Token to be displayed on Store.
+     * 스토어에 보여질 액세스 토큰 키를 가져온다.  
      * @param consumerKey
      * @return {@link org.wso2.carbon.apimgt.api.model.AccessTokenInfo} populating all the details of the Access Token.
      * @throws APIManagementException
