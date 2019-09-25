@@ -451,7 +451,7 @@ public class APICommonImplTest extends BaseTestCase {
     	String userId = "";
     	String searchType = "name";
     	String searchValue = "";
-    	String[] userIds = realmService.getTenantUserRealm(tenantId).getUserStoreManager().listUsers(searchType, searchValue, userId, state, page, limit);
+    	String[] userIds = realmService.getTenantUserRealm(tenantId).getUserStoreManager().listUsers(searchType, searchValue, "codefarm", userId, state, page, limit);
     	//assertEquals(userIds.length, limit);
     	for(String getUserId: userIds) {
     		System.out.println(getUserId);
