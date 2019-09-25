@@ -243,14 +243,14 @@ public class ApiMgtDAO {
             throws APIManagementException {
         Connection conn = null;
         PreparedStatement ps = null;
-        PreparedStatement queryPs = null;
+        //PreparedStatement queryPs = null;
         PreparedStatement appRegPs = null;
 
         Application application = dto.getApplication();
         Subscriber subscriber = application.getSubscriber();
         String jsonString = dto.getAppInfoDTO().getOAuthApplicationInfo().getJsonString();
 
-        String registrationQuery = SQLConstants.GET_APPLICATION_REGISTRATION_SQL;
+        //String registrationQuery = SQLConstants.GET_APPLICATION_REGISTRATION_SQL;
         String registrationEntry = SQLConstants.ADD_APPLICATION_REGISTRATION_SQL;
         String keyMappingEntry = SQLConstants.ADD_APPLICATION_KEY_MAPPING_SQL;
 
@@ -258,6 +258,7 @@ public class ApiMgtDAO {
             conn = APIMgtDBUtil.getConnection();
             conn.setAutoCommit(false);
 
+            /* (주석) 아래코드로 변경 
             queryPs = conn.prepareStatement(registrationQuery);
             queryPs.setInt(1, subscriber.getId());
             queryPs.setInt(2, application.getId());
@@ -266,6 +267,10 @@ public class ApiMgtDAO {
 
             if (resultSet.next()) {
                 throw new APIManagementException("Application '" + application.getName() + "' is already registered.");
+            }
+            */
+            if(isExistApplicationRegistrationEntry(dto)) {
+            	throw new APIManagementException("Application '" + application.getName() + "' is already registered.");
             }
 
             if (!onlyKeyMappingEntry) {
@@ -299,10 +304,51 @@ public class ApiMgtDAO {
             handleException("Error occurred while creating an " +
                             "Application Registration Entry for Application : " + application.getName(), e);
         } finally {
-            APIMgtDBUtil.closeStatement(queryPs);
+            //APIMgtDBUtil.closeStatement(queryPs);
             APIMgtDBUtil.closeStatement(appRegPs);
             APIMgtDBUtil.closeAllConnections(ps, conn, null);
         }
+    }
+    
+    // (추가) 2019.09.25 - am_application_registration 테이블 존재여부를 확인
+    public boolean isExistApplicationRegistrationEntry(ApplicationRegistrationWorkflowDTO dto)
+            throws APIManagementException {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        boolean isExist = false;
+        
+        Application application = dto.getApplication();
+        Subscriber subscriber = application.getSubscriber();
+        
+        String registrationQuery = SQLConstants.GET_APPLICATION_REGISTRATION_SQL;
+        
+        try {
+            conn = APIMgtDBUtil.getConnection();
+            conn.setAutoCommit(false);
+
+            ps = conn.prepareStatement(registrationQuery);
+            ps.setInt(1, subscriber.getId());
+            ps.setInt(2, application.getId());
+            ps.setString(3, dto.getKeyType());
+            ResultSet resultSet = ps.executeQuery();
+
+            if (resultSet.next()) {
+            	isExist = true;
+            }
+        } catch (SQLException e) {
+            try {
+                if (conn != null) {
+                    conn.rollback();
+                }
+            } catch (SQLException e1) {
+                handleException("Error occurred while Rolling back changes done on Application Registration", e1);
+            }
+            handleException("Error occurred while creating an " +
+                            "Application Registration Entry for Application : " + application.getName(), e);
+        } finally {
+            APIMgtDBUtil.closeAllConnections(ps, conn, null);
+        }
+        return isExist;
     }
 
     public OAuthApplicationInfo getOAuthApplication(String consumerKey) throws APIManagementException {

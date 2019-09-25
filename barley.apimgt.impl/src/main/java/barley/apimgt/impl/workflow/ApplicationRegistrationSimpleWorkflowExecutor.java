@@ -76,7 +76,10 @@ public class ApplicationRegistrationSimpleWorkflowExecutor extends AbstractAppli
 		ApiMgtDAO dao = ApiMgtDAO.getInstance();
 
 		try {
-            dao.createApplicationRegistrationEntry((ApplicationRegistrationWorkflowDTO)workFlowDTO, false);
+			// (수정) 2019.09.25 - application_registration 테이블에 데이터 존재여부를 확인한다. 
+			if(!dao.isExistApplicationRegistrationEntry(regWFDTO)) {
+				dao.createApplicationRegistrationEntry(regWFDTO, false);
+			}
             // (수정) 2018.01.06 어플리케이션등록 요청시 키생성은 하지 않도록 수정한다. 
             //generateKeysForApplication(regWFDTO);
 		} catch (APIManagementException e) {
