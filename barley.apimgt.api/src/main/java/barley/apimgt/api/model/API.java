@@ -36,6 +36,10 @@ public class API implements Serializable{
     
     // (추가) 2019.05.13 - API 한글명 때문에 필드 추가. 
     private String title;
+    // (추가) 2019.09.26 - API에 카테고리 속성 추가
+    private String category;
+    // (추가) 2019.09.26 - 리스트 조회시 필요한 구독자수를 추가 
+    private int subscriptionCount;
 
     private String description;
     private String url;
@@ -331,6 +335,7 @@ public class API implements Serializable{
     }
 
     public Date getLastUpdated() {
+    	if(lastUpdated == null) return null;
         return new Date(lastUpdated.getTime());
     }
 
@@ -339,6 +344,7 @@ public class API implements Serializable{
     }
     
     public Date getCreatedDate() {
+    	if(createdDate == null) return null;
         return new Date(createdDate.getTime());
     }
 
@@ -672,6 +678,24 @@ public class API implements Serializable{
     // (추가)
 	public void setTitle(String title) {
 		this.title = title;
+	}
+	
+	// (추가)
+	public String getCategory() {
+		return category;
+	}
+
+	// (추가)
+	public void setCategory(String category) {
+		this.category = category;
+	}
+	
+	public int getSubscriptionCount() {
+		return subscriptionCount;
+	}
+
+	public void setSubscriptionCount(int subscriptionCount) {
+		this.subscriptionCount = subscriptionCount;
 	}
     
     
