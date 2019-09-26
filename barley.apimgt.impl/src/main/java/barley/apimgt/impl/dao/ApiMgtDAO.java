@@ -11149,8 +11149,6 @@ public class ApiMgtDAO {
             	 }
                  
              }
-             
-             connection.setAutoCommit(true);
          } catch (SQLException e) {
              String msg = "Couldn't check Subscription Exist";
              log.error(msg, e);
@@ -11199,19 +11197,31 @@ public class ApiMgtDAO {
         return accessTokens;
     }
     
+    public List<API> getSortedRatingApi(String tenantDomain, int page, int count) throws APIManagementException {
+    	String query = SQLConstants.GET_SORTED_RATING_API_SQL;
+    	return getSortedApiList(query, tenantDomain, page, count);
+    }
+    
+    public List<API> getSortedSubscribersCountApi(String tenantDomain, int page, int count) throws APIManagementException {
+        String query = SQLConstants.GET_SORTED_SUBS_CNT_API_SQL;
+    	return getSortedApiList(query, tenantDomain, page, count);
+    }
+    
+    public List<API> getSortedCreatedTimeApi(String tenantDomain, int page, int count) throws APIManagementException {
+        String query = SQLConstants.GET_SORTED_CREATED_TIME_API_SQL;
+    	return getSortedApiList(query, tenantDomain, page, count);
+    }
    
-    public List<APIIdentifier> getSortedRatingApi(String tenantDomain, int page, int count) throws APIManagementException {
+    private List<API> getSortedApiList(String query, String tenantDomain, int page, int count) throws APIManagementException {
         Connection connection = null;
         PreparedStatement selectPreparedStatement = null;
         ResultSet resultSet = null;
         
         int startNo = (page-1) * count;
 
-        List<APIIdentifier> apiList = new ArrayList<APIIdentifier>();
+        List<API> apiList = new ArrayList<API>();
         
         try {
-            String query = SQLConstants.GET_SORTED_RATING_API_SQL;
-        	
             connection = APIMgtDBUtil.getConnection();
             connection.setAutoCommit(true);
             selectPreparedStatement = connection.prepareStatement(query);
@@ -11221,18 +11231,27 @@ public class ApiMgtDAO {
             resultSet = selectPreparedStatement.executeQuery();
             while (resultSet.next()) {
             	        	
-            	apiList.add(new APIIdentifier(resultSet.getString("API_ID")));
-            	
+            	//apiList.add(new APIIdentifier(resultSet.getString("API_ID")));
+            	// API_PROVIDER, TB.API_NAME, TB.API_VERSION, TB.CREATED_TIME
+            	API api = new API(new APIIdentifier(resultSet.getString("API_ID")));
+            	api.setRating(resultSet.getFloat("RATING"));
+            	Date createdDate = resultSet.getDate("CREATED_TIME");
+            	if(createdDate != null) api.setCreatedDate(createdDate);
+            	Date updatedDate = resultSet.getDate("UPDATED_TIME");
+            	if(updatedDate != null) api.setLastUpdated(updatedDate);
+            	api.setStatus(APIUtil.getApiStatus(resultSet.getString("STATE")));
+            	api.setSubscriptionCount(resultSet.getInt("SUBS_CNT"));
+            	apiList.add(api);
             }
         } catch (SQLException e) {
             if (connection != null) {
                 try {
                     connection.rollback();
                 } catch (SQLException ex) {
-                    handleException("Failed to rollback getting Block conditions ", ex);
+                    handleException("Failed to rollback getting sorted rating api ", ex);
                 }
             }
-            handleException("Failed to get Block conditions", e);
+            handleException("Failed to get sorted rating api", e);
         } finally {
             APIMgtDBUtil.closeAllConnections(selectPreparedStatement, connection, resultSet);
         }
@@ -11241,42 +11260,5 @@ public class ApiMgtDAO {
     }
     
     
-    public List<APIIdentifier> getSortedSubscribersCountApi(String tenantDomain, int page, int count) throws APIManagementException {
-        Connection connection = null;
-        PreparedStatement selectPreparedStatement = null;
-        ResultSet resultSet = null;
-        
-        int startNo = (page-1) * count;
-        List<APIIdentifier> apiList = new ArrayList<APIIdentifier>();
-        
-        try {
-            String query = SQLConstants.GET_SORTED_SUBS_CNT_API_SQL;
-        		
-            connection = APIMgtDBUtil.getConnection();
-            connection.setAutoCommit(true);
-            selectPreparedStatement = connection.prepareStatement(query);
-            selectPreparedStatement.setNString(1, tenantDomain);
-            selectPreparedStatement.setInt(2, startNo);
-            selectPreparedStatement.setInt(3, count);
-            resultSet = selectPreparedStatement.executeQuery();
-            while (resultSet.next()) {
-            	
-            	apiList.add(new APIIdentifier(resultSet.getString("API_ID")));
-            	
-            }
-        } catch (SQLException e) {
-            if (connection != null) {
-                try {
-                    connection.rollback();
-                } catch (SQLException ex) {
-                    handleException("Failed to rollback getting Block conditions ", ex);
-                }
-            }
-            handleException("Failed to get Block conditions", e);
-        } finally {
-            APIMgtDBUtil.closeAllConnections(selectPreparedStatement, connection, resultSet);
-        }
-        
-        return apiList;
-    }
+    
 }

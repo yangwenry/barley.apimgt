@@ -648,4 +648,6 @@ public interface APIConsumer extends APIManager {
 	List<API> getSortedRatingApiList(String tenantDomain, int page, int count) throws APIManagementException;
 
 	List<API> getSortedSubscribersCountApiList(String tenantDomain, int page, int count) throws APIManagementException;
+	
+	List<API> getSortedCreatedTimeApiList(String tenantDomain, int page, int count) throws APIManagementException;
 }

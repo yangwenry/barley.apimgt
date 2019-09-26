@@ -3525,66 +3525,77 @@ class APIConsumerImpl extends AbstractAPIManager implements APIConsumer {
 
     @Override
     public List<API> getSortedRatingApiList(String tenantDomain, int page, int count) throws APIManagementException {
-    	
-    	List<API> result = new ArrayList<API>();    	
-    	List<APIIdentifier> apiList = apiMgtDAO.getSortedRatingApi(tenantDomain, page, count);
-	
-    	for(int i=0; i<apiList.size(); i++) {
+    	List<API> apiList = apiMgtDAO.getSortedRatingApi(tenantDomain, page, count);
+    	return addApiAttributeFromRegistry(apiList);
+    }
+    
+    @Override
+    public List<API> getSortedSubscribersCountApiList(String tenantDomain, int page, int count) throws APIManagementException {
+    	List<API> apiList = apiMgtDAO.getSortedSubscribersCountApi(tenantDomain, page, count);
+    	return addApiAttributeFromRegistry(apiList);
+    }
+    
+    @Override
+    public List<API> getSortedCreatedTimeApiList(String tenantDomain, int page, int count) throws APIManagementException {
+    	List<API> apiList = apiMgtDAO.getSortedCreatedTimeApi(tenantDomain, page, count);
+    	return addApiAttributeFromRegistry(apiList);
+    }
+
+    /**
+     * registry에서 추가 항목을 가져온다. (thumnail_url, description, TAG) 
+     * @param apiList
+     * @return
+     * @throws APIManagementException
+     */
+    private List<API> addApiAttributeFromRegistry(List<API> apiList) throws APIManagementException {
+    	List<API> result = new ArrayList<API>();
+    	for(int i=0; i < apiList.size(); i++) {
     		
-    		/*
-    	    JSONObject apiObj = (JSONObject) apiList.get(i);
-    	    String providerName = apiObj.get("providerName").toString();
-    	    String apiName = apiObj.get("apiName").toString();
-    	    String version = apiObj.get("version").toString();
-    	    
-    	    APIIdentifier apiId = new APIIdentifier(providerName, apiName, version);
-    	    */
-    	    try {
-				API api = getAPI(apiList.get(i));
-				
-				/*
-				if(api.getStatus()==APIStatus.PUBLISHED){
-	    	    	result.add(api);
-	    	    }
-				
-				if(result.size()==count) break;
-				*/
-				
-				result.add(api);
-				
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}   
+    		API api = apiList.get(i);
+    		setApiTagsFromRegistry(api);
+    		setApiThumnailUrlAndDescription(api);
+    		
+    		result.add(api);
     	}
-    	
     	//result.put("apis",apiVersionsSortedSet);
     	
     	return result;
     }
     
-    
-    @Override
-    public List<API> getSortedSubscribersCountApiList(String tenantDomain, int page, int count) throws APIManagementException {
-    	
-    	List<API> result = new ArrayList<API>();    	
-    	List<APIIdentifier> apiList = apiMgtDAO.getSortedSubscribersCountApi(tenantDomain, page, count);
-	
-    	for(int i=0; i<apiList.size(); i++) {
-    		
-    	    try {
-				API api = getAPI(apiList.get(i));
-							
-				result.add(api);
-				
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}   
-    	}
-    		
-    	return result;
+    private void setApiTagsFromRegistry(API api) throws APIManagementException {
+    	Set<String> tags = new HashSet<String>();
+    	String apiPath = APIUtil.getAPIPath(api.getId());
+		try {
+			barley.registry.core.Tag[] tag = registry.getTags(apiPath);
+			for (barley.registry.core.Tag tag1 : tag) {
+	            tags.add(tag1.getTagName());
+	        }
+	        api.addTags(tags);
+		} catch (RegistryException e) {
+			handleException("RegistryException thrown when gstting API tags from registry", e);
+		}
     }
+    
+    private void setApiThumnailUrlAndDescription(API api) throws APIManagementException {
+    	String apiPath = APIUtil.getAPIPath(api.getId());
+    	try {
+    		GenericArtifactManager artifactManager = APIUtil.getArtifactManager(registry, APIConstants.API_KEY);
+    		Resource apiResource = registry.get(apiPath);
+    		String artifactId = apiResource.getUUID();
+    		if (artifactId == null) {
+    			throw new APIManagementException("artifact id is null for : " + apiPath);
+    		}
+			GenericArtifact apiArtifact = artifactManager.getGenericArtifact(artifactId);
+			api.setThumbnailUrl(apiArtifact.getAttribute(APIConstants.API_OVERVIEW_THUMBNAIL_URL));
+			api.setDescription(apiArtifact.getAttribute(APIConstants.API_OVERVIEW_DESCRIPTION));
+		} catch (GovernanceException e) {
+			handleException("artifact id is null for : " + apiPath);
+		} catch (RegistryException e) {
+			handleException("RegistryException thrown when gstting API thumnail url and description from registry", e);
+		}
+    }
+    
+    
 	
 
 }

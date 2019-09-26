@@ -2542,10 +2542,11 @@ public class SQLConstants {
             "AND CON_APP.CONSUMER_KEY=AKM.CONSUMER_KEY " +
             "AND AKM.APPLICATION_ID = APP.APPLICATION_ID";
 
-    public static final String GET_SORTED_RATING_API_SQL =
+    public static final String GET_SORTED_API_SQL_PREFIX =
     		"SELECT " + 
 					"CONCAT_WS('_', TB.API_PROVIDER, TB.API_NAME, TB.API_VERSION) AS API_ID " +	
-					//"TA.API_ID, TC.NEW_STATE AS STATE, TA.RATING, TB.API_PROVIDER, TB.API_NAME, TB.API_VERSION " +					
+					", TC.RATING, TB.CREATED_TIME, TB.UPDATED_TIME, TA.NEW_STATE AS STATE, TS.SUBS_CNT " +
+					// ", TC.NEW_STATE AS STATE, TB.API_PROVIDER, TB.API_NAME, TB.API_VERSION " +					
 				"FROM( " +				
 					"SELECT " + 
 					"SB.API_ID, SB.EVENT_ID, SB.NEW_STATE " +
@@ -2571,39 +2572,28 @@ public class SQLConstants {
 							"ORDER BY AVG(T.RATING) DESC " +
 						   ") TC " +
 				"ON TA.API_ID = TC.API_ID " +
+				"LEFT JOIN ( " +
+							"SELECT " +
+							"T.API_ID, COUNT(T.API_ID) AS SUBS_CNT " +
+							"FROM AM_SUBSCRIPTION T " +
+							"GROUP BY T.API_ID " +
+							"ORDER BY COUNT(T.API_ID) DESC " +
+						   ") TS " +
+				"ON TA.API_ID = TS.API_ID ";
+    
+    public static final String GET_SORTED_RATING_API_SQL =
+    		GET_SORTED_API_SQL_PREFIX + 
 				"ORDER BY TC.RATING DESC, TA.API_ID DESC " +
 				"LIMIT ?, ?";
     
     public static final String GET_SORTED_SUBS_CNT_API_SQL =
-    		"SELECT " + 
-					"CONCAT_WS('_', TB.API_PROVIDER, TB.API_NAME, TB.API_VERSION) AS API_ID " +	
-					//"TA.API_ID, TC.NEW_STATE AS STATE, TA.RATING, TB.API_PROVIDER, TB.API_NAME, TB.API_VERSION " +					
-				"FROM( " +				
-					"SELECT " + 
-					"SB.API_ID, SB.EVENT_ID, SB.NEW_STATE " +
-					"FROM ( " +
-						"SELECT " + 
-						  	"API_ID " +
-						  ", MAX(EVENT_ID) AS EVENT_ID " + 
-						"FROM AM_API_LC_EVENT " + 
-						"GROUP BY API_ID " +
-						  ") SA " +
-						"LEFT JOIN AM_API_LC_EVENT SB " +
-						"ON (SA.API_ID = SB.API_ID AND SA.EVENT_ID = SB.EVENT_ID) " +
-						"WHERE SB.NEW_STATE = 'PUBLISHED' " +
-					") TA " +
-				"INNER JOIN AM_API TB " +
-					"ON (TA.API_ID = TB.API_ID AND SUBSTRING_INDEX(TB.API_PROVIDER, '@', -1) = ?) " +
-				"LEFT JOIN ( " +
-							"SELECT " +
-								"T.API_ID, COUNT(T.API_ID) AS SUBS_CNT " +
-							"FROM AM_SUBSCRIPTION T " +
-							"GROUP BY T.API_ID " +
-							//"HAVING COUNT(T.API_ID) " +
-							"ORDER BY COUNT(T.API_ID) DESC " +
-						   ") TC " +
-				"ON TA.API_ID = TC.API_ID " +
-				"ORDER BY TC.SUBS_CNT DESC, TA.API_ID DESC " +
+    		GET_SORTED_API_SQL_PREFIX +  
+				"ORDER BY TS.SUBS_CNT DESC, TA.API_ID DESC " +
+				"LIMIT ?, ?";
+    
+    public static final String GET_SORTED_CREATED_TIME_API_SQL =
+    		GET_SORTED_API_SQL_PREFIX +  
+				"ORDER BY TB.CREATED_TIME DESC, TA.API_ID DESC " +
 				"LIMIT ?, ?";
     
 
