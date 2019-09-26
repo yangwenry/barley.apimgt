@@ -302,6 +302,8 @@ public final class APIUtil {
             api.setProductionMaxTps(artifact.getAttribute(APIConstants.API_PRODUCTION_THROTTLE_MAXTPS));
             // (추가) 2019.05.13 - API에 title 속성 추가 
             api.setTitle(artifact.getAttribute(APIConstants.API_OVERVIEW_TITLE));
+            // (추가) 2019.09.26 - API에 카테고리 속성 추가
+            api.setCategory(artifact.getAttribute(APIConstants.API_OVERVIEW_CATEGORY));
 
             int cacheTimeout = APIConstants.API_RESPONSE_CACHE_TIMEOUT;
             try {
@@ -610,6 +612,8 @@ public final class APIUtil {
             
             // (추가) 2019.05.13 - API에 title 속성 추가
             api.setTitle(artifact.getAttribute(APIConstants.API_OVERVIEW_TITLE));
+            // (추가) 2019.09.26 - API에 카테고리 속성 추가
+            api.setCategory(artifact.getAttribute(APIConstants.API_OVERVIEW_CATEGORY));
 
         } catch (GovernanceException e) {
             String msg = "Failed to get API for artifact ";
@@ -738,6 +742,8 @@ public final class APIUtil {
             
             // (추가) 2019.05.13 - API에 title 속성 추가 
             api.setTitle(artifact.getAttribute(APIConstants.API_OVERVIEW_TITLE));
+            // (추가) 2019.09.26 - API에 카테고리 속성 추가
+            api.setCategory(artifact.getAttribute(APIConstants.API_OVERVIEW_CATEGORY));
             
         } catch (GovernanceException e) {
             String msg = "Failed to get API from artifact ";
@@ -904,6 +910,8 @@ public final class APIUtil {
             
             // (추가) 2019.05.13 - API에 title 속성 추가 
             artifact.setAttribute(APIConstants.API_OVERVIEW_TITLE, api.getTitle());
+            // (추가) 2019.09.26 - API에 카테고리 속성 추가
+            artifact.setAttribute(APIConstants.API_OVERVIEW_CATEGORY, api.getCategory());
 
         } catch (GovernanceException e) {
             String msg = "Failed to create API for : " + api.getId().getApiName();
@@ -2449,6 +2457,8 @@ public final class APIUtil {
             
             // (추가) 2019.05.13 - API에 title 속성 추가 
             api.setTitle(artifact.getAttribute(APIConstants.API_OVERVIEW_TITLE));
+            // (추가) 2019.09.26 - API에 카테고리 속성 추가
+            api.setCategory(artifact.getAttribute(APIConstants.API_OVERVIEW_CATEGORY));
 
         } catch (GovernanceException e) {
             String msg = "Failed to get API fro artifact ";
@@ -6146,4 +6156,6 @@ public final class APIUtil {
         return ServiceReferenceHolder.getInstance().getAPIManagerConfigurationService().getAPIAnalyticsConfiguration().
                 getDasReceiverServerPassword();
     }
+    
+    
 }
