@@ -217,9 +217,7 @@ public final class APIConstants {
     public static final String API_OVERVIEW_VISIBILITY ="overview_visibility";
     public static final String API_OVERVIEW_VISIBLE_ROLES ="overview_visibleRoles";
     public static final String API_OVERVIEW_VISIBLE_TENANTS ="overview_visibleTenants";
-    public static final String API_OVERVIEW_ENVIRONMENTS = "overview_environments";
-    // (추가)
-    public static final String API_OVERVIEW_TITLE = "overview_title";
+    public static final String API_OVERVIEW_ENVIRONMENTS = "overview_environments";    
     public static final String API_PROVIDER = "Provider";
     public static final String API_NAME = "Name";
     public static final String API_VERSION_LABEL = "Version";
@@ -260,6 +258,11 @@ public final class APIConstants {
     public static final String API_OVERVIEW_SUBSCRIPTION_AVAILABLE_TENANTS = "overview_tenants";
     
     public static final String API_OVERVIEW_DESTINATION_BASED_STATS_ENABLED = "overview_destinationStatsEnabled";
+    
+    // (추가) 제목 항목 추가 
+    public static final String API_OVERVIEW_TITLE = "overview_title";
+    // (추가) 2019.09.26 - 카테고리 항목 추가
+    public static final String API_OVERVIEW_CATEGORY = "overview_category";
     
     //Those constance are used in Provider artifact.
     public static final String PROVIDER_OVERVIEW_NAME= "overview_name";
