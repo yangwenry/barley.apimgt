@@ -6276,7 +6276,8 @@ public class ApiMgtDAO {
                 }
                 prepStmt.setString(2, contextTemplate);
                 //TODO Need to find who exactly does this update.
-                prepStmt.setString(3, null);
+                // prepStmt.setString(3, null);
+                prepStmt.setString(3, APIUtil.replaceEmailDomainBack(api.getId().getProviderName()));
                 prepStmt.setTimestamp(4, new Timestamp(System.currentTimeMillis()));
                 prepStmt.setString(5, api.getApiLevelPolicy());
                 
