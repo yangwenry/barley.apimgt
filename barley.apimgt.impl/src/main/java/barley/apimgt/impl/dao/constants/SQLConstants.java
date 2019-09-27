@@ -1517,9 +1517,12 @@ public class SQLConstants {
             "   AND SUB.APPLICATION_ID = APP.APPLICATION_ID" +
             "   AND API.API_ID = SUB.API_ID";
 
+    // (수정) 2019.09.26 - 컬럼추가 
     public static final String ADD_API_SQL =
-            " INSERT INTO AM_API (API_PROVIDER,API_NAME,API_VERSION,CONTEXT,CONTEXT_TEMPLATE,CREATED_BY,CREATED_TIME, API_TIER)" +
-            " VALUES (?,?,?,?,?,?,?,?)";
+//            " INSERT INTO AM_API (API_PROVIDER,API_NAME,API_VERSION,CONTEXT,CONTEXT_TEMPLATE,CREATED_BY,CREATED_TIME, API_TIER)" +
+//            " VALUES (?,?,?,?,?,?,?,?)";
+    		" INSERT INTO AM_API (API_PROVIDER,API_NAME,API_VERSION,CONTEXT,CONTEXT_TEMPLATE,CREATED_BY,CREATED_TIME, API_TIER, CATEGORY, THUMBNAIL_URL, DESCRIPTION)" +
+            " VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 
     public static final String GET_DEFAULT_VERSION_SQL =
             "SELECT DEFAULT_API_VERSION FROM AM_API_DEFAULT_VERSION WHERE API_NAME= ? AND API_PROVIDER= ? ";
@@ -1644,6 +1647,7 @@ public class SQLConstants {
             "   AND AUM.API_ID = API.API_ID " +
             " ORDER BY URL_MAPPING_ID";
 
+    // (수정) 2019.09.26 - 컬럼 추가 
     public static final String UPDATE_API_SQL =
             "UPDATE AM_API " +
             "SET " +
@@ -1651,7 +1655,10 @@ public class SQLConstants {
             "   CONTEXT_TEMPLATE = ?, " +
             "   UPDATED_BY = ?," +
             "   UPDATED_TIME = ?, " +
-            "   API_TIER = ? " +
+            "   API_TIER = ?, " +
+            "   CATEGORY = ?, " +
+            "   THUMBNAIL_URL = ?, " +
+            "   DESCRIPTION = ? " +
             " WHERE " +
             "   API_PROVIDER = ? " +
             "   AND API_NAME = ? " +
@@ -2546,7 +2553,7 @@ public class SQLConstants {
     		"SELECT " + 
 					"CONCAT_WS('_', TB.API_PROVIDER, TB.API_NAME, TB.API_VERSION) AS API_ID " +	
 					", TC.RATING, TB.CREATED_TIME, TB.UPDATED_TIME, TA.NEW_STATE AS STATE, TS.SUBS_CNT " +
-					// ", TC.NEW_STATE AS STATE, TB.API_PROVIDER, TB.API_NAME, TB.API_VERSION " +					
+					", TB.CATEGORY, TB.THUMBNAIL_URL, TB.DESCRIPTION " +
 				"FROM( " +				
 					"SELECT " + 
 					"SB.API_ID, SB.EVENT_ID, SB.NEW_STATE " +
@@ -2595,6 +2602,24 @@ public class SQLConstants {
     		GET_SORTED_API_SQL_PREFIX +  
 				"ORDER BY TB.CREATED_TIME DESC, TA.API_ID DESC " +
 				"LIMIT ?, ?";
+    
+//    public static final String SEARCH_SORTED_RATING_API_SQL =
+//    		GET_SORTED_API_SQL_PREFIX +
+//    		    "WHERE TB.CATEGORY LIKE ? " +
+//				"ORDER BY TC.RATING DESC, TA.API_ID DESC " +
+//				"LIMIT ?, ?";
+//    
+//    public static final String SEARCH_SORTED_SUBS_CNT_API_SQL =
+//    		GET_SORTED_API_SQL_PREFIX +  
+//    			"WHERE TB.CATEGORY LIKE ? " +
+//				"ORDER BY TS.SUBS_CNT DESC, TA.API_ID DESC " +
+//				"LIMIT ?, ?";
+//    
+//    public static final String SEARCH_SORTED_CREATED_TIME_API_SQL =
+//    		GET_SORTED_API_SQL_PREFIX +  
+//    			"WHERE TB.CATEGORY LIKE ? " +
+//				"ORDER BY TB.CREATED_TIME DESC, TA.API_ID DESC " +
+//				"LIMIT ?, ?";
     
 
     /** Throttle related constants**/

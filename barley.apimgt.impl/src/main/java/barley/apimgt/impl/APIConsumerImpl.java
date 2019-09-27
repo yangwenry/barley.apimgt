@@ -3552,8 +3552,9 @@ class APIConsumerImpl extends AbstractAPIManager implements APIConsumer {
     	for(int i=0; i < apiList.size(); i++) {
     		
     		API api = apiList.get(i);
-    		setApiTagsFromRegistry(api);
-    		setApiThumnailUrlAndDescription(api);
+    		addApiTagsFromRegistry(api);
+    		// 속도 문제로 인해 주석처리 
+    		//addApiThumnailUrlAndDescription(api);
     		
     		result.add(api);
     	}
@@ -3562,7 +3563,7 @@ class APIConsumerImpl extends AbstractAPIManager implements APIConsumer {
     	return result;
     }
     
-    private void setApiTagsFromRegistry(API api) throws APIManagementException {
+    private void addApiTagsFromRegistry(API api) throws APIManagementException {
     	Set<String> tags = new HashSet<String>();
     	String apiPath = APIUtil.getAPIPath(api.getId());
 		try {
@@ -3576,7 +3577,7 @@ class APIConsumerImpl extends AbstractAPIManager implements APIConsumer {
 		}
     }
     
-    private void setApiThumnailUrlAndDescription(API api) throws APIManagementException {
+    private void addApiThumnailUrlAndDescription(API api) throws APIManagementException {
     	String apiPath = APIUtil.getAPIPath(api.getId());
     	try {
     		GenericArtifactManager artifactManager = APIUtil.getArtifactManager(registry, APIConstants.API_KEY);

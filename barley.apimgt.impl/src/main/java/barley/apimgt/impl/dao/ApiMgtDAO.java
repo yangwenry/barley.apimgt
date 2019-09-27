@@ -5498,6 +5498,12 @@ public class ApiMgtDAO {
             prepStmt.setString(6, APIUtil.replaceEmailDomainBack(api.getId().getProviderName()));
             prepStmt.setTimestamp(7, new Timestamp(System.currentTimeMillis()));
             prepStmt.setString(8, api.getApiLevelPolicy());
+            
+            // (추가) 2019.09.26 - 카테고리, 썸네일, 설명 컬럼 추가 
+            prepStmt.setString(9, api.getCategory());
+            prepStmt.setString(10, api.getThumbnailUrl());
+            prepStmt.setString(11, api.getDescription());
+            
             prepStmt.execute();
 
             rs = prepStmt.getGeneratedKeys();
@@ -6273,9 +6279,16 @@ public class ApiMgtDAO {
                 prepStmt.setString(3, null);
                 prepStmt.setTimestamp(4, new Timestamp(System.currentTimeMillis()));
                 prepStmt.setString(5, api.getApiLevelPolicy());
-                prepStmt.setString(6, APIUtil.replaceEmailDomainBack(api.getId().getProviderName()));
-                prepStmt.setString(7, api.getId().getApiName());
-                prepStmt.setString(8, api.getId().getVersion());
+                
+                // (추가) 2019.09.26 - 카테고리, 썸네일, 설명 컬럼 추가 
+                prepStmt.setString(6, api.getCategory());
+                prepStmt.setString(7, api.getThumbnailUrl());
+                prepStmt.setString(8, api.getDescription());
+                
+                prepStmt.setString(9, APIUtil.replaceEmailDomainBack(api.getId().getProviderName()));
+                prepStmt.setString(10, api.getId().getApiName());
+                prepStmt.setString(11, api.getId().getVersion());
+                
                 prepStmt.execute();
             //}
 
@@ -11233,6 +11246,7 @@ public class ApiMgtDAO {
             	        	
             	//apiList.add(new APIIdentifier(resultSet.getString("API_ID")));
             	// API_PROVIDER, TB.API_NAME, TB.API_VERSION, TB.CREATED_TIME
+            	// TB.CATEGORY, TB.THUMBNAIL_URL, TB.DESCRIPTION
             	API api = new API(new APIIdentifier(resultSet.getString("API_ID")));
             	api.setRating(resultSet.getFloat("RATING"));
             	Date createdDate = resultSet.getDate("CREATED_TIME");
@@ -11241,6 +11255,10 @@ public class ApiMgtDAO {
             	if(updatedDate != null) api.setLastUpdated(updatedDate);
             	api.setStatus(APIUtil.getApiStatus(resultSet.getString("STATE")));
             	api.setSubscriptionCount(resultSet.getInt("SUBS_CNT"));
+            	api.setCategory(resultSet.getString("CATEGORY"));
+            	api.setThumbnailUrl(resultSet.getString("THUMBNAIL_URL"));
+            	api.setDescription(resultSet.getString("DESCRIPTION"));
+            	
             	apiList.add(api);
             }
         } catch (SQLException e) {
