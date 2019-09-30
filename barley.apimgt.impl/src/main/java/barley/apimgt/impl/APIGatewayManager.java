@@ -186,14 +186,6 @@ public class APIGatewayManager {
 						deployCustomSequences(api, tenantDomain, environment);
 					}
 				}
-            } catch (AxisFault axisFault) {
-                /*
-                didn't throw this exception to handle multiple gateway publishing
-                if gateway is unreachable we collect that environments into map with issue and show on popup in ui
-                therefore this didn't break the gateway publishing if one gateway unreachable
-                 */
-                failedEnvironmentsMap.put(environmentName, axisFault.getMessage());
-                log.error("Error occurred when publish to gateway " + environmentName, axisFault);
             } catch (APIManagementException ex) {
                 /*
                 didn't throw this exception to handle multiple gateway publishing
@@ -247,10 +239,10 @@ public class APIGatewayManager {
                     }
                 } catch (APIManagementException ex) {
                     /*
-                didn't throw this exception to handle multiple gateway publishing
-                if gateway is unreachable we collect that environments into map with issue and show on popup in ui
-                therefore this didn't break the gateway unpublisihing if one gateway unreachable
-                 */
+		                didn't throw this exception to handle multiple gateway publishing
+		                if gateway is unreachable we collect that environments into map with issue and show on popup in ui
+		                therefore this didn't break the gateway unpublisihing if one gateway unreachable
+                    */
                     log.error("Error occurred undeploy sequences on " + environmentName, ex);
                     failedEnvironmentsMap.put(environmentName, ex.getMessage());
                 }
@@ -300,7 +292,7 @@ public class APIGatewayManager {
 	 * @return True if the API is available in at least one Gateway. False if
 	 *         available in none.
 	 */
-    public boolean isAPIPublished(API api, String tenantDomain) throws APIManagementException {
+    public boolean isAPIPublished(API api, String tenantDomain) {
         for (Environment environment : environments.values()) {
             try {
             	// (수정)
@@ -334,7 +326,7 @@ public class APIGatewayManager {
 	 * @throws AxisFault
 	 */
     private void deployCustomSequences(API api, String tenantDomain, Environment environment)
-            throws APIManagementException, AxisFault {
+            throws APIManagementException {
 
         if (APIUtil.isSequenceDefined(api.getInSequence()) || APIUtil.isSequenceDefined(api.getOutSequence())) {
             try {

@@ -813,6 +813,7 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
 
     /**
      * Updates an existing API
+     * 업데이트 이후 게이트웨이 오류가 있었다면 마지막에 FaultGatewaysException을 발생시킨다.  
      *
      * @param api API
      * @throws org.wso2.carbon.apimgt.api.APIManagementException
@@ -834,7 +835,7 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
                 String previousDefaultVersion = getDefaultVersion(api.getId());
                 String publishedDefaultVersion = getPublishedDefaultVersion(api.getId());
 
-                if (previousDefaultVersion!=null) {
+                if (previousDefaultVersion != null) {
 
 	                APIIdentifier defaultAPIId = new APIIdentifier(api.getId().getProviderName(), api.getId().getApiName(),
 	                        previousDefaultVersion);
@@ -855,7 +856,7 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
 	                }
                 }
 
-                //Update WSDL in the registry
+                // 1. Update WSDL in the registry
                 if (api.getWsdlUrl() != null) {
                     updateWsdl(api);
                 }
@@ -866,7 +867,10 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
                     !api.getVisibleRoles().equals(oldApi.getVisibleRoles()))){
                     updatePermissions = true;
                 }
-                updateApiArtifact(api, true,updatePermissions);
+                
+                // 2. registry 수정 
+                updateApiArtifact(api, true, updatePermissions);
+                
                 if (!oldApi.getContext().equals(api.getContext())) {
                     api.setApiHeaderChanged(true);
                 }
@@ -881,7 +885,9 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
                     throw new APIManagementException(
                             "Error in retrieving Tenant Information while updating api :" + api.getId().getApiName(), e);
                 }
-                apiMgtDAO.updateAPI(api,tenantId);
+                
+                // 3. api-mgt 수정 
+                apiMgtDAO.updateAPI(api, tenantId);
                 if (log.isDebugEnabled()) {
                     log.debug("Successfully updated the API: " + api.getId() + " in the database");
                 }
@@ -902,66 +908,65 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
                 boolean isAPIPublished = false;
                 // gatewayType check is required when API Management is deployed on other servers to avoid synapse
                 if (APIConstants.API_GATEWAY_TYPE_SYNAPSE.equalsIgnoreCase(gatewayType)) {
-                	// web service를 통해 게시여부 확인 
-                	isAPIPublished = isAPIPublished(api);
-                    if (gatewayExists) {
-                        if (isAPIPublished) {
-                            API apiPublished = getAPI(api.getId());
-                            apiPublished.setAsDefaultVersion(api.isDefaultVersion());
-                            if (api.getId().getVersion().equals(previousDefaultVersion) && !api.isDefaultVersion()) {
-                                // default version tick has been removed so a default api for current should not be
-                                // added/updated
-                                apiPublished.setAsPublishedDefaultVersion(false);
-                            } else {
-                                apiPublished.setAsPublishedDefaultVersion(
-                                        api.getId().getVersion().equals(publishedDefaultVersion));
-                            }
-                            apiPublished.setOldInSequence(oldApi.getInSequence());
-                            apiPublished.setOldOutSequence(oldApi.getOutSequence());
-                            //old api contain what environments want to remove
-                            Set<String> environmentsToRemove = new HashSet<String>(oldApi.getEnvironments());
-                            //updated api contain what environments want to add
-                            Set<String> environmentsToPublish = new HashSet<String>(apiPublished.getEnvironments());
-                            Set<String> environmentsRemoved = new HashSet<String>(oldApi.getEnvironments());
-                            if (!environmentsToPublish.isEmpty() && !environmentsToRemove.isEmpty()) {
-                                // this block will sort what gateways have to remove and published
-                                environmentsRemoved.retainAll(environmentsToPublish);
-                                environmentsToRemove.removeAll(environmentsRemoved);
-                            }
-                            // map contain failed to publish Environments
-                            Map<String, String> failedToPublishEnvironments = publishToGateway(apiPublished);
-                            apiPublished.setEnvironments(environmentsToRemove);
-                            // map contain failed to remove Environments
-                            Map<String, String> failedToRemoveEnvironments = removeFromGateway(apiPublished);
-                            environmentsToPublish.removeAll(failedToPublishEnvironments.keySet());
-                            environmentsToPublish.addAll(failedToRemoveEnvironments.keySet());
-                            apiPublished.setEnvironments(environmentsToPublish);
-                            updateApiArtifact(apiPublished, true, false);
-                            failedGateways.clear();
-                            failedGateways.put("UNPUBLISHED", failedToRemoveEnvironments);
-                            failedGateways.put("PUBLISHED", failedToPublishEnvironments);
-                        } else if (api.getStatus() != APIStatus.CREATED && api.getStatus() != APIStatus.RETIRED) {
-                            if ("INLINE".equals(api.getImplementation()) && api.getEnvironments().isEmpty()){
-                                api.setEnvironments(
-                                        ServiceReferenceHolder.getInstance().getAPIManagerConfigurationService()
-                                                              .getAPIManagerConfiguration().getApiGatewayEnvironments()
-                                                              .keySet());
-                            }
-                            Map<String, String> failedToPublishEnvironments = publishToGateway(api);
-                            if (!failedToPublishEnvironments.isEmpty()) {
-                                Set<String> publishedEnvironments =
-                                        new HashSet<String>(api.getEnvironments());
-                                publishedEnvironments.removeAll(failedToPublishEnvironments.keySet());
-                                api.setEnvironments(publishedEnvironments);
-                                updateApiArtifact(api, true, false);
-                                failedGateways.clear();
-                                failedGateways.put("PUBLISHED", failedToPublishEnvironments);
-                                failedGateways.put("UNPUBLISHED", Collections.<String,String>emptyMap());
-                            }
-                        }
-                    } else {
-                        log.debug("Gateway is not existed for the current API Provider");
-                    }
+                	if (gatewayExists) {
+                		isAPIPublished = isAPIPublished(api);
+                		if (isAPIPublished) {
+	                    	API apiPublished = getAPI(api.getId());
+	                        apiPublished.setAsDefaultVersion(api.isDefaultVersion());
+	                        if (api.getId().getVersion().equals(previousDefaultVersion) && !api.isDefaultVersion()) {
+	                            // default version tick has been removed so a default api for current should not be
+	                            // added/updated
+	                            apiPublished.setAsPublishedDefaultVersion(false);
+	                        } else {
+	                            apiPublished.setAsPublishedDefaultVersion(
+	                                    api.getId().getVersion().equals(publishedDefaultVersion));
+	                        }
+	                        apiPublished.setOldInSequence(oldApi.getInSequence());
+	                        apiPublished.setOldOutSequence(oldApi.getOutSequence());
+	                        //old api contain what environments want to remove
+	                        Set<String> environmentsToRemove = new HashSet<String>(oldApi.getEnvironments());
+	                        //updated api contain what environments want to add
+	                        Set<String> environmentsToPublish = new HashSet<String>(apiPublished.getEnvironments());
+	                        Set<String> environmentsRemoved = new HashSet<String>(oldApi.getEnvironments());
+	                        if (!environmentsToPublish.isEmpty() && !environmentsToRemove.isEmpty()) {
+	                            // this block will sort what gateways have to remove and published
+	                            environmentsRemoved.retainAll(environmentsToPublish);
+	                            environmentsToRemove.removeAll(environmentsRemoved);
+	                        }
+	                        // map contain failed to publish Environments
+	                        Map<String, String> failedToPublishEnvironments = publishToGateway(apiPublished);
+	                        apiPublished.setEnvironments(environmentsToRemove);
+	                        // map contain failed to remove Environments
+	                        Map<String, String> failedToRemoveEnvironments = removeFromGateway(apiPublished);
+	                        environmentsToPublish.removeAll(failedToPublishEnvironments.keySet());
+	                        environmentsToPublish.addAll(failedToRemoveEnvironments.keySet());
+	                        apiPublished.setEnvironments(environmentsToPublish);
+	                        updateApiArtifact(apiPublished, true, false);
+	                        failedGateways.clear();
+	                        failedGateways.put("UNPUBLISHED", failedToRemoveEnvironments);
+	                        failedGateways.put("PUBLISHED", failedToPublishEnvironments);
+	                    } else if (api.getStatus() != APIStatus.CREATED && api.getStatus() != APIStatus.RETIRED) {
+	                        if ("INLINE".equals(api.getImplementation()) && api.getEnvironments().isEmpty()){
+	                            api.setEnvironments(
+	                                    ServiceReferenceHolder.getInstance().getAPIManagerConfigurationService()
+	                                                          .getAPIManagerConfiguration().getApiGatewayEnvironments()
+	                                                          .keySet());
+	                        }
+	                        Map<String, String> failedToPublishEnvironments = publishToGateway(api);
+	                        if (!failedToPublishEnvironments.isEmpty()) {
+	                            Set<String> publishedEnvironments =
+	                                    new HashSet<String>(api.getEnvironments());
+	                            publishedEnvironments.removeAll(failedToPublishEnvironments.keySet());
+	                            api.setEnvironments(publishedEnvironments);
+	                            updateApiArtifact(api, true, false);
+	                            failedGateways.clear();
+	                            failedGateways.put("PUBLISHED", failedToPublishEnvironments);
+	                            failedGateways.put("UNPUBLISHED", Collections.<String,String>emptyMap());
+	                        }
+	                    } else {
+	                        log.debug("Gateway is not existed for the current API Provider");
+	                    }
+                	}
                 }
 
                 //If gateway(s) exist, remove resource paths saved on the cache.
@@ -970,7 +975,6 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
 
                     Map<String, Environment> gatewayEns = config.getApiGatewayEnvironments();
                     for (Environment environment : gatewayEns.values()) {
-                        try {
                         // (수정) restful 서비스로 변경
                         /*	
                         APIAuthenticationAdminClient client =
@@ -988,13 +992,6 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
                                 }
                             }
                         }
-                        } catch (AxisFault ex) {                             
-                            //didn't throw this exception to handle multiple gateway publishing feature therefore
-                            //this didn't break invalidating cache from the all the gateways if one gateway is
-                            //unreachable
-                            log.error("Error while invalidating from environment " +
-                                      environment.getName(), ex);
-                        }
                     }
 
                 }				
@@ -1005,7 +1002,6 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
                     contextCache.remove(oldApi.getContext());
                     contextCache.put(api.getContext(), Boolean.TRUE);
                 }
-
 
         } else {
             // We don't allow API status updates via this method.
@@ -1221,7 +1217,7 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
         return success;
     }
 
-    //(오세창) API 상태를 변경한다. 여기서 gateway가 동작될 수 있음을 확인하자. 
+    // 
     @Override
     public void changeAPIStatus(API api, APIStatus status, String userId, boolean updateGatewayConfig)
             throws APIManagementException, FaultGatewaysException {
@@ -1279,7 +1275,7 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
                     }
                 }
 
-                updateApiArtifact(api, false,false);
+                updateApiArtifact(api, false, false);
                 // am_api_lc_event 테이블에 published 상태 추가 
                 apiMgtDAO.recordAPILifeCycleEvent(api.getId(), currentStatus, status, userId, this.tenantId);
 
@@ -1292,6 +1288,8 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
             	                                                                                + e.getMessage(), e);
             }
         }
+        // app-manager는 게이트웨이 게시와 삭제시 예외를 발생시킨다. 따라서 registry, apimgt DB 업데이트를 로직 아래에 두었다. 
+        // 하지만 api-manager는 예외를 failedGateways 컬렉션에 담아두고 마지막에 체크하여 예외를 발생시킨다. 
         if (!failedGateways.isEmpty() &&
             (!failedGateways.get("UNPUBLISHED").isEmpty() || !failedGateways.get("PUBLISHED").isEmpty())) {
             throw new FaultGatewaysException(failedGateways);
@@ -1600,7 +1598,7 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
 
     }
 
-    private boolean isAPIPublished(API api)throws APIManagementException {
+    private boolean isAPIPublished(API api) {
         String tenantDomain = null;
         // (수정) provideNamer은 @로 넘어오기 때문에 주석처리 후 로직 추가
         /*
@@ -2610,6 +2608,10 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
         apiMgtDAO.updateSubscription(subscribedAPI);
     }
 
+    /**
+     * @param identifier API Identifier
+     * 
+     */
     public void deleteAPI(APIIdentifier identifier) throws APIManagementException {
     	// (수정) @를 '-AT-'로 패스경로 변경 
         String path = APIConstants.API_ROOT_LOCATION + RegistryConstants.PATH_SEPARATOR +
@@ -2685,12 +2687,12 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
 
             // gatewayType check is required when API Management is deployed on
             // other servers to avoid synapse
-            if (gatewayExists && "Synapse".equals(gatewayType)) {
+            if (gatewayExists && APIConstants.API_GATEWAY_TYPE_SYNAPSE.equalsIgnoreCase(gatewayType)) {
 
                 api.setInSequence(inSequence); // need to remove the custom sequences
                 api.setOutSequence(outSequence);
                 api.setEnvironments(APIUtil.extractEnvironmentsForAPI(environments));
-                // 게이트웨이 처리 
+                // 게이트웨이 처리 - 예외를 발생시키지 않는다. 
                 removeFromGateway(api);
                 if (api.isDefaultVersion()) {
                     removeDefaultAPIFromGateway(api);
@@ -3790,7 +3792,7 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
     }
 
     public boolean changeLifeCycleStatus(APIIdentifier apiIdentifier, String action)
-            throws APIManagementException, FaultGatewaysException{
+            throws APIManagementException, FaultGatewaysException {
         try {
             PrivilegedBarleyContext.startTenantFlow();
             PrivilegedBarleyContext.getThreadLocalCarbonContext().setUsername(this.username);

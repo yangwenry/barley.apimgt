@@ -485,21 +485,25 @@ public class DefaultKeyManagerImpl extends AbstractKeyManager {
     }
 
     @Override
+    @Deprecated
     public Map getResourceByApiId(String apiId) throws APIManagementException {
         return null;
     }
 
     @Override
+    @Deprecated
     public boolean updateRegisteredResource(API api, Map resourceAttributes) throws APIManagementException {
         return false;
     }
 
     @Override
+    @Deprecated
     public void deleteRegisteredResourceByAPIId(String apiID) throws APIManagementException {
 
     }
 
     @Override
+    @Deprecated
     public void deleteMappedApplication(String consumerKey) throws APIManagementException {
 
     }
@@ -511,6 +515,7 @@ public class DefaultKeyManagerImpl extends AbstractKeyManager {
     }
 
     @Override
+    @Deprecated
     public AccessTokenInfo getAccessTokenByConsumerKey(String consumerKey) throws APIManagementException {
         return null;
     }

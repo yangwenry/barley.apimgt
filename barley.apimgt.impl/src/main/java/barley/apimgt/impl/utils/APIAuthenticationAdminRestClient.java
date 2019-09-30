@@ -55,14 +55,14 @@ public class APIAuthenticationAdminRestClient {
     
     private String baseUrl;
 
-    public APIAuthenticationAdminRestClient(Environment environment) throws AxisFault {
+    public APIAuthenticationAdminRestClient(Environment environment) {
     	this.baseUrl = environment.getApiServiceEndpoint() + "/api/apiAuth";
     }
 
     public void invalidateKeys(List<APIKeyMapping> mappings) throws AxisFault {
         
     }
-    public void invalidateOAuthKeys(String consumerKey,String authUser) throws AxisFault {
+    public void invalidateOAuthKeys(String consumerKey,String authUser) {
         
     }
 

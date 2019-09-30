@@ -158,6 +158,7 @@ public interface KeyManager {
      * @return It will return a Map with registered resource details.
      * @throws APIManagementException
      */
+    @Deprecated
     Map getResourceByApiId(String apiId) throws APIManagementException;
 
     /**
@@ -168,6 +169,7 @@ public interface KeyManager {
      * @return TRUE|FALSE. if it is successfully updated it will return TRUE or else FALSE.
      * @throws APIManagementException
      */
+    @Deprecated
     boolean updateRegisteredResource(API api , Map resourceAttributes) throws APIManagementException;
 
     /**
@@ -176,6 +178,7 @@ public interface KeyManager {
      * @param apiID API id.
      * @throws APIManagementException
      */
+    @Deprecated
     void deleteRegisteredResourceByAPIId(String apiID) throws APIManagementException;
 
     /**
@@ -183,6 +186,7 @@ public interface KeyManager {
      * @param consumerKey
      * @throws APIManagementException
      */
+    @Deprecated
     void deleteMappedApplication(String consumerKey) throws APIManagementException;
 
     /**

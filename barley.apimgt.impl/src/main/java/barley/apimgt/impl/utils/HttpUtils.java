@@ -10,7 +10,10 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
+import org.apache.http.ParseException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.config.RequestConfig.Builder;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.HttpClients;
@@ -35,6 +38,11 @@ public class HttpUtils {
 	        
 	        httpPost = new HttpPost(endpoint);
 	        httpPost.setEntity(new UrlEncodedFormEntity(urlParams, "UTF-8"));
+	        Builder builder = RequestConfig.custom();
+			builder.setConnectTimeout(4000);
+	        builder.setSocketTimeout(4000);
+	        RequestConfig config = builder.build();
+	        httpPost.setConfig(config);
 	
 	        int statusCode;
 	        HttpResponse httpResponse = endpointClient.execute(httpPost);
@@ -48,9 +56,10 @@ public class HttpUtils {
 	                log.debug("Successfully submitted request. HTTP status : 200");
 	            }
 	        }
-		} catch (Exception e) {
-			log.error("Error while " + endpoint + " - " + e.getMessage());
-			handleException("Error while " + endpoint + " - " + e.getMessage(), e);
+		} catch (Throwable e) {
+			String message = endpoint + " API 게이트웨이 통신 중 에러가 발생하였습니다. ";
+        	log.error(message, e);
+            handleException(message, e);
         } finally {
         	if(httpPost != null) httpPost.reset();
         }
@@ -68,33 +77,40 @@ public class HttpUtils {
 	        
 	        httpPost = new HttpPost(endpoint);
 	        httpPost.setEntity(new UrlEncodedFormEntity(urlParams, "UTF-8"));
-	
+	        Builder builder = RequestConfig.custom();
+			builder.setConnectTimeout(4000);
+	        builder.setSocketTimeout(4000);
+	        RequestConfig config = builder.build();
+	        httpPost.setConfig(config);
+            
 	        int statusCode;
 	        HttpResponse httpResponse = endpointClient.execute(httpPost);
             HttpEntity resEntity = httpResponse.getEntity();
-            
-            responseStr = EntityUtils.toString(resEntity);
-            log.info("http response 결과:" + responseStr);
-            
             statusCode = httpResponse.getStatusLine().getStatusCode();
             
-            if(statusCode == HttpStatus.SC_NOT_FOUND) {
-            	return null;
-            } else if (statusCode != HttpStatus.SC_OK) {
+            log.info("http response statusCode:" + statusCode);
+            if (statusCode != HttpStatus.SC_OK) {
                 throw new IOException("Error occurred while calling endpoint: HTTP error code : " + statusCode);
             } else {
+            	responseStr = EntityUtils.toString(resEntity);
+                log.info("http response 결과:" + responseStr);
             	return responseStr;
             }
-    	} catch (Exception e) {
-    		log.error("Error while " + endpoint + " - " + e.getMessage());
-    		handleException("Error while " + endpoint + " - " + e.getMessage(), e);
+    	} catch (ParseException e) {
+    		String message = endpoint + " API 게이트웨이 결과 데이터를 파싱하는 중 에러가 발생하였습니다. ";
+    		log.error(message, e);
+            handleException(message, e);
+        } catch (Throwable e) {
+        	String message = endpoint + " API 게이트웨이 통신 중 에러가 발생하였습니다. ";
+        	log.error(message, e);
+            handleException(message, e);
         } finally {
         	if(httpPost != null) httpPost.reset();
         }	
     	return responseStr;
     }
 	
-	private static void handleException(String msg, Exception e) throws APIManagementException {
+	private static void handleException(String msg, Throwable e) throws APIManagementException {
         throw new APIManagementException(msg, e);
     }
 	
