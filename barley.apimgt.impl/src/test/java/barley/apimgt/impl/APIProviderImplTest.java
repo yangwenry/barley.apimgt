@@ -682,6 +682,7 @@ public class APIProviderImplTest extends BaseTestCase {
     
     // REG_RESOURCE 테이블의 reg_content_id 필드값을 참조. 
     // SELECT * FROM REG_content where reg_content_id = 1207; 조회하면 xml 데이터에 테스트값이 들어가 있음.
+    // 게이트웨이에 api 게시 때 policy-key 값으로 던진다. 현재는 ThrottleHandler를 사용하므로 특별히 필요하지 않는다.   
     public void testTiers() throws APIManagementException {
     	Set<Tier> tiers = provider.getAllTiers(tenantDomain);
     	assertEquals(5, tiers.size());
