@@ -206,6 +206,9 @@ public interface APIManager {
     // (추가) 
     byte[] getDocumentationFile(APIIdentifier apiId, DocumentSourceType docSourceType, String filename) throws APIManagementException;
     
+    // (추가) 2019.10.01 
+    List<String> getDocumentationFileNames(APIIdentifier apiId) throws APIManagementException;
+    
     /**
      * Retrieves the subscriber from the given access token
      *

@@ -946,6 +946,27 @@ public abstract class AbstractAPIManager implements APIManager {
     	}
         return content;
     }
+    
+    // (추가) 
+    public List<String> getDocumentationFileNames(APIIdentifier apiId) throws APIManagementException {
+    	List<String> fileNames = new ArrayList<String>();
+    	String docPath = APIUtil.getAPIDocPath(apiId) + APIConstants.DOCUMENT_FILE_DIR;
+    	try {
+	    	if(registry.resourceExists(docPath)) {
+	    		Resource resource = registry.get(docPath);
+	    		String[] children = (String[]) resource.getContent();
+	    		for(String filePath: children) {
+	    			if(filePath != null) {
+		    			String fileName = filePath.substring(filePath.lastIndexOf("/") + 1);
+		    			fileNames.add(fileName);
+	    			}
+	    		}
+            }
+        } catch (RegistryException e) {
+            handleException("Failed to get documentation file names", e);
+        }
+        return fileNames;
+    }
 
     public Subscriber getSubscriberById(String accessToken) throws APIManagementException {
         return apiMgtDAO.getSubscriberById(accessToken);
