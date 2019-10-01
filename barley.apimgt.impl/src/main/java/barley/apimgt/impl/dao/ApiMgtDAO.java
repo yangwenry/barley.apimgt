@@ -11237,7 +11237,7 @@ public class ApiMgtDAO {
         
         try {
             connection = APIMgtDBUtil.getConnection();
-            connection.setAutoCommit(true);
+            connection.setAutoCommit(false);
             selectPreparedStatement = connection.prepareStatement(query);
             selectPreparedStatement.setNString(1, tenantDomain);
             selectPreparedStatement.setInt(2, startNo);
