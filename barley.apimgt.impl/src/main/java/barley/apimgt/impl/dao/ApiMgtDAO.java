@@ -11178,13 +11178,13 @@ public class ApiMgtDAO {
     /**
      * Get a list of access tokens issued for given user under the given app. Returned object carries consumer key
      * and secret information related to the access token.
-     * API Key 서비스에서 토큰 revoke 때 사용한다. (keymgt.APIKeyMgtSubscriberService.revokeTokensOfUserByApp)
      *
      * @param userName end user name
      * @param appName application name
      * @return list of tokens
      * @throws SQLException in case of a DB issue
      */
+    // API Key 서비스에서 토큰 revoke 때 사용한다. (keymgt.APIKeyMgtSubscriberService.revokeTokensOfUserByApp)
     public static List<AccessTokenInfo> getAccessTokenListForUser(String userName, String appName) throws SQLException {
 
         List<AccessTokenInfo> accessTokens = new ArrayList<AccessTokenInfo>(5);
@@ -11208,6 +11208,56 @@ public class ApiMgtDAO {
             accessTokens.add(accessTokenInfo);
         }
 
+        return accessTokens;
+    }
+    
+    // (추가) 2019.10.02 - 관리자에서 키발급 현황을 확인하기 위해 추가 
+    public List<AccessTokenInfo> getAllAccessTokenList(String appName) throws APIManagementException {
+
+        List<AccessTokenInfo> accessTokens = new ArrayList<AccessTokenInfo>();
+        Connection connection = null;
+        PreparedStatement consumerSecretIDPS = null;
+        ResultSet consumerSecretIDResult = null;
+        try {
+        	connection = APIMgtDBUtil.getConnection();
+        	
+        	consumerSecretIDPS = connection.prepareStatement(SQLConstants.GET_ALL_ACCESS_TOKENS_SQL);
+	        consumerSecretIDPS.setString(1, appName);
+	
+	        consumerSecretIDResult = consumerSecretIDPS.executeQuery();
+	
+	        while (consumerSecretIDResult.next()) {
+	            String consumerKey = consumerSecretIDResult.getString("CONSUMER_KEY");
+	            String consumerSecret = consumerSecretIDResult.getString("CONSUMER_SECRET");
+	            String accessToken = consumerSecretIDResult.getString("ACCESS_TOKEN");
+	            String userName = consumerSecretIDResult.getString("USERNAME");
+	            String tokenState = consumerSecretIDResult.getString("STATE");
+	            long validityPeriod = consumerSecretIDResult.getLong("VALIDITY_PERIOD");
+	            String createdDate = consumerSecretIDResult.getTimestamp("TIME_CREATED").toString().split("\\.")[0];
+	
+	            AccessTokenInfo accessTokenInfo = new AccessTokenInfo();
+	            accessTokenInfo.setConsumerKey(consumerKey);
+	            accessTokenInfo.setConsumerSecret(consumerSecret);
+	            accessTokenInfo.setAccessToken(accessToken);
+	            accessTokenInfo.setEndUserName(userName);
+	            accessTokenInfo.setTokenState(tokenState);
+	            accessTokenInfo.setValidityPeriod(validityPeriod);
+	            accessTokenInfo.setCreatedDate(createdDate);
+	
+	            accessTokens.add(accessTokenInfo);
+	        }
+        } catch (SQLException e) {
+            if (connection != null) {
+                try {
+                    connection.rollback();
+                } catch (SQLException ex) {
+                    handleException("Failed to rollback getting get all access token info ", ex);
+                }
+            }
+            handleException("Failed to get all access token info", e);
+        } finally {
+            APIMgtDBUtil.closeAllConnections(consumerSecretIDPS, connection, consumerSecretIDResult);
+        }
         return accessTokens;
     }
     

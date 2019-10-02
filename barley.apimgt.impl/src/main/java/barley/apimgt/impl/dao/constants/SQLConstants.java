@@ -1344,9 +1344,7 @@ public class SQLConstants {
                 "    NAME like ?";
 
 
-
-
-        public static final String GET_CONSUMER_KEYS_SQL =
+    public static final String GET_CONSUMER_KEYS_SQL =
             " SELECT " +
             "   MAP.CONSUMER_KEY " +
             " FROM " +
@@ -2547,6 +2545,18 @@ public class SQLConstants {
             "AND TOKEN.TOKEN_STATE = 'ACTIVE' " +
             "AND TOKEN.CONSUMER_KEY_ID = CON_APP.ID " +
             "AND CON_APP.CONSUMER_KEY=AKM.CONSUMER_KEY " +
+            "AND AKM.APPLICATION_ID = APP.APPLICATION_ID";
+    
+    // (추가) 2019.10.02 - 관리자에서 사용할 전체 사용자 토큰 가져오기 
+    public static final String GET_ALL_ACCESS_TOKENS_SQL = 
+    		"SELECT AKM.CONSUMER_KEY, CON_APP.CONSUMER_SECRET, TOKEN.ACCESS_TOKEN " +
+    		"     , CON_APP.USERNAME, AKM.STATE, TOKEN.VALIDITY_PERIOD, TOKEN.TIME_CREATED " +		
+            "FROM " +
+            "IDN_OAUTH_CONSUMER_APPS CON_APP, AM_APPLICATION APP, IDN_OAUTH2_ACCESS_TOKEN  TOKEN, AM_APPLICATION_KEY_MAPPING AKM " +
+            "WHERE APP.NAME = ? " +
+            "AND TOKEN.TOKEN_STATE = 'ACTIVE' " +
+            "AND TOKEN.CONSUMER_KEY_ID = CON_APP.ID " +
+            "AND CON_APP.CONSUMER_KEY = AKM.CONSUMER_KEY " +
             "AND AKM.APPLICATION_ID = APP.APPLICATION_ID";
 
     public static final String GET_SORTED_API_SQL_PREFIX =

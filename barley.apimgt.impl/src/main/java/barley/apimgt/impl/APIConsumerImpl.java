@@ -3596,7 +3596,11 @@ class APIConsumerImpl extends AbstractAPIManager implements APIConsumer {
 		}
     }
     
-    
+    // (추가) 
+    public List<AccessTokenInfo> getAllAccessTokenList(String appName) throws APIManagementException {
+    	List<AccessTokenInfo> tokenInfoList = apiMgtDAO.getAllAccessTokenList(appName);
+    	return tokenInfoList;
+    }
 	
 
 }

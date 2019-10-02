@@ -23,6 +23,7 @@ package barley.apimgt.api.model;
 import org.json.simple.JSONObject;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 
 /**
@@ -51,7 +52,10 @@ public class AccessTokenInfo {
     private int errorcode;
 
     private String endUserName;
-
+    
+    // (추가) 2019.10.02 
+    private String createdDate;
+    
     public String[] getScopes() {
         return scope;
     }
@@ -174,5 +178,13 @@ public class AccessTokenInfo {
 
     public void setEndUserName(String endUserName) {
         this.endUserName = endUserName;
+    }
+    
+    public String getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(String createdDate) {
+        this.createdDate = createdDate;
     }
 }
