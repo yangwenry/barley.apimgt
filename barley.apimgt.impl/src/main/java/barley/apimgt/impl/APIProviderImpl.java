@@ -2074,24 +2074,23 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
         String docPath = APIUtil.getAPIDocPath(apiId) + docName;
 
         try {
+            // (수정) 2019.10.17 - filePath를 더이상 쓰지않기 때문에 파일경로를 계산하여 처리함. 
+            /*
             String apiArtifactId = registry.get(docPath).getUUID();
             GenericArtifactManager artifactManager = APIUtil.getArtifactManager(registry, APIConstants.DOCUMENTATION_KEY);
             GenericArtifact artifact = artifactManager.getGenericArtifact(apiArtifactId);
             String docFilePath =  artifact.getAttribute(APIConstants.DOC_FILE_PATH);
-
+            */
+            String docFilePath =  APIUtil.getAPIDocPath(apiId) + APIConstants.DOCUMENT_FILE_DIR;
             // 파일 삭제 
             if(docFilePath != null)   {
-                File tempFile = new File(docFilePath);
-                String fileName = tempFile.getName();
-                docFilePath = APIUtil.getDocumentationFilePath(apiId, fileName);
                 if(registry.resourceExists(docFilePath))    {
                     registry.delete(docFilePath);
                 }
             }
             
             // (추가) contents 삭제
-            String contentPath = APIUtil.getAPIDocPath(apiId) + APIConstants.INLINE_DOCUMENT_CONTENT_DIR +
-        			RegistryConstants.PATH_SEPARATOR + docName;
+            String contentPath = APIUtil.getAPIDocPath(apiId) + APIConstants.INLINE_DOCUMENT_CONTENT_DIR;
             if(contentPath != null)   {
                 if(registry.resourceExists(contentPath))    {
                     registry.delete(contentPath);
