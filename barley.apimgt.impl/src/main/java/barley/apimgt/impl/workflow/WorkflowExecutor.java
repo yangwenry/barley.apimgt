@@ -126,11 +126,14 @@ public abstract class WorkflowExecutor implements Serializable {
      * @param workflowDTO workflow DTO
      */
     public void publishEvents(WorkflowDTO workflowDTO) {
+    	// (주석) 2019.09.23 - 워크플로는 데이터분석기가 데이터 수집하지 않는다.
+    	/*
         boolean enabled = APIUtil.isAnalyticsEnabled();
         if (enabled) {
             APIMgtWorkflowDataPublisher publisher = new APIMgtWorkflowDataPublisher();
             publisher.publishEvent(workflowDTO);
         }
+        */
     }
 
     /**

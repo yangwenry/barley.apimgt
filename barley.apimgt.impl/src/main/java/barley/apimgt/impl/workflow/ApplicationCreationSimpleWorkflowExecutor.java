@@ -56,7 +56,7 @@ public class ApplicationCreationSimpleWorkflowExecutor extends WorkflowExecutor 
         }
         workFlowDTO.setStatus(WorkflowStatus.APPROVED);
         complete(workFlowDTO);
-        // super.publishEvents(workFlowDTO);
+        super.publishEvents(workFlowDTO);
 		return new GeneralWorkflowResponse();
     }
 
