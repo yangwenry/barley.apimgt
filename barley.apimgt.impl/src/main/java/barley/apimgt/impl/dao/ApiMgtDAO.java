@@ -11329,5 +11329,39 @@ public class ApiMgtDAO {
     }
     
     
+    public int getPublicApiCount(String tenantDomain) throws APIManagementException {
+        Connection connection = null;
+        PreparedStatement selectPreparedStatement = null;
+        ResultSet resultSet = null;
+        
+        int pubApiCnt = 0;
+        
+        try {
+            connection = APIMgtDBUtil.getConnection();
+            connection.setAutoCommit(false);
+            selectPreparedStatement = connection.prepareStatement(SQLConstants.GET_PUBLIC_API_CNT_SQL);
+            selectPreparedStatement.setNString(1, tenantDomain);
+            resultSet = selectPreparedStatement.executeQuery();
+            
+            while (resultSet.next()) {
+            	pubApiCnt = resultSet.getInt("PUB_API_CNT");
+            }
+            
+        } catch (SQLException e) {
+            if (connection != null) {
+                try {
+                    connection.rollback();
+                } catch (SQLException ex) {
+                    handleException("Failed to rollback getting sorted rating api ", ex);
+                }
+            }
+            handleException("Failed to get sorted rating api", e);
+        } finally {
+            APIMgtDBUtil.closeAllConnections(selectPreparedStatement, connection, resultSet);
+        }
+        
+        return pubApiCnt;
+    }
+    
     
 }

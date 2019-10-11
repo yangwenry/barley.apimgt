@@ -3540,6 +3540,11 @@ class APIConsumerImpl extends AbstractAPIManager implements APIConsumer {
     	List<API> apiList = apiMgtDAO.getSortedCreatedTimeApi(tenantDomain, page, count);
     	return addApiAttributeFromRegistry(apiList);
     }
+    
+    @Override
+    public int getPublicApiCount(String tenantDomain) throws APIManagementException {
+    	return apiMgtDAO.getPublicApiCount(tenantDomain);
+    }
 
     /**
      * registry에서 추가 항목을 가져온다. (thumnail_url, description, TAG) 

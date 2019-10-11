@@ -2613,6 +2613,26 @@ public class SQLConstants {
 				"ORDER BY TB.CREATED_TIME DESC, TA.API_ID DESC " +
 				"LIMIT ?, ?";
     
+    public static final String GET_PUBLIC_API_CNT_SQL =
+	    	"SELECT " +
+	    		"COUNT(TA.API_ID) AS PUB_API_CNT " + 
+	    	"FROM( " +
+	    		"SELECT " + 
+	    			"SB.API_ID, SB.EVENT_ID, SB.NEW_STATE " + 
+	    		"FROM ( " + 
+	    			"SELECT " + 
+	    				"API_ID " + 
+	    				", MAX(EVENT_ID) AS EVENT_ID " + 
+	    				"FROM AM_API_LC_EVENT " + 
+	    				"GROUP BY API_ID " + 
+	    		") SA " + 
+	    		"LEFT JOIN AM_API_LC_EVENT SB " + 
+	    			"ON (SA.API_ID = SB.API_ID AND SA.EVENT_ID = SB.EVENT_ID) " + 
+	    		"WHERE SB.NEW_STATE = 'PUBLISHED' " + 
+	    	") TA " + 
+	    	"INNER JOIN AM_API TB " + 
+	    	"ON (TA.API_ID = TB.API_ID AND SUBSTRING_INDEX(TB.API_PROVIDER, '@', -1) = ?)";
+    
 //    public static final String SEARCH_SORTED_RATING_API_SQL =
 //    		GET_SORTED_API_SQL_PREFIX +
 //    		    "WHERE TB.CATEGORY LIKE ? " +

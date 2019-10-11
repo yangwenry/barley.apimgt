@@ -652,4 +652,6 @@ public interface APIConsumer extends APIManager {
 	List<API> getSortedCreatedTimeApiList(String tenantDomain, int page, int count) throws APIManagementException;
 	
 	List<AccessTokenInfo> getAllAccessTokenList(String appName) throws APIManagementException;
+
+	int getPublicApiCount(String tenantDomain) throws APIManagementException;
 }
