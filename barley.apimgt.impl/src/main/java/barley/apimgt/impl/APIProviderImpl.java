@@ -649,6 +649,7 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
             
             // DB에 저장 
             apiMgtDAO.addAPI(api, tenantId);
+            // tag 처리 
 
             JSONObject apiLogObject = new JSONObject();
             apiLogObject.put(APIConstants.AuditLogConstants.NAME, api.getId().getApiName());
@@ -888,6 +889,8 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
                 
                 // 3. api-mgt 수정 
                 apiMgtDAO.updateAPI(api, tenantId);
+                // 3-1. tag 수정 
+                
                 if (log.isDebugEnabled()) {
                     log.debug("Successfully updated the API: " + api.getId() + " in the database");
                 }
@@ -2770,6 +2773,7 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
             }
             
             // (수정) registry 삭제 후 삭제하도록 위치 변경 
+            // tag 는 cascade로 인해 자동 삭제된다. 
             apiMgtDAO.deleteAPI(identifier);
             
             registry.commitTransaction();

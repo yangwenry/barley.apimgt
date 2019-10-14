@@ -2651,6 +2651,15 @@ public class SQLConstants {
 //				"ORDER BY TB.CREATED_TIME DESC, TA.API_ID DESC " +
 //				"LIMIT ?, ?";
     
+    /* Tag 테이블 */
+    public static final String API_TAG_SQL =
+            "INSERT INTO AM_API_TAG(API_ID, TAG_NAME, DATE_TAGGED)  VALUES (?,?,?)";
+    
+    public static final String REMOVE_TAG_SQL =
+            "DELETE FROM AM_API_TAG WHERE API_ID =? ";
+    
+    public static final String GET_TAG_SQL =
+            "SELECT TAG_NAME FROM AM_API_TAG WHERE API_ID= ? ORDER BY DATE_TAGGED ASC ";
 
     /** Throttle related constants**/
 

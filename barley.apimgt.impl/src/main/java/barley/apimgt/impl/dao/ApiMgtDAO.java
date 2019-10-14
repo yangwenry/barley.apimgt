@@ -11362,6 +11362,97 @@ public class ApiMgtDAO {
         
         return pubApiCnt;
     }
+
+    public void addTag(APIIdentifier apiIdentifier, String tag)
+            throws APIManagementException, SQLException {
+        PreparedStatement ps = null;
+        Connection connection = null;
+        
+        try {
+        	connection = APIMgtDBUtil.getConnection();
+            int apiId;
+            apiId = getAPIID(apiIdentifier, connection);
+            if (apiId == -1) {
+                String msg = "Could not load API record for: " + apiIdentifier.getApiName();
+                log.error(msg);
+                throw new APIManagementException(msg);
+            }
+            
+            String sqlAddQuery = SQLConstants.API_TAG_SQL;
+            // Adding data to the AM_API_TAG  table
+            ps = connection.prepareStatement(sqlAddQuery);
+            ps.setInt(1, apiId);
+            ps.setString(2, tag);
+            ps.setTimestamp(3, new Timestamp(System.currentTimeMillis()), Calendar.getInstance());
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            handleException("Failed to add API Tag of the api Name:" + apiIdentifier.getApiName(), e);
+        } finally {
+            APIMgtDBUtil.closeAllConnections(ps, connection, null);
+        }
+    }
     
+    public void removeTag(APIIdentifier apiIdentifier)
+            throws APIManagementException, SQLException {
+        PreparedStatement ps = null;
+        Connection connection = null;
+
+        try {
+        	connection = APIMgtDBUtil.getConnection();
+        	int apiId;
+            apiId = getAPIID(apiIdentifier, connection);
+            if (apiId == -1) {
+                String msg = "Could not load API record for: " + apiIdentifier.getApiName();
+                log.error(msg);
+                throw new APIManagementException(msg);
+            }
+            
+        	//This query to check the ratings already exists for the user in the AM_API_RATINGS table
+            String sqlQuery = SQLConstants.REMOVE_TAG_SQL;
+
+            // Adding data to the AM_API_RATINGS  table
+            ps = connection.prepareStatement(sqlQuery);
+            ps.setInt(1, apiId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            handleException("Failed to delete API Tag", e);
+        } finally {
+            APIMgtDBUtil.closeAllConnections(ps, connection, null);
+        }
+    }
+    
+    public List<String> getTags(APIIdentifier apiIdentifier) throws APIManagementException {
+        Connection connection = null;
+        PreparedStatement prepStmt = null;
+        ResultSet rs = null;
+        String sqlQuery = SQLConstants.GET_TAG_SQL;
+
+        List<String> tags = new ArrayList<String>();
+        try {
+            connection = APIMgtDBUtil.getConnection();
+            int apiId;
+            apiId = getAPIID(apiIdentifier, connection);
+            if (apiId == -1) {
+                String msg = "Could not load API record for: " + apiIdentifier.getApiName();
+                log.error(msg);
+                throw new APIManagementException(msg);
+            }
+            
+            prepStmt = connection.prepareStatement(sqlQuery);
+            prepStmt.setInt(1, apiId);
+            rs = prepStmt.executeQuery();
+
+            while (rs.next()) {
+            	String tagName = rs.getString("TAG_NAME");
+                tags.add(tagName);
+            }            
+        } catch (SQLException e) {
+            handleException("Error when executing the SQL : " + sqlQuery, e);
+        } finally {
+            APIMgtDBUtil.closeAllConnections(prepStmt, connection, rs);
+        }
+        return tags;
+    }
     
 }

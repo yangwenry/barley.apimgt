@@ -3526,19 +3526,25 @@ class APIConsumerImpl extends AbstractAPIManager implements APIConsumer {
     @Override
     public List<API> getSortedRatingApiList(String tenantDomain, int page, int count) throws APIManagementException {
     	List<API> apiList = apiMgtDAO.getSortedRatingApi(tenantDomain, page, count);
-    	return addApiAttributeFromRegistry(apiList);
+    	// registry에서 더이상 태그를 가져오지 않고 API_MGT 디비 테이블을 조인하여 가져온다. 
+    	//return addApiAttributeFromRegistry(apiList);
+    	return apiList;
     }
     
     @Override
     public List<API> getSortedSubscribersCountApiList(String tenantDomain, int page, int count) throws APIManagementException {
     	List<API> apiList = apiMgtDAO.getSortedSubscribersCountApi(tenantDomain, page, count);
-    	return addApiAttributeFromRegistry(apiList);
+    	// registry에서 더이상 태그를 가져오지 않고 API_MGT 디비 테이블을 조인하여 가져온다. 
+    	//return addApiAttributeFromRegistry(apiList);
+    	return apiList;
     }
     
     @Override
     public List<API> getSortedCreatedTimeApiList(String tenantDomain, int page, int count) throws APIManagementException {
     	List<API> apiList = apiMgtDAO.getSortedCreatedTimeApi(tenantDomain, page, count);
-    	return addApiAttributeFromRegistry(apiList);
+    	// registry에서 더이상 태그를 가져오지 않고 API_MGT 디비 테이블을 조인하여 가져온다. 
+    	//return addApiAttributeFromRegistry(apiList);
+    	return apiList;
     }
     
     @Override
