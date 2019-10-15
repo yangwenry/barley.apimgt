@@ -18,8 +18,6 @@
 
 package barley.apimgt.impl.clients;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.rmi.RemoteException;
@@ -30,22 +28,12 @@ import java.util.Map;
 import org.apache.axis2.AxisFault;
 import org.apache.axis2.client.Options;
 import org.apache.axis2.client.ServiceClient;
-import org.apache.axis2.context.ConfigurationContext;
-import org.apache.axis2.context.ConfigurationContextFactory;
 import org.apache.axis2.context.ServiceContext;
 import org.apache.axis2.transport.http.HTTPConstants;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
 import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONException;
-import org.wso2.carbon.apimgt.registry.cache.stub.RegistryCacheInvalidationServiceAPIManagementExceptionException;
-import org.wso2.carbon.apimgt.registry.cache.stub.RegistryCacheInvalidationServiceStub;
 import org.wso2.carbon.authenticator.stub.AuthenticationAdminStub;
 import org.wso2.carbon.authenticator.stub.LoginAuthenticationExceptionException;
 import org.wso2.carbon.registry.core.RegistryConstants;
@@ -55,9 +43,7 @@ import barley.apimgt.impl.APIConstants;
 import barley.apimgt.impl.APIManagerConfiguration;
 import barley.apimgt.impl.dto.Environment;
 import barley.apimgt.impl.internal.ServiceReferenceHolder;
-import barley.apimgt.impl.service.RegistryCacheInvalidationService;
-import barley.apimgt.impl.utils.APIUtil;
-import barley.apimgt.impl.utils.HttpUtils;
+import barley.apimgt.impl.utils.HttpGatewayUtils;
 
 /**
  * This is the client implementation of RegistryCacheInvalidationService
@@ -143,7 +129,7 @@ public class RegistryCacheInvalidationClient {
 	        urlParams.add(new BasicNameValuePair("path", path));
 	        urlParams.add(new BasicNameValuePair("tenantDomain", tenantDomain));
 	        
-	        HttpUtils.doPost(endpoint, urlParams);
+	        HttpGatewayUtils.doPost(endpoint, urlParams);
 		} catch (APIManagementException e) {
             String errorMsg = "Error while invalidate Registry Cache.";
             throw new APIManagementException(errorMsg, e);

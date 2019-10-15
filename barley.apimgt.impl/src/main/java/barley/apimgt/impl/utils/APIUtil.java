@@ -6157,5 +6157,15 @@ public final class APIUtil {
                 getDasReceiverServerPassword();
     }
     
-    
+
+    public static Environment getEnvironmentFromApiConfiguration() {
+		APIManagerConfiguration apimConfig 
+						= ServiceReferenceHolder.getInstance().getAPIManagerConfigurationService().getAPIManagerConfiguration();
+        Map<String, Environment> environments = apimConfig.getApiGatewayEnvironments();
+    	Environment environment = null;
+    	for(String key : environments.keySet()) {
+    		environment = environments.get(key);
+    	}
+    	return environment;
+	}
 }

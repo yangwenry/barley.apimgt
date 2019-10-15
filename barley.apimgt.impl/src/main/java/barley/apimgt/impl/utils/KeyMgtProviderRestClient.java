@@ -57,7 +57,7 @@ public class KeyMgtProviderRestClient {
 	        List<NameValuePair> urlParams = new ArrayList<NameValuePair>(0);
 	        if(consumerKeys != null) urlParams.add(new BasicNameValuePair("consumerKeys", String.join(",", consumerKeys)));
 	        
-	        HttpUtils.doPost(this.baseUrl + "/removeScopeCache", urlParams);
+	        HttpGatewayUtils.doPost(this.baseUrl + "/removeScopeCache", urlParams);
 		} catch (APIManagementException e) {
             String errorMsg = "Error while invalidate removeScopeCache.";
             throw new APIManagementException(errorMsg, e);

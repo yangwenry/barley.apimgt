@@ -73,7 +73,7 @@ public class KeyManagerRestClient {
 	        urlParams.add(new BasicNameValuePair("isSaasApplication", String.valueOf(applicationToCreate.getIsSaasApplication())));
 	        urlParams.add(new BasicNameValuePair("appOwner", applicationToCreate.getAppOwner()));
 	        
-	        entityStr = HttpUtils.receive(this.baseUrl + "/createOAuthApp", urlParams);   
+	        entityStr = HttpGatewayUtils.receive(this.baseUrl + "/createOAuthApp", urlParams);   
 	        if(entityStr != null) {
 	        	info = new Gson().fromJson(entityStr, OAuthApplicationInfo.class);
             }
@@ -97,7 +97,7 @@ public class KeyManagerRestClient {
 	        urlParams.add(new BasicNameValuePair("consumerKey", consumerKey));
 	        if(grantTypes != null) urlParams.add(new BasicNameValuePair("grantTypes", String.join(",", grantTypes)));
 	        
-	        entityStr = HttpUtils.receive(this.baseUrl + "/updateOAuthApp", urlParams);   
+	        entityStr = HttpGatewayUtils.receive(this.baseUrl + "/updateOAuthApp", urlParams);   
 	        if(entityStr != null) {
 	        	info = new Gson().fromJson(entityStr, OAuthApplicationInfo.class);
             }
@@ -114,7 +114,7 @@ public class KeyManagerRestClient {
 	        List<NameValuePair> urlParams = new ArrayList<NameValuePair>(0);
 	        urlParams.add(new BasicNameValuePair("consumerKey", consumerKey));
 	        
-	        HttpUtils.doPost(this.baseUrl + "/deleteOAuthApp", urlParams);
+	        HttpGatewayUtils.doPost(this.baseUrl + "/deleteOAuthApp", urlParams);
 		} catch (APIManagementException e) {
             String errorMsg = "Error while invalidate deleteOAuthApplication.";
             throw new APIManagementException(errorMsg, e);
@@ -129,7 +129,7 @@ public class KeyManagerRestClient {
 	        List<NameValuePair> urlParams = new ArrayList<NameValuePair>(0);
 	        urlParams.add(new BasicNameValuePair("consumerKey", consumerKey));
 	        
-	        entityStr = HttpUtils.receive(this.baseUrl + "/retrieveOAuthApp", urlParams);   
+	        entityStr = HttpGatewayUtils.receive(this.baseUrl + "/retrieveOAuthApp", urlParams);   
 	        if(entityStr != null) {
 	        	info = new Gson().fromJson(entityStr, OAuthApplicationInfo.class);
             }

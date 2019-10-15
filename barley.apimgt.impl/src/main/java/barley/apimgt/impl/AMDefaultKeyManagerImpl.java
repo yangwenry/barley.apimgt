@@ -56,8 +56,10 @@ import barley.apimgt.api.model.KeyManagerConfiguration;
 import barley.apimgt.api.model.OAuthAppRequest;
 import barley.apimgt.api.model.OAuthApplicationInfo;
 import barley.apimgt.impl.dao.ApiMgtDAO;
+import barley.apimgt.impl.dto.Environment;
 import barley.apimgt.impl.internal.ServiceReferenceHolder;
 import barley.apimgt.impl.utils.APIUtil;
+import barley.apimgt.impl.utils.HttpGatewayUtils;
 import barley.identity.core.util.IdentityConfigParser;
 import barley.identity.core.util.IdentityCoreConstants;
 import barley.identity.oauth.common.OAuthConstants;
@@ -300,9 +302,15 @@ public class AMDefaultKeyManagerImpl extends AbstractKeyManager {
         URL keyMgtURL = new URL(tokenEndpoint);
         int keyMgtPort = keyMgtURL.getPort();
         String keyMgtProtocol = keyMgtURL.getProtocol();
+        
+        // (추가) Basic Auth 설정
+        Environment environment = APIUtil.getEnvironmentFromApiConfiguration();
+        String credentials = HttpGatewayUtils.getEncodedBasicAuthorization(environment);
 
         // Call the /revoke only if there's a token to be revoked.
         try {
+        	
+        	// 2. 엑세스 토큰 재발급 요청 
             if (tokenRequest.getTokenToRevoke() != null && !"".equals(tokenRequest.getTokenToRevoke())) {
                 URL revokeEndpointURL = new URL(revokeEndpoint);
                 String revokeEndpointProtocol = revokeEndpointURL.getProtocol();
@@ -318,9 +326,12 @@ public class AMDefaultKeyManagerImpl extends AbstractKeyManager {
                 revokeParams.add(new BasicNameValuePair(OAuth.OAUTH_CLIENT_SECRET, tokenRequest.getClientSecret()));
                 revokeParams.add(new BasicNameValuePair("token", tokenRequest.getTokenToRevoke()));
 
-
                 //Revoke the Old Access Token
                 httpRevokePost.setEntity(new UrlEncodedFormEntity(revokeParams, "UTF-8"));
+                
+                // (추가) Basic Auth 설정
+    	        httpRevokePost.setHeader("Authorization", "Basic " + credentials);
+                
                 int statusCode;
                 try {
                     HttpResponse revokeResponse = revokeEPClient.execute(httpRevokePost);
@@ -349,6 +360,7 @@ public class AMDefaultKeyManagerImpl extends AbstractKeyManager {
                 tokenRequest.setValidityPeriod(-2);
             }
 
+            // 1. 신규 엑세스 토큰 생성 
             //Generate New Access Token
             HttpClient tokenEPClient = APIUtil.getHttpClient(keyMgtPort, keyMgtProtocol);
             HttpPost httpTokpost = new HttpPost(tokenEndpoint);
@@ -366,8 +378,11 @@ public class AMDefaultKeyManagerImpl extends AbstractKeyManager {
             }
 
             tokParams.add(new BasicNameValuePair("scope", builder.toString()));
-
             httpTokpost.setEntity(new UrlEncodedFormEntity(tokParams, "UTF-8"));
+            
+            // (추가) Basic Auth 설정
+	        httpTokpost.setHeader("Authorization", "Basic " + credentials);
+            
             try {
                 HttpResponse tokResponse = tokenEPClient.execute(httpTokpost);
                 HttpEntity tokEntity = tokResponse.getEntity();

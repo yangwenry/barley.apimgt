@@ -62,7 +62,7 @@ public class APIGatewayAdminRestClient extends AbstractAPIGatewayAdminClient {
 	        List<NameValuePair> urlParams = new ArrayList<NameValuePair>(0);
 	        urlParams.add(new BasicNameValuePair("apiData", apiConfig));
 	        
-	        HttpUtils.doPost(this.baseUrl + "/addApi", urlParams);
+	        HttpGatewayUtils.doPost(this.baseUrl + "/addApi", urlParams);
 		} catch (APITemplateException e) {
 			String errorMsg = "Error while obtaining API information from gateway. ";
 			throw new APIManagementException(errorMsg, e);
@@ -84,7 +84,7 @@ public class APIGatewayAdminRestClient extends AbstractAPIGatewayAdminClient {
 	        List<NameValuePair> urlParams = new ArrayList<NameValuePair>(0);
 	        urlParams.add(new BasicNameValuePair("apiData", apiConfig));
 	        
-	        HttpUtils.doPost(this.baseUrl + "/addApi", urlParams);
+	        HttpGatewayUtils.doPost(this.baseUrl + "/addApi", urlParams);
 		} catch (APITemplateException e) {
 			String errorMsg = "Error while obtaining API information from gateway. ";
 			throw new APIManagementException(errorMsg, e);
@@ -106,7 +106,7 @@ public class APIGatewayAdminRestClient extends AbstractAPIGatewayAdminClient {
 	        List<NameValuePair> urlParams = new ArrayList<NameValuePair>(0);
 	        urlParams.add(new BasicNameValuePair("apiData", apiConfig));
 	        
-	        HttpUtils.doPost(this.baseUrl + "/addApi", urlParams);
+	        HttpGatewayUtils.doPost(this.baseUrl + "/addApi", urlParams);
 		} catch (APITemplateException e) {
 			String errorMsg = "Error while obtaining API information from gateway. ";
 			throw new APIManagementException(errorMsg, e);
@@ -129,7 +129,7 @@ public class APIGatewayAdminRestClient extends AbstractAPIGatewayAdminClient {
 	        urlParams.add(new BasicNameValuePair("apiName", qualifiedName));
 	        urlParams.add(new BasicNameValuePair("apiData", apiConfig));
 	        
-	        HttpUtils.doPost(this.baseUrl + "/updateApi", urlParams);
+	        HttpGatewayUtils.doPost(this.baseUrl + "/updateApi", urlParams);
 		} catch (APITemplateException e) {
 			String errorMsg = "Error while update API information from gateway. ";
 			throw new APIManagementException(errorMsg, e);
@@ -152,7 +152,7 @@ public class APIGatewayAdminRestClient extends AbstractAPIGatewayAdminClient {
 	        urlParams.add(new BasicNameValuePair("apiName", qualifiedName));
 	        urlParams.add(new BasicNameValuePair("apiData", apiConfig));
 	        
-	        HttpUtils.doPost(this.baseUrl + "/updateApi", urlParams);
+	        HttpGatewayUtils.doPost(this.baseUrl + "/updateApi", urlParams);
 		} catch (APITemplateException e) {
 			String errorMsg = "Error while update API information from gateway. ";
 			throw new APIManagementException(errorMsg, e);
@@ -175,7 +175,7 @@ public class APIGatewayAdminRestClient extends AbstractAPIGatewayAdminClient {
 	        urlParams.add(new BasicNameValuePair("apiName", qualifiedDefaultApiName));
 	        urlParams.add(new BasicNameValuePair("apiData", apiConfig));
 	        
-	        HttpUtils.doPost(this.baseUrl + "/updateApi", urlParams);
+	        HttpGatewayUtils.doPost(this.baseUrl + "/updateApi", urlParams);
 		} catch (APITemplateException e) {
 			String errorMsg = "Error while update API information from gateway. ";
 			throw new APIManagementException(errorMsg, e);
@@ -194,7 +194,7 @@ public class APIGatewayAdminRestClient extends AbstractAPIGatewayAdminClient {
 	        List<NameValuePair> urlParams = new ArrayList<NameValuePair>(0);
 	        urlParams.add(new BasicNameValuePair("apiName", qualifiedName));
 	        
-	        HttpUtils.doPost(this.baseUrl + "/deleteApi", urlParams);
+	        HttpGatewayUtils.doPost(this.baseUrl + "/deleteApi", urlParams);
 		} catch (APIManagementException e) {
             String errorMsg = "Error while delete WebApi information from gateway. Api Name : " + apiName + " Api " +
                     "Version : " + apiVersion;
@@ -210,7 +210,7 @@ public class APIGatewayAdminRestClient extends AbstractAPIGatewayAdminClient {
 	        List<NameValuePair> urlParams = new ArrayList<NameValuePair>(0);
 	        urlParams.add(new BasicNameValuePair("apiName", qualifiedDefaultApiName));
 	        
-	        HttpUtils.doPost(this.baseUrl + "/deleteApi", urlParams);
+	        HttpGatewayUtils.doPost(this.baseUrl + "/deleteApi", urlParams);
 		} catch (APIManagementException e) {
             String errorMsg = "Error while delete WebApi information from gateway. Api Name : " + apiName + " Api " +
                     "Version : " + apiVersion;
@@ -236,7 +236,7 @@ public class APIGatewayAdminRestClient extends AbstractAPIGatewayAdminClient {
 	        List<NameValuePair> urlParams = new ArrayList<NameValuePair>(0);
 	        urlParams.add(new BasicNameValuePair("apiName", qualifiedName));
 	        
-	        entityStr = HttpUtils.receive(this.baseUrl + "/getApiByName", urlParams);   
+	        entityStr = HttpGatewayUtils.receive(this.baseUrl + "/getApiByName", urlParams);   
 	        if(entityStr != null) {
 	        	apiData = new Gson().fromJson(entityStr, APIData.class);
             }
@@ -258,7 +258,7 @@ public class APIGatewayAdminRestClient extends AbstractAPIGatewayAdminClient {
 	        List<NameValuePair> urlParams = new ArrayList<NameValuePair>(0);
 	        urlParams.add(new BasicNameValuePair("apiName", qualifiedDefaultApiName));
 	        
-	        entityStr = HttpUtils.receive(this.baseUrl + "/getApiByName", urlParams);   
+	        entityStr = HttpGatewayUtils.receive(this.baseUrl + "/getApiByName", urlParams);   
 	        if(entityStr != null) {
 	        	apiData = new Gson().fromJson(entityStr, APIData.class);
             }

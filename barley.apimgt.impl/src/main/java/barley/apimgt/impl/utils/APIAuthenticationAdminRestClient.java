@@ -76,7 +76,7 @@ public class APIAuthenticationAdminRestClient {
 	        urlParams.add(new BasicNameValuePair("resourceURLContext", resourceURLContext));
 	        urlParams.add(new BasicNameValuePair("httpVerb", httpVerb));
 	        
-	        HttpUtils.doPost(this.baseUrl + "/invalidateResourceCache", urlParams);
+	        HttpGatewayUtils.doPost(this.baseUrl + "/invalidateResourceCache", urlParams);
 		} catch (APIManagementException e) {
             String errorMsg = "Error while obtaining invalidateResourceCache from gateway.";
             throw new APIManagementException(errorMsg, e);
