@@ -22,6 +22,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.rmi.RemoteException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -650,7 +651,8 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
             // DB에 저장 
             apiMgtDAO.addAPI(api, tenantId);
             // tag 처리 
-
+           	addTags(api.getId(), api.getTags());
+         
             JSONObject apiLogObject = new JSONObject();
             apiLogObject.put(APIConstants.AuditLogConstants.NAME, api.getId().getApiName());
             apiLogObject.put(APIConstants.AuditLogConstants.CONTEXT, api.getContext());
@@ -890,6 +892,7 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
                 // 3. api-mgt 수정 
                 apiMgtDAO.updateAPI(api, tenantId);
                 // 3-1. tag 수정 
+                addTags(api.getId(), api.getTags());
                 
                 if (log.isDebugEnabled()) {
                     log.debug("Successfully updated the API: " + api.getId() + " in the database");
@@ -4763,5 +4766,23 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
 		throw new UnsupportedOperationException("Unsubscribe operation is not yet implemented");
 	}
 
+	
+	private void addTags(APIIdentifier api, Set<String> tags) throws APIManagementException {
+		
+		if(tags==null || tags.isEmpty()) {
+			//Tag 내용이 없을 경우 처리를 하지 않고 리턴
+			return;
+		}
+		
+		try {
+			apiMgtDAO.removeTag(api);
+			
+			for(String tag : tags) {
+				apiMgtDAO.addTag(api, tag);
+			}
+		} catch (SQLException e) {
+			throw new APIManagementException("Error in adding Tags", e);
+		}		
+	}
 
 }

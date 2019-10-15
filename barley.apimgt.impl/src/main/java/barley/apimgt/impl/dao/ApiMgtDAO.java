@@ -11261,22 +11261,22 @@ public class ApiMgtDAO {
         return accessTokens;
     }
     
-    public List<API> getSortedRatingApi(String tenantDomain, int page, int count) throws APIManagementException {
+    public List<API> getSortedRatingApi(String tenantDomain, int page, int count, String keyword) throws APIManagementException {
     	String query = SQLConstants.GET_SORTED_RATING_API_SQL;
-    	return getSortedApiList(query, tenantDomain, page, count);
+    	return getSortedApiList(query, tenantDomain, page, count, keyword);
     }
     
-    public List<API> getSortedSubscribersCountApi(String tenantDomain, int page, int count) throws APIManagementException {
+    public List<API> getSortedSubscribersCountApi(String tenantDomain, int page, int count, String keyword) throws APIManagementException {
         String query = SQLConstants.GET_SORTED_SUBS_CNT_API_SQL;
-    	return getSortedApiList(query, tenantDomain, page, count);
+    	return getSortedApiList(query, tenantDomain, page, count, keyword);
     }
     
-    public List<API> getSortedCreatedTimeApi(String tenantDomain, int page, int count) throws APIManagementException {
+    public List<API> getSortedCreatedTimeApi(String tenantDomain, int page, int count, String keyword) throws APIManagementException {
         String query = SQLConstants.GET_SORTED_CREATED_TIME_API_SQL;
-    	return getSortedApiList(query, tenantDomain, page, count);
+    	return getSortedApiList(query, tenantDomain, page, count, keyword);
     }
    
-    private List<API> getSortedApiList(String query, String tenantDomain, int page, int count) throws APIManagementException {
+    private List<API> getSortedApiList(String query, String tenantDomain, int page, int count, String keyword) throws APIManagementException {
         Connection connection = null;
         PreparedStatement selectPreparedStatement = null;
         ResultSet resultSet = null;
@@ -11290,8 +11290,13 @@ public class ApiMgtDAO {
             connection.setAutoCommit(false);
             selectPreparedStatement = connection.prepareStatement(query);
             selectPreparedStatement.setNString(1, tenantDomain);
-            selectPreparedStatement.setInt(2, startNo);
-            selectPreparedStatement.setInt(3, count);
+            selectPreparedStatement.setNString(2, keyword);
+            selectPreparedStatement.setNString(3, keyword);
+            selectPreparedStatement.setNString(4, keyword);
+            selectPreparedStatement.setNString(5, keyword);
+            selectPreparedStatement.setNString(6, keyword);
+            selectPreparedStatement.setInt(7, startNo);
+            selectPreparedStatement.setInt(8, count);
             resultSet = selectPreparedStatement.executeQuery();
             while (resultSet.next()) {
             	        	
@@ -11309,6 +11314,7 @@ public class ApiMgtDAO {
             	api.setCategory(resultSet.getString("CATEGORY"));
             	api.setThumbnailUrl(resultSet.getString("THUMBNAIL_URL"));
             	api.setDescription(resultSet.getString("DESCRIPTION"));
+            	api.setTag(resultSet.getString("TAG"));
             	
             	apiList.add(api);
             }

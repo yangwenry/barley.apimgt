@@ -645,13 +645,14 @@ public interface APIConsumer extends APIManager {
 
     boolean isMonetizationEnabled(String tenantDomain) throws APIManagementException;
 
-	List<API> getSortedRatingApiList(String tenantDomain, int page, int count) throws APIManagementException;
+	List<API> getSortedRatingApiList(String tenantDomain, int page, int count, String keyword) throws APIManagementException;
 
-	List<API> getSortedSubscribersCountApiList(String tenantDomain, int page, int count) throws APIManagementException;
+	List<API> getSortedSubscribersCountApiList(String tenantDomain, int page, int count, String keyword) throws APIManagementException;
 	
-	List<API> getSortedCreatedTimeApiList(String tenantDomain, int page, int count) throws APIManagementException;
+	List<API> getSortedCreatedTimeApiList(String tenantDomain, int page, int count, String keyword) throws APIManagementException;
 	
 	List<AccessTokenInfo> getAllAccessTokenList(String appName) throws APIManagementException;
 
 	int getPublicApiCount(String tenantDomain) throws APIManagementException;
+
 }

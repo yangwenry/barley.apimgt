@@ -2564,9 +2564,11 @@ public class SQLConstants {
 					"CONCAT_WS('_', TB.API_PROVIDER, TB.API_NAME, TB.API_VERSION) AS API_ID " +	
 					", TC.RATING, TB.CREATED_TIME, TB.UPDATED_TIME, TA.NEW_STATE AS STATE, TS.SUBS_CNT " +
 					", TB.CATEGORY, TB.THUMBNAIL_URL, TB.DESCRIPTION " +
+					", TA.TAG " +
 				"FROM( " +				
 					"SELECT " + 
 					"SB.API_ID, SB.EVENT_ID, SB.NEW_STATE " +
+					", (SELECT COALESCE(GROUP_CONCAT(IT.TAG_NAME SEPARATOR ','), '') FROM AM_API_TAG IT WHERE IT.API_ID = SA.API_ID) AS TAG " +
 					"FROM ( " +
 						"SELECT " + 
 						  	"API_ID " +
@@ -2596,7 +2598,12 @@ public class SQLConstants {
 							"GROUP BY T.API_ID " +
 							"ORDER BY COUNT(T.API_ID) DESC " +
 						   ") TS " +
-				"ON TA.API_ID = TS.API_ID ";
+				"ON TA.API_ID = TS.API_ID " + 
+				"WHERE UPPER(TB.API_PROVIDER) LIKE UPPER(CONCAT('%',?,'%')) " +
+					"OR UPPER(TB.API_NAME) LIKE UPPER(CONCAT('%',?,'%')) " +
+					"OR UPPER(TB.CATEGORY) LIKE UPPER(CONCAT('%',?,'%'))" +
+					"OR UPPER(TB.DESCRIPTION) LIKE UPPER(CONCAT('%',?,'%'))" +
+					"OR UPPER(TA.TAG) LIKE UPPER(CONCAT('%',?,'%'))";
     
     public static final String GET_SORTED_RATING_API_SQL =
     		GET_SORTED_API_SQL_PREFIX + 
