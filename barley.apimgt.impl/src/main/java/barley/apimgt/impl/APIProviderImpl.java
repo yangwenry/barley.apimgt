@@ -2776,7 +2776,9 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
             }
             
             // (수정) registry 삭제 후 삭제하도록 위치 변경 
-            // tag 는 cascade로 인해 자동 삭제된다. 
+            // tag 삭제
+            apiMgtDAO.removeTag(api.getId());
+            
             apiMgtDAO.deleteAPI(identifier);
             
             registry.commitTransaction();
