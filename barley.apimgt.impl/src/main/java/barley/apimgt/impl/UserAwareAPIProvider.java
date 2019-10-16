@@ -79,7 +79,7 @@ public class UserAwareAPIProvider extends APIProviderImpl {
     }
 
     @Override
-    public void deleteAPI(APIIdentifier identifier) throws APIManagementException {
+    public void deleteAPI(APIIdentifier identifier) throws APIManagementException, FaultGatewaysException {
         checkCreatePermission();
         super.deleteAPI(identifier);
     }

@@ -414,7 +414,7 @@ public interface APIProvider extends APIManager {
      * @param identifier APIIdentifier
      * @throws APIManagementException if failed to remove the API
      */
-    void deleteAPI(APIIdentifier identifier) throws APIManagementException;
+    void deleteAPI(APIIdentifier identifier) throws APIManagementException, FaultGatewaysException;
 
     /**
      * Search API
