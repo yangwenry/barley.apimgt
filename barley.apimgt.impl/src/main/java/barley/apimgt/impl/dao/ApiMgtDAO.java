@@ -11400,7 +11400,7 @@ public class ApiMgtDAO {
     }
     
     public void removeTag(APIIdentifier apiIdentifier)
-            throws APIManagementException, SQLException {
+            throws APIManagementException {
         PreparedStatement ps = null;
         Connection connection = null;
 
