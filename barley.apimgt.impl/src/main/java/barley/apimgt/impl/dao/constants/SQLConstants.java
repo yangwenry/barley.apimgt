@@ -1519,8 +1519,8 @@ public class SQLConstants {
     public static final String ADD_API_SQL =
 //            " INSERT INTO AM_API (API_PROVIDER,API_NAME,API_VERSION,CONTEXT,CONTEXT_TEMPLATE,CREATED_BY,CREATED_TIME, API_TIER)" +
 //            " VALUES (?,?,?,?,?,?,?,?)";
-    		" INSERT INTO AM_API (API_PROVIDER,API_NAME,API_VERSION,CONTEXT,CONTEXT_TEMPLATE,CREATED_BY,CREATED_TIME, API_TIER, CATEGORY, THUMBNAIL_URL, DESCRIPTION)" +
-            " VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+    		" INSERT INTO AM_API (API_PROVIDER,API_NAME,API_VERSION,CONTEXT,CONTEXT_TEMPLATE,CREATED_BY,CREATED_TIME, API_TIER, CATEGORY, THUMBNAIL_URL, DESCRIPTION, TITLE)" +
+            " VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
 
     public static final String GET_DEFAULT_VERSION_SQL =
             "SELECT DEFAULT_API_VERSION FROM AM_API_DEFAULT_VERSION WHERE API_NAME= ? AND API_PROVIDER= ? ";
@@ -1645,7 +1645,8 @@ public class SQLConstants {
             "   AND AUM.API_ID = API.API_ID " +
             " ORDER BY URL_MAPPING_ID";
 
-    // (수정) 2019.09.26 - 컬럼 추가 
+    // (수정) 2019.09.26 - 컬럼 추가
+    // (수정) 2019.10.21 - TITLE 컬럼 추가
     public static final String UPDATE_API_SQL =
             "UPDATE AM_API " +
             "SET " +
@@ -1656,7 +1657,8 @@ public class SQLConstants {
             "   API_TIER = ?, " +
             "   CATEGORY = ?, " +
             "   THUMBNAIL_URL = ?, " +
-            "   DESCRIPTION = ? " +
+            "   DESCRIPTION = ?, " +
+            "   TITLE = ? " +
             " WHERE " +
             "   API_PROVIDER = ? " +
             "   AND API_NAME = ? " +
@@ -2563,7 +2565,7 @@ public class SQLConstants {
     		"SELECT " + 
 					"CONCAT_WS('_', TB.API_PROVIDER, TB.API_NAME, TB.API_VERSION) AS API_ID " +	
 					", TC.RATING, TB.CREATED_TIME, TB.UPDATED_TIME, TA.NEW_STATE AS STATE, TS.SUBS_CNT " +
-					", TB.CATEGORY, TB.THUMBNAIL_URL, TB.DESCRIPTION " +
+					", TB.CATEGORY, TB.THUMBNAIL_URL, TB.DESCRIPTION, TB.TITLE " +
 					", TA.TAG " +
 				"FROM( " +				
 					"SELECT " + 
@@ -2603,6 +2605,7 @@ public class SQLConstants {
 					"OR UPPER(TB.API_NAME) LIKE UPPER(CONCAT('%',?,'%')) " +
 					"OR UPPER(TB.CATEGORY) LIKE UPPER(CONCAT('%',?,'%'))" +
 					"OR UPPER(TB.DESCRIPTION) LIKE UPPER(CONCAT('%',?,'%'))" +
+					"OR UPPER(TB.TITLE) LIKE UPPER(CONCAT('%',?,'%'))" +
 					"OR UPPER(TA.TAG) LIKE UPPER(CONCAT('%',?,'%'))";
     
     public static final String GET_SORTED_RATING_API_SQL =

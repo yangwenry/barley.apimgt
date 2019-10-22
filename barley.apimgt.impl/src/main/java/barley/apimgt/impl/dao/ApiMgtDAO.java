@@ -5504,6 +5504,9 @@ public class ApiMgtDAO {
             prepStmt.setString(10, api.getThumbnailUrl());
             prepStmt.setString(11, api.getDescription());
             
+            // (추가) 2019.10.21 - 타이틀 컬럼 추가
+            prepStmt.setString(12, api.getTitle());
+            
             prepStmt.execute();
 
             rs = prepStmt.getGeneratedKeys();
@@ -6286,9 +6289,12 @@ public class ApiMgtDAO {
                 prepStmt.setString(7, api.getThumbnailUrl());
                 prepStmt.setString(8, api.getDescription());
                 
-                prepStmt.setString(9, APIUtil.replaceEmailDomainBack(api.getId().getProviderName()));
-                prepStmt.setString(10, api.getId().getApiName());
-                prepStmt.setString(11, api.getId().getVersion());
+                // (추가) 2019.10.21 - 타이틀 컬럼 추가
+                prepStmt.setString(9, api.getTitle());
+                
+                prepStmt.setString(10, APIUtil.replaceEmailDomainBack(api.getId().getProviderName()));
+                prepStmt.setString(11, api.getId().getApiName());
+                prepStmt.setString(12, api.getId().getVersion());
                 
                 prepStmt.execute();
             //}
@@ -11295,8 +11301,9 @@ public class ApiMgtDAO {
             selectPreparedStatement.setNString(4, keyword);
             selectPreparedStatement.setNString(5, keyword);
             selectPreparedStatement.setNString(6, keyword);
-            selectPreparedStatement.setInt(7, startNo);
-            selectPreparedStatement.setInt(8, count);
+            selectPreparedStatement.setNString(7, keyword);
+            selectPreparedStatement.setInt(8, startNo);
+            selectPreparedStatement.setInt(9, count);
             resultSet = selectPreparedStatement.executeQuery();
             while (resultSet.next()) {
             	        	
@@ -11314,6 +11321,7 @@ public class ApiMgtDAO {
             	api.setCategory(resultSet.getString("CATEGORY"));
             	api.setThumbnailUrl(resultSet.getString("THUMBNAIL_URL"));
             	api.setDescription(resultSet.getString("DESCRIPTION"));
+            	api.setTitle(resultSet.getString("TITLE"));
             	api.setTag(resultSet.getString("TAG"));
             	
             	apiList.add(api);
