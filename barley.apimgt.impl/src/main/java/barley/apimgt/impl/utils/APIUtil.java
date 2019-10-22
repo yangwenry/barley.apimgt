@@ -598,10 +598,18 @@ public final class APIUtil {
             api.setUriTemplates(uriTemplates);
             api.setAsDefaultVersion(Boolean.parseBoolean(artifact.getAttribute(APIConstants.API_OVERVIEW_IS_DEFAULT_VERSION)));
             Set<String> tags = new HashSet<String>();
-            Tag[] tag = registry.getTags(artifactPath);
-            for (Tag tag1 : tag) {
-                tags.add(tag1.getTagName());
+            
+            //Tag[] tag = registry.getTags(artifactPath);
+            //for (Tag tag1 : tag) {
+            //    tags.add(tag1.getTagName());
+            //}
+            
+            // (수정) 2019.10.22 - Tag를 DAO에서 가져오도록 변경
+            List<String> tagList = getTags(apiIdentifier);
+            for (String tag : tagList) {
+            	tags.add(tag);
             }
+            	
             api.addTags(tags);
             api.setLastUpdated(registry.get(artifactPath).getLastModified());
             api.setCreatedDate(registry.get(artifactPath).getCreatedTime());
@@ -3368,6 +3376,10 @@ public final class APIUtil {
 
     public static float getAverageRating(int apiId) throws APIManagementException {
         return ApiMgtDAO.getInstance().getAverageRating(apiId);
+    }
+    
+    public static List<String> getTags(APIIdentifier apiId) throws APIManagementException {
+        return ApiMgtDAO.getInstance().getTags(apiId);
     }
 
     public static List<Tenant> getAllTenantsWithSuperTenant() throws UserStoreException {
