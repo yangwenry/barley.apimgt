@@ -987,7 +987,8 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
                     apiPublished.setEnvironments(environmentsToPublish);
                     
                     // 게이트웨이 게시 실패 후 실패환경 업데이트 
-                    updateApiArtifact(apiPublished, true, false);
+                    // (주석) 예외를 발생시키고 실패환경 업데이트를 하지 않는다.
+                    // updateApiArtifact(apiPublished, true, false);
                     failedGateways.clear();
                     failedGateways.put("UNPUBLISHED", failedToRemoveEnvironments);
                     failedGateways.put("PUBLISHED", failedToPublishEnvironments);
@@ -1008,7 +1009,8 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
                                 new HashSet<String>(api.getEnvironments());
                         publishedEnvironments.removeAll(failedToPublishEnvironments.keySet());
                         api.setEnvironments(publishedEnvironments);
-                        updateApiArtifact(api, true, false);
+                        // (주석) 예외를 발생시키고 실패환경 업데이트를 하지 않는다.
+                        // updateApiArtifact(api, true, false);
                         failedGateways.clear();
                         failedGateways.put("PUBLISHED", failedToPublishEnvironments);
                         failedGateways.put("UNPUBLISHED", Collections.<String,String>emptyMap());
