@@ -1211,7 +1211,7 @@ public class SQLConstants {
 
     public static final String GET_AVERAGE_RATING_SQL =
             " SELECT " +
-            "   CAST( SUM(RATING) AS DECIMAL)/COUNT(RATING) AS RATING " +
+            "   FORMAT(ROUND(CAST(SUM(RATING) AS DECIMAL) / COUNT(RATING), 1), 1) AS RATING " +
             " FROM " +
             "   AM_API_RATINGS " +
             " WHERE " +
@@ -2564,7 +2564,7 @@ public class SQLConstants {
     public static final String GET_SORTED_API_SQL_PREFIX =
     		"SELECT " + 
 					"CONCAT_WS('_', TB.API_PROVIDER, TB.API_NAME, TB.API_VERSION) AS API_ID " +	
-					", TC.RATING, TB.CREATED_TIME, TB.UPDATED_TIME, TA.NEW_STATE AS STATE, TS.SUBS_CNT " +
+					", FORMAT(TC.RATING, 1) AS RATING, TB.CREATED_TIME, TB.UPDATED_TIME, TA.NEW_STATE AS STATE, TS.SUBS_CNT " +
 					", TB.CATEGORY, TB.THUMBNAIL_URL, TB.DESCRIPTION, TB.TITLE " +
 					", TA.TAG " +
 				"FROM( " +				
@@ -2586,7 +2586,7 @@ public class SQLConstants {
 					"ON (TA.API_ID = TB.API_ID AND SUBSTRING_INDEX(TB.API_PROVIDER, '@', -1) = ?) " +
 				"LEFT JOIN ( " +
 							"SELECT " +
-								"T.API_ID, AVG(T.RATING) AS RATING " +
+								"T.API_ID, ROUND(AVG(T.RATING), 1) AS RATING " +
 							"FROM AM_API_RATINGS T " +
 							"GROUP BY T.API_ID " +
 							"HAVING AVG(T.RATING) " +
