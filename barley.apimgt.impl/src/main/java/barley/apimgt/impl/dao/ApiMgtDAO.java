@@ -11310,7 +11310,7 @@ public class ApiMgtDAO {
             	//apiList.add(new APIIdentifier(resultSet.getString("API_ID")));
             	// API_PROVIDER, TB.API_NAME, TB.API_VERSION, TB.CREATED_TIME
             	// TB.CATEGORY, TB.THUMBNAIL_URL, TB.DESCRIPTION
-            	API api = new API(new APIIdentifier(resultSet.getString("API_ID")));
+            	API api = new API(new APIIdentifier(resultSet.getString("API_PROVIDER"), resultSet.getString("API_NAME"), resultSet.getString("API_VERSION")));
             	api.setRating(resultSet.getFloat("RATING"));
             	Date createdDate = resultSet.getDate("CREATED_TIME");
             	if(createdDate != null) api.setCreatedDate(createdDate);
