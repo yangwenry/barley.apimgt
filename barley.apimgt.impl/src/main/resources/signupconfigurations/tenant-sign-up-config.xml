@@ -14,6 +14,7 @@
         <SignUpRole>
             <RoleName>subscriber</RoleName>
             <IsExternalRole>false</IsExternalRole>
+            <Permissions>/permission/admin/login,/permission/admin/manage/api/subscribe,/permission/admin/manage/webapp/subscribe,/permission/admin/manage/identity/pep</Permissions>
         </SignUpRole>
     </SignUpRoles>
 
