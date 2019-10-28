@@ -198,7 +198,7 @@ import barley.registry.core.session.UserRegistry;
 import barley.registry.core.utils.RegistryUtils;
 import barley.registry.indexing.indexer.IndexerException;
 import barley.registry.indexing.solr.SolrClient;
-import barley.user.api.Permission;
+import barley.user.core.Permission;
 import barley.user.api.RealmConfiguration;
 import barley.user.api.Tenant;
 import barley.user.api.UserStoreException;
@@ -2980,8 +2980,20 @@ public final class APIUtil {
                 inputStream =
                         APIManagerComponent.class.getResourceAsStream("/signupconfigurations/default-sign-up-config.xml");
             } else {
-                inputStream =
-                        APIManagerComponent.class.getResourceAsStream("/signupconfigurations/tenant-sign-up-config.xml");
+            	// (추가) 디폴트 디렉토리 위치 추가  
+                String signupconfiguration = BarleyUtils.getCarbonHome() + File.separator +
+                        APIConstants.RESOURCE_FOLDER_LOCATION + File.separator + "signupconfigurations" + File.separator + 
+                        "tenant-sign-up-config.xml";
+
+                File signupconfigurationFile = new File(signupconfiguration);
+                if (signupconfigurationFile.exists()) { 
+                	inputStream = new FileInputStream(signupconfigurationFile);
+                } else { 
+                	inputStream =
+                          APIManagerComponent.class.getResourceAsStream("/signupconfigurations/tenant-sign-up-config.xml");
+                }            	
+//                inputStream =
+//                        APIManagerComponent.class.getResourceAsStream("/signupconfigurations/tenant-sign-up-config.xml");
             }
             byte[] data = IOUtils.toByteArray(inputStream);
             Resource resource = govRegistry.newResource();
@@ -3005,8 +3017,9 @@ public final class APIUtil {
                 return;
             }
 
+            // (수정) 디폴트 디렉토리 위치 변경 - tenant 추가 
             String tenantConfLocation = BarleyUtils.getCarbonHome() + File.separator +
-                    APIConstants.RESOURCE_FOLDER_LOCATION + File.separator +
+                    APIConstants.RESOURCE_FOLDER_LOCATION + File.separator + "tenant" + File.separator + 
                     APIConstants.API_TENANT_CONF;
 
             File tenantConfFile = new File(tenantConfLocation);
@@ -3280,39 +3293,6 @@ public final class APIUtil {
         }
 
         return modifiedName;
-    }
-
-    public static void createSubscriberRole(String roleName, int tenantId) throws APIManagementException {
-        try {
-            RealmService realmService = ServiceReferenceHolder.getInstance().getRealmService();
-            UserRealm realm;
-            barley.user.api.UserRealm tenantRealm;
-            UserStoreManager manager;
-
-            if (tenantId < 0) {
-                realm = realmService.getBootstrapRealm();
-                manager = realm.getUserStoreManager();
-            } else {
-                tenantRealm = realmService.getTenantUserRealm(tenantId);
-                manager = tenantRealm.getUserStoreManager();
-            }
-            if (!manager.isExistingRole(roleName)) {
-                if (log.isDebugEnabled()) {
-                    log.debug("Creating subscriber role: " + roleName);
-                }
-                // (수정) 2017.10.25 - 캐스팅 오류가 발생하여 user.core.Permission -> user.api.Permission 강제 변경 
-                barley.user.core.Permission[] subscriberPermissions = new barley.user.core.Permission[] {
-                        new barley.user.core.Permission("/permission/admin/login", UserMgtConstants.EXECUTE_ACTION),
-                        new barley.user.core.Permission(APIConstants.Permissions.API_SUBSCRIBE, UserMgtConstants.EXECUTE_ACTION) };
-                String tenantAdminName = ServiceReferenceHolder.getInstance().getRealmService()
-                        .getTenantUserRealm(tenantId).getRealmConfiguration().getAdminUserName();
-                String[] userList = new String[] { tenantAdminName };
-                manager.addRole(roleName, userList, subscriberPermissions);
-            }
-        } catch (UserStoreException e) {
-            throw new APIManagementException("Error while creating subscriber role: " + roleName + " - "
-                    + "Self registration might not function properly.", e);
-        }
     }
 
     public void setupSelfRegistration(APIManagerConfiguration config, int tenantId) throws APIManagementException {
@@ -5588,10 +5568,104 @@ public final class APIUtil {
         }
         return false;
     }
-
+    
+    /* 아래코드로 변경
     public static void addDefaultSuperTenantAdvancedThrottlePolicies() throws APIManagementException {
         int tenantId = MultitenantConstants.SUPER_TENANT_ID;
         long[] requestCount = new long[] {50, 20, 10, Integer.MAX_VALUE};
+        //Adding application level throttle policies
+        String[] appPolicies = new String[]{APIConstants.DEFAULT_APP_POLICY_FIFTY_REQ_PER_MIN, APIConstants.DEFAULT_APP_POLICY_TWENTY_REQ_PER_MIN,
+                                            APIConstants.DEFAULT_APP_POLICY_TEN_REQ_PER_MIN, APIConstants.DEFAULT_APP_POLICY_UNLIMITED};
+        String[] appPolicyDecs = new String[]{APIConstants.DEFAULT_APP_POLICY_LARGE_DESC, APIConstants.DEFAULT_APP_POLICY_MEDIUM_DESC,
+                APIConstants.DEFAULT_APP_POLICY_SMALL_DESC, APIConstants.DEFAULT_APP_POLICY_UNLIMITED_DESC};
+        ApiMgtDAO apiMgtDAO = ApiMgtDAO.getInstance();
+        String policyName;
+        //Add application level throttle policies
+        for(int i = 0; i < appPolicies.length ; i++) {
+            policyName = appPolicies[i];
+            if (!apiMgtDAO.isPolicyExist(PolicyConstants.POLICY_LEVEL_APP, tenantId, policyName)) {
+                ApplicationPolicy applicationPolicy = new ApplicationPolicy(policyName);
+                applicationPolicy.setDisplayName(policyName);
+                applicationPolicy.setDescription(appPolicyDecs[i]);
+                applicationPolicy.setTenantId(tenantId);
+                applicationPolicy.setDeployed(true);
+                QuotaPolicy defaultQuotaPolicy = new QuotaPolicy();
+                RequestCountLimit requestCountLimit = new RequestCountLimit();
+                requestCountLimit.setRequestCount(requestCount[i]);
+                requestCountLimit.setUnitTime(1);
+                requestCountLimit.setTimeUnit(APIConstants.TIME_UNIT_MINUTE);
+                defaultQuotaPolicy.setType(PolicyConstants.REQUEST_COUNT_TYPE);
+                defaultQuotaPolicy.setLimit(requestCountLimit);
+                applicationPolicy.setDefaultQuotaPolicy(defaultQuotaPolicy);
+                apiMgtDAO.addApplicationPolicy(applicationPolicy);
+            }
+        }
+
+        //Adding Subscription level policies
+        long[] requestCountSubPolicies = new long[] {5000, 2000, 1000, 500, Integer.MAX_VALUE};
+        String[] subPolicies = new String[]{APIConstants.DEFAULT_SUB_POLICY_GOLD, APIConstants.DEFAULT_SUB_POLICY_SILVER,
+                APIConstants.DEFAULT_SUB_POLICY_BRONZE, APIConstants.DEFAULT_SUB_POLICY_UNAUTHENTICATED, APIConstants.DEFAULT_SUB_POLICY_UNLIMITED};
+        String[] subPolicyDecs = new String[]{APIConstants.DEFAULT_SUB_POLICY_GOLD_DESC, APIConstants.DEFAULT_SUB_POLICY_SILVER_DESC,
+                APIConstants.DEFAULT_SUB_POLICY_BRONZE_DESC, APIConstants.DEFAULT_SUB_POLICY_UNAUTHENTICATED_DESC, APIConstants.DEFAULT_SUB_POLICY_UNLIMITED_DESC};
+        for(int i = 0; i < subPolicies.length ; i++) {
+            policyName = subPolicies[i];
+            if (!apiMgtDAO.isPolicyExist(PolicyConstants.POLICY_LEVEL_SUB, tenantId, policyName)) {
+                SubscriptionPolicy subscriptionPolicy = new SubscriptionPolicy(policyName);
+                subscriptionPolicy.setDisplayName(policyName);
+                subscriptionPolicy.setDescription(subPolicyDecs[i]);
+                subscriptionPolicy.setTenantId(tenantId);
+                subscriptionPolicy.setDeployed(true);
+                QuotaPolicy defaultQuotaPolicy = new QuotaPolicy();
+                RequestCountLimit requestCountLimit = new RequestCountLimit();
+                requestCountLimit.setRequestCount(requestCountSubPolicies[i]);
+                requestCountLimit.setUnitTime(1);
+                requestCountLimit.setTimeUnit(APIConstants.TIME_UNIT_MINUTE);
+                defaultQuotaPolicy.setType(PolicyConstants.REQUEST_COUNT_TYPE);
+                defaultQuotaPolicy.setLimit(requestCountLimit);
+                subscriptionPolicy.setDefaultQuotaPolicy(defaultQuotaPolicy);
+                subscriptionPolicy.setStopOnQuotaReach(true);
+                subscriptionPolicy.setBillingPlan(APIConstants.BILLING_PLAN_FREE);
+                apiMgtDAO.addSubscriptionPolicy(subscriptionPolicy);
+            }
+        }
+
+        //Adding Resource level policies
+        String[] apiPolicies = new String[]{APIConstants.DEFAULT_API_POLICY_FIFTY_THOUSAND_REQ_PER_MIN, APIConstants.DEFAULT_API_POLICY_TWENTY_THOUSAND_REQ_PER_MIN,
+                APIConstants.DEFAULT_API_POLICY_TEN_THOUSAND_REQ_PER_MIN, APIConstants.DEFAULT_API_POLICY_UNLIMITED};
+        String[] apiPolicyDecs = new String[]{APIConstants.DEFAULT_API_POLICY_ULTIMATE_DESC, APIConstants.DEFAULT_API_POLICY_PLUS_DESC,
+                APIConstants.DEFAULT_API_POLICY_BASIC_DESC, APIConstants.DEFAULT_API_POLICY_UNLIMITED_DESC};
+        long[] requestCountApiPolicies = new long[] {50000, 20000, 10000, Integer.MAX_VALUE};
+        for(int i = 0; i < apiPolicies.length ; i++) {
+            policyName = apiPolicies[i];
+            if (!apiMgtDAO.isPolicyExist(PolicyConstants.POLICY_LEVEL_API, tenantId, policyName)) {
+                APIPolicy apiPolicy = new APIPolicy(policyName);
+                apiPolicy.setDisplayName(policyName);
+                apiPolicy.setDescription(apiPolicyDecs[i]);
+                apiPolicy.setTenantId(tenantId);
+                apiPolicy.setUserLevel(APIConstants.API_POLICY_API_LEVEL);
+                apiPolicy.setDeployed(true);
+                QuotaPolicy defaultQuotaPolicy = new QuotaPolicy();
+                RequestCountLimit requestCountLimit = new RequestCountLimit();
+                requestCountLimit.setRequestCount(requestCountApiPolicies[i]);
+                requestCountLimit.setUnitTime(1);
+                requestCountLimit.setTimeUnit(APIConstants.TIME_UNIT_MINUTE);
+                defaultQuotaPolicy.setType(PolicyConstants.REQUEST_COUNT_TYPE);
+                defaultQuotaPolicy.setLimit(requestCountLimit);
+                apiPolicy.setDefaultQuotaPolicy(defaultQuotaPolicy);
+                apiMgtDAO.addAPIPolicy(apiPolicy);
+            }
+        }
+    }
+    */
+    
+    public static void addDefaultSuperTenantAdvancedThrottlePolicies() throws APIManagementException {
+    	int tenantId = MultitenantConstants.SUPER_TENANT_ID;
+    	addTenantAdvancedThrottlePolicies(tenantId);
+    }
+    
+    // (추가) 테넌트 기본 tier 등록을 위해 추가 
+    public static void addTenantAdvancedThrottlePolicies(int tenantId) throws APIManagementException {
+    	long[] requestCount = new long[] {50, 20, 10, Integer.MAX_VALUE};
         //Adding application level throttle policies
         String[] appPolicies = new String[]{APIConstants.DEFAULT_APP_POLICY_FIFTY_REQ_PER_MIN, APIConstants.DEFAULT_APP_POLICY_TWENTY_REQ_PER_MIN,
                                             APIConstants.DEFAULT_APP_POLICY_TEN_REQ_PER_MIN, APIConstants.DEFAULT_APP_POLICY_UNLIMITED};
@@ -6180,4 +6254,212 @@ public final class APIUtil {
     	}
     	return environment;
 	}
+    
+    /**
+     * Create default roles specified in APIM per-tenant configuration file
+     * 
+     * @param tenantId id of the tenant
+     * @throws APIManagementException
+     */
+    public static void createDefaultRoles(int tenantId) throws APIManagementException {
+        String tenantDomain = getTenantDomainFromTenantId(tenantId);
+        JSONObject defaultRoles = getTenantDefaultRoles(tenantDomain);
+
+        if (defaultRoles != null) {
+            // create publisher role if it's creation is enabled in tenant-conf.json
+            JSONObject publisherRoleConfig = (JSONObject) defaultRoles
+                    .get(APIConstants.API_TENANT_CONF_DEFAULT_ROLES_PUBLISHER_ROLE);
+            if (isRoleCreationEnabled(publisherRoleConfig)) {
+                String publisherRoleName = String.valueOf(publisherRoleConfig
+                        .get(APIConstants.API_TENANT_CONF_DEFAULT_ROLES_ROLENAME));
+                if (!StringUtils.isBlank(publisherRoleName)) {
+                    createPublisherRole(publisherRoleName, tenantId);
+                }
+            }
+
+            // create creator role if it's creation is enabled in tenant-conf.json
+            JSONObject creatorRoleConfig = (JSONObject) defaultRoles
+                    .get(APIConstants.API_TENANT_CONF_DEFAULT_ROLES_CREATOR_ROLE);
+            if (isRoleCreationEnabled(creatorRoleConfig)) {
+                String creatorRoleName = String.valueOf(creatorRoleConfig
+                        .get(APIConstants.API_TENANT_CONF_DEFAULT_ROLES_ROLENAME));
+                if (!StringUtils.isBlank(creatorRoleName)) {
+                    createCreatorRole(creatorRoleName, tenantId);
+                }
+            }
+            
+            createSelfSignUpRoles(tenantId);
+        }
+    }
+    
+    /**
+     * Returns whether role creation enabled for the provided role config
+     * 
+     * @param roleConfig role config in tenat-conf.json
+     * @return true if role creation enabled for the provided role config
+     */
+    private static boolean isRoleCreationEnabled (JSONObject roleConfig) {
+        boolean roleCreationEnabled = false;
+        if (roleConfig != null && roleConfig.get(
+                APIConstants.API_TENANT_CONF_DEFAULT_ROLES_CREATE_ON_TENANT_LOAD) != null && (Boolean) (roleConfig.get(
+                APIConstants.API_TENANT_CONF_DEFAULT_ROLES_CREATE_ON_TENANT_LOAD))) {
+            roleCreationEnabled = true;
+        }
+        return roleCreationEnabled;
+    }
+    
+    /**
+     * @param tenantDomain Tenant domain to be used to get default role configurations
+     * @return JSON object which contains configuration for default roles
+     * @throws APIManagementException
+     */
+    public static JSONObject getTenantDefaultRoles(String tenantDomain) throws APIManagementException {
+        JSONObject apiTenantConfig;
+        JSONObject defaultRolesConfigJSON = null;
+        try {
+            String content = new APIMRegistryServiceImpl().getConfigRegistryResourceContent(tenantDomain,
+                    APIConstants.API_TENANT_CONF_LOCATION);
+
+            if (content != null) {
+                JSONParser parser = new JSONParser();
+                apiTenantConfig = (JSONObject) parser.parse(content);
+                if (apiTenantConfig != null) {
+                    Object value = apiTenantConfig.get(APIConstants.API_TENANT_CONF_DEFAULT_ROLES);
+                    if (value != null) {
+                        defaultRolesConfigJSON = (JSONObject) value;
+                    } else {
+                        throw new APIManagementException(
+                                APIConstants.API_TENANT_CONF_DEFAULT_ROLES + " config does not exist for tenant "
+                                        + tenantDomain);
+                    }
+                }
+            }
+        } catch (UserStoreException e) {
+            handleException("Error while retrieving user realm for tenant " + tenantDomain, e);
+        } catch (RegistryException e) {
+            handleException("Error while retrieving tenant configuration file for tenant " + tenantDomain, e);
+        } catch (ParseException e) {
+            handleException(
+                    "Error while parsing tenant configuration file while retrieving default roles for tenant "
+                            + tenantDomain, e);
+        }
+        return defaultRolesConfigJSON;
+    }
+    
+    
+    /* 아래 코드로 변경 
+    public static void createSubscriberRole(String roleName, int tenantId) throws APIManagementException {
+        try {
+            RealmService realmService = ServiceReferenceHolder.getInstance().getRealmService();
+            UserRealm realm;
+            barley.user.api.UserRealm tenantRealm;
+            UserStoreManager manager;
+
+            if (tenantId < 0) {
+                realm = realmService.getBootstrapRealm();
+                manager = realm.getUserStoreManager();
+            } else {
+                tenantRealm = realmService.getTenantUserRealm(tenantId);
+                manager = tenantRealm.getUserStoreManager();
+            }
+            if (!manager.isExistingRole(roleName)) {
+                if (log.isDebugEnabled()) {
+                    log.debug("Creating subscriber role: " + roleName);
+                }
+                // (수정) 2017.10.25 - 캐스팅 오류가 발생하여 user.core.Permission -> user.api.Permission 강제 변경 
+                barley.user.core.Permission[] subscriberPermissions = new barley.user.core.Permission[] {
+                        new barley.user.core.Permission("/permission/admin/login", UserMgtConstants.EXECUTE_ACTION),
+                        new barley.user.core.Permission(APIConstants.Permissions.API_SUBSCRIBE, UserMgtConstants.EXECUTE_ACTION) };
+                String tenantAdminName = ServiceReferenceHolder.getInstance().getRealmService()
+                        .getTenantUserRealm(tenantId).getRealmConfiguration().getAdminUserName();
+                String[] userList = new String[] { tenantAdminName };
+                manager.addRole(roleName, userList, subscriberPermissions);
+            }
+        } catch (UserStoreException e) {
+            throw new APIManagementException("Error while creating subscriber role: " + roleName + " - "
+                    + "Self registration might not function properly.", e);
+        }
+    }
+    */
+    
+    /**
+     * Create APIM Subscriber role with the given name in specified tenant
+     * 
+     * @param roleName role name
+     * @param tenantId id of the tenant
+     * @throws APIManagementException
+     */
+    public static void createSubscriberRole(String roleName, int tenantId) throws APIManagementException {
+        Permission[] subscriberPermissions = new Permission[] {
+                new Permission(APIConstants.Permissions.LOGIN, UserMgtConstants.EXECUTE_ACTION),
+                new Permission(APIConstants.Permissions.API_SUBSCRIBE, UserMgtConstants.EXECUTE_ACTION) };
+        createRole (roleName, subscriberPermissions, tenantId);
+    }
+
+    /**
+     * Create APIM Publisher roles with the given name in specified tenant
+     *
+     * @param roleName role name
+     * @param tenantId id of the tenant
+     * @throws APIManagementException
+     */
+    public static void createPublisherRole(String roleName, int tenantId) throws APIManagementException {
+        Permission[] publisherPermissions = new Permission[] {
+                new Permission(APIConstants.Permissions.LOGIN, UserMgtConstants.EXECUTE_ACTION),
+                new Permission(APIConstants.Permissions.API_PUBLISH, UserMgtConstants.EXECUTE_ACTION) };
+        createRole (roleName, publisherPermissions, tenantId);
+    }
+
+    /**
+     * Create APIM Creator roles with the given name in specified tenant
+     *
+     * @param roleName role name
+     * @param tenantId id of the tenant
+     * @throws APIManagementException
+     */
+    public static void createCreatorRole(String roleName, int tenantId) throws APIManagementException {
+        Permission[] creatorPermissions = new Permission[] {
+                new Permission(APIConstants.Permissions.LOGIN, UserMgtConstants.EXECUTE_ACTION),
+                new Permission(APIConstants.Permissions.API_CREATE, UserMgtConstants.EXECUTE_ACTION),
+                new Permission(APIConstants.Permissions.CONFIGURE_GOVERNANCE, UserMgtConstants.EXECUTE_ACTION),
+                new Permission(APIConstants.Permissions.RESOURCE_GOVERN, UserMgtConstants.EXECUTE_ACTION)};
+        createRole (roleName, creatorPermissions, tenantId);
+    }
+    
+    /**
+     * Creates a role with a given set of permissions for the specified tenant
+     * 
+     * @param roleName role name
+     * @param permissions a set of permissions to be associated with the role
+     * @param tenantId id of the tenant
+     * @throws APIManagementException
+     */
+    public static void createRole(String roleName, Permission[] permissions, int tenantId)
+            throws APIManagementException {
+        try {
+            RealmService realmService = ServiceReferenceHolder.getInstance().getRealmService();
+            UserRealm realm;
+            barley.user.api.UserRealm tenantRealm;
+            UserStoreManager manager;
+
+            if (tenantId < 0) {
+                realm = realmService.getBootstrapRealm();
+                manager = realm.getUserStoreManager();
+            } else {
+                tenantRealm = realmService.getTenantUserRealm(tenantId);
+                manager = tenantRealm.getUserStoreManager();
+            }
+            if (!manager.isExistingRole(roleName)) {
+                if (log.isDebugEnabled()) {
+                    log.debug("Creating role: " + roleName);
+                }
+                String tenantAdminName = ServiceReferenceHolder.getInstance().getRealmService()
+                        .getTenantUserRealm(tenantId).getRealmConfiguration().getAdminUserName();
+                String[] userList = new String[] { tenantAdminName };
+                manager.addRole(roleName, userList, permissions);
+            }
+        } catch (UserStoreException e) {
+            throw new APIManagementException("Error while creating role: " + roleName, e);
+        }
+    }
 }
