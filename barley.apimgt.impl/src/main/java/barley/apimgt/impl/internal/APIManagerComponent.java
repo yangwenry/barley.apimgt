@@ -233,11 +233,26 @@ public class APIManagerComponent {
                     contextCache.put(context, Boolean.TRUE);
                 }
             }
-            APIUtil.createSelfSignUpRoles(MultitenantConstants.SUPER_TENANT_ID);
+            
+            // api 기본 role을 추가한다. resources/tenant/tenant-config.json 파일을 읽어와 role을 추가한다.
+            // 참고로 app은 appManagerComponent에서 코드로 퍼미션을 직접 추가한다. 
+            // createSelfSignUpRoles() 주석처리하고 APIUtil.createDefaultRoles() 함수로 이동하고 관리자 role 추가 
+            try {
+                //APIUtil.createDefaultRoles(MultitenantConstants.SUPER_TENANT_ID);
+            	APIUtil.createDefaultRoles(tenantId);
+            } catch (APIManagementException e) {
+                log.error("Failed create default roles for tenant " + MultitenantConstants.SUPER_TENANT_ID, e);
+            } catch (Exception e) { // The generic Exception is handled explicitly so execution does not stop during config deployment
+                log.error("Exception when creating default roles for tenant " + MultitenantConstants.SUPER_TENANT_ID, e);
+            }
+            // APIUtil.createSelfSignUpRoles(MultitenantConstants.SUPER_TENANT_ID);
+            
             //Adding default throttle policies
             boolean advancedThrottlingEnabled =  APIUtil.isAdvanceThrottlingEnabled();
             if(advancedThrottlingEnabled) {
                 addDefaultAdvancedThrottlePolicies();
+                // (추가)
+                addThrottlePolicies(tenantId);
             }
             // Initialise KeyManager.
             KeyManagerHolder.initializeKeyManager(configuration);
@@ -577,6 +592,11 @@ public class APIManagerComponent {
     private void addDefaultAdvancedThrottlePolicies() throws APIManagementException {
         APIUtil.addDefaultSuperTenantAdvancedThrottlePolicies();
     }
+    
+    // (추가)
+    private void addThrottlePolicies(int tenantId) throws APIManagementException {
+		APIUtil.addTenantAdvancedThrottlePolicies(tenantId);
+	}
     
 // (임시주석)
 //    protected void setConfigurationContextService(ConfigurationContextService contextService) {
