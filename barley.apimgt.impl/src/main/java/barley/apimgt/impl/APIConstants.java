@@ -758,7 +758,9 @@ public final class APIConstants {
     public static final String NO_MATCHING_AUTH_SCHEME = "noMatchedAuthScheme";
 
     public static final String EVERYONE_ROLE = "internal/everyone";
-    public static final String ANONYMOUS_ROLE = "system/wso2.anonymous.role";
+    // (수정) 2019.10.31
+    //public static final String ANONYMOUS_ROLE = "system/wso2.anonymous.role";
+    public static final String ANONYMOUS_ROLE = "system/barley.anonymous.role";
 
     // Anonymous end user, to be used with ACCESS_TOKEN_USER_TYPE_APPLICATION
     public static final String END_USER_ANONYMOUS = "anonymous";
