@@ -117,7 +117,7 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
 
 	// (수정) 2019.09.09
     //private static final String DATA_SOURCE_NAME = "jdbc/WSO2AM_STATS_DB";
-    private static final String DATA_SOURCE_NAME = "java:/comp/env/jdbc/WSO2AM_STATS_DB";
+    private static final String DATA_SOURCE_NAME = "java:/comp/env/jdbc/BARLEY_AM_STATS_DB";
     
     private static volatile DataSource dataSource = null;
     private static PaymentPlan paymentPlan;
