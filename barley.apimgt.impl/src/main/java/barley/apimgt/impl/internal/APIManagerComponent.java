@@ -251,7 +251,7 @@ public class APIManagerComponent {
             boolean advancedThrottlingEnabled =  APIUtil.isAdvanceThrottlingEnabled();
             if(advancedThrottlingEnabled) {
                 addDefaultAdvancedThrottlePolicies();
-                // (추가)
+                // (추가) 테넌트 tier.xml 읽어와 dao에 추가 - advancedThrottling 설정이 false라면 dao의 policy를 참조한다.  
                 addThrottlePolicies(tenantId);
             }
             // Initialise KeyManager.
