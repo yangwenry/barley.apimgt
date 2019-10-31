@@ -3551,6 +3551,12 @@ class APIConsumerImpl extends AbstractAPIManager implements APIConsumer {
     public int getPublicApiCount(String tenantDomain) throws APIManagementException {
     	return apiMgtDAO.getPublicApiCount(tenantDomain);
     }
+    
+    
+    @Override
+    public int setCommentAgreeValue(String userName, int commnetId, int agreeValue) throws APIManagementException {
+    	return apiMgtDAO.setCommentAgreeValue(userName, commnetId, agreeValue);
+    }
 
     /**
      * registry에서 추가 항목을 가져온다. (thumnail_url, description, TAG) 
