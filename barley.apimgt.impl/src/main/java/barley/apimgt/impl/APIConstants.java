@@ -630,7 +630,8 @@ public final class APIConstants {
     public static final String API_USAGE_BAM_SERVER_PASSWORD = API_ANALYTICS + "DASPassword";
     public static final String API_USAGE_SKIP_EVENT_RECEIVER_CONN = API_ANALYTICS + "SkipEventReceiverConnection";
     public static final String API_USAGE_PUBLISHER_CLASS = API_ANALYTICS + "PublisherClass";
-    public static final String API_USAGE_DATA_SOURCE_NAME = "WSO2AM_STATS_DB";
+    // (수정) 2019.10.31
+    public static final String API_USAGE_DATA_SOURCE_NAME = "BARLEY_AM_STATS_DB";
     public static final String API_USAGE_STREAMS = API_ANALYTICS + "Streams.";
     public static final String STAT_PROVIDER_IMPL = API_ANALYTICS + "StatsProviderImpl";
     public static final String API_USAGE_REQUEST_STREAM = API_USAGE_STREAMS + "Request.";
