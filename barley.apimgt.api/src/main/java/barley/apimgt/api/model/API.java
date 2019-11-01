@@ -147,8 +147,10 @@ public class API implements Serializable{
      * The average rating provided by the API subscribers
      */
     private float rating;
+    
+    private int ratingUserCount;
 
-    private boolean isLatest;
+	private boolean isLatest;
 
     //TODO: missing - total user count, up time statistics,tier
 
@@ -707,6 +709,15 @@ public class API implements Serializable{
 
 	public void setSubscriptionCount(int subscriptionCount) {
 		this.subscriptionCount = subscriptionCount;
+	}
+	
+	
+	public int getRatingUserCount() {
+		return ratingUserCount;
+	}
+
+	public void setRatingUserCount(int ratingUserCount) {
+		this.ratingUserCount = ratingUserCount;
 	}
     
     

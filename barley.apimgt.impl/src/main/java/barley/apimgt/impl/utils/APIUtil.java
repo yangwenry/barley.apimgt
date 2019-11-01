@@ -458,6 +458,7 @@ public final class APIUtil {
             String artifactPath = GovernanceUtils.getArtifactPath(registry, artifact.getId());
 
             api.setRating(getAverageRating(apiId));
+            api.setRatingUserCount(getRatingUserCount(apiId));
             //set description
             api.setDescription(artifact.getAttribute(APIConstants.API_OVERVIEW_DESCRIPTION));
             //set last access time
@@ -3358,6 +3359,21 @@ public final class APIUtil {
         return ApiMgtDAO.getInstance().getAverageRating(apiId);
     }
     
+    public static int getRatingUserCount(APIIdentifier apiId) throws APIManagementException {
+        return ApiMgtDAO.getInstance().getRatingUserCount(apiId);
+    }
+
+    public static int getRatingUserCount(int apiId) throws APIManagementException {
+        return ApiMgtDAO.getInstance().getRatingUserCount(apiId);
+    }
+    
+    public static int getRatingUserCount(String providerName, String apiName, String version) throws APIManagementException {
+        
+    	APIIdentifier apiIdentifier = new APIIdentifier(providerName, apiName, version);
+    	
+    	return ApiMgtDAO.getInstance().getRatingUserCount(apiIdentifier);
+    }
+
     public static List<String> getTags(APIIdentifier apiId) throws APIManagementException {
         return ApiMgtDAO.getInstance().getTags(apiId);
     }

@@ -1218,6 +1218,9 @@ public class SQLConstants {
             "   API_ID =? " +
             " GROUP BY " +
             "   API_ID ";
+    
+    public static final String GET_RATING_USER_COUNT_SQL = 
+    		"SELECT COUNT(SUBSCRIBER_ID) AS USER_COUNT FROM AM_API_RATINGS WHERE API_ID = ?";
 
     public static final String APP_APPLICATION_SQL =
             " INSERT INTO AM_APPLICATION (NAME, SUBSCRIBER_ID, APPLICATION_TIER, " +

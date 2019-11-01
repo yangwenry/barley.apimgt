@@ -4123,6 +4123,106 @@ public class ApiMgtDAO {
         BigDecimal decimal = new BigDecimal(avrRating);
         return Float.parseFloat(decimal.setScale(1, BigDecimal.ROUND_UP).toString());
     }
+    
+    
+    public int getRatingUserCount(APIIdentifier apiId) throws APIManagementException {
+        Connection conn = null;
+        int userCount = 0;
+        try {
+            conn = APIMgtDBUtil.getConnection();
+            conn.setAutoCommit(false);
+
+            userCount = getRatingUserCount(apiId, conn);
+        } catch (SQLException e) {
+            if (conn != null) {
+                try {
+                    conn.rollback();
+                } catch (SQLException e1) {
+                    log.error("Failed to rollback getting rating user count ", e1);
+                }
+            }
+            handleException("Failed to get rating user count", e);
+        } finally {
+            APIMgtDBUtil.closeAllConnections(null, conn, null);
+        }
+        return userCount;
+    }
+    
+    
+    public int getRatingUserCount(int apiId) throws APIManagementException {
+        Connection conn = null;
+        int userCount = 0;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            conn = APIMgtDBUtil.getConnection();
+            conn.setAutoCommit(false);
+
+            if (apiId == -1) {
+                String msg = "Invalid APIId : " + apiId;
+                log.error(msg);
+                return -1;
+            }
+            //This query to update the AM_API_RATINGS table
+            String sqlQuery = SQLConstants.GET_RATING_USER_COUNT_SQL;
+
+            ps = conn.prepareStatement(sqlQuery);
+            ps.setInt(1, apiId);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+            	userCount = rs.getInt("USER_COUNT");
+            }
+        } catch (SQLException e) {
+            if (conn != null) {
+                try {
+                    conn.rollback();
+                } catch (SQLException e1) {
+                    log.error("Failed to rollback getting rating user count ", e1);
+                }
+            }
+            handleException("Failed to get rating user count", e);
+        } finally {
+            APIMgtDBUtil.closeAllConnections(ps, conn, rs);
+        }
+        return userCount;
+    }
+    
+    public int getRatingUserCount(APIIdentifier apiIdentifier, Connection conn)
+            throws APIManagementException, SQLException {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        int userCount = 0;
+        try {
+            //Get API Id
+            int apiId;
+            apiId = getAPIID(apiIdentifier, conn);
+            if (apiId == -1) {
+                String msg = "Could not load API record for: " + apiIdentifier.getApiName();
+                log.error(msg);
+                return -1;
+            }
+            //This query to update the AM_API_RATINGS table
+            String sqlQuery = SQLConstants.GET_RATING_USER_COUNT_SQL;
+
+            ps = conn.prepareStatement(sqlQuery);
+            ps.setInt(1, apiId);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+            	userCount = rs.getInt("USER_COUNT");
+            }
+
+        } catch (SQLException e) {
+            handleException("Failed to add Application", e);
+        } finally {
+            APIMgtDBUtil.closeAllConnections(ps, null, rs);
+        }
+
+        return userCount;
+    }
+    
+    
 
     /**
      * @param application Application
