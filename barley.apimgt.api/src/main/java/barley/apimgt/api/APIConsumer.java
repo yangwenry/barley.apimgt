@@ -655,4 +655,6 @@ public interface APIConsumer extends APIManager {
 
 	int getPublicApiCount(String tenantDomain) throws APIManagementException;
 
+	int setCommentAgreeValue(String userName, int commnetId, int agreeValue) throws APIManagementException;
+
 }
