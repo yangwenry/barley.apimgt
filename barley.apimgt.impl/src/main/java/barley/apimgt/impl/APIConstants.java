@@ -173,7 +173,7 @@ public final class APIConstants {
     
     public static final String GA_CONFIGURATION_LOCATION = APIMGT_REGISTRY_LOCATION + "/statistics/ga-config.xml";
 
-    public static final String WORKFLOW_EXECUTOR_LOCATION = API_APPLICATION_DATA_LOCATION + "/workflow-extensions.xml";
+    public static final String WORKFLOW_EXECUTOR_LOCATION = API_APPLICATION_DATA_LOCATION + "/workflow-api-extensions.xml";
 
     public static final String WORKFLOW_MEDIA_TYPE = "workflow-config";
     
