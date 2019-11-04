@@ -2945,7 +2945,7 @@ public final class APIUtil {
                 log.debug("Adding External Stores configuration to the tenant's registry");
             }
             InputStream inputStream =
-                    APIManagerComponent.class.getResourceAsStream("/workflowextensions/default-workflow-extensions.xml");
+                    APIManagerComponent.class.getResourceAsStream("/workflowextensions/default-workflow-api-extensions.xml");
             byte[] data = IOUtils.toByteArray(inputStream);
             Resource resource = govRegistry.newResource();
             resource.setContent(data);
@@ -5679,7 +5679,7 @@ public final class APIUtil {
     	addTenantAdvancedThrottlePolicies(tenantId);
     }
     
-    // (추가) 테넌트 기본 tier 등록을 위해 추가 
+    // (추가) 테넌트 기본 dao throttling policy 등록을 위해 추가 
     public static void addTenantAdvancedThrottlePolicies(int tenantId) throws APIManagementException {
     	long[] requestCount = new long[] {50, 20, 10, Integer.MAX_VALUE};
         //Adding application level throttle policies
