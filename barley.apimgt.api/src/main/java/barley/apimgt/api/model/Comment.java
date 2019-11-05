@@ -57,8 +57,30 @@ public class Comment {
         this.createdTime = createdTime;
     }
 
-    private int commentId;
+    
+    public int getAgreeCount() {
+		return agreeCount;
+	}
+
+	public void setAgreeCount(int agreeCount) {
+		this.agreeCount = agreeCount;
+	}
+
+	public int getDisagreeCount() {
+		return disagreeCount;
+	}
+
+	public void setDisagreeCount(int disagreeCount) {
+		this.disagreeCount = disagreeCount;
+	}
+
+
+	private int commentId;
     private String user;
     private String text;
     private Date createdTime;
+    
+    private int agreeCount;
+    private int disagreeCount;
+	
 }

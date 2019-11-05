@@ -2562,6 +2562,18 @@ class APIConsumerImpl extends AbstractAPIManager implements APIConsumer {
             throws APIManagementException {
         return apiMgtDAO.getComments(identifier);
     }
+    
+    @Override
+    public barley.apimgt.api.model.Comment[] getSortedCreatedTimeComments(APIIdentifier identifier, int page, int count)
+            throws APIManagementException {
+        return apiMgtDAO.getSortedCreatedTimeComments(identifier, page, count);
+    }
+    
+    @Override
+    public barley.apimgt.api.model.Comment[] getSortedAgreeCountComments(APIIdentifier identifier, int page, int count)
+            throws APIManagementException {
+        return apiMgtDAO.getSortedAgreeCountComments(identifier, page, count);
+    }
 
     /**
      * Add a new Application from the store.

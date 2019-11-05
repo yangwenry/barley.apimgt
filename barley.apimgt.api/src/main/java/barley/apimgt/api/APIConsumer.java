@@ -657,4 +657,8 @@ public interface APIConsumer extends APIManager {
 
 	int setCommentAgreeValue(String userName, int commnetId, int agreeValue) throws APIManagementException;
 
+	Comment[] getSortedCreatedTimeComments(APIIdentifier identifier, int page, int count) throws APIManagementException;
+
+	Comment[] getSortedAgreeCountComments(APIIdentifier identifier, int page, int count) throws APIManagementException;
+
 }
