@@ -6899,12 +6899,24 @@ public class ApiMgtDAO {
         }
     }
     
+    public void deleteComment(String userId, int commentId) throws APIManagementException {
+    	
+    	Comment commentObj = getCommentById(commentId);
+    	
+    	if(!userId.equals(commentObj.getUser())){
+    		throw new APIManagementException("Unmatched comment register - " + userId);
+    	}
+    	
+    	deleteComment(commentId);
+    }
+    
     public void deleteComment(int commentId) throws APIManagementException {
 
         Connection connection = null;
         PreparedStatement prepStmt = null;
+        
         try {
-            connection = APIMgtDBUtil.getConnection();
+        	connection = APIMgtDBUtil.getConnection();
             connection.setAutoCommit(false);
 
             /*This query to update the AM_API_COMMENTS table */
@@ -6927,6 +6939,45 @@ public class ApiMgtDAO {
         } finally {
         	APIMgtDBUtil.closeAllConnections(prepStmt, connection, null);
         }
+    }
+    
+    public Comment getCommentById(int commentId) throws APIManagementException {
+    	 Connection connection = null;
+         ResultSet resultSet = null;
+         PreparedStatement prepStmt = null;
+         Comment comment = null;
+               
+         String sqlQuery = SQLConstants.GET_COMMENT_BY_ID_SQL;
+         try {
+             connection = APIMgtDBUtil.getConnection();
+             prepStmt = connection.prepareStatement(sqlQuery);
+             prepStmt.setInt(1, commentId);
+             resultSet = prepStmt.executeQuery();
+             if (resultSet.next()) {
+                 comment = new Comment();
+                 comment.setCommentId(resultSet.getInt("COMMENT_ID"));
+                 comment.setText(resultSet.getString("COMMENT_TEXT"));
+                 comment.setUser(resultSet.getString("COMMENTED_USER"));
+                 comment.setCreatedTime(new java.util.Date(resultSet.getTimestamp("DATE_COMMENTED").getTime()));
+               
+                 comment.setAgreeCount(resultSet.getInt("COMMENT_AGREE_COUNT"));
+                 comment.setDisagreeCount(resultSet.getInt("COMMENT_DISAGREE_COUNT"));
+             }
+         } catch (SQLException e) {
+             try {
+                 if (connection != null) {
+                     connection.rollback();
+                 }
+             } catch (SQLException e1) {
+                 log.error("Failed to retrieve comment ", e1);
+             }
+             handleException("Failed to retrieve comment for Comment ID : " + commentId , e);
+         } finally {
+             APIMgtDBUtil.closeAllConnections(prepStmt, connection, resultSet);
+         }
+         
+         
+         return comment;
     }
 
 

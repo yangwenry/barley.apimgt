@@ -2556,6 +2556,11 @@ class APIConsumerImpl extends AbstractAPIManager implements APIConsumer {
 	public void deleteComment(int commentId) throws APIManagementException {
 		apiMgtDAO.deleteComment(commentId);
 	}
+	
+	@Override
+	public void deleteComment(String userId, int commentId) throws APIManagementException {
+		apiMgtDAO.deleteComment(userId, commentId);
+	}
 
     @Override
     public barley.apimgt.api.model.Comment[] getComments(APIIdentifier identifier)

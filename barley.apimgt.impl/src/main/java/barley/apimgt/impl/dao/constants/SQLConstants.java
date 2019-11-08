@@ -1775,6 +1775,35 @@ public class SQLConstants {
     public static final String DELETE_COMMENT_SQL =
             " DELETE FROM AM_API_COMMENTS WHERE COMMENT_ID = ? ";
 
+    public static final String GET_COMMENT_BY_ID_SQL =
+    		" SELECT  " +
+    		" 	TA.COMMENT_ID AS COMMENT_ID, " +
+    	    " 	TA.COMMENT_TEXT AS COMMENT_TEXT, " +
+    	    " 	TA.COMMENTED_USER AS COMMENTED_USER, " +
+    	    " 	TA.DATE_COMMENTED AS DATE_COMMENTED, " +
+    	    " 	CASE WHEN TB.AGREE_COUNT IS NULL THEN 0 ELSE TB.AGREE_COUNT END AS COMMENT_AGREE_COUNT, " +
+    	    " 	CASE WHEN TC.DISAGREE_COUNT IS NULL THEN 0 ELSE TC.DISAGREE_COUNT END AS COMMENT_DISAGREE_COUNT " +
+    		" FROM AM_API_COMMENTS TA " +
+    		" LEFT JOIN ( " +
+    	    " 		SELECT " +
+    	    " 			ITA.COMMENT_ID, " +
+    	    " 				COUNT(ITA.AGREE) AS AGREE_COUNT " +
+    	    " 			FROM AM_API_COMMENTS_AGREE ITA " +
+    	    " 			WHERE ITA.AGREE = 1 " +
+    	    " 			GROUP BY ITA.COMMENT_ID " +
+    	    " 	) TB " +
+    		" 	ON TA.COMMENT_ID = TB.COMMENT_ID  " +
+    		" LEFT JOIN ( " +
+    		" 		SELECT " +
+    		" 			ITB.COMMENT_ID, " +
+    		" 				COUNT(ITB.AGREE) AS DISAGREE_COUNT " +
+    		" 			FROM AM_API_COMMENTS_AGREE ITB " +
+    		" 			WHERE ITB.AGREE = -1 " +
+    		" 			GROUP BY ITB.COMMENT_ID " +
+    		" 	) TC " +
+    		" 	ON TA.COMMENT_ID = TC.COMMENT_ID " +
+    		" WHERE TA.COMMENT_ID = ? ";
+    
     public static final String GET_COMMENTS_SQL =
             " SELECT " +
             "   AM_API_COMMENTS.COMMENT_ID AS COMMENT_ID," +
