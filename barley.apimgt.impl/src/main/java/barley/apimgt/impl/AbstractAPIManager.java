@@ -1033,7 +1033,8 @@ public abstract class AbstractAPIManager implements APIManager {
 
     public Set<API> getSubscriberAPIs(Subscriber subscriber) throws APIManagementException {
         SortedSet<API> apiSortedSet = new TreeSet<API>(new APINameComparator());
-        Set<SubscribedAPI> subscribedAPIs = apiMgtDAO.getSubscribedAPIs(subscriber, null);
+        //Set<SubscribedAPI> subscribedAPIs = apiMgtDAO.getSubscribedAPIs(subscriber, null);
+        List<APIIdentifier> apiIds = apiMgtDAO.getSubscribedApiIds(subscriber, null);
         boolean isTenantFlowStarted = false;
         try {
 	        if(tenantDomain != null && !MultitenantConstants.SUPER_TENANT_DOMAIN_NAME.equals(tenantDomain)){
@@ -1041,13 +1042,13 @@ public abstract class AbstractAPIManager implements APIManager {
 	            PrivilegedBarleyContext.startTenantFlow();
 	            PrivilegedBarleyContext.getThreadLocalCarbonContext().setTenantDomain(tenantDomain, true);
 	        }
+	        // registry가 아닌 dao에서 가져오도록 변경
+	        /*
 	        for (SubscribedAPI subscribedAPI : subscribedAPIs) {
 	            String apiPath = APIUtil.getAPIPath(subscribedAPI.getApiId());
 	            Resource resource;
 	            try {
 	                resource = registry.get(apiPath);
-	                // (수정) artifactConfig null 이므로 수정 
-//	                GenericArtifactManager artifactManager = new GenericArtifactManager(registry, APIConstants.API_KEY);
 	                GenericArtifactManager artifactManager = APIUtil.getArtifactManager(registry, APIConstants.API_KEY);
 	                GenericArtifact artifact = artifactManager.getGenericArtifact(
 	                        resource.getUUID());
@@ -1059,6 +1060,14 @@ public abstract class AbstractAPIManager implements APIManager {
 	                handleException("Failed to get APIs for subscriber: " + subscriber.getName(), e);
 	            }
 	        }
+	        */
+	        for(APIIdentifier apiId : apiIds) {
+		        API api = apiMgtDAO.getApi(apiId, tenantDomain);
+	        	if (api != null) {
+	                apiSortedSet.add(api);
+	            }
+	        }
+	        
         } finally {
         	if (isTenantFlowStarted) {
         		PrivilegedBarleyContext.endTenantFlow();

@@ -2676,28 +2676,41 @@ public class SQLConstants {
 							"GROUP BY T.API_ID " +
 							"ORDER BY COUNT(T.API_ID) DESC " +
 						   ") TS " +
-				"ON TA.API_ID = TS.API_ID " + 
+				"ON TA.API_ID = TS.API_ID ";
+    
+    public static final String GET_SORTED_API_WHERE_SQL =						   
 				"WHERE UPPER(TB.API_PROVIDER) LIKE UPPER(CONCAT('%',?,'%')) " +
 					"OR UPPER(TB.API_NAME) LIKE UPPER(CONCAT('%',?,'%')) " +
-					"OR UPPER(TB.CATEGORY) LIKE UPPER(CONCAT('%',?,'%'))" +
-					"OR UPPER(TB.DESCRIPTION) LIKE UPPER(CONCAT('%',?,'%'))" +
-					"OR UPPER(TB.TITLE) LIKE UPPER(CONCAT('%',?,'%'))" +
-					"OR UPPER(TA.TAG) LIKE UPPER(CONCAT('%',?,'%'))";
+					"OR UPPER(TB.CATEGORY) LIKE UPPER(CONCAT('%',?,'%')) " +
+					"OR UPPER(TB.DESCRIPTION) LIKE UPPER(CONCAT('%',?,'%')) " +
+					"OR UPPER(TB.TITLE) LIKE UPPER(CONCAT('%',?,'%')) " +
+					"OR UPPER(TA.TAG) LIKE UPPER(CONCAT('%',?,'%')) ";
+    
+    public static final String GET_SORTED_API_SQL = GET_SORTED_API_SQL_PREFIX + GET_SORTED_API_WHERE_SQL;
     
     public static final String GET_SORTED_RATING_API_SQL =
-    		GET_SORTED_API_SQL_PREFIX + 
+    		GET_SORTED_API_SQL + 
 				"ORDER BY TC.RATING DESC, TA.API_ID DESC " +
 				"LIMIT ?, ?";
     
     public static final String GET_SORTED_SUBS_CNT_API_SQL =
-    		GET_SORTED_API_SQL_PREFIX +  
+    		GET_SORTED_API_SQL +  
 				"ORDER BY TS.SUBS_CNT DESC, TA.API_ID DESC " +
 				"LIMIT ?, ?";
     
     public static final String GET_SORTED_CREATED_TIME_API_SQL =
-    		GET_SORTED_API_SQL_PREFIX +  
+    		GET_SORTED_API_SQL +  
 				"ORDER BY TB.CREATED_TIME DESC, TA.API_ID DESC " +
 				"LIMIT ?, ?";
+    
+    // Get API 추가 
+    public static final String GET_API_WHERE_SQL =						   
+			" WHERE TB.API_PROVIDER = ? " +
+    		"   AND TB.API_NAME = ? " +
+    		"   AND TB.API_VERSION = ? ";
+    
+    public static final String GET_API_SQL = GET_SORTED_API_SQL_PREFIX + GET_API_WHERE_SQL;
+    
     
     public static final String GET_PUBLIC_API_CNT_SQL =
 	    	"SELECT " +

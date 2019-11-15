@@ -1931,6 +1931,67 @@ public class ApiMgtDAO {
         }
         return subscribedAPIs;
     }
+    
+    // (추가) 2019.11.15 - 구독한 api를 가져오기 위한 id 조회  
+    public List<APIIdentifier> getSubscribedApiIds(Subscriber subscriber, String groupingId)
+            throws APIManagementException {
+        List<APIIdentifier> apiIds = new ArrayList<APIIdentifier>();
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet result = null;
+        
+        //identify subscribeduser used email/ordinalusername
+        String subscribedUserName = getLoginUserName(subscriber.getName());
+        subscriber.setName(subscribedUserName);
+
+        String sqlQuery = SQLConstants.GET_SUBSCRIBED_APIS_OF_SUBSCRIBER_SQL;
+        String whereClause = " AND  SUB.USER_ID = ? ";
+        String whereClauseCaseInSensitive = " AND  LOWER(SUB.USER_ID) = LOWER(?) ";
+        String whereClauseWithGroupId = " AND (APP.GROUP_ID = ? OR (APP.GROUP_ID = '' AND SUB.USER_ID = ?))";
+        String whereClauseWithGroupIdorceCaseInsensitiveComp = " AND (APP.GROUP_ID = ? OR (APP.GROUP_ID = '' " + "AND" +
+                                                               " LOWER(SUB.USER_ID) = LOWER(?)))";
+        try {
+            connection = APIMgtDBUtil.getConnection();
+
+            if (groupingId != null && !"null".equals(groupingId) && !groupingId.isEmpty()) {
+                if (forceCaseInsensitiveComparisons) {
+                    sqlQuery += whereClauseWithGroupIdorceCaseInsensitiveComp;
+                } else {
+                    sqlQuery += whereClauseWithGroupId;
+                }
+            } else {
+                if (forceCaseInsensitiveComparisons) {
+                    sqlQuery += whereClauseCaseInSensitive;
+                } else {
+                    sqlQuery += whereClause;
+                }
+            }
+
+            ps = connection.prepareStatement(sqlQuery);
+            int tenantId = APIUtil.getTenantId(subscriber.getName());
+            ps.setInt(1, tenantId);
+            if (groupingId != null && !"null".equals(groupingId) && !groupingId.isEmpty()) {
+                ps.setString(2, groupingId);
+                ps.setString(3, subscriber.getName());
+            } else {
+                ps.setString(2, subscriber.getName());
+            }
+
+            result = ps.executeQuery();
+
+            while (result.next()) {
+            	APIIdentifier apiIdentifier = new APIIdentifier(APIUtil.replaceEmailDomainBack(result.getString
+                        ("API_PROVIDER")), result.getString("API_NAME"), result.getString("API_VERSION"));
+            	apiIds.add(apiIdentifier);
+            }
+            
+        } catch (SQLException e) {
+            handleException("Failed to get SubscribedAPI of :" + subscriber.getName(), e);
+        } finally {
+            APIMgtDBUtil.closeAllConnections(ps, connection, result);
+        }
+        return apiIds;
+    }
 
     private Set<APIKey> getAPIKeysBySubscription(int subscriptionId) throws APIManagementException {
         Connection connection = null;
@@ -11514,24 +11575,7 @@ public class ApiMgtDAO {
             selectPreparedStatement.setInt(9, count);
             resultSet = selectPreparedStatement.executeQuery();
             while (resultSet.next()) {
-            	        	
-            	//apiList.add(new APIIdentifier(resultSet.getString("API_ID")));
-            	// API_PROVIDER, TB.API_NAME, TB.API_VERSION, TB.CREATED_TIME
-            	// TB.CATEGORY, TB.THUMBNAIL_URL, TB.DESCRIPTION
-            	API api = new API(new APIIdentifier(resultSet.getString("API_PROVIDER"), resultSet.getString("API_NAME"), resultSet.getString("API_VERSION")));
-            	api.setRating(resultSet.getFloat("RATING"));
-            	Date createdDate = resultSet.getDate("CREATED_TIME");
-            	if(createdDate != null) api.setCreatedDate(createdDate);
-            	Date updatedDate = resultSet.getDate("UPDATED_TIME");
-            	if(updatedDate != null) api.setLastUpdated(updatedDate);
-            	api.setStatus(APIUtil.getApiStatus(resultSet.getString("STATE")));
-            	api.setSubscriptionCount(resultSet.getInt("SUBS_CNT"));
-            	api.setCategory(resultSet.getString("CATEGORY"));
-            	api.setThumbnailUrl(resultSet.getString("THUMBNAIL_URL"));
-            	api.setDescription(resultSet.getString("DESCRIPTION"));
-            	api.setTitle(resultSet.getString("TITLE"));
-            	api.setTag(resultSet.getString("TAG"));
-            	
+            	API api = createApiFromResultSet(resultSet);
             	apiList.add(api);
             }
         } catch (SQLException e) {
@@ -11548,6 +11592,60 @@ public class ApiMgtDAO {
         }
         
         return apiList;
+    }
+    
+    
+    public API getApi(APIIdentifier apiIdentifier, String tenantDomain) throws APIManagementException {
+        Connection connection = null;
+        PreparedStatement selectPreparedStatement = null;
+        ResultSet resultSet = null;
+        
+        API api = null;
+        
+        try {
+            connection = APIMgtDBUtil.getConnection();
+            connection.setAutoCommit(false);
+            String query = SQLConstants.GET_API_SQL;
+            selectPreparedStatement = connection.prepareStatement(query);
+            selectPreparedStatement.setNString(1, tenantDomain);
+            selectPreparedStatement.setNString(2, apiIdentifier.getProviderName());
+            selectPreparedStatement.setNString(3, apiIdentifier.getApiName());
+            selectPreparedStatement.setNString(4, apiIdentifier.getVersion());
+            resultSet = selectPreparedStatement.executeQuery();
+            if (resultSet.next()) {
+            	api = createApiFromResultSet(resultSet);
+            }
+        } catch (SQLException e) {
+            if (connection != null) {
+                try {
+                    connection.rollback();
+                } catch (SQLException ex) {
+                    handleException("Failed to rollback getting sorted rating api ", ex);
+                }
+            }
+            handleException("Failed to get sorted rating api", e);
+        } finally {
+            APIMgtDBUtil.closeAllConnections(selectPreparedStatement, connection, resultSet);
+        }
+        
+        return api;
+    }
+    
+    private API createApiFromResultSet(ResultSet resultSet) throws SQLException, APIManagementException {
+    	API api = new API(new APIIdentifier(resultSet.getString("API_PROVIDER"), resultSet.getString("API_NAME"), resultSet.getString("API_VERSION")));
+    	api.setRating(resultSet.getFloat("RATING"));
+    	Date createdDate = resultSet.getDate("CREATED_TIME");
+    	if(createdDate != null) api.setCreatedDate(createdDate);
+    	Date updatedDate = resultSet.getDate("UPDATED_TIME");
+    	if(updatedDate != null) api.setLastUpdated(updatedDate);
+    	api.setStatus(APIUtil.getApiStatus(resultSet.getString("STATE")));
+    	api.setSubscriptionCount(resultSet.getInt("SUBS_CNT"));
+    	api.setCategory(resultSet.getString("CATEGORY"));
+    	api.setThumbnailUrl(resultSet.getString("THUMBNAIL_URL"));
+    	api.setDescription(resultSet.getString("DESCRIPTION"));
+    	api.setTitle(resultSet.getString("TITLE"));
+    	api.setTag(resultSet.getString("TAG"));
+    	return api;
     }
     
     
