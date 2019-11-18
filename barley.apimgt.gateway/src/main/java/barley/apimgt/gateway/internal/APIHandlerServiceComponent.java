@@ -81,13 +81,11 @@ public class APIHandlerServiceComponent {
                     if (configuration.getThrottleProperties().getBlockCondition().isEnabled()) {
                     	// 블랙리스트 IP 데이터 리시버
                     	// Restful 서비스를 통해 AM_POLICY_GLOBAL 테이블 조회하여 결과를 리턴받는다. 
-                        BlockingConditionRetriever webServiceThrottleDataRetriever = new
-                                BlockingConditionRetriever();
+                        BlockingConditionRetriever webServiceThrottleDataRetriever = new BlockingConditionRetriever();
                         webServiceThrottleDataRetriever.startWebServiceThrottleDataRetriever();
                         
                         // 키 템플릿 
-                        KeyTemplateRetriever webServiceBlockConditionsRetriever = new
-                                KeyTemplateRetriever();
+                        KeyTemplateRetriever webServiceBlockConditionsRetriever = new KeyTemplateRetriever();
                         webServiceBlockConditionsRetriever.startKeyTemplateDataRetriever();
                         
                         // 왜 쓰로틀링 데이터 리시버는 없는지 의문이다. Restful 서비스는 존재하는데 사용하지 않는다. 
