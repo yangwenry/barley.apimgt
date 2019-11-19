@@ -16,6 +16,7 @@
     	<module>barley.apimgt.keymgt</module>
     	<module>barley.apimgt.usage</module>
     	<module>barley.apimgt.jms.listener</module>
+    	<module>barley.apimgt.throttling.siddhi.extension</module>
 	</modules>
 	
 	<dependencyManagement>
@@ -130,6 +131,11 @@
 	        <dependency>
 	            <groupId>barley.analytics-common</groupId>
 	            <artifactId>barley.databridge.agent</artifactId>
+	            <version>${project.version}</version>
+	        </dependency>
+	        <dependency>
+	            <groupId>barley.analytics-common</groupId>
+	            <artifactId>barley.event.output.adapter.core</artifactId>
 	            <version>${project.version}</version>
 	        </dependency>
 	        
@@ -300,6 +306,18 @@
 	            <version>1.0.17.wso2v1</version>
 	        </dependency>
 	        
+	        <!-- Siddhi Extensions -->
+            <dependency>
+                <groupId>org.wso2.siddhi</groupId>
+                <artifactId>siddhi-query-api</artifactId>
+                <version>${siddhi.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.siddhi</groupId>
+                <artifactId>siddhi-core</artifactId>
+                <version>${siddhi.version}</version>
+            </dependency>
+	        
 	        <!-- wso2 stub -->
 	        <dependency>
 	            <groupId>org.wso2.carbon.event-processing</groupId>
@@ -332,11 +350,6 @@
 	            <version>5.2.0</version>
 	        </dependency>
 	        <dependency>
-	        	<groupId>org.wso2.carbon.identity</groupId>
-	        	<artifactId>org.wso2.carbon.identity.authenticator.thrift</artifactId>
-	        	<version>5.2.0</version>
-	        </dependency>
-	        <dependency>
 	            <groupId>org.wso2.carbon.identity</groupId>
 	            <artifactId>org.wso2.carbon.um.ws.api.stub</artifactId>
 	            <version>5.1.1</version>
@@ -361,19 +374,29 @@
 	            <artifactId>org.wso2.carbon.apimgt.tier.cache.stub</artifactId>
 	            <version>6.0.4</version>
 	        </dependency>
+	        <dependency>
+                <groupId>org.wso2.carbon</groupId>
+                <artifactId>org.wso2.carbon.authenticator.stub</artifactId>
+                <version>4.4.9</version>
+            </dependency>
 			
 			
 			<!-- wso2 -->
 			<!-- <dependency>
             	<groupId>org.wso2.carbon.identity</groupId>
 	            <artifactId>org.wso2.carbon.identity.core</artifactId>
-	            <version>5.2.0</version>            
+	            <version>5.2.0</version>
 	        </dependency>
 	        <dependency>
 	            <groupId>org.wso2.carbon.identity</groupId>
 	            <artifactId>org.wso2.carbon.identity.oauth</artifactId>
 	            <version>5.1.1</version>
-        	</dependency> -->
+        	</dependency> 
+        	<dependency>
+	        	<groupId>org.wso2.carbon.identity</groupId>
+	        	<artifactId>org.wso2.carbon.identity.authenticator.thrift</artifactId>
+	        	<version>5.2.0</version>
+	        </dependency>
 			<dependency>
 	            <groupId>org.wso2.carbon.metrics</groupId>
 	            <artifactId>org.wso2.carbon.metrics.manager</artifactId>
@@ -409,7 +432,7 @@
 	            		<artifactId>slf4j</artifactId>
 	            	</exclusion>
 	            </exclusions>
-	        </dependency>  
+	        </dependency>  --> 
 		</dependencies>
 	</dependencyManagement>
 	
@@ -477,6 +500,9 @@
         <commons.cli.version>1.2</commons.cli.version>
         <commons.lang.version>2.6</commons.lang.version>
         <commons.codec.version>1.6</commons.codec.version>
+        
+        <!-- Carbon -->
+        <siddhi.version>3.1.2</siddhi.version>
 
         <!-- Axis2 and its dependencies -->
         <!-- <axis2.version>1.6.2</axis2.version> -->
