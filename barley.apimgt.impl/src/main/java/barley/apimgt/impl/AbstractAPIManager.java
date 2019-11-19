@@ -1375,7 +1375,7 @@ public abstract class AbstractAPIManager implements APIManager {
                 PrivilegedBarleyContext.startTenantFlow();
                 PrivilegedBarleyContext.getThreadLocalCarbonContext().setTenantDomain(requestedTenantDomain, true);
             } else {
-                requestedTenantDomain = org.wso2.carbon.base.MultitenantConstants.SUPER_TENANT_DOMAIN_NAME;
+                requestedTenantDomain = MultitenantConstants.SUPER_TENANT_DOMAIN_NAME;
                 isTenantFlowStarted = true;
                 PrivilegedBarleyContext.startTenantFlow();
                 PrivilegedBarleyContext.getThreadLocalCarbonContext().setTenantDomain(requestedTenantDomain, true);

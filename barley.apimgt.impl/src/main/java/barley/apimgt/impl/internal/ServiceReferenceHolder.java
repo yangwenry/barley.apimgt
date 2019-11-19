@@ -16,12 +16,11 @@
 
 package barley.apimgt.impl.internal;
 
-import org.wso2.carbon.event.output.adapter.core.OutputEventAdapterService;
-import barley.registry.indexing.service.TenantIndexingLoader;
-
 import barley.apimgt.impl.APIManagerConfigurationService;
 import barley.core.utils.ConfigurationContextService;
+import barley.event.output.adapter.core.OutputEventAdapterService;
 import barley.registry.core.service.RegistryService;
+import barley.registry.indexing.service.TenantIndexingLoader;
 import barley.user.core.UserRealm;
 import barley.user.core.service.RealmService;
 

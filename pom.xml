@@ -124,6 +124,11 @@
 	            <version>${project.version}</version>
 	        </dependency>
 	        <dependency>
+	            <groupId>javax.cache.barley</groupId>
+	            <artifactId>javax.cache.barley</artifactId>
+	            <version>${project.version}</version>
+	        </dependency>
+	        <dependency>
 	            <groupId>barley.analytics-common</groupId>
 	            <artifactId>barley.databridge.commons</artifactId>
 	            <version>${project.version}</version>
@@ -137,26 +142,9 @@
 	            <groupId>barley.analytics-common</groupId>
 	            <artifactId>barley.event.output.adapter.core</artifactId>
 	            <version>${project.version}</version>
-	        </dependency>
-	        
-	         
-	        <!-- <dependency> 7버전 사용시 
-	            <groupId>barley.lcm</groupId>
-	            <artifactId>barley.lcm.core</artifactId>
-	            <version>${project.version}</version> 
-	        </dependency>   -->         
-		
-		 	<!-- <dependency>
-			    <groupId>javax.cache</groupId>
-			    <artifactId>cache-api</artifactId>
-			    <version>1.0.0</version>
-			</dependency> -->
-			<dependency>
-	            <groupId>javax.cache.barley</groupId>
-	            <artifactId>javax.cache.barley</artifactId>
-	            <version>${project.version}</version>
-	        </dependency>
+	        </dependency> 
 			
+			<!-- json -->
 			<dependency>
 			    <groupId>com.googlecode.json-simple</groupId>
 			    <artifactId>json-simple</artifactId>
@@ -271,11 +259,16 @@
 	            <artifactId>httpmime</artifactId>
 	            <version>4.2.5</version>
 	        </dependency>
-	        <dependency>
+	        <!-- <dependency>
 				<groupId>org.apache.thrift</groupId>
 			  	<artifactId>libthrift</artifactId>
 			  	<version>0.8.0</version>
-			</dependency>
+			</dependency> -->
+			<dependency>
+                <groupId>libthrift.wso2</groupId>
+                <artifactId>libthrift</artifactId>
+                <version>${libthrift.wso2.version}</version>
+            </dependency>
 			<dependency>
 	            <groupId>org.apache.velocity</groupId>
 	            <artifactId>velocity</artifactId>
@@ -325,21 +318,6 @@
 	            <version>2.1.0</version>
 	        </dependency>
 	        <dependency>
-	            <groupId>org.wso2.carbon.apimgt</groupId>
-	            <artifactId>org.wso2.carbon.apimgt.handlers.security.stub</artifactId>
-	            <version>6.0.4</version>
-	        </dependency>
-	        <dependency>
-	            <groupId>org.wso2.carbon.apimgt</groupId>
-	            <artifactId>org.wso2.carbon.apimgt.keymgt.stub</artifactId>
-	            <version>6.0.4</version>
-	        </dependency>
-	        <dependency>
-	            <groupId>org.wso2.carbon.apimgt</groupId>
-	            <artifactId>org.wso2.carbon.apimgt.gateway.stub</artifactId>
-	            <version>6.0.4</version>
-	        </dependency>
-	        <dependency>
 	            <groupId>org.wso2.carbon.identity</groupId>
 	            <artifactId>org.wso2.carbon.identity.oauth.stub</artifactId>
 	            <version>5.1.1</version>
@@ -360,6 +338,11 @@
 	            <version>5.2.0</version>
 	        </dependency>
 	        <dependency>
+                <groupId>org.wso2.carbon</groupId>
+                <artifactId>org.wso2.carbon.authenticator.stub</artifactId>
+                <version>4.4.9</version>
+            </dependency>
+	        <dependency>
 	            <groupId>org.wso2.carbon.apimgt</groupId>
 	            <artifactId>org.wso2.carbon.apimgt.statsupdate.stub</artifactId>
 	            <version>6.0.4</version>
@@ -375,64 +358,33 @@
 	            <version>6.0.4</version>
 	        </dependency>
 	        <dependency>
-                <groupId>org.wso2.carbon</groupId>
-                <artifactId>org.wso2.carbon.authenticator.stub</artifactId>
-                <version>4.4.9</version>
+                <groupId>org.wso2.carbon.apimgt</groupId>
+                <artifactId>org.wso2.carbon.apimgt.keymgt.stub</artifactId>
+                <version>6.0.4</version>
             </dependency>
-			
-			
-			<!-- wso2 -->
-			<!-- <dependency>
-            	<groupId>org.wso2.carbon.identity</groupId>
-	            <artifactId>org.wso2.carbon.identity.core</artifactId>
-	            <version>5.2.0</version>
+            <dependency>
+	            <groupId>org.wso2.carbon.apimgt</groupId>
+	            <artifactId>org.wso2.carbon.apimgt.handlers.security.stub</artifactId>
+	            <version>6.0.4</version>
 	        </dependency>
 	        <dependency>
-	            <groupId>org.wso2.carbon.identity</groupId>
-	            <artifactId>org.wso2.carbon.identity.oauth</artifactId>
-	            <version>5.1.1</version>
-        	</dependency> 
-        	<dependency>
-	        	<groupId>org.wso2.carbon.identity</groupId>
-	        	<artifactId>org.wso2.carbon.identity.authenticator.thrift</artifactId>
-	        	<version>5.2.0</version>
-	        </dependency>
-			<dependency>
-	            <groupId>org.wso2.carbon.metrics</groupId>
-	            <artifactId>org.wso2.carbon.metrics.manager</artifactId>
-	            <version>1.1.0</version>
+	            <groupId>org.wso2.carbon.apimgt</groupId>
+	            <artifactId>org.wso2.carbon.apimgt.gateway.stub</artifactId>
+	            <version>6.0.4</version>
 	        </dependency>
 	        <dependency>
 	            <groupId>org.wso2.carbon.apimgt</groupId>
 	            <artifactId>org.wso2.carbon.apimgt.keymgt.client</artifactId>
 	            <version>6.0.4</version>
 	        </dependency>
-	        <dependency>
-	            <groupId>org.wso2.carbon.analytics-common</groupId>
-	            <artifactId>org.wso2.carbon.event.output.adapter.core</artifactId>
-	            <version>${wso2.analytics.common.version}</version>
+	        
+			<!-- wso2 lib -->
+			<dependency>
+	        	<groupId>org.wso2.carbon.identity</groupId>
+	        	<artifactId>org.wso2.carbon.identity.authenticator.thrift</artifactId>
+	        	<version>5.2.0</version>
 	        </dependency>
-	        <dependency>
-	            <groupId>org.wso2.carbon.analytics-common</groupId>
-	            <artifactId>org.wso2.carbon.event.output.adapter.email</artifactId>
-	            <version>${wso2.analytics.common.version}</version>
-	        </dependency>
-	        <dependency>
-	            <groupId>org.wso2.carbon.analytics-common</groupId>
-	            <artifactId>org.wso2.carbon.event.output.adapter.sms</artifactId>
-	            <version>${wso2.analytics.common.version}</version>
-	        </dependency>
-	        <dependency>
-	            <groupId>org.wso2.carbon.analytics-common</groupId>
-	            <artifactId>org.wso2.carbon.databridge.agent</artifactId>
-	            <version>${wso2.analytics.common.version}</version>
-	            <exclusions>
-	            	<exclusion>
-	            		<groupId>slf4j.wso2</groupId>
-	            		<artifactId>slf4j</artifactId>
-	            	</exclusion>
-	            </exclusions>
-	        </dependency>  --> 
+			
 		</dependencies>
 	</dependencyManagement>
 	
@@ -552,6 +504,7 @@
         <plexus.utils.version>1.5.4</plexus.utils.version>
         <velocity.version>1.7</velocity.version>
         <mysql.version>5.1.37</mysql.version>
+        <libthrift.wso2.version>0.8.0.wso2v1</libthrift.wso2.version>
 
         <!-- dependencies of Synapse extensions module -->
         <wso2commons.version>1.2</wso2commons.version>

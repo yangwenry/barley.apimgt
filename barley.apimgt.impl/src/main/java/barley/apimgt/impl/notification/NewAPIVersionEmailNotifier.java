@@ -26,17 +26,17 @@ import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.wso2.carbon.apimgt.api.model.xsd.Subscriber;
-import org.wso2.carbon.context.CarbonContext;
-import org.wso2.carbon.event.output.adapter.core.OutputEventAdapterConfiguration;
-import org.wso2.carbon.event.output.adapter.core.exception.OutputEventAdapterException;
 
 import barley.apimgt.api.APIManagementException;
 import barley.apimgt.api.model.APIIdentifier;
+import barley.apimgt.api.model.Subscriber;
 import barley.apimgt.impl.internal.ServiceReferenceHolder;
 import barley.apimgt.impl.notification.exception.NotificationException;
 import barley.apimgt.impl.token.ClaimsRetriever;
 import barley.apimgt.impl.utils.APIUtil;
+import barley.core.context.BarleyContext;
+import barley.event.output.adapter.core.OutputEventAdapterConfiguration;
+import barley.event.output.adapter.core.exception.OutputEventAdapterException;
 import barley.registry.core.Registry;
 import barley.registry.core.Resource;
 import barley.registry.core.exceptions.RegistryException;
@@ -70,7 +70,7 @@ public class NewAPIVersionEmailNotifier extends Notifier {
 
             emailProperties = getEmailProperties(notificationDTO);
             if (emailProperties != null) {
-                String tenantDomain = CarbonContext.getThreadLocalCarbonContext().getTenantDomain();
+                String tenantDomain = BarleyContext.getThreadLocalCarbonContext().getTenantDomain();
                 String adapterName = NotifierConstants.ADAPTER_NAME + tenantDomain;
                 String message = notificationDTO.getMessage();
                 try {

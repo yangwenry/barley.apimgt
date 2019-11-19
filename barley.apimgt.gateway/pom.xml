@@ -19,6 +19,14 @@
 		    <groupId>barley.apimgt</groupId> 
 		    <artifactId>barley.apimgt.impl</artifactId>
 		</dependency>
+		<dependency>
+            <groupId>barley.analytics-common</groupId>
+            <artifactId>barley.databridge.commons</artifactId>
+        </dependency>
+        <dependency>
+			<groupId>barley.analytics-common</groupId>
+			<artifactId>barley.databridge.agent</artifactId>
+       	</dependency>
 	
 		<!-- synapse -->		
         <dependency>
@@ -26,10 +34,10 @@
             <artifactId>synapse.core.barley</artifactId>
         </dependency>
         
-        <dependency>
+        <!-- <dependency>
             <groupId>org.wso2.carbon.metrics</groupId>
             <artifactId>org.wso2.carbon.metrics.manager</artifactId>
-        </dependency>
+        </dependency> -->
 		
 	</dependencies>
 	

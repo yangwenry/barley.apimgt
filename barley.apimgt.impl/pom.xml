@@ -40,35 +40,9 @@
 	    			<artifactId>httpclient</artifactId>
 	        	</exclusion>
 	        </exclusions>
-	    </dependency>
-	    <!-- <dependency>
-	        <groupId>org.apache.solr</groupId>
-	        <artifactId>solr-solrj</artifactId>
-	        <version>5.2.1</version>
-	    </dependency> -->
+	    </dependency>	    
 	    
-	    <!-- <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <version>1.7.22</version>
-        </dependency>
 	    <dependency>
-	        <groupId>org.apache.solr</groupId>
-	        <artifactId>solr-solrj</artifactId>
-	        <version>7.1.0</version>
-	    </dependency>
-	    <dependency>
-		    <groupId>org.apache.lucene</groupId>
-		    <artifactId>lucene-analyzers-common</artifactId>
-		    <version>7.1.0</version>
-		</dependency>
-		<dependency>
-		    <groupId>org.restlet.jee</groupId>
-		    <artifactId>org.restlet</artifactId>
-		    <version>2.3.1</version>
-		</dependency> -->
-
-		<dependency>
             <groupId>javax.cache.barley</groupId>
             <artifactId>javax.cache.barley</artifactId>
         </dependency>
@@ -94,57 +68,20 @@
             <groupId>barley.identity</groupId>
             <artifactId>barley.identity.application.authentication.framework</artifactId>
         </dependency>
+        <dependency>
+            <groupId>barley.analytics-common</groupId>
+            <artifactId>barley.event.output.adapter.core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>barley.analytics-common</groupId>
+            <artifactId>barley.databridge.commons</artifactId>
+        </dependency>
+        <dependency>
+			<groupId>barley.analytics-common</groupId>
+			<artifactId>barley.databridge.agent</artifactId>
+       	</dependency>
 	
-		<dependency>
-        	<groupId>org.apache.httpcomponents</groupId>
-	    	<artifactId>httpclient</artifactId>
-		</dependency>
-		<!-- <dependency>
-        	<groupId>org.wso2.orbit.org.apache.httpcomponents</groupId>
-	    	<artifactId>httpclient</artifactId>
-		</dependency> -->
-	
-		<!-- wso2 lib -->
-		<!-- <dependency>
-            <groupId>org.wso2.carbon.identity</groupId>
-            <artifactId>org.wso2.carbon.identity.core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.wso2.carbon.identity</groupId>
-            <artifactId>org.wso2.carbon.identity.oauth</artifactId>
-        </dependency> -->
-        <dependency>
-            <groupId>org.wso2.carbon.apimgt</groupId>
-            <artifactId>org.wso2.carbon.apimgt.keymgt.client</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.wso2.carbon.analytics-common</groupId>
-            <artifactId>org.wso2.carbon.event.output.adapter.core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.wso2.carbon.analytics-common</groupId>
-            <artifactId>org.wso2.carbon.event.output.adapter.email</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.wso2.carbon.analytics-common</groupId>
-            <artifactId>org.wso2.carbon.event.output.adapter.sms</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.wso2.carbon.analytics-common</groupId>
-            <artifactId>org.wso2.carbon.databridge.agent</artifactId>
-            <exclusions>
-            	<exclusion>
-            		<groupId>org.wso2.orbit.org.apache.httpcomponents</groupId>
-	    			<artifactId>httpclient</artifactId>
-            	</exclusion>
-            	<exclusion>
-            		<groupId>slf4j.wso2</groupId>
-	    			<artifactId>slf4j</artifactId>
-            	</exclusion>
-            </exclusions>
-        </dependency>        
-        
-        <!-- wso2 stub -->
+		<!-- wso2 stub -->
         <dependency>
             <groupId>org.wso2.carbon.event-processing</groupId>
             <artifactId>org.wso2.carbon.event.processor.stub</artifactId>
@@ -152,14 +89,6 @@
         <dependency>
             <groupId>org.wso2.carbon.apimgt</groupId>
             <artifactId>org.wso2.carbon.apimgt.handlers.security.stub</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.wso2.carbon.apimgt</groupId>
-            <artifactId>org.wso2.carbon.apimgt.keymgt.stub</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.wso2.carbon.apimgt</groupId>
-            <artifactId>org.wso2.carbon.apimgt.gateway.stub</artifactId>
         </dependency>
         <dependency>
             <groupId>org.wso2.carbon.identity</groupId>
@@ -178,20 +107,28 @@
             <artifactId>org.wso2.carbon.user.mgt.stub</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.wso2.carbon</groupId>
+            <artifactId>org.wso2.carbon.authenticator.stub</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.carbon.apimgt</groupId>
+            <artifactId>org.wso2.carbon.apimgt.keymgt.stub</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.carbon.apimgt</groupId>
+            <artifactId>org.wso2.carbon.apimgt.gateway.stub</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.wso2.carbon.apimgt</groupId>
             <artifactId>org.wso2.carbon.apimgt.statsupdate.stub</artifactId>
         </dependency>
         <dependency>
             <groupId>org.wso2.carbon.apimgt</groupId>
-            <artifactId>org.wso2.carbon.apimgt.registry.cache.stub</artifactId>
+            <artifactId>org.wso2.carbon.apimgt.keymgt.client</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.wso2.carbon.apimgt</groupId>
-            <artifactId>org.wso2.carbon.apimgt.tier.cache.stub</artifactId>
-        </dependency>
-		
+        
 		<dependency>
-			<groupId>org.apache.thrift</groupId>
+			<groupId>libthrift.wso2</groupId>
 		  	<artifactId>libthrift</artifactId>
 		  	<exclusions>
 	        	<exclusion>
@@ -199,6 +136,10 @@
 	    			<artifactId>httpclient</artifactId>
 	        	</exclusion>
 	        </exclusions>
+		</dependency>
+		<dependency>
+        	<groupId>org.apache.httpcomponents</groupId>
+	    	<artifactId>httpclient</artifactId>
 		</dependency>
 		<dependency>
             <groupId>org.apache.httpcomponents</groupId>
@@ -272,27 +213,6 @@
             <scope>test</scope>
             <version>1.10.19</version>
         </dependency>
-        <!-- <dependency>
-        	<groupId>org.slf4j</groupId>
-		    <artifactId>log4j-over-slf4j</artifactId>
-		    <version>1.7.7</version>
-        </dependency> -->
-        
-        <!-- <dependency>
-            <groupId>org.wso2.orbit.org.apache.solr</groupId>
-            <artifactId>solr</artifactId>
-            <version>5.2.1.wso2v1</version>
-        </dependency>        
-        <dependency>
-            <groupId>org.wso2.orbit.org.apache.lucene</groupId>
-            <artifactId>lucene</artifactId>
-            <version>5.2.1.wso2v1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.zookeeper.wso2</groupId>
-            <artifactId>apache-zookeeper</artifactId>
-            <version>3.3.4.wso2v1</version>
-        </dependency> -->
         
         <dependency>
         	<groupId>mysql</groupId>

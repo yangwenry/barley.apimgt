@@ -34,8 +34,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.component.ComponentContext;
-import org.wso2.carbon.event.output.adapter.core.OutputEventAdapterConfiguration;
-import org.wso2.carbon.event.output.adapter.core.exception.OutputEventAdapterException;
 
 import barley.apimgt.api.APIManagementException;
 import barley.apimgt.api.APIManagerDatabaseException;
@@ -58,6 +56,8 @@ import barley.core.context.PrivilegedBarleyContext;
 import barley.core.context.RegistryType;
 import barley.core.utils.BarleyUtils;
 import barley.core.utils.FileUtil;
+import barley.event.output.adapter.core.OutputEventAdapterConfiguration;
+import barley.event.output.adapter.core.exception.OutputEventAdapterException;
 import barley.governance.api.util.GovernanceConstants;
 import barley.registry.api.Collection;
 import barley.registry.api.Registry;

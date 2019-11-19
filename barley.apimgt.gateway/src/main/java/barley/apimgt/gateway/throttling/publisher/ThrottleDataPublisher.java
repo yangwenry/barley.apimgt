@@ -27,16 +27,16 @@ import java.util.concurrent.TimeUnit;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.synapse.MessageContext;
-import org.wso2.carbon.databridge.agent.DataPublisher;
-import org.wso2.carbon.databridge.agent.exception.DataEndpointAgentConfigurationException;
-import org.wso2.carbon.databridge.agent.exception.DataEndpointAuthenticationException;
-import org.wso2.carbon.databridge.agent.exception.DataEndpointConfigurationException;
-import org.wso2.carbon.databridge.agent.exception.DataEndpointException;
-import org.wso2.carbon.databridge.commons.exception.TransportException;
 
 import barley.apimgt.gateway.handlers.security.AuthenticationContext;
 import barley.apimgt.gateway.internal.ServiceReferenceHolder;
 import barley.apimgt.impl.dto.ThrottleProperties;
+import barley.databridge.agent.DataPublisher;
+import barley.databridge.agent.exception.DataEndpointAgentConfigurationException;
+import barley.databridge.agent.exception.DataEndpointAuthenticationException;
+import barley.databridge.agent.exception.DataEndpointConfigurationException;
+import barley.databridge.agent.exception.DataEndpointException;
+import barley.databridge.commons.exception.TransportException;
 
 /**
  * Throttle data publisher class is here to publish throttle data to global policy engine.

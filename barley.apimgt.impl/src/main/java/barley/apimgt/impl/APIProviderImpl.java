@@ -66,7 +66,6 @@ import org.wso2.carbon.apimgt.statsupdate.stub.GatewayStatsUpdateServiceAPIManag
 import org.wso2.carbon.apimgt.statsupdate.stub.GatewayStatsUpdateServiceClusteringFaultException;
 import org.wso2.carbon.apimgt.statsupdate.stub.GatewayStatsUpdateServiceExceptionException;
 import org.wso2.carbon.apimgt.statsupdate.stub.GatewayStatsUpdateServiceStub;
-import org.wso2.carbon.event.output.adapter.core.OutputEventAdapterService;
 
 import barley.apimgt.api.APIManagementException;
 import barley.apimgt.api.APIProvider;
@@ -82,7 +81,6 @@ import barley.apimgt.api.model.BlockConditionsDTO;
 import barley.apimgt.api.model.CORSConfiguration;
 import barley.apimgt.api.model.Documentation;
 import barley.apimgt.api.model.Documentation.DocumentSourceType;
-import barley.apimgt.api.model.DocumentationType;
 import barley.apimgt.api.model.DuplicateAPIException;
 import barley.apimgt.api.model.LifeCycleEvent;
 import barley.apimgt.api.model.Provider;
@@ -127,6 +125,7 @@ import barley.core.MultitenantConstants;
 import barley.core.context.PrivilegedBarleyContext;
 import barley.core.multitenancy.MultitenantUtils;
 import barley.core.utils.BarleyUtils;
+import barley.event.output.adapter.core.OutputEventAdapterService;
 import barley.governance.api.common.dataobjects.GovernanceArtifact;
 import barley.governance.api.exception.GovernanceException;
 import barley.governance.api.generic.GenericArtifactManager;

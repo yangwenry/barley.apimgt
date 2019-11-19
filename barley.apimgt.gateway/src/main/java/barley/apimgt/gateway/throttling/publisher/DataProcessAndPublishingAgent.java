@@ -18,13 +18,13 @@ import org.apache.synapse.core.axis2.Axis2MessageContext;
 import org.apache.synapse.rest.RESTConstants;
 import org.apache.synapse.transport.passthru.util.RelayUtils;
 import org.json.simple.JSONObject;
-import org.wso2.carbon.databridge.agent.DataPublisher;
 
 import barley.apimgt.gateway.handlers.security.AuthenticationContext;
 import barley.apimgt.gateway.handlers.throttling.APIThrottleConstants;
 import barley.apimgt.gateway.internal.ServiceReferenceHolder;
 import barley.apimgt.gateway.utils.GatewayUtils;
 import barley.apimgt.impl.utils.APIUtil;
+import barley.databridge.agent.DataPublisher;
 
 /**
  * This class is responsible for executing data publishing logic. This class implements runnable interface and
@@ -217,7 +217,7 @@ public class DataProcessAndPublishingAgent implements Runnable {
                                         this.resourceLevelThrottleKey, this.resourceLevelTier,
                                         this.authorizedUser, this.apiContext, this.apiVersion,
                                         this.appTenant, this.apiTenant, this.appId, this.apiName, jsonObMap.toString()};
-        org.wso2.carbon.databridge.commons.Event event = new org.wso2.carbon.databridge.commons.Event(streamID,
+        barley.databridge.commons.Event event = new barley.databridge.commons.Event(streamID,
                                                                                                       System.currentTimeMillis(), null, null, objects);
         dataPublisher.tryPublish(event);
     }

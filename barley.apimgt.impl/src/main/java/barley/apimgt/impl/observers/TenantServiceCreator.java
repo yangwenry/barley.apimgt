@@ -32,6 +32,8 @@ import org.wso2.carbon.context.PrivilegedCarbonContext;
 import org.wso2.carbon.context.RegistryType;
 import org.wso2.carbon.utils.AbstractAxis2ConfigurationContextObserver;
 
+import barley.core.utils.BarleyUtils;
+
 
 /**
  * This creates the {@link org.apache.synapse.config.SynapseConfiguration}
@@ -49,7 +51,7 @@ public class TenantServiceCreator extends AbstractAxis2ConfigurationContextObser
     private String throttleOutSequenceName = "_throttle_out_handler_";
     private String faultSequenceName = "fault";
     private String mainSequenceName = "main";
-    private String synapseConfigRootPath = CarbonBaseUtils.getCarbonHome() + "/repository/resources/apim-synapse-config/";
+    private String synapseConfigRootPath = BarleyUtils.getCarbonHome() + "/repository/resources/apim-synapse-config/";
 
 
 
