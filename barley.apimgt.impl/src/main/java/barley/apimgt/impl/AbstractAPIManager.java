@@ -1062,7 +1062,7 @@ public abstract class AbstractAPIManager implements APIManager {
 	        }
 	        */
 	        for(APIIdentifier apiId : apiIds) {
-		        API api = apiMgtDAO.getApi(apiId, tenantDomain);
+		        API api = apiMgtDAO.getApi(apiId);
 	        	if (api != null) {
 	                apiSortedSet.add(api);
 	            }

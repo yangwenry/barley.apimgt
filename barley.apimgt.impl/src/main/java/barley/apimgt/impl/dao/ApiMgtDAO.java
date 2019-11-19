@@ -1932,6 +1932,35 @@ public class ApiMgtDAO {
         return subscribedAPIs;
     }
     
+    private Set<APIKey> getAPIKeysBySubscription(int subscriptionId) throws APIManagementException {
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet result = null;
+
+        String getKeysSql = SQLConstants.GET_API_KEY_BY_SUBSCRIPTION_SQL;
+        Set<APIKey> apiKeys = new HashSet<APIKey>();
+        try {
+            connection = APIMgtDBUtil.getConnection();
+            ps = connection.prepareStatement(getKeysSql);
+            ps.setInt(1, subscriptionId);
+            result = ps.executeQuery();
+            while (result.next()) {
+                APIKey apiKey = new APIKey();
+                String decryptedAccessToken = APIUtil.decryptToken(result.getString("ACCESS_TOKEN"));
+                apiKey.setAccessToken(decryptedAccessToken);
+                apiKey.setType(result.getString("TOKEN_TYPE"));
+                apiKeys.add(apiKey);
+            }
+        } catch (SQLException e) {
+            handleException("Failed to get API keys for subscription: " + subscriptionId, e);
+        } catch (CryptoException e) {
+            handleException("Failed to get API keys for subscription: " + subscriptionId, e);
+        } finally {
+            APIMgtDBUtil.closeAllConnections(ps, connection, result);
+        }
+        return apiKeys;
+    }
+    
     // (추가) 2019.11.15 - 구독한 api를 가져오기 위한 id 조회  
     public List<APIIdentifier> getSubscribedApiIds(Subscriber subscriber, String groupingId)
             throws APIManagementException {
@@ -1992,36 +2021,7 @@ public class ApiMgtDAO {
         }
         return apiIds;
     }
-
-    private Set<APIKey> getAPIKeysBySubscription(int subscriptionId) throws APIManagementException {
-        Connection connection = null;
-        PreparedStatement ps = null;
-        ResultSet result = null;
-
-        String getKeysSql = SQLConstants.GET_API_KEY_BY_SUBSCRIPTION_SQL;
-        Set<APIKey> apiKeys = new HashSet<APIKey>();
-        try {
-            connection = APIMgtDBUtil.getConnection();
-            ps = connection.prepareStatement(getKeysSql);
-            ps.setInt(1, subscriptionId);
-            result = ps.executeQuery();
-            while (result.next()) {
-                APIKey apiKey = new APIKey();
-                String decryptedAccessToken = APIUtil.decryptToken(result.getString("ACCESS_TOKEN"));
-                apiKey.setAccessToken(decryptedAccessToken);
-                apiKey.setType(result.getString("TOKEN_TYPE"));
-                apiKeys.add(apiKey);
-            }
-        } catch (SQLException e) {
-            handleException("Failed to get API keys for subscription: " + subscriptionId, e);
-        } catch (CryptoException e) {
-            handleException("Failed to get API keys for subscription: " + subscriptionId, e);
-        } finally {
-            APIMgtDBUtil.closeAllConnections(ps, connection, result);
-        }
-        return apiKeys;
-    }
-
+    
     public String getTokenScope(String consumerKey) throws APIManagementException {
         String tokenScope = null;
 
@@ -11564,15 +11564,16 @@ public class ApiMgtDAO {
             connection = APIMgtDBUtil.getConnection();
             connection.setAutoCommit(false);
             selectPreparedStatement = connection.prepareStatement(query);
-            selectPreparedStatement.setNString(1, tenantDomain);
-            selectPreparedStatement.setNString(2, keyword);
+            selectPreparedStatement.setNString(1, "PUBLISHED");
+            selectPreparedStatement.setNString(2, tenantDomain);
             selectPreparedStatement.setNString(3, keyword);
             selectPreparedStatement.setNString(4, keyword);
             selectPreparedStatement.setNString(5, keyword);
             selectPreparedStatement.setNString(6, keyword);
             selectPreparedStatement.setNString(7, keyword);
-            selectPreparedStatement.setInt(8, startNo);
-            selectPreparedStatement.setInt(9, count);
+            selectPreparedStatement.setNString(8, keyword);
+            selectPreparedStatement.setInt(9, startNo);
+            selectPreparedStatement.setInt(10, count);
             resultSet = selectPreparedStatement.executeQuery();
             while (resultSet.next()) {
             	API api = createApiFromResultSet(resultSet);
@@ -11595,22 +11596,23 @@ public class ApiMgtDAO {
     }
     
     
-    public API getApi(APIIdentifier apiIdentifier, String tenantDomain) throws APIManagementException {
+    public API getApi(APIIdentifier apiIdentifier) throws APIManagementException {
         Connection connection = null;
         PreparedStatement selectPreparedStatement = null;
         ResultSet resultSet = null;
         
         API api = null;
-        
+        String tenantDomain = MultitenantUtils.getTenantDomain(apiIdentifier.getProviderName());
         try {
             connection = APIMgtDBUtil.getConnection();
             connection.setAutoCommit(false);
             String query = SQLConstants.GET_API_SQL;
             selectPreparedStatement = connection.prepareStatement(query);
-            selectPreparedStatement.setNString(1, tenantDomain);
-            selectPreparedStatement.setNString(2, apiIdentifier.getProviderName());
-            selectPreparedStatement.setNString(3, apiIdentifier.getApiName());
-            selectPreparedStatement.setNString(4, apiIdentifier.getVersion());
+            selectPreparedStatement.setNString(1, "");
+            selectPreparedStatement.setNString(2, tenantDomain);
+            selectPreparedStatement.setNString(3, apiIdentifier.getProviderName());
+            selectPreparedStatement.setNString(4, apiIdentifier.getApiName());
+            selectPreparedStatement.setNString(5, apiIdentifier.getVersion());
             resultSet = selectPreparedStatement.executeQuery();
             if (resultSet.next()) {
             	api = createApiFromResultSet(resultSet);
@@ -11832,5 +11834,41 @@ public class ApiMgtDAO {
         return rtnVal;
     }
    
+    // (추가) 2019.11.19 - 사용자가 생성한 api 목록 가져오기   
+    public List<API> getAPIsByProvider(String providerName) throws APIManagementException {
+        Connection connection = null;
+        PreparedStatement selectPreparedStatement = null;
+        ResultSet resultSet = null;
+        
+        List<API> apiList = new ArrayList<API>();
+        String tenantDomain = MultitenantUtils.getTenantDomain(providerName);
+        try {
+            connection = APIMgtDBUtil.getConnection();
+            connection.setAutoCommit(false);
+            String query = SQLConstants.GET_APIS_OF_PUBLISHER_SQL;
+            selectPreparedStatement = connection.prepareStatement(query);
+            selectPreparedStatement.setNString(1, "");
+            selectPreparedStatement.setNString(2, tenantDomain);
+            selectPreparedStatement.setNString(3, providerName);
+            resultSet = selectPreparedStatement.executeQuery();
+            while (resultSet.next()) {
+            	API api = createApiFromResultSet(resultSet);
+            	apiList.add(api);
+            }
+        } catch (SQLException e) {
+            if (connection != null) {
+                try {
+                    connection.rollback();
+                } catch (SQLException ex) {
+                    handleException("Failed to rollback getting sorted rating api ", ex);
+                }
+            }
+            handleException("Failed to get api list by provider", e);
+        } finally {
+            APIMgtDBUtil.closeAllConnections(selectPreparedStatement, connection, resultSet);
+        }
+        
+        return apiList;
+    }
     
 }

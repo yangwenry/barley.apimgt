@@ -221,7 +221,8 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
     public List<API> getAPIsByProvider(String providerId) throws APIManagementException {
 
         List<API> apiSortedList = new ArrayList<API>();
-
+        // (수정) 2019.11.19 - dao로 변경 
+        /*
         try {
             providerId = APIUtil.replaceEmailDomain(providerId);
             String providerPath = APIConstants.API_ROOT_LOCATION + RegistryConstants.PATH_SEPARATOR + providerId;
@@ -242,6 +243,8 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
         } catch (RegistryException e) {
             handleException("Failed to get APIs for provider : " + providerId, e);
         }
+        */
+        apiSortedList = apiMgtDAO.getAPIsByProvider(providerId);
         Collections.sort(apiSortedList, new APINameComparator());
 
         return apiSortedList;

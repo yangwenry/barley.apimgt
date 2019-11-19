@@ -2656,7 +2656,7 @@ public class SQLConstants {
 						  ") SA " +
 						"LEFT JOIN AM_API_LC_EVENT SB " +
 						"ON (SA.API_ID = SB.API_ID AND SA.EVENT_ID = SB.EVENT_ID) " +
-						"WHERE SB.NEW_STATE = 'PUBLISHED' " +
+						"WHERE SB.NEW_STATE LIKE UPPER(CONCAT('%',?,'%')) " +
 					") TA " +
 				"INNER JOIN AM_API TB " +
 					"ON (TA.API_ID = TB.API_ID AND SUBSTRING_INDEX(TB.API_PROVIDER, '@', -1) = ?) " +
@@ -2711,6 +2711,11 @@ public class SQLConstants {
     
     public static final String GET_API_SQL = GET_SORTED_API_SQL_PREFIX + GET_API_WHERE_SQL;
     
+    // 사용자가 생성한  API 조회  
+    public static final String GET_APIS_OF_PUBLISHER_WHERE_SQL =						   
+			" WHERE TB.API_PROVIDER = ? ";    		
+    
+    public static final String GET_APIS_OF_PUBLISHER_SQL = GET_SORTED_API_SQL_PREFIX + GET_APIS_OF_PUBLISHER_WHERE_SQL;
     
     public static final String GET_PUBLIC_API_CNT_SQL =
 	    	"SELECT " +
