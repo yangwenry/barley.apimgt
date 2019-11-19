@@ -15,7 +15,8 @@
 	 	<module>barley.apimgt.gateway</module>
     	<module>barley.apimgt.keymgt</module>
     	<module>barley.apimgt.usage</module>
-  </modules>
+    	<module>barley.apimgt.jms.listener</module>
+	</modules>
 	
 	<dependencyManagement>
 		<dependencies>
