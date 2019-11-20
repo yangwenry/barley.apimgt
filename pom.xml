@@ -124,6 +124,11 @@
 	            <version>${project.version}</version>
 	        </dependency>
 	        <dependency>
+	        	<groupId>barley.identity</groupId>
+	            <artifactId>barley.identity.authenticator.thrift</artifactId>
+	        	<version>${project.version}</version>
+	        </dependency>
+	        <dependency>
 	            <groupId>javax.cache.barley</groupId>
 	            <artifactId>javax.cache.barley</artifactId>
 	            <version>${project.version}</version>
@@ -376,13 +381,6 @@
 	            <groupId>org.wso2.carbon.apimgt</groupId>
 	            <artifactId>org.wso2.carbon.apimgt.keymgt.client</artifactId>
 	            <version>6.0.4</version>
-	        </dependency>
-	        
-			<!-- wso2 lib -->
-			<dependency>
-	        	<groupId>org.wso2.carbon.identity</groupId>
-	        	<artifactId>org.wso2.carbon.identity.authenticator.thrift</artifactId>
-	        	<version>5.2.0</version>
 	        </dependency>
 			
 		</dependencies>

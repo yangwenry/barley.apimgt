@@ -24,8 +24,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.thrift.TException;
 import org.wso2.carbon.core.AbstractAdmin;
-import org.wso2.carbon.identity.thrift.authentication.ThriftAuthenticatorService;
-import org.wso2.carbon.utils.ThriftSession;
 
 import barley.apimgt.api.dto.ConditionDTO;
 import barley.apimgt.api.dto.ConditionGroupDTO;
@@ -37,6 +35,8 @@ import barley.apimgt.keymgt.APIKeyMgtException;
 import barley.core.MultitenantConstants;
 import barley.core.ServerConstants;
 import barley.core.context.PrivilegedBarleyContext;
+import barley.core.utils.ThriftSession;
+import barley.identity.authenticator.thrift.ThriftAuthenticatorService;
 
 public class APIKeyValidationServiceImpl extends AbstractAdmin
         implements APIKeyValidationService.Iface {

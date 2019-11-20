@@ -33,8 +33,6 @@ import org.apache.thrift.transport.TServerSocket;
 import org.apache.thrift.transport.TTransportException;
 import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.component.ComponentContext;
-import org.wso2.carbon.identity.thrift.authentication.ThriftAuthenticatorService;
-import org.wso2.carbon.utils.NetworkUtils;
 
 import barley.apimgt.impl.APIConstants;
 import barley.apimgt.impl.APIManagerConfigurationService;
@@ -43,6 +41,8 @@ import barley.apimgt.keymgt.APIKeyMgtException;
 import barley.apimgt.keymgt.ScopesIssuer;
 import barley.apimgt.keymgt.util.APIKeyMgtDataHolder;
 import barley.core.configuration.ServerConfiguration;
+import barley.core.utils.NetworkUtils;
+import barley.identity.authenticator.thrift.ThriftAuthenticatorService;
 import barley.registry.core.service.RegistryService;
 import barley.user.core.service.RealmService;
 

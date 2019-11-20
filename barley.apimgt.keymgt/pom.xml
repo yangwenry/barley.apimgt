@@ -14,11 +14,6 @@
 	 
 	<dependencies>
 	
-		<!-- 아래 캐시로 변경함 -->
-		<!-- <dependency>
-		    <groupId>javax.cache</groupId>
-		    <artifactId>cache-api</artifactId>
-		</dependency>	 -->		
 		<dependency>
             <groupId>javax.cache.barley</groupId>
             <artifactId>javax.cache.barley</artifactId>
@@ -44,29 +39,10 @@
             <groupId>barley.identity</groupId>
             <artifactId>barley.identity.application.authentication.framework</artifactId>
         </dependency>
-        
         <dependency>
-        	<groupId>org.wso2.carbon.identity</groupId>
-        	<artifactId>org.wso2.carbon.identity.authenticator.thrift</artifactId>
-        	<exclusions>
-        		<exclusion>
-            		<groupId>org.wso2.carbon</groupId>
-            		<artifactId>javax.cache.wso2</artifactId>
-            	</exclusion>
-        	</exclusions>
+        	<groupId>barley.identity</groupId>
+            <artifactId>barley.identity.authenticator.thrift</artifactId>
         </dependency>
-        
-        <!-- <dependency>
-            <groupId>org.wso2.carbon.identity</groupId>
-            <artifactId>org.wso2.carbon.identity.oauth</artifactId>
-            <version>5.1.1</version>
-            <exclusions>
-            	<exclusion>
-            		<groupId>org.wso2.carbon</groupId>
-            		<artifactId>javax.cache.wso2</artifactId>
-            	</exclusion>
-            </exclusions>
-        </dependency> -->
         
 	</dependencies>
 	
