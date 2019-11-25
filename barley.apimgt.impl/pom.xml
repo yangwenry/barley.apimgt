@@ -24,22 +24,9 @@
 
 	<dependencies> 
 	
-		<!-- <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <version>1.6.6</version>
-        </dependency> -->  
-        <!-- indexer에서 사용됨 -->     
 		<dependency>
 	        <groupId>org.apache.solr</groupId>
 	        <artifactId>solr-core</artifactId>
-	        <version>5.2.1</version>
-	        <exclusions>
-	        	<exclusion>
-	        		<groupId>org.apache.httpcomponents</groupId>
-	    			<artifactId>httpclient</artifactId>
-	        	</exclusion>
-	        </exclusions>
 	    </dependency>	    
 	    
 	    <dependency>
@@ -53,12 +40,6 @@
 		<dependency>
 		    <groupId>barley.identity</groupId>
 		    <artifactId>barley.identity.core</artifactId>
-		    <exclusions>
-		    	<exclusion>
-		    		<groupId>org.slf4j</groupId>
-		    		<artifactId>slf4j-jdk14</artifactId>
-		    	</exclusion>
-		    </exclusions>
 		</dependency>
 		<dependency>
 		    <groupId>barley.identity</groupId>
@@ -130,12 +111,6 @@
 		<dependency>
 			<groupId>libthrift.wso2</groupId>
 		  	<artifactId>libthrift</artifactId>
-		  	<exclusions>
-	        	<exclusion>
-	        		<groupId>org.apache.httpcomponents</groupId>
-	    			<artifactId>httpclient</artifactId>
-	        	</exclusion>
-	        </exclusions>
 		</dependency>
 		<dependency>
         	<groupId>org.apache.httpcomponents</groupId>
@@ -144,12 +119,6 @@
 		<dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpmime</artifactId>
-            <exclusions>
-	        	<exclusion>
-	        		<groupId>org.apache.httpcomponents</groupId>
-	    			<artifactId>httpclient</artifactId>
-	        	</exclusion>
-	        </exclusions>
         </dependency>	
         <dependency>
             <groupId>org.apache.velocity</groupId>
@@ -186,12 +155,6 @@
 		<dependency>
 		    <groupId>barley.governance</groupId> 
 		    <artifactId>barley.governance.api</artifactId>
-		    <exclusions>
-		    	<exclusion>
-		    		<groupId>org.wso2.orbit.org.apache.solr</groupId>
-		    		<artifactId>solr</artifactId>
-		    	</exclusion>
-		    </exclusions>
 		</dependency>
 		<dependency>
 		    <groupId>barley.governance</groupId> 

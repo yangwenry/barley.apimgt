@@ -19,10 +19,10 @@
             <artifactId>javax.cache.barley</artifactId>
         </dependency> 
         
-		<dependency>
+        <dependency>
             <groupId>barley.apimgt</groupId>
             <artifactId>barley.apimgt.impl</artifactId>             
-        </dependency>        
+        </dependency>
         <dependency>
             <groupId>barley.registry</groupId>
             <artifactId>barley.registry.core</artifactId>          
@@ -43,6 +43,12 @@
         	<groupId>barley.identity</groupId>
             <artifactId>barley.identity.authenticator.thrift</artifactId>
         </dependency>
+        
+        <!-- utility -->
+        <dependency>
+		    <groupId>commons-codec</groupId>
+		    <artifactId>commons-codec</artifactId>
+		</dependency>
         
 	</dependencies>
 	

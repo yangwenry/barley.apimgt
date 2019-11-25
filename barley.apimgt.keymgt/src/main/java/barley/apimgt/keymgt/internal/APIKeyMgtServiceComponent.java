@@ -31,8 +31,8 @@ import org.apache.thrift.server.TServer;
 import org.apache.thrift.transport.TSSLTransportFactory;
 import org.apache.thrift.transport.TServerSocket;
 import org.apache.thrift.transport.TTransportException;
-import org.osgi.framework.ServiceRegistration;
-import org.osgi.service.component.ComponentContext;
+//import org.osgi.framework.ServiceRegistration;
+//import org.osgi.service.component.ComponentContext;
 
 import barley.apimgt.impl.APIConstants;
 import barley.apimgt.impl.APIManagerConfigurationService;
@@ -71,7 +71,7 @@ public class APIKeyMgtServiceComponent {
 
     // (임시주석) 리스너를 사용하지 않음 
     //private static KeyManagerUserOperationListener listener = null;
-    private ServiceRegistration serviceRegistration = null;
+    //private ServiceRegistration serviceRegistration = null;
 
     public void activate() {
         try {
@@ -127,10 +127,10 @@ public class APIKeyMgtServiceComponent {
         }
     }
 
-    protected void deactivate(ComponentContext context) {
-        if (serviceRegistration != null) {
+    protected void deactivate() {
+        /*if (serviceRegistration != null) {
             serviceRegistration.unregister();
-        }
+        }*/
         if (log.isDebugEnabled()) {
             log.info("Key Manager User Operation Listener is deactivated.");
         }
