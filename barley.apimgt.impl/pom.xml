@@ -25,9 +25,9 @@
 	<dependencies> 
 	
 		<dependency>
-	        <groupId>org.apache.solr</groupId>
-	        <artifactId>solr-core</artifactId>
-	    </dependency>	    
+            <groupId>org.wso2.orbit.org.apache.solr</groupId>
+            <artifactId>solr</artifactId>
+        </dependency>	    
 	    
 	    <dependency>
             <groupId>javax.cache.barley</groupId>
