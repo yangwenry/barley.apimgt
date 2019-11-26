@@ -267,10 +267,10 @@
 	        
 	        <!-- solr -->
 	        <dependency>
-		        <groupId>org.apache.solr</groupId>
-		        <artifactId>solr-core</artifactId>
-		        <version>5.2.1</version>
-		        <exclusions>
+	            <groupId>org.wso2.orbit.org.apache.solr</groupId>
+	            <artifactId>solr</artifactId>
+	            <version>5.2.1.wso2v1</version>
+	            <exclusions>
 		        	<exclusion>
 		        		<groupId>org.apache.httpcomponents</groupId>
 		    			<artifactId>httpclient</artifactId>
@@ -296,7 +296,7 @@
 			    		<artifactId>commons-fileupload</artifactId>
 			    	</exclusion>
 		        </exclusions>
-		    </dependency>
+	        </dependency>
 			   
 			<!-- utility -->
 			<dependency>
