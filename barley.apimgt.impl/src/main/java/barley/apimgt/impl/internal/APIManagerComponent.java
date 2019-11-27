@@ -32,8 +32,8 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.osgi.framework.ServiceRegistration;
-import org.osgi.service.component.ComponentContext;
+//import org.osgi.framework.ServiceRegistration;
+//import org.osgi.service.component.ComponentContext;
 
 import barley.apimgt.api.APIManagementException;
 import barley.apimgt.api.APIManagerDatabaseException;
@@ -113,7 +113,7 @@ public class APIManagerComponent {
 
 	private static final Log log = LogFactory.getLog(APIManagerComponent.class);
 
-    private ServiceRegistration registration;
+    //private ServiceRegistration registration;
 
     private static TenantRegistryLoader tenantRegistryLoader;
     private APIManagerConfiguration configuration = new APIManagerConfiguration();
@@ -266,11 +266,11 @@ public class APIManagerComponent {
         }
     }
 
-    protected void deactivate(ComponentContext componentContext) {
+    protected void deactivate() {
         if (log.isDebugEnabled()) {
             log.debug("Deactivating API manager component");
         }
-        registration.unregister();
+        //registration.unregister();
         APIManagerFactory.getInstance().clearAll();
         barley.apimgt.impl.utils.AuthorizationManager.getInstance().destroy();
     }

@@ -612,6 +612,10 @@
 	            		<groupId>com.googlecode.json-simple.wso2</groupId>
     					<artifactId>json-simple</artifactId>
 	            	</exclusion>
+	            	<exclusion>
+	            		<groupId>org.wso2.carbon</groupId>
+						<artifactId>org.wso2.carbon.utils</artifactId>
+	            	</exclusion>
 	            </exclusions>
 	        </dependency>
 			

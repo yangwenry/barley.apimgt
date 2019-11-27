@@ -6,7 +6,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
-import org.osgi.service.component.ComponentContext;
+//import org.osgi.service.component.ComponentContext;
 
 import barley.apimgt.api.APIManagementException;
 import barley.apimgt.gateway.handlers.security.keys.APIKeyValidatorClientPool;

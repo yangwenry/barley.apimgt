@@ -18,7 +18,7 @@ package barley.apimgt.usage.client.internal;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.osgi.service.component.ComponentContext;
+//import org.osgi.service.component.ComponentContext;
 
 import barley.apimgt.impl.APIManagerAnalyticsConfiguration;
 import barley.apimgt.impl.APIManagerConfiguration;

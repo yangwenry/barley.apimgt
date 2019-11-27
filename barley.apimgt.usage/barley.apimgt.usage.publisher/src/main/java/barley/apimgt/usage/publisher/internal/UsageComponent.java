@@ -22,7 +22,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.osgi.service.component.ComponentContext;
+//import org.osgi.service.component.ComponentContext;
 
 import barley.apimgt.impl.APIManagerConfigurationService;
 import barley.apimgt.usage.publisher.DataPublisherUtil;
@@ -60,7 +60,7 @@ public class UsageComponent {
         }
     }
 
-    public void deactivate(ComponentContext ctx) {
+    public void deactivate() {
 
     }
 

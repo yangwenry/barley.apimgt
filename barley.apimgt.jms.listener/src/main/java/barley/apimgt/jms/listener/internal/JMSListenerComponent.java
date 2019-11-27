@@ -30,7 +30,7 @@ import org.osgi.framework.ServiceEvent;
 import org.osgi.framework.ServiceListener;
 import org.osgi.framework.ServiceReference;
 import org.osgi.framework.ServiceRegistration;
-import org.osgi.service.component.ComponentContext;
+//import org.osgi.service.component.ComponentContext;
 
 import barley.apimgt.gateway.service.APIThrottleDataService;
 import barley.apimgt.impl.APIManagerConfiguration;

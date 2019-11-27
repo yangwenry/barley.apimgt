@@ -17,6 +17,7 @@
 package barley.apimgt.gateway.handlers.security.keys;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -42,7 +43,6 @@ import barley.apimgt.impl.APIConstants;
 import barley.apimgt.impl.APIManagerConfiguration;
 import barley.apimgt.impl.dto.APIKeyValidationInfoDTO;
 import barley.core.utils.BarleyUtils;
-import edu.emory.mathcs.backport.java.util.Arrays;
 
 public class APIKeyValidatorClient {
 
