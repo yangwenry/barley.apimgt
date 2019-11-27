@@ -17,7 +17,7 @@
 package barley.apimgt.gateway.internal;
 
 import org.apache.axis2.context.ConfigurationContext;
-import org.wso2.carbon.utils.ConfigurationContextService;
+//import org.wso2.carbon.utils.ConfigurationContextService;
 
 import barley.apimgt.gateway.throttling.ThrottleDataHolder;
 import barley.apimgt.impl.APIManagerConfiguration;
@@ -29,7 +29,7 @@ public class ServiceReferenceHolder {
 
     private static final ServiceReferenceHolder instance = new ServiceReferenceHolder();
 
-    private ConfigurationContextService cfgCtxService;
+    //private ConfigurationContextService cfgCtxService;
     private APIManagerConfigurationService amConfigService;
     public ThrottleDataHolder throttleDataHolder;
     private ThrottleProperties throttleProperties;
@@ -49,7 +49,7 @@ public class ServiceReferenceHolder {
         return instance;
     }
 
-    public void setConfigurationContextService(ConfigurationContextService cfgCtxService) {
+    /*public void setConfigurationContextService(ConfigurationContextService cfgCtxService) {
         this.cfgCtxService = cfgCtxService;
     }
 
@@ -59,7 +59,7 @@ public class ServiceReferenceHolder {
 
     public ConfigurationContext getServerConfigurationContext() {
         return cfgCtxService.getServerConfigContext();
-    }
+    }*/
 	
     public APIManagerConfiguration getAPIManagerConfiguration() {
         return amConfigService.getAPIManagerConfiguration();

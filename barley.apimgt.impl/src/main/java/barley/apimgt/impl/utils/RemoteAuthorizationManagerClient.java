@@ -21,15 +21,15 @@ import org.apache.axis2.client.Options;
 import org.apache.axis2.client.ServiceClient;
 import org.apache.axis2.context.ServiceContext;
 import org.apache.axis2.transport.http.HTTPConstants;
-import org.wso2.carbon.CarbonConstants;
 import org.wso2.carbon.um.ws.api.stub.RemoteAuthorizationManagerServiceStub;
 import org.wso2.carbon.um.ws.api.stub.RemoteUserStoreManagerServiceStub;
-import org.wso2.carbon.utils.CarbonUtils;
 
 import barley.apimgt.api.APIManagementException;
 import barley.apimgt.impl.APIConstants;
 import barley.apimgt.impl.APIManagerConfiguration;
 import barley.apimgt.impl.internal.ServiceReferenceHolder;
+import barley.core.BarleyConstants;
+import barley.core.utils.BarleyUtils;
 
 /**
  * Service client implementation for the RemoteAuthorizationManagerService (an admin service
@@ -93,7 +93,7 @@ public class RemoteAuthorizationManagerClient implements AuthorizationManagerCli
      * @throws APIManagementException If and error occurs while accessing the admin service
      */
     public boolean isUserAuthorized(String user, String permission) throws APIManagementException {
-        CarbonUtils.setBasicAccessSecurityHeaders(username, password,
+        BarleyUtils.setBasicAccessSecurityHeaders(username, password,
                 true, authorizationManager._getServiceClient());
         if (cookie != null) {
             authorizationManager._getServiceClient().getOptions().setProperty(HTTPConstants.COOKIE_STRING, cookie);
@@ -101,7 +101,7 @@ public class RemoteAuthorizationManagerClient implements AuthorizationManagerCli
 
         try {
             boolean authorized = authorizationManager.isUserAuthorized(user, permission,
-                    CarbonConstants.UI_PERMISSION_ACTION);
+                    BarleyConstants.UI_PERMISSION_ACTION);
             ServiceContext serviceContext = authorizationManager.
                     _getServiceClient().getLastOperationContext().getServiceContext();
             cookie = (String) serviceContext.getProperty(HTTPConstants.COOKIE_STRING);
@@ -122,7 +122,7 @@ public class RemoteAuthorizationManagerClient implements AuthorizationManagerCli
      * @throws APIManagementException If and error occurs while accessing the admin service
      */
     public String[] getRolesOfUser(String user) throws APIManagementException {
-        CarbonUtils.setBasicAccessSecurityHeaders(username, password,
+    	BarleyUtils.setBasicAccessSecurityHeaders(username, password,
                 true, userStoreManager._getServiceClient());
         if (cookie != null) {
             userStoreManager._getServiceClient().getOptions().setProperty(HTTPConstants.COOKIE_STRING, cookie);
@@ -150,7 +150,7 @@ public class RemoteAuthorizationManagerClient implements AuthorizationManagerCli
      * @throws APIManagementException If and error occurs while accessing the admin service
      */
     public String[] getRoleNames() throws APIManagementException {
-        CarbonUtils.setBasicAccessSecurityHeaders(username, password,
+    	BarleyUtils.setBasicAccessSecurityHeaders(username, password,
                                                   true, userStoreManager._getServiceClient());
         if (cookie != null) {
             userStoreManager._getServiceClient().getOptions().setProperty(HTTPConstants.COOKIE_STRING, cookie);

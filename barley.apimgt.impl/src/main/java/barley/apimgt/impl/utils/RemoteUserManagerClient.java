@@ -9,12 +9,12 @@ import org.apache.axis2.context.ConfigurationContext;
 import org.apache.axis2.context.ConfigurationContextFactory;
 import org.apache.axis2.transport.http.HTTPConstants;
 import org.wso2.carbon.um.ws.api.stub.RemoteUserStoreManagerServiceStub;
-import org.wso2.carbon.utils.CarbonUtils;
 
 import barley.apimgt.api.APIManagementException;
 import barley.apimgt.impl.APIConstants;
 import barley.apimgt.impl.APIManagerConfiguration;
 import barley.apimgt.impl.internal.ServiceReferenceHolder;
+import barley.core.utils.BarleyUtils;
 
 /**
  * RemoteUserStroeManager Admin service client.
@@ -38,16 +38,16 @@ public class RemoteUserManagerClient {
 		
 		try {
 
-			String clientRepo = CarbonUtils.getCarbonHome() + File.separator + "repository" +
+			String clientRepo = BarleyUtils.getCarbonHome() + File.separator + "repository" +
                     File.separator + "deployment" + File.separator + "client";
-			String clientAxisConf = CarbonUtils.getCarbonHome() + File.separator + "repository" +
+			String clientAxisConf = BarleyUtils.getCarbonHome() + File.separator + "repository" +
                     File.separator + "conf" + File.separator + "axis2"+ File.separator +"axis2_client.xml";
 			
 			ConfigurationContext configContext = ConfigurationContextFactory. createConfigurationContextFromFileSystem(clientRepo,clientAxisConf);
 			userStoreManagerStub = new RemoteUserStoreManagerServiceStub(configContext, serviceURL +
 			                                                                   "RemoteUserStoreManagerService");
 			ServiceClient svcClient = userStoreManagerStub._getServiceClient();
-			CarbonUtils.setBasicAccessSecurityHeaders(username, password, true,svcClient);
+			BarleyUtils.setBasicAccessSecurityHeaders(username, password, true,svcClient);
 			Options options = svcClient.getOptions();
 			options.setTimeOutInMilliSeconds(TIMEOUT_IN_MILLIS);
 			options.setProperty(HTTPConstants.SO_TIMEOUT, TIMEOUT_IN_MILLIS);

@@ -22,14 +22,14 @@ package barley.apimgt.jms.listener.internal;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.osgi.framework.Bundle;
-import org.osgi.framework.BundleContext;
-import org.osgi.framework.Constants;
-import org.osgi.framework.InvalidSyntaxException;
-import org.osgi.framework.ServiceEvent;
-import org.osgi.framework.ServiceListener;
-import org.osgi.framework.ServiceReference;
-import org.osgi.framework.ServiceRegistration;
+//import org.osgi.framework.Bundle;
+//import org.osgi.framework.BundleContext;
+//import org.osgi.framework.Constants;
+//import org.osgi.framework.InvalidSyntaxException;
+//import org.osgi.framework.ServiceEvent;
+//import org.osgi.framework.ServiceListener;
+//import org.osgi.framework.ServiceReference;
+//import org.osgi.framework.ServiceRegistration;
 //import org.osgi.service.component.ComponentContext;
 
 import barley.apimgt.gateway.service.APIThrottleDataService;
@@ -55,12 +55,13 @@ import barley.apimgt.jms.listener.utils.ListenerConstants;
  * policy="dynamic" bind="setAPIManagerConfigurationService" unbind="unsetAPIManagerConfigurationService"
  */
 
-public class JMSListenerComponent implements ServiceListener {
+//public class JMSListenerComponent implements ServiceListener {
+public class JMSListenerComponent {
 
     private static final Log log = LogFactory.getLog(JMSListenerComponent.class);
     private JMSTransportHandler jmsTransportHandler;
     //private BundleContext bundleContext;
-    private ServiceRegistration registration;
+    //private ServiceRegistration registration;
 
     public void activate() {
         log.debug("Activating component...");
@@ -171,7 +172,7 @@ public class JMSListenerComponent implements ServiceListener {
         }
     }
 
-    @Override
+    /*@Override
     public void serviceChanged(ServiceEvent event) {
         if (event.getType() == ServiceEvent.REGISTERED) {
             if (log.isDebugEnabled()) {
@@ -179,5 +180,5 @@ public class JMSListenerComponent implements ServiceListener {
             }
             startJMSListener();
         }
-    }
+    }*/
 }

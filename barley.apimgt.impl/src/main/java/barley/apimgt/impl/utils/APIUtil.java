@@ -109,7 +109,6 @@ import org.wso2.carbon.apimgt.keymgt.client.SubscriberKeyMgtClient;
 //import org.wso2.carbon.core.commons.stub.loggeduserinfo.LoggedUserInfoAdminStub;
 import org.wso2.carbon.core.multitenancy.utils.TenantAxisUtils;
 import org.wso2.carbon.core.util.PermissionUpdateUtil;
-import org.wso2.carbon.utils.NetworkUtils;
 import org.xml.sax.SAXException;
 
 import com.google.gson.Gson;
@@ -171,6 +170,7 @@ import barley.core.utils.ConfigurationContextService;
 import barley.core.utils.CryptoException;
 import barley.core.utils.CryptoUtil;
 import barley.core.utils.FileUtil;
+import barley.core.utils.NetworkUtils;
 import barley.governance.api.common.dataobjects.GovernanceArtifact;
 import barley.governance.api.endpoints.EndpointManager;
 import barley.governance.api.endpoints.dataobjects.Endpoint;
@@ -235,7 +235,7 @@ public final class APIUtil {
     static {
         tenantIdleTimeMillis =
                 Long.parseLong(System.getProperty(
-                        org.wso2.carbon.utils.multitenancy.MultitenantConstants.TENANT_IDLE_TIME,
+                        barley.core.MultitenantConstants.TENANT_IDLE_TIME,
                         String.valueOf(DEFAULT_TENANT_IDLE_MINS)))
                         * 60 * 1000;
     }
@@ -1371,7 +1371,7 @@ public final class APIUtil {
             String wsdRegistryPath;
 
             String tenantDomain = PrivilegedBarleyContext.getThreadLocalCarbonContext().getTenantDomain();
-            if (org.wso2.carbon.utils.multitenancy.MultitenantConstants.SUPER_TENANT_DOMAIN_NAME.equalsIgnoreCase
+            if (barley.core.MultitenantConstants.SUPER_TENANT_DOMAIN_NAME.equalsIgnoreCase
                     (tenantDomain)) {
                 wsdRegistryPath = RegistryConstants.PATH_SEPARATOR + "registry"
                         + RegistryConstants.PATH_SEPARATOR + "resource"

@@ -27,11 +27,10 @@ import org.apache.axis2.context.ConfigurationContext;
 import org.apache.axis2.engine.AxisConfiguration;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.wso2.carbon.base.CarbonBaseUtils;
-import org.wso2.carbon.context.PrivilegedCarbonContext;
-import org.wso2.carbon.context.RegistryType;
-import org.wso2.carbon.utils.AbstractAxis2ConfigurationContextObserver;
 
+import barley.core.context.PrivilegedBarleyContext;
+import barley.core.context.RegistryType;
+import barley.core.utils.AbstractAxis2ConfigurationContextObserver;
 import barley.core.utils.BarleyUtils;
 
 
@@ -59,13 +58,13 @@ public class TenantServiceCreator extends AbstractAxis2ConfigurationContextObser
         /*String tenantDomain =
                 PrivilegedCarbonContext.getCurrentContext(configurationContext).getTenantDomain();
         int tenantId =  PrivilegedCarbonContext.getCurrentContext(configurationContext).getTenantId();*/
-    	String tenantDomain = PrivilegedCarbonContext.getThreadLocalCarbonContext().getTenantDomain();
-    	int tenantId = PrivilegedCarbonContext.getThreadLocalCarbonContext().getTenantId();
+    	String tenantDomain = PrivilegedBarleyContext.getThreadLocalCarbonContext().getTenantDomain();
+    	int tenantId = PrivilegedBarleyContext.getThreadLocalCarbonContext().getTenantId();
         try {
         	        	
             // first check which configuration should be active
             org.wso2.carbon.registry.core.Registry registry =
-                    (org.wso2.carbon.registry.core.Registry) PrivilegedCarbonContext
+                    (org.wso2.carbon.registry.core.Registry) PrivilegedBarleyContext
                             .getThreadLocalCarbonContext().
                                     getRegistry(RegistryType.SYSTEM_CONFIGURATION);
 

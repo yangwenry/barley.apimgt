@@ -19,9 +19,9 @@ package barley.apimgt.impl.notification;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.wso2.carbon.context.PrivilegedCarbonContext;
 
 import barley.apimgt.impl.notification.exception.NotificationException;
+import barley.core.context.PrivilegedBarleyContext;
 
 
 public abstract class Notifier implements Runnable {
@@ -62,8 +62,8 @@ public abstract class Notifier implements Runnable {
      * @param tenantDomain
      */
     public void setThreadLocalContxet(String tenantDomain){
-        PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantDomain(tenantDomain);
-        PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantDomain(tenantDomain,true);
+        PrivilegedBarleyContext.getThreadLocalCarbonContext().setTenantDomain(tenantDomain);
+        PrivilegedBarleyContext.getThreadLocalCarbonContext().setTenantDomain(tenantDomain,true);
 
     }
 

@@ -22,7 +22,6 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.wso2.carbon.utils.multitenancy.MultitenantUtils;
 
 import barley.apimgt.api.APIManagementException;
 import barley.apimgt.api.WorkflowResponse;
@@ -32,6 +31,7 @@ import barley.apimgt.impl.dto.UserRegistrationConfigDTO;
 import barley.apimgt.impl.dto.WorkflowDTO;
 import barley.apimgt.impl.internal.ServiceReferenceHolder;
 import barley.apimgt.impl.utils.SelfSignUpUtil;
+import barley.core.multitenancy.MultitenantUtils;
 
 public class UserSignUpSimpleWorkflowExecutor extends UserSignUpWorkflowExecutor {
 

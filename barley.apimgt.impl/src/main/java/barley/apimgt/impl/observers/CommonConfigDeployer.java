@@ -23,14 +23,14 @@ package barley.apimgt.impl.observers;
 import org.apache.axis2.context.ConfigurationContext;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.wso2.carbon.context.PrivilegedCarbonContext;
-import org.wso2.carbon.utils.AbstractAxis2ConfigurationContextObserver;
 
 import barley.apimgt.api.APIManagementException;
 import barley.apimgt.impl.APIConstants;
 import barley.apimgt.impl.APIManagerConfiguration;
 import barley.apimgt.impl.internal.ServiceReferenceHolder;
 import barley.apimgt.impl.utils.APIUtil;
+import barley.core.context.PrivilegedBarleyContext;
+import barley.core.utils.AbstractAxis2ConfigurationContextObserver;
 
 /**
  * This task provisions mandatory configs & Artifacts needed by any tenant. The reason for introducing this task is
@@ -43,8 +43,8 @@ public class CommonConfigDeployer extends AbstractAxis2ConfigurationContextObser
 
 
     public void createdConfigurationContext(ConfigurationContext configurationContext) {
-        final String tenantDomain = PrivilegedCarbonContext.getThreadLocalCarbonContext().getTenantDomain();
-        final int tenantId = PrivilegedCarbonContext.getThreadLocalCarbonContext().getTenantId();
+        final String tenantDomain = PrivilegedBarleyContext.getThreadLocalCarbonContext().getTenantDomain();
+        final int tenantId = PrivilegedBarleyContext.getThreadLocalCarbonContext().getTenantId();
 
 
         try {

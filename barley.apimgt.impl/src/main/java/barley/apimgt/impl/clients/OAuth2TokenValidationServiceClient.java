@@ -31,12 +31,12 @@ import org.wso2.carbon.identity.oauth2.stub.dto.OAuth2ClientApplicationDTO;
 import org.wso2.carbon.identity.oauth2.stub.dto.OAuth2TokenValidationRequestDTO;
 import org.wso2.carbon.identity.oauth2.stub.dto.OAuth2TokenValidationRequestDTO_OAuth2AccessToken;
 import org.wso2.carbon.identity.oauth2.stub.dto.OAuth2TokenValidationRequestDTO_TokenValidationContextParam;
-import org.wso2.carbon.utils.CarbonUtils;
 
 import barley.apimgt.api.APIManagementException;
 import barley.apimgt.api.model.KeyManagerConfiguration;
 import barley.apimgt.impl.APIConstants;
 import barley.apimgt.impl.factory.KeyManagerHolder;
+import barley.core.utils.BarleyUtils;
 
 
 public class OAuth2TokenValidationServiceClient {
@@ -83,7 +83,7 @@ public class OAuth2TokenValidationServiceClient {
 
     public OAuth2ClientApplicationDTO validateAuthenticationRequest(String accessTokenIdentifier)
             throws APIManagementException {
-        CarbonUtils.setBasicAccessSecurityHeaders(username, password,
+        BarleyUtils.setBasicAccessSecurityHeaders(username, password,
                 true, oAuth2TokenValidationServiceStub._getServiceClient());
         if (cookie != null) {
             oAuth2TokenValidationServiceStub._getServiceClient().getOptions().setProperty(HTTPConstants.COOKIE_STRING,

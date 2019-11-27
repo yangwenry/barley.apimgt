@@ -22,11 +22,11 @@ package barley.apimgt.impl.observers;
 import org.apache.axis2.context.ConfigurationContext;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.wso2.carbon.context.PrivilegedCarbonContext;
-import org.wso2.carbon.utils.AbstractAxis2ConfigurationContextObserver;
 
 import barley.apimgt.api.APIManagementException;
 import barley.apimgt.impl.utils.APIUtil;
+import barley.core.context.PrivilegedBarleyContext;
+import barley.core.utils.AbstractAxis2ConfigurationContextObserver;
 
 /**
  * This creates the subscriber Role for a tenant, when a new tenant is created.
@@ -36,8 +36,8 @@ public class SignupObserver extends AbstractAxis2ConfigurationContextObserver {
     private static final Log log = LogFactory.getLog(SignupObserver.class);
 
     public void createdConfigurationContext(ConfigurationContext configurationContext) {
-        int tenantId = PrivilegedCarbonContext.getThreadLocalCarbonContext().getTenantId();
-        String tenantDomain = PrivilegedCarbonContext.getThreadLocalCarbonContext().getTenantDomain();
+        int tenantId = PrivilegedBarleyContext.getThreadLocalCarbonContext().getTenantId();
+        String tenantDomain = PrivilegedBarleyContext.getThreadLocalCarbonContext().getTenantDomain();
         try {
             APIUtil.createSelfSignUpRoles(tenantId);
            
