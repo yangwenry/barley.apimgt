@@ -2787,6 +2787,27 @@ public class SQLConstants {
     
     public static final String SET_COMMENT_AGREE_EMPTY_VALUE_SQL =
     		"DELETE FROM AM_API_COMMENTS_AGREE WHERE USER_ID = ? AND COMMENT_ID = ?";
+    
+    public static final String GET_API_BY_ID_SQL = 
+    		" SELECT " +
+    		"	   API_ID " +
+    		"	 , API_PROVIDER " +
+    		"	 , API_NAME " +
+    		"	 , API_VERSION " +
+    		"	 , CONTEXT " +
+    		"	 , CONTEXT_TEMPLATE " +
+    		"	 , CREATED_BY " +
+    		"	 , CREATED_TIME " +
+    		"	 , UPDATED_BY " +
+    		"	 , UPDATED_TIME " +
+    		"	 , API_TIER " +
+    		"	 , CATEGORY " +
+    		"	 , THUMBNAIL_URL " +
+    		"	 , DESCRIPTION " +
+    		"	 , TITLE " +
+    		" FROM AM_API " +
+    		" WHERE API_ID = ? ";
+    		
 
     /** Throttle related constants**/
 

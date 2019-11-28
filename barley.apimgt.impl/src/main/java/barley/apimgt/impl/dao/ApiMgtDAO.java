@@ -11871,4 +11871,68 @@ public class ApiMgtDAO {
         return apiList;
     }
     
+    
+    public API getAPIById(int apiId) throws APIManagementException {
+        Connection connection = null;
+        PreparedStatement selectPreparedStatement = null;
+        ResultSet resultSet = null;
+        
+        API api = null;
+        
+        try {
+            connection = APIMgtDBUtil.getConnection();
+            connection.setAutoCommit(false);
+            String query = SQLConstants.GET_API_BY_ID_SQL;
+            selectPreparedStatement = connection.prepareStatement(query);
+            selectPreparedStatement.setInt(1, apiId);
+            resultSet = selectPreparedStatement.executeQuery();
+            if (resultSet.next()) {
+            	
+            	api = new API(new APIIdentifier(resultSet.getString("API_PROVIDER"), resultSet.getString("API_NAME"), resultSet.getString("API_VERSION")));
+            	            	
+            	api.setContext(resultSet.getString("CONTEXT"));
+            	api.setContextTemplate(resultSet.getString("CONTEXT_TEMPLATE"));
+            	
+            	Date createdDate = resultSet.getDate("CREATED_TIME");
+            	if(createdDate != null) api.setCreatedDate(createdDate);
+            	Date updatedDate = resultSet.getDate("UPDATED_TIME");
+            	if(updatedDate != null) api.setLastUpdated(updatedDate);
+            	            	
+            	
+            	String tiers = resultSet.getString("API_TIER");
+            	Set<Tier> availableTier = new HashSet<Tier>();
+                if (tiers != null && !"".equals(tiers)) {
+                    String[] tierNames = tiers.split(",");
+                    for (String tierName : tierNames) {
+                        Tier definedTier = new Tier(tierName);
+                        if (definedTier != null) {
+                            availableTier.add(definedTier);
+                        }
+                    }
+                }
+                //Set<Tier> tiersSet = new HashSet<Tier>(Arrays.asList(tiers)); 
+            	api.addAvailableTiers(availableTier);
+            	
+            	api.setCategory(resultSet.getString("CATEGORY"));
+            	api.setThumbnailUrl(resultSet.getString("THUMBNAIL_URL"));
+            	api.setDescription(resultSet.getString("DESCRIPTION"));
+            	api.setTitle(resultSet.getString("TITLE"));
+            	
+            }
+        } catch (SQLException e) {
+            if (connection != null) {
+                try {
+                    connection.rollback();
+                } catch (SQLException ex) {
+                    handleException("Failed to rollback getting sorted rating api ", ex);
+                }
+            }
+            handleException("Failed to get api list by provider", e);
+        } finally {
+            APIMgtDBUtil.closeAllConnections(selectPreparedStatement, connection, resultSet);
+        }
+        
+        return api;
+    }
+    
 }
