@@ -367,6 +367,10 @@
 		    			<artifactId>httpclient</artifactId>
 		        	</exclusion>
 		        	<exclusion>
+		        		<groupId>org.apache.httpcomponents</groupId>
+		    			<artifactId>httpcore</artifactId>
+		        	</exclusion>
+		        	<exclusion>
 		        		<groupId>org.apache.thrift</groupId>
   						<artifactId>libthrift</artifactId>
 		        	</exclusion>
