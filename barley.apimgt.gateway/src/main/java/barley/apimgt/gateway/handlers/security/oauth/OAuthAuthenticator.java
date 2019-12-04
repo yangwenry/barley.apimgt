@@ -55,7 +55,9 @@ public class OAuthAuthenticator implements Authenticator {
     protected APIKeyValidator keyValidator;
 
     private String securityHeader = HttpHeaders.AUTHORIZATION;
-    private String defaultAPIHeader="WSO2_AM_API_DEFAULT_VERSION";
+    private String securityTaacHeader = "X-TaacAK";
+    //private String defaultAPIHeader="WSO2_AM_API_DEFAULT_VERSION";
+    private String defaultAPIHeader="BARLEY_AM_API_DEFAULT_VERSION";
     private String consumerKeyHeaderSegment = "Bearer";
     private String oauthHeaderSplitter = ",";
     private String consumerKeySegmentDelimiter = " ";
@@ -82,8 +84,10 @@ public class OAuthAuthenticator implements Authenticator {
 
         if (headers != null) {
             requestOrigin = (String) headers.get("Origin");
-            // header에서 api-key 가져오기 
-            apiKey = extractCustomerKeyFromAuthHeader(headers);
+            // header에서 api-key 가져오기
+            // (수정) 시스템에서 지정한 인증키(X-TaacAK)로 변경. 
+            // apiKey = extractCustomerKeyFromAuthHeader(headers);
+            apiKey = extractCustomerTaacKeyFromAuthHeader(headers);
             if (log.isDebugEnabled()) {
                 log.debug(apiKey != null ? "Received Token ".concat(apiKey) : "No valid Authorization header found");
             }
@@ -300,6 +304,15 @@ public class OAuthAuthenticator implements Authenticator {
             }
         }
         return null;
+    }
+    
+    // (추가) 2019.12.04 - X-TaacAK 값을 가져온다.  
+    public String extractCustomerTaacKeyFromAuthHeader(Map headersMap) {
+        String authHeader = (String) headersMap.get(securityTaacHeader);
+        if (authHeader == null) {
+            return null;
+        }
+        return authHeader;
     }
 
     private String removeLeadingAndTrailing(String base) {
