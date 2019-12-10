@@ -3541,34 +3541,39 @@ class APIConsumerImpl extends AbstractAPIManager implements APIConsumer {
     }
 
     @Override
-    public List<API> getSortedRatingApiList(String tenantDomain, int page, int count, String keyword) throws APIManagementException {
-    	List<API> apiList = apiMgtDAO.getSortedRatingApi(tenantDomain, page, count, keyword);
+    public List<API> getSortedRatingApiList(String tenantDomain, int page, int count, String keyword, String tag, String category) throws APIManagementException {
+    	List<API> apiList = apiMgtDAO.getSortedRatingApi(tenantDomain, page, count, keyword, tag, category);
     	// registry에서 더이상 태그를 가져오지 않고 API_MGT 디비 테이블을 조인하여 가져온다. 
     	//return addApiAttributeFromRegistry(apiList);
     	return apiList;
     }
     
     @Override
-    public List<API> getSortedSubscribersCountApiList(String tenantDomain, int page, int count, String keyword) throws APIManagementException {
-    	List<API> apiList = apiMgtDAO.getSortedSubscribersCountApi(tenantDomain, page, count, keyword);
+    public List<API> getSortedSubscribersCountApiList(String tenantDomain, int page, int count, String keyword, String tag, String category) throws APIManagementException {
+    	List<API> apiList = apiMgtDAO.getSortedSubscribersCountApi(tenantDomain, page, count, keyword, tag, category);
     	// registry에서 더이상 태그를 가져오지 않고 API_MGT 디비 테이블을 조인하여 가져온다. 
     	//return addApiAttributeFromRegistry(apiList);
     	return apiList;
     }
     
     @Override
-    public List<API> getSortedCreatedTimeApiList(String tenantDomain, int page, int count, String keyword) throws APIManagementException {
-    	List<API> apiList = apiMgtDAO.getSortedCreatedTimeApi(tenantDomain, page, count, keyword);
+    public List<API> getSortedCreatedTimeApiList(String tenantDomain, int page, int count, String keyword, String tag, String category) throws APIManagementException {
+    	List<API> apiList = apiMgtDAO.getSortedCreatedTimeApi(tenantDomain, page, count, keyword, tag, category);
     	// registry에서 더이상 태그를 가져오지 않고 API_MGT 디비 테이블을 조인하여 가져온다. 
     	//return addApiAttributeFromRegistry(apiList);
     	return apiList;
+    }
+    
+    @Override
+    public int getPaginatedApiCount(String tenantDomain, String keyword, String tag, String category) throws APIManagementException {
+    	return apiMgtDAO.getPaginatedApiCount(tenantDomain, keyword, tag, category);
     }
     
     @Override
     public int getPublicApiCount(String tenantDomain) throws APIManagementException {
     	return apiMgtDAO.getPublicApiCount(tenantDomain);
     }
-    
+   
     
     @Override
     public int setCommentAgreeValue(String userName, int commnetId, int agreeValue) throws APIManagementException {

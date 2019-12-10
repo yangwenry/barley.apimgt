@@ -2678,13 +2678,51 @@ public class SQLConstants {
 						   ") TS " +
 				"ON TA.API_ID = TS.API_ID ";
     
+    public static final String GET_SORTED_API_CNT_SQL_PREFIX =
+    		"SELECT " + 
+					" COUNT(TB.API_ID) AS ROW_CNT " +
+				"FROM( " +				
+					"SELECT " + 
+					"SB.API_ID, SB.EVENT_ID, SB.NEW_STATE " +
+					", (SELECT COALESCE(GROUP_CONCAT(IT.TAG_NAME SEPARATOR ','), '') FROM AM_API_TAG IT WHERE IT.API_ID = SA.API_ID) AS TAG " +
+					"FROM ( " +
+						"SELECT " + 
+						  	"API_ID " +
+						  ", MAX(EVENT_ID) AS EVENT_ID " + 
+						"FROM AM_API_LC_EVENT " + 
+						"GROUP BY API_ID " +
+						  ") SA " +
+						"LEFT JOIN AM_API_LC_EVENT SB " +
+						"ON (SA.API_ID = SB.API_ID AND SA.EVENT_ID = SB.EVENT_ID) " +
+						"WHERE SB.NEW_STATE LIKE UPPER(CONCAT('%',?,'%')) " +
+					") TA " +
+				"INNER JOIN AM_API TB " +
+					"ON (TA.API_ID = TB.API_ID AND SUBSTRING_INDEX(TB.API_PROVIDER, '@', -1) = ?) " +
+				"LEFT JOIN ( " +
+							"SELECT " +
+								"T.API_ID, ROUND(AVG(T.RATING), 1) AS RATING " +
+							"FROM AM_API_RATINGS T " +
+							"GROUP BY T.API_ID " +
+							"HAVING AVG(T.RATING) " +
+							"ORDER BY AVG(T.RATING) DESC " +
+						   ") TC " +
+				"ON TA.API_ID = TC.API_ID " +
+				"LEFT JOIN ( " +
+							"SELECT " +
+							"T.API_ID, COUNT(T.API_ID) AS SUBS_CNT " +
+							"FROM AM_SUBSCRIPTION T " +
+							"GROUP BY T.API_ID " +
+							"ORDER BY COUNT(T.API_ID) DESC " +
+						   ") TS " +
+				"ON TA.API_ID = TS.API_ID ";
+    
     public static final String GET_SORTED_API_WHERE_SQL =						   
-				"WHERE UPPER(TB.API_PROVIDER) LIKE UPPER(CONCAT('%',?,'%')) " +
+				"WHERE (UPPER(TB.API_PROVIDER) LIKE UPPER(CONCAT('%',?,'%')) " +
 					"OR UPPER(TB.API_NAME) LIKE UPPER(CONCAT('%',?,'%')) " +
-					"OR UPPER(TB.CATEGORY) LIKE UPPER(CONCAT('%',?,'%')) " +
 					"OR UPPER(TB.DESCRIPTION) LIKE UPPER(CONCAT('%',?,'%')) " +
-					"OR UPPER(TB.TITLE) LIKE UPPER(CONCAT('%',?,'%')) " +
-					"OR UPPER(TA.TAG) LIKE UPPER(CONCAT('%',?,'%')) ";
+					"OR UPPER(TB.TITLE) LIKE UPPER(CONCAT('%',?,'%'))) " +
+					"AND UPPER(TA.TAG) LIKE UPPER(CONCAT('%',?,'%')) " +
+					"AND UPPER(TB.CATEGORY) LIKE UPPER(CONCAT('%',?,'%')) ";
     
     public static final String GET_SORTED_API_SQL = GET_SORTED_API_SQL_PREFIX + GET_SORTED_API_WHERE_SQL;
     

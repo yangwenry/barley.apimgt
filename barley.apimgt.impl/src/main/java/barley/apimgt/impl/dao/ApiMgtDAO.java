@@ -11536,22 +11536,63 @@ public class ApiMgtDAO {
         return accessTokens;
     }
     
-    public List<API> getSortedRatingApi(String tenantDomain, int page, int count, String keyword) throws APIManagementException {
+    public List<API> getSortedRatingApi(String tenantDomain, int page, int count, String keyword, String tag, String category) throws APIManagementException {
     	String query = SQLConstants.GET_SORTED_RATING_API_SQL;
-    	return getSortedApiList(query, tenantDomain, page, count, keyword);
+    	return getSortedApiList(query, tenantDomain, page, count, keyword, tag, category);
     }
     
-    public List<API> getSortedSubscribersCountApi(String tenantDomain, int page, int count, String keyword) throws APIManagementException {
+    public List<API> getSortedSubscribersCountApi(String tenantDomain, int page, int count, String keyword, String tag, String category) throws APIManagementException {
         String query = SQLConstants.GET_SORTED_SUBS_CNT_API_SQL;
-    	return getSortedApiList(query, tenantDomain, page, count, keyword);
+    	return getSortedApiList(query, tenantDomain, page, count, keyword, tag, category);
     }
     
-    public List<API> getSortedCreatedTimeApi(String tenantDomain, int page, int count, String keyword) throws APIManagementException {
+    public List<API> getSortedCreatedTimeApi(String tenantDomain, int page, int count, String keyword, String tag, String category) throws APIManagementException {
         String query = SQLConstants.GET_SORTED_CREATED_TIME_API_SQL;
-    	return getSortedApiList(query, tenantDomain, page, count, keyword);
+    	return getSortedApiList(query, tenantDomain, page, count, keyword, tag, category);
+    }
+    
+    public int getPaginatedApiCount(String tenantDomain, String keyword, String tag, String category) throws APIManagementException {
+        Connection connection = null;
+        PreparedStatement selectPreparedStatement = null;
+        ResultSet resultSet = null;
+        
+        int count = 0;
+
+        String query = SQLConstants.GET_SORTED_API_CNT_SQL_PREFIX + SQLConstants.GET_SORTED_API_WHERE_SQL;
+        
+        try {
+            connection = APIMgtDBUtil.getConnection();
+            connection.setAutoCommit(false);
+            selectPreparedStatement = connection.prepareStatement(query);
+            selectPreparedStatement.setNString(1, "PUBLISHED");
+            selectPreparedStatement.setNString(2, tenantDomain);
+            selectPreparedStatement.setNString(3, keyword);
+            selectPreparedStatement.setNString(4, keyword);
+            selectPreparedStatement.setNString(5, keyword);
+            selectPreparedStatement.setNString(6, keyword);
+            selectPreparedStatement.setNString(7, tag);
+            selectPreparedStatement.setNString(8, category);
+            resultSet = selectPreparedStatement.executeQuery();
+            if (resultSet.next()) {
+            	count = resultSet.getInt("ROW_CNT");
+            }
+        } catch (SQLException e) {
+            if (connection != null) {
+                try {
+                    connection.rollback();
+                } catch (SQLException ex) {
+                    handleException("Failed to rollback getting paginated api count", ex);
+                }
+            }
+            handleException("Failed to get paginated api count", e);
+        } finally {
+            APIMgtDBUtil.closeAllConnections(selectPreparedStatement, connection, resultSet);
+        }
+        
+        return count;
     }
    
-    private List<API> getSortedApiList(String query, String tenantDomain, int page, int count, String keyword) throws APIManagementException {
+    private List<API> getSortedApiList(String query, String tenantDomain, int page, int count, String keyword, String tag, String category) throws APIManagementException {
         Connection connection = null;
         PreparedStatement selectPreparedStatement = null;
         ResultSet resultSet = null;
@@ -11570,8 +11611,8 @@ public class ApiMgtDAO {
             selectPreparedStatement.setNString(4, keyword);
             selectPreparedStatement.setNString(5, keyword);
             selectPreparedStatement.setNString(6, keyword);
-            selectPreparedStatement.setNString(7, keyword);
-            selectPreparedStatement.setNString(8, keyword);
+            selectPreparedStatement.setNString(7, tag);
+            selectPreparedStatement.setNString(8, category);
             selectPreparedStatement.setInt(9, startNo);
             selectPreparedStatement.setInt(10, count);
             resultSet = selectPreparedStatement.executeQuery();
