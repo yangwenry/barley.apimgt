@@ -6301,6 +6301,9 @@ public final class APIUtil {
                 new Permission(APIConstants.Permissions.LOGIN, UserMgtConstants.EXECUTE_ACTION),
                 new Permission(APIConstants.Permissions.API_CREATE, UserMgtConstants.EXECUTE_ACTION),
                 new Permission(APIConstants.Permissions.CONFIGURE_GOVERNANCE, UserMgtConstants.EXECUTE_ACTION),
+                // (추가) 2019.12.11 - Registry 권한 추가 
+                new Permission(RegistryConstants.ROOT_PATH, ActionConstants.PUT),
+                new Permission(RegistryConstants.ROOT_PATH, ActionConstants.DELETE),
                 new Permission(APIConstants.Permissions.RESOURCE_GOVERN, UserMgtConstants.EXECUTE_ACTION)};
         createRole (roleName, creatorPermissions, tenantId);
     }
