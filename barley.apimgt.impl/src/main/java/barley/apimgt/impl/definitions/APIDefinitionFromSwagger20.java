@@ -103,7 +103,9 @@ public class APIDefinitionFromSwagger20 extends APIDefinition {
                             } else if ("Application".equals(authType)) {
                                 authType = APIConstants.AUTH_APPLICATION_LEVEL_TOKEN;
                             } else {
-                                authType = APIConstants.AUTH_APPLICATION_OR_USER_LEVEL_TOKEN;
+                                // (수정) 19.12.12 - authType 기본값(null)을 'Any'에서 'None'으로 변경
+                            	//authType = APIConstants.AUTH_APPLICATION_OR_USER_LEVEL_TOKEN;
+                            	authType = APIConstants.AUTH_NO_AUTHENTICATION;
                             }
                             template.setThrottlingTier((String) operation.get(APIConstants.SWAGGER_X_THROTTLING_TIER));
                             template.setThrottlingTiers((String) operation.get(APIConstants.SWAGGER_X_THROTTLING_TIER));
