@@ -35,7 +35,7 @@ import barley.databridge.agent.DataPublisher;
 public class DataProcessAndPublishingAgent implements Runnable {
     private static final Log log = LogFactory.getLog(DataProcessAndPublishingAgent.class);
 
-    private static String streamID = "org.wso2.throttle.request.stream:1.0.0";
+    private static String streamID = "barley.throttle.request.stream:1.1.0";
     private MessageContext messageContext;
     private DataPublisher dataPublisher = ThrottleDataPublisher.getDataPublisher();
     String applicationLevelThrottleKey;
