@@ -127,12 +127,16 @@ public class ThrottleHandler extends AbstractHandler implements ManagedLifecycle
          * This method will initialize data publisher and this data publisher will be used to push events to central policy
          * server.
          */
+        // (주석) 생성자에서 생성되지 않는다. ServiceReferenceHolder.getInstance().getThrottleProperties()를 로드하지 못한다. 
+        // 왜냐하면 BarleyInit에서 초기화를 수행하는데 가장 늦게 실행되기 때문이다.
+        /*
         if (throttleDataPublisher == null) {
             // The publisher initializes in the first request only
             synchronized (this) {
                 throttleDataPublisher = new ThrottleDataPublisher();
             }
         }
+        */
     }
 
     /**
