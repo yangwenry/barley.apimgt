@@ -140,7 +140,10 @@ public class APIMgtResponseHandler extends APIMgtCommonExecutionPublisher {
             responsePublisherDTO.setTenantDomain(tenantDomain);
                     */
             String apiPublisher = (String) mc.getProperty(APIMgtGatewayConstants.API_PUBLISHER);
-            String tenantDomain = MultitenantUtils.getTenantDomain(apiPublisher);
+            String tenantDomain = null;
+            if(apiPublisher != null) {
+            	tenantDomain = MultitenantUtils.getTenantDomain(apiPublisher);
+            }
             responsePublisherDTO.setTenantDomain(tenantDomain);
             
             responsePublisherDTO.setContext((String) mc.getProperty(APIMgtGatewayConstants.CONTEXT));

@@ -17,7 +17,7 @@ public class APIMgtFaultHandler extends APIMgtCommonExecutionPublisher {
     }
 
     public boolean mediate(MessageContext messageContext) {
-        super.mediate(messageContext);
+    	super.mediate(messageContext);
         if (publisher == null) {
             this.initializeDataPublisher();
         }
@@ -58,7 +58,10 @@ public class APIMgtFaultHandler extends APIMgtCommonExecutionPublisher {
                     faultPublisherDTO.getUsername()));
                     */
             String apiPublisher = (String) messageContext.getProperty(APIMgtGatewayConstants.API_PUBLISHER);
-            String tenantDomain = MultitenantUtils.getTenantDomain(apiPublisher);
+            String tenantDomain = null;
+            if(apiPublisher != null) {
+            	tenantDomain = MultitenantUtils.getTenantDomain(apiPublisher);
+            }
             faultPublisherDTO.setTenantDomain(tenantDomain);
             
             faultPublisherDTO.setHostName((String) messageContext.getProperty(
