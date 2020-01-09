@@ -52,7 +52,12 @@ public class APIMgtCommonExecutionPublisher extends AbstractMediator {
             String provider = APIUtil.getAPIProviderFromRESTAPI(apiName, tenantDomain);
             */
             String provider = (String) messageContext.getProperty(APIMgtGatewayConstants.API_PUBLISHER);
-            String tenantDomain = MultitenantUtils.getTenantDomain(provider);
+            String tenantDomain = null;
+            int tenantId = MultitenantConstants.INVALID_TENANT_ID;
+            if(provider != null) {
+            	tenantDomain = MultitenantUtils.getTenantDomain(provider);
+            	tenantId = APIUtil.getTenantId(provider);
+            }
             
             ExecutionTimePublisherDTO executionTimePublisherDTO = new ExecutionTimePublisherDTO();
             executionTimePublisherDTO.setApiName(APIUtil.getAPINamefromRESTAPI(apiName));
@@ -61,7 +66,7 @@ public class APIMgtCommonExecutionPublisher extends AbstractMediator {
             executionTimePublisherDTO.setTenantDomain(tenantDomain);
             executionTimePublisherDTO.setApiResponseTime(totalTime);
             executionTimePublisherDTO.setProvider(provider);
-            executionTimePublisherDTO.setTenantId(APIUtil.getTenantId(provider));
+            executionTimePublisherDTO.setTenantId(tenantId);
             Object securityLatency = messageContext.getProperty(APIMgtGatewayConstants.SECURITY_LATENCY);
             executionTimePublisherDTO.setSecurityLatency(securityLatency == null ? 0 :
                                                           ((Number) securityLatency).longValue());
