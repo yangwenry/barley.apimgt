@@ -143,9 +143,6 @@ public class ApiMgtDAO {
     private boolean forceCaseInsensitiveComparisons = false;
 
     private ApiMgtDAO() {
-        APIManagerConfiguration configuration = ServiceReferenceHolder.getInstance()
-                .getAPIManagerConfigurationService().getAPIManagerConfiguration();
-
         String caseSensitiveComparison = ServiceReferenceHolder.getInstance().
                 getAPIManagerConfigurationService().getAPIManagerConfiguration().getFirstProperty(APIConstants.API_STORE_FORCE_CI_COMPARISIONS);
         if (caseSensitiveComparison != null) {
@@ -2540,8 +2537,14 @@ public class ApiMgtDAO {
             }
 
             if (consumerKey != null) {
-                keyManager = KeyManagerHolder.getKeyManagerInstance();
-                oAuthApplication = keyManager.retrieveApplication(consumerKey);
+            	// (추가) 게이트웨이 체크 후  OAuthApplication 정보 가져오기 
+            	APIManagerConfiguration config = ServiceReferenceHolder.getInstance().getAPIManagerConfigurationService()
+                        .getAPIManagerConfiguration();
+            	String gatewayType = config.getFirstProperty(APIConstants.API_GATEWAY_TYPE);
+                if (APIConstants.API_GATEWAY_TYPE_SYNAPSE.equalsIgnoreCase(gatewayType)) {
+	                keyManager = KeyManagerHolder.getKeyManagerInstance();
+	                oAuthApplication = keyManager.retrieveApplication(consumerKey);
+                }
             }
         } catch (SQLException e) {
             handleException("Failed to get  client of application. SQL error", e);
