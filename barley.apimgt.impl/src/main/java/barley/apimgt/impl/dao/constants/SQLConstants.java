@@ -2855,44 +2855,44 @@ public class SQLConstants {
 
     	public static final String QUOTA_TYPE_REQUESTCOUNT = PolicyConstants.REQUEST_COUNT_TYPE;
 
-		public static final String GET_POLICY_NAMES = " SELECT " + "   NAME " + "FROM " + "   AM_API_THROTTLE_POLICY"
+		public static final String GET_POLICY_NAMES = " SELECT " + "   NAME " + "FROM " + "   AM_POLICY_THROTTLING"
 				+ " WHERE" + "   TYPE = ?" + "   AND TENANT_ID =?";
 
-		public static final String GET_EXISTING_POLICY_SQL = "SELECT POLICY_ID FROM AM_API_THROTTLE_POLICY WHERE NAME = ? AND TENANT_ID = ? ";
+		public static final String GET_EXISTING_POLICY_SQL = "SELECT POLICY_ID FROM AM_POLICY_THROTTLING WHERE NAME = ? AND TENANT_ID = ? ";
 
-		public static final String INSERT_API_POLICY_SQL = "INSERT INTO AM_API_THROTTLE_POLICY (NAME, DISPLAY_NAME, TENANT_ID, DESCRIPTION, DEFAULT_QUOTA_TYPE, \n"
+		public static final String INSERT_API_POLICY_SQL = "INSERT INTO AM_POLICY_THROTTLING (NAME, DISPLAY_NAME, TENANT_ID, DESCRIPTION, DEFAULT_QUOTA_TYPE, \n"
 				+ "  DEFAULT_QUOTA, DEFAULT_QUOTA_UNIT, DEFAULT_UNIT_TIME, DEFAULT_TIME_UNIT , IS_DEPLOYED, UUID, APPLICABLE_LEVEL) \n"
 				+ " VALUES (?,?,?,?,? ,?,?,?,?,? ,?,?)";
 
-		public static final String INSERT_API_POLICY_WITH_ID_SQL = "INSERT INTO AM_API_THROTTLE_POLICY (NAME, DISPLAY_NAME, TENANT_ID, DESCRIPTION, DEFAULT_QUOTA_TYPE, \n"
+		public static final String INSERT_API_POLICY_WITH_ID_SQL = "INSERT INTO AM_POLICY_THROTTLING (NAME, DISPLAY_NAME, TENANT_ID, DESCRIPTION, DEFAULT_QUOTA_TYPE, \n"
 				+ " DEFAULT_QUOTA, DEFAULT_QUOTA_UNIT, DEFAULT_UNIT_TIME, DEFAULT_TIME_UNIT, \n"
 				+ " IS_DEPLOYED, UUID, APPLICABLE_LEVEL, POLICY_ID) \n" + "VALUES (?,?,?,?,?, ?,?,?,?,? ,?,?,?)";
 
-		public static final String UPDATE_POLICY_SQL = "UPDATE AM_API_THROTTLE_POLICY " + "SET " + "NAME = ?," + "DISPLAY_NAME = ?,"
+		public static final String UPDATE_POLICY_SQL = "UPDATE AM_POLICY_THROTTLING " + "SET " + "NAME = ?," + "DISPLAY_NAME = ?,"
 				+ " TYPE = ?," + "TENANT_ID = ?," + "APPLICABLE_LEVEL = ? ," + "DESCRIPTION = ? ,"
 				+ " DEFAULT_QUOTA_TYPE = ? ," + "DEFAULT_QUOTA = ?," + "DEFAULT_UNIT_TIME = ? " + " WHERE POLICY_ID = ?";
 
 		public static final String GET_API_POLICY_NAMES = " SELECT " + "   NAME " + "FROM "
-				+ "   AM_API_THROTTLE_POLICY " + " WHERE" + "   TENANT_ID =?";
+				+ "   AM_POLICY_THROTTLING " + " WHERE" + "   TENANT_ID =?";
 
-		public static final String GET_API_POLICIES = " SELECT " + "   * " + "FROM " + "   AM_API_THROTTLE_POLICY "
+		public static final String GET_API_POLICIES = " SELECT " + "   * " + "FROM " + "   AM_POLICY_THROTTLING "
 				+ " WHERE" + "   TENANT_ID =?";
 
 		public static final String GET_API_POLICY_ID_SQL = "SELECT " + "POLICY_ID, UUID " + "FROM "
-				+ " AM_API_THROTTLE_POLICY " + "WHERE " + "NAME = ? AND " + "TENANT_ID = ?";
+				+ " AM_POLICY_THROTTLING " + "WHERE " + "NAME = ? AND " + "TENANT_ID = ?";
 
         public static final String GET_API_POLICY_ID_BY_UUID_SQL = "SELECT " + "POLICY_ID, UUID " + "FROM "
-                + " AM_API_THROTTLE_POLICY " + "WHERE " + "UUID = ?";
+                + " AM_POLICY_THROTTLING " + "WHERE " + "UUID = ?";
 
-		public static final String GET_API_POLICY_SQL = "SELECT " + "* " + "FROM " + "AM_API_THROTTLE_POLICY "
+		public static final String GET_API_POLICY_SQL = "SELECT " + "* " + "FROM " + "AM_POLICY_THROTTLING "
 				+ " WHERE " + "NAME = ? AND " + "TENANT_ID =?";
 
-        public static final String GET_API_POLICY_BY_UUID_SQL = "SELECT " + "* " + "FROM " + "AM_API_THROTTLE_POLICY "
+        public static final String GET_API_POLICY_BY_UUID_SQL = "SELECT " + "* " + "FROM " + "AM_POLICY_THROTTLING "
                 + " WHERE " + "UUID = ?";
 
-		public static final String UPDATE_API_POLICY_STATUS_SQL = "UPDATE AM_API_THROTTLE_POLICY SET IS_DEPLOYED = ? WHERE NAME = ? AND TENANT_ID = ?";
+		public static final String UPDATE_API_POLICY_STATUS_SQL = "UPDATE AM_POLICY_THROTTLING SET IS_DEPLOYED = ? WHERE NAME = ? AND TENANT_ID = ?";
 
-		public static final String DELETE_API_POLICY_SQL = "DELETE FROM AM_API_THROTTLE_POLICY WHERE TENANT_ID = ? AND NAME = ?";
+		public static final String DELETE_API_POLICY_SQL = "DELETE FROM AM_POLICY_THROTTLING WHERE TENANT_ID = ? AND NAME = ?";
 
 
 
@@ -2933,18 +2933,18 @@ public class SQLConstants {
 
 		public static final String IS_ANY_POLICY_CONTENT_AWARE_SQL = "select sum(c) as c from("
 				+ " (SELECT count(*) as c"
-				+ " FROM AM_API_THROTTLE_POLICY APIPOLICY where APIPOLICY.NAME =?  AND APIPOLICY.TENANT_ID =? AND APIPOLICY.DEFAULT_QUOTA_TYPE = 'bandwidthVolume')"
+				+ " FROM AM_POLICY_THROTTLING APIPOLICY where APIPOLICY.NAME =?  AND APIPOLICY.TENANT_ID =? AND APIPOLICY.DEFAULT_QUOTA_TYPE = 'bandwidthVolume')"
 				+ " union "
 				+ " (SELECT count(*) as c"
-				+ " FROM AM_API_THROTTLE_POLICY APIPOLICY , AM_CONDITION_GROUP cg where APIPOLICY.NAME =?  AND APIPOLICY.TENANT_ID =? AND cg.policy_id = APIPOLICY.policy_id AND cg.quota_type = 'bandwidthVolume')"
+				+ " FROM AM_POLICY_THROTTLING APIPOLICY , AM_CONDITION_GROUP cg where APIPOLICY.NAME =?  AND APIPOLICY.TENANT_ID =? AND cg.policy_id = APIPOLICY.policy_id AND cg.quota_type = 'bandwidthVolume')"
 				+ " union "
 				+ " (SELECT count(*) as c"
-				+ " FROM AM_API_THROTTLE_POLICY APIPOLICY, AM_API_URL_MAPPING RS, AM_CONDITION_GROUP cg where"
+				+ " FROM AM_POLICY_THROTTLING APIPOLICY, AM_API_URL_MAPPING RS, AM_CONDITION_GROUP cg where"
 				+ " RS.api_id = ? AND APIPOLICY.NAME = RS.throttling_tier AND APIPOLICY.TENANT_ID =? AND cg.policy_id = APIPOLICY.policy_id AND cg.quota_type = 'bandwidthVolume' "
 				+ " ) "
 				+ " union "
 				+ "  (SELECT count(*) as c"
-				+ " FROM AM_API_THROTTLE_POLICY APIPOLICY, AM_API_URL_MAPPING RS where "
+				+ " FROM AM_POLICY_THROTTLING APIPOLICY, AM_API_URL_MAPPING RS where "
 				+ " RS.api_id = ? AND APIPOLICY.NAME = RS.throttling_tier AND APIPOLICY.TENANT_ID =? AND APIPOLICY.DEFAULT_QUOTA_TYPE = 'bandwidthVolume') "
 				+ " union "
 				+ " (SELECT count(*) as c FROM AM_POLICY_SUBSCRIPTION SUBPOLICY WHERE SUBPOLICY.NAME= ? AND SUBPOLICY.tenant_id = ? AND SUBPOLICY.quota_type = 'bandwidthVolume')"
@@ -2956,7 +2956,7 @@ public class SQLConstants {
 				+ " AUM.URL_PATTERN,AUM.THROTTLING_TIER,AUM.MEDIATION_SCRIPT,AUM.URL_MAPPING_ID  "
 				+ " FROM AM_API_URL_MAPPING AUM"
 				+ " INNER JOIN  AM_API API ON AUM.API_ID = API.API_ID"
-				+ " LEFT OUTER JOIN AM_API_THROTTLE_POLICY pol ON AUM.THROTTLING_TIER = pol.NAME "
+				+ " LEFT OUTER JOIN AM_POLICY_THROTTLING pol ON AUM.THROTTLING_TIER = pol.NAME "
 				+ " LEFT OUTER JOIN AM_CONDITION_GROUP grp ON pol.POLICY_ID  = grp.POLICY_ID"
 				+ " where API.CONTEXT= ? AND API.API_VERSION = ?"
 				/*+ " GROUP BY AUM.HTTP_METHOD,AUM.URL_PATTERN, AUM.URL_MAPPING_ID"*/

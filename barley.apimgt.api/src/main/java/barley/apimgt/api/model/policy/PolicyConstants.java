@@ -96,7 +96,8 @@ public class PolicyConstants {
     
     public static final String POLICY_LEVEL_APP = "app";
     
-    public static final String API_THROTTLE_POLICY_TABLE = "AM_API_THROTTLE_POLICY";
+    // public static final String API_THROTTLE_POLICY_TABLE = "AM_API_THROTTLE_POLICY";
+    public static final String API_THROTTLE_POLICY_TABLE = "AM_POLICY_THROTTLING";
     
     public static final String POLICY_GLOBAL_TABLE = "AM_POLICY_GLOBAL";
     

@@ -530,7 +530,7 @@ public class APIProviderImplTest extends BaseTestCase {
     	assertEquals(1, apis.size());
     }
     
-    // AM_API_THROTTLE_POLICY 테이블 조회 (DAO에서만 해결)
+    // AM_POLICY_THROTTLING 테이블 조회 (DAO에서만 해결)
     public void testPolicies() throws APIManagementException {
 //    	Policy[] policies = null;
 //    	
