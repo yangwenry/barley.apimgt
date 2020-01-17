@@ -1743,10 +1743,10 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
                 vtb.addHandler("barley.apimgt.gateway.handlers.throttling.APIThrottleHandler", properties);
             }
 
-            /* (임시주석)
             // usage 퍼블리셔 핸들러 선언  
             vtb.addHandler("barley.apimgt.usage.publisher.APIMgtUsageHandler", Collections.<String,String>emptyMap());
 
+            /* (임시주석)
             properties = new HashMap<String, String>();
             properties.put("configKey", "gov:" + APIConstants.GA_CONFIGURATION_LOCATION);
             
