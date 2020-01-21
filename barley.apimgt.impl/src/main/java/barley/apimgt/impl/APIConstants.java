@@ -19,6 +19,9 @@
 package barley.apimgt.impl;
 
 import javax.xml.namespace.QName;
+
+import barley.core.BarleyConstants;
+
 import java.io.File;
 import java.util.Arrays;
 import java.util.Collections;
@@ -759,8 +762,10 @@ public final class APIConstants {
 
     public static final String EVERYONE_ROLE = "internal/everyone";
     // (수정) 2019.10.31
+    // (수정) 2020.01.20 - system 명칭은 API 관리에서 사용하기에 적절치 않다. 가능하면 system으로 시작하는 role을 없애자.
     //public static final String ANONYMOUS_ROLE = "system/wso2.anonymous.role";
-    public static final String ANONYMOUS_ROLE = "system/barley.anonymous.role";
+    //public static final String ANONYMOUS_ROLE = "system/barley.anonymous.role";
+    public static final String ANONYMOUS_ROLE = BarleyConstants.REGISTRY_ANONNYMOUS_ROLE_NAME;
 
     // Anonymous end user, to be used with ACCESS_TOKEN_USER_TYPE_APPLICATION
     public static final String END_USER_ANONYMOUS = "anonymous";
