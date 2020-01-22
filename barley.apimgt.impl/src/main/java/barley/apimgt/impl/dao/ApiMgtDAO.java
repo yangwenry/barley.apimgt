@@ -5665,15 +5665,17 @@ public class ApiMgtDAO {
             prepStmt.setString(5, contextTemplate);
             prepStmt.setString(6, APIUtil.replaceEmailDomainBack(api.getId().getProviderName()));
             prepStmt.setTimestamp(7, new Timestamp(System.currentTimeMillis()));
-            prepStmt.setString(8, api.getApiLevelPolicy());
+            prepStmt.setString(8, APIUtil.replaceEmailDomainBack(api.getId().getProviderName()));
+            prepStmt.setTimestamp(9, new Timestamp(System.currentTimeMillis()));
+            prepStmt.setString(10, api.getApiLevelPolicy());
             
             // (추가) 2019.09.26 - 카테고리, 썸네일, 설명 컬럼 추가 
-            prepStmt.setString(9, api.getCategory());
-            prepStmt.setString(10, api.getThumbnailUrl());
-            prepStmt.setString(11, api.getDescription());
+            prepStmt.setString(11, api.getCategory());
+            prepStmt.setString(12, api.getThumbnailUrl());
+            prepStmt.setString(13, api.getDescription());
             
             // (추가) 2019.10.21 - 타이틀 컬럼 추가
-            prepStmt.setString(12, api.getTitle());
+            prepStmt.setString(14, api.getTitle());
             
             prepStmt.execute();
 
