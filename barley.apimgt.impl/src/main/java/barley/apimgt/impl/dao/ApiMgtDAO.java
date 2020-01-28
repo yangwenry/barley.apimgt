@@ -6443,10 +6443,13 @@ public class ApiMgtDAO {
                 String contextTemplate = api.getContextTemplate();
                 //If the context template ends with {version} this means that the version will be at the end of the
                 // context.
+                // (수정) 19.12.18 context template 의 /{version} 부분 미삭제 처리                
+                /*
                 if (contextTemplate.endsWith("/" + APIConstants.VERSION_PLACEHOLDER)) {
                     //Remove the {version} part from the context template.
                     contextTemplate = contextTemplate.split(Pattern.quote("/" + APIConstants.VERSION_PLACEHOLDER))[0];
                 }
+                */
                 prepStmt.setString(2, contextTemplate);
                 //TODO Need to find who exactly does this update.
                 // prepStmt.setString(3, null);
