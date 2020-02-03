@@ -238,7 +238,9 @@ public class OAuthAuthenticator implements Authenticator {
             // RATE_LIMIT_COUNT 필드에서 값을 가져온다. 
             authContext.setSpikeArrestLimit(info.getSpikeArrestLimit());
             authContext.setSpikeArrestUnit(info.getSpikeArrestUnit());
-            authContext.setStopOnQuotaReach(info.isStopOnQuotaReach());
+            // (수정) 2020.02.03 - 쿼리에서 가져오지 않으므로 항상 false를 리턴한다. 따라서 쓰로틀링이 동작하지 않음. 강제로 true로 세팅함. 
+            //authContext.setStopOnQuotaReach(info.isStopOnQuotaReach());
+            authContext.setStopOnQuotaReach(true);
             authContext.setIsContentAware(info.isContentAware());
             // authContext를 생성하여 다른 handler에서도 사용가능하게 한다.
             APISecurityUtils.setAuthenticationContext(synCtx, authContext, securityContextHeader);
