@@ -140,6 +140,7 @@ public class JMSListener implements Runnable {
                     jmsProperties.get(JMSConstants.PARAM_JMS_PASSWORD),
                     stm.isJmsSpec11(), stm.isQueue(), stm.isSubscriptionDurable(), stm.getDurableSubscriberClientId());
         } catch (JMSException ignore) {
+        	//ignore.printStackTrace();
         }   // we silently ignore this as a JMSException can be expected when connection is not available
         finally {
             // Closing the connection, because if left open, when shutting down broker errors will be thrown
