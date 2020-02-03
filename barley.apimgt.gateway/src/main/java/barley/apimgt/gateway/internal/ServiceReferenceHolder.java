@@ -19,6 +19,7 @@ package barley.apimgt.gateway.internal;
 import org.apache.axis2.context.ConfigurationContext;
 //import org.wso2.carbon.utils.ConfigurationContextService;
 
+import barley.apimgt.gateway.service.APIThrottleDataService;
 import barley.apimgt.gateway.throttling.ThrottleDataHolder;
 import barley.apimgt.impl.APIManagerConfiguration;
 import barley.apimgt.impl.APIManagerConfigurationService;
@@ -33,7 +34,18 @@ public class ServiceReferenceHolder {
     private APIManagerConfigurationService amConfigService;
     public ThrottleDataHolder throttleDataHolder;
     private ThrottleProperties throttleProperties;
-    public ThrottleDataHolder getThrottleDataHolder() {
+    // (추가) 20220.02.03 - jms 컴포넌트에 전달하기 위해 사용 
+    private APIThrottleDataService apiThrottleDataService;
+    
+    public APIThrottleDataService getApiThrottleDataService() {
+		return apiThrottleDataService;
+	}
+
+	public void setApiThrottleDataService(APIThrottleDataService apiThrottleDataService) {
+		this.apiThrottleDataService = apiThrottleDataService;
+	}
+
+	public ThrottleDataHolder getThrottleDataHolder() {
         return throttleDataHolder;
     }
 

@@ -59,6 +59,8 @@ public class APIHandlerServiceComponent {
                     ThrottleDataHolder throttleDataHolder = new ThrottleDataHolder();
                     APIThrottleDataServiceImpl throttleDataServiceImpl = new APIThrottleDataServiceImpl();
                     throttleDataServiceImpl.setThrottleDataHolder(throttleDataHolder);
+                    // (추가) 2020.02.03
+                    ServiceReferenceHolder.getInstance().setApiThrottleDataService(throttleDataServiceImpl);
 
                     // Register APIThrottleDataService so that ThrottleData maps are available to other components.
                     /*
@@ -127,14 +129,14 @@ public class APIHandlerServiceComponent {
     }
     */
 
-    protected void setAPIManagerConfigurationService(APIManagerConfigurationService amcService) {
+    public void setAPIManagerConfigurationService(APIManagerConfigurationService amcService) {
         if (log.isDebugEnabled()) {
             log.debug("API manager configuration service bound to the API handlers");
         }
         ServiceReferenceHolder.getInstance().setAPIManagerConfigurationService(amcService);
     }
 
-    protected void unsetAPIManagerConfigurationService(APIManagerConfigurationService amcService) {
+    public void unsetAPIManagerConfigurationService(APIManagerConfigurationService amcService) {
         if (log.isDebugEnabled()) {
             log.debug("API manager configuration service unbound from the API handlers");
         }
