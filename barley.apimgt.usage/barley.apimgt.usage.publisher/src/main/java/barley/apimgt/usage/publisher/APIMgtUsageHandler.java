@@ -110,13 +110,15 @@ public class APIMgtUsageHandler extends AbstractHandler {
             String userAgent = (String) headers.get(APIConstants.USER_AGENT);
             String context = (String) mc.getProperty(RESTConstants.REST_API_CONTEXT);
             String apiVersion = (String) mc.getProperty(RESTConstants.SYNAPSE_REST_API);
-            String fullRequestPath = (String) mc.getProperty(RESTConstants.REST_FULL_REQUEST_PATH);
             String apiPublisher = (String) mc.getProperty(APIMgtGatewayConstants.API_PUBLISHER);
 
+            /* (주석) 도메인 정보를 가져오는 로직이 잘못되었음. 굳이 잘못된 도메인을 가져와  apiPublisher를 가져올 필요는 없을 것 같아 주석. 
+            String fullRequestPath = (String) mc.getProperty(RESTConstants.REST_FULL_REQUEST_PATH);
             String tenantDomain = MultitenantUtils.getTenantDomainFromRequestURL(fullRequestPath);
             if (apiPublisher == null) {
                 apiPublisher = APIUtil.getAPIProviderFromRESTAPI(apiVersion, tenantDomain);
             }
+            */
 
             String api = APIUtil.getAPINamefromRESTAPI(apiVersion);
             String version = (String) mc.getProperty(RESTConstants.SYNAPSE_REST_API_VERSION);
