@@ -261,18 +261,18 @@
 	        <!-- synapse -->		
 	        <dependency>
 	            <groupId>org.apache.synapse</groupId>
-	            <artifactId>synapse.core.barley</artifactId>
+	            <artifactId>synapse-core</artifactId>
 	            <version>${synapse.version}</version>
 	        </dependency>
 	        <dependency>
 	            <groupId>org.apache.synapse</groupId>
 	            <artifactId>synapse-extensions</artifactId>
-	            <version>${synapse.version}</version>            
+	            <version>${synapse.extensions.version}</version>            
 	        </dependency>
 	        <dependency>
 	            <groupId>org.apache.synapse</groupId>
 	            <artifactId>synapse-vfs-transport</artifactId>
-	            <version>${synapse.version}</version>
+	            <version>${synapse.vfs.version}</version>
 	        </dependency>
 	        
 	        <!-- solr -->
@@ -699,8 +699,9 @@
         
         <project.version>0.0.1</project.version>
 
-		<synapse.version>3.0.0</synapse.version>
-		<!-- <synapse.version>2.1.0</synapse.version> -->
+		<synapse.version>2.1.7-cdf.v10</synapse.version>
+		<synapse.extensions.version>3.0.0</synapse.extensions.version>
+		<synapse.vfs.version>3.0.0</synapse.vfs.version>
 
         <!-- Apache Commons -->
         <commons.dbcp.version>1.3</commons.dbcp.version> <!-- We need this version to support JDK 5 -->
