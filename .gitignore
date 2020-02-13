@@ -23,4 +23,5 @@ local.properties
 .checkstyle
 **/solr
 logs/
-.iml
+*.iml
+.idea/
