@@ -69,7 +69,9 @@ import barley.apimgt.gateway.utils.GatewayUtils;
 import barley.apimgt.gateway.utils.RelayUtils;
 import barley.apimgt.impl.APIConstants;
 import barley.apimgt.impl.dto.VerbInfoDTO;
+import barley.core.MultitenantConstants;
 import barley.core.context.BarleyContext;
+import barley.core.multitenancy.MultitenantUtils;
 
 
 /*
@@ -189,12 +191,15 @@ public class ThrottleHandler extends AbstractHandler implements ManagedLifecycle
         apiVersion = apiVersion != null ? apiVersion : "";
 
         String subscriberTenantDomain = "";
-        String apiTenantDomain = BarleyContext.getThreadLocalCarbonContext().getTenantDomain();
+        // (수정) 쓰레드 변수를 사용하지 않으므로 도메인 정보를 messageContext에서 가져오기 
+        // String apiTenantDomain = BarleyContext.getThreadLocalCarbonContext().getTenantDomain();
+        String apiTenantDomain = MultitenantConstants.SUPER_TENANT_DOMAIN;
+        
         List<String> resourceLevelThrottleConditions;
         ConditionGroupDTO[] conditionGroupDTOs;
-        String applicationId = authContext.getApplicationId();
         //If Authz context is not null only we can proceed with throttling
         if (authContext != null) {
+        	String applicationId = authContext.getApplicationId();
             authorizedUser = authContext.getUsername();
             //Check if request is blocked. If request is blocked then will not proceed further and
             //inform to client.
@@ -226,29 +231,32 @@ public class ThrottleHandler extends AbstractHandler implements ManagedLifecycle
                 subscriberTenantDomain = authContext.getSubscriberTenantDomain();
                 applicationLevelThrottleKey = applicationId + ":" + authorizedUser;
                 apiLevelThrottleKey = apiContext + ":" + apiVersion;
-                stopOnQuotaReach = authContext.isStopOnQuotaReach();                
-                //If request is not blocked then only we perform throttling.
-                // APIKeyValidator에서 url-mapping 테이블을 조회한 데이터를 프로퍼티에 저장한다. 
-                VerbInfoDTO verbInfoDTO = (VerbInfoDTO) synCtx.getProperty(APIConstants.VERB_INFO_DTO);
+                stopOnQuotaReach = authContext.isStopOnQuotaReach();
+                
                 applicationLevelTier = authContext.getApplicationTier();
                 // AM_SUBSCRIPTION 테이블의 tier_id 필드에서 가져온다.
                 subscriptionLevelTier = authContext.getSubscriptionTier();
-                resourceLevelThrottleKey = verbInfoDTO.getRequestKey();
                 // AM_API 테이블의 api_tier 필드에서 가져온다. 
                 apiLevelTier = authContext.getApiTier();
-                resourceLevelTier = verbInfoDTO.getThrottling();
-                //If API level throttle policy is present then it will apply and no resource level policy will apply for it
-                // api 레벨이 있으나 Unlimited가 아니라면 api 쓰로틀링을 수행해야 한다. 
-                if (!StringUtils.isEmpty(apiLevelTier) && !APIConstants.UNLIMITED_TIER.equalsIgnoreCase(apiLevelTier)) {
-                    resourceLevelThrottleKey = apiLevelThrottleKey;
-                    apiLevelThrottledTriggered = true;
-                }
-
+                
+                //If request is not blocked then only we perform throttling.
+                // APIKeyValidator에서 url-mapping 테이블을 조회한 데이터를 프로퍼티에 저장한다. 
+                VerbInfoDTO verbInfoDTO = (VerbInfoDTO) synCtx.getProperty(APIConstants.VERB_INFO_DTO);
+                
                 //If API level tier is not present only we should move to resource level tiers.
                 if (verbInfoDTO == null) {
                     log.warn("Error while getting throttling information for resource and http verb");
                     return false;
                 } else {
+                	resourceLevelThrottleKey = verbInfoDTO.getRequestKey();                    
+                    resourceLevelTier = verbInfoDTO.getThrottling();
+                    //If API level throttle policy is present then it will apply and no resource level policy will apply for it
+                    // api 레벨이 있으나 Unlimited가 아니라면 api 쓰로틀링을 수행해야 한다. 
+                    if (!StringUtils.isEmpty(apiLevelTier) && !APIConstants.UNLIMITED_TIER.equalsIgnoreCase(apiLevelTier)) {
+                        resourceLevelThrottleKey = apiLevelThrottleKey;
+                        apiLevelThrottledTriggered = true;
+                    }
+                	
                     //If verbInfo is present then only we will do resource level throttling
                 	// url-mapping에 있는 리소스 레벨 쓰로틀링이 unlimited라면 통과
                 	// 1-1. 리소스 레벨이 Unlimited이고 api 레벨이 Unlimited라면    
@@ -368,16 +376,21 @@ public class ThrottleHandler extends AbstractHandler implements ManagedLifecycle
                                     	if (log.isDebugEnabled()) {
                                             log.debug("Publishing throttled Event");
                                         }
-                                    	// 쓰로틀링 결과 퍼블링싱 - 바이너리 통신으로 데이터분석기에 데이터 전달 
-                                    	/* (임시주석) 
-                                        throttleDataPublisher.publishNonThrottledEvent(
+                                    	// 쓰로틀링 결과 퍼블링싱 - 바이너리 통신으로 데이터분석기에 데이터 전달
+                                    	if (throttleDataPublisher == null) {
+                                            // The publisher initializes in the first request only
+                                            synchronized (this) {
+                                            	throttleDataPublisher = new ThrottleDataPublisher();
+                                            }
+                                        }
+                                    	throttleDataPublisher.publishNonThrottledEvent(
                                                 applicationLevelThrottleKey, applicationLevelTier,
                                                 apiLevelThrottleKey, apiLevelTier,
                                                 subscriptionLevelThrottleKey, subscriptionLevelTier,
                                                 resourceLevelThrottleKey, resourceLevelTier,
                                                 authorizedUser, apiContext, apiVersion, subscriberTenantDomain,
                                                 apiTenantDomain, applicationId, synCtx, authContext);
-                                                */
+                                                
                                     }
                                 } else {
                                     if (log.isDebugEnabled()) {
