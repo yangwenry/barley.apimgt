@@ -18,31 +18,9 @@
 
 package barley.apimgt.impl.internal;
 
-import java.io.File;
-import java.io.FilenameFilter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.Charset;
-import java.util.List;
-
-import javax.cache.Cache;
-
-import org.apache.axis2.engine.ListenerManager;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-//import org.osgi.framework.ServiceRegistration;
-//import org.osgi.service.component.ComponentContext;
-
 import barley.apimgt.api.APIManagementException;
 import barley.apimgt.api.APIManagerDatabaseException;
-import barley.apimgt.impl.APIConstants;
-import barley.apimgt.impl.APIManagerAnalyticsConfiguration;
-import barley.apimgt.impl.APIManagerConfiguration;
-import barley.apimgt.impl.APIManagerConfigurationService;
-import barley.apimgt.impl.APIManagerConfigurationServiceImpl;
-import barley.apimgt.impl.APIManagerFactory;
+import barley.apimgt.impl.*;
 import barley.apimgt.impl.dao.ApiMgtDAO;
 import barley.apimgt.impl.factory.KeyManagerHolder;
 import barley.apimgt.impl.factory.SQLConstantManagerFactory;
@@ -79,6 +57,22 @@ import barley.user.api.UserStoreManager;
 import barley.user.core.UserMgtConstants;
 import barley.user.core.UserRealm;
 import barley.user.core.service.RealmService;
+import org.apache.axis2.engine.ListenerManager;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import javax.cache.Cache;
+import java.io.File;
+import java.io.FilenameFilter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.Charset;
+import java.util.List;
+
+//import org.osgi.framework.ServiceRegistration;
+//import org.osgi.service.component.ComponentContext;
 
 /**
  * @scr.component name="org.wso2.apimgt.impl.services" immediate="true"
@@ -142,6 +136,7 @@ public class APIManagerComponent {
 
             String filePath = BarleyUtils.getCarbonHome() + File.separator + "repository" +
                               File.separator + "conf" + File.separator + "api-manager.xml";
+            log.info("api-manager.xml path : " + filePath);
             configuration.load(filePath);
 
             String gatewayType = configuration.getFirstProperty(APIConstants.API_GATEWAY_TYPE);
