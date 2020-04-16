@@ -19,48 +19,6 @@
 
 package barley.apimgt.usage.client.impl;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.TreeMap;
-
-import javax.activation.DataHandler;
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.sql.DataSource;
-import javax.xml.namespace.QName;
-import javax.xml.stream.XMLInputFactory;
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.XMLStreamReader;
-
-import org.apache.axiom.om.OMElement;
-import org.apache.axiom.om.impl.builder.StAXOMBuilder;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.json.simple.JSONArray;
-//import org.wso2.carbon.application.mgt.stub.upload.CarbonAppUploaderStub;
-//import org.wso2.carbon.application.mgt.stub.upload.types.carbon.UploadedFileItem;
-
 import barley.apimgt.api.APIManagementException;
 import barley.apimgt.api.APIProvider;
 import barley.apimgt.api.model.API;
@@ -76,38 +34,42 @@ import barley.apimgt.usage.client.bean.Result;
 import barley.apimgt.usage.client.bean.UserAgentUsageCount;
 import barley.apimgt.usage.client.billing.APIUsageRangeCost;
 import barley.apimgt.usage.client.billing.PaymentPlan;
-import barley.apimgt.usage.client.dto.APIDestinationUsageDTO;
-import barley.apimgt.usage.client.dto.APIResourcePathUsageDTO;
-import barley.apimgt.usage.client.dto.APIResponseFaultCountDTO;
-import barley.apimgt.usage.client.dto.APIResponseTimeDTO;
-import barley.apimgt.usage.client.dto.APIThrottlingOverTimeDTO;
-import barley.apimgt.usage.client.dto.APIUsageByUserDTO;
-import barley.apimgt.usage.client.dto.APIUsageDTO;
-import barley.apimgt.usage.client.dto.APIVersionLastAccessTimeDTO;
-import barley.apimgt.usage.client.dto.APIVersionUsageDTO;
-import barley.apimgt.usage.client.dto.ApiTopUsersDTO;
-import barley.apimgt.usage.client.dto.ApiTopUsersListDTO;
-import barley.apimgt.usage.client.dto.AppCallTypeDTO;
-import barley.apimgt.usage.client.dto.AppUsageDTO;
-import barley.apimgt.usage.client.dto.FaultCountDTO;
-import barley.apimgt.usage.client.dto.PerAppApiCountDTO;
-import barley.apimgt.usage.client.dto.PerUserAPIUsageDTO;
+import barley.apimgt.usage.client.dto.*;
 import barley.apimgt.usage.client.exception.APIMgtUsageQueryServiceClientException;
 import barley.apimgt.usage.client.internal.APIUsageClientServiceComponent;
-import barley.apimgt.usage.client.pojo.APIAccessTime;
-import barley.apimgt.usage.client.pojo.APIFirstAccess;
-import barley.apimgt.usage.client.pojo.APIResponseFaultCount;
-import barley.apimgt.usage.client.pojo.APIResponseTime;
-import barley.apimgt.usage.client.pojo.APIUsage;
-import barley.apimgt.usage.client.pojo.APIUsageByDestination;
-import barley.apimgt.usage.client.pojo.APIUsageByResourcePath;
-import barley.apimgt.usage.client.pojo.APIUsageByUser;
-import barley.apimgt.usage.client.pojo.APIUsageByUserName;
+import barley.apimgt.usage.client.pojo.*;
 import barley.apimgt.usage.client.util.APIUsageClientUtil;
 import barley.apimgt.usage.client.util.RestClientUtil;
 import barley.core.MultitenantConstants;
 import barley.core.multitenancy.MultitenantUtils;
 import barley.core.utils.BarleyUtils;
+import org.apache.axiom.om.OMElement;
+import org.apache.axiom.om.impl.builder.StAXOMBuilder;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.json.simple.JSONArray;
+
+import javax.activation.DataHandler;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.sql.*;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.util.*;
+import java.util.Date;
+
+//import org.wso2.carbon.application.mgt.stub.upload.CarbonAppUploaderStub;
+//import org.wso2.carbon.application.mgt.stub.upload.types.carbon.UploadedFileItem;
 
 /**
  * Usage statistics class implementation for the APIUsageStatisticsClient.
@@ -2326,15 +2288,19 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
                         + ",0)) AS throttleout_count " +
                         "FROM " + APIUsageStatisticsClientConstants.API_THROTTLED_OUT_SUMMARY +
                         " WHERE " + APIUsageStatisticsClientConstants.TENANT_DOMAIN + " = ? " +
-                        "AND " + APIUsageStatisticsClientConstants.API + " = ? " +
-                        (provider.startsWith(APIUsageStatisticsClientConstants.ALL_PROVIDERS) ?
+                        // (추가) 2020.04.16 - api 조건없이 전체 검색하도록 추가
+                        ("ALL".equals(apiName) ?
                                 "" :
-                                "AND " + APIUsageStatisticsClientConstants.API_PUBLISHER + " = ?") +
-                        // (수정) All로 변경 
+                                " AND " + APIUsageStatisticsClientConstants.API + " = ? ") +
+                        // (주석)
+                        /*(provider.startsWith(APIUsageStatisticsClientConstants.ALL_PROVIDERS) ?
+                                "" :
+                                "AND " + APIUsageStatisticsClientConstants.API_PUBLISHER + " = ?") +*/
+                        // (수정) All로 변경
                         // (StringUtils.isEmpty(apiPublisher) ?
                         ("ALL".equals(apiPublisher) ?
                                 "" :
-                                " AND " + APIUsageStatisticsClientConstants.APPLICATION_NAME + " = ?") +
+                                " AND " + APIUsageStatisticsClientConstants.API_PUBLISHER + " = ?") +
                         " AND " + APIUsageStatisticsClientConstants.TIME + " BETWEEN ? AND ? " +
                         "GROUP BY " + groupByStmt +
                         " ORDER BY " + groupByStmt + " ASC";
@@ -2342,13 +2308,17 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
                 preparedStatement = connection.prepareStatement(query);
                 int index = 1;
                 preparedStatement.setString(index++, tenantDomain);
-                preparedStatement.setString(index++, apiName);
-                if (!provider.startsWith(APIUsageStatisticsClientConstants.ALL_PROVIDERS)) {
-                    preparedStatement.setString(index++, provider);
+                // (추가) 2020.04.16 - api 조건없이 전체 검색하도록 추가
+                if (!"ALL".equals(apiName)) {
+                    preparedStatement.setString(index++, apiName);
                 }
-                // (수정) All로 변경 
+                // (주석)
+                /*if (!provider.startsWith(APIUsageStatisticsClientConstants.ALL_PROVIDERS)) {
+                    preparedStatement.setString(index++, provider);
+                }*/
+                // (수정) All로 변경
                 //if (!StringUtils.isEmpty(apiPublisher)) {
-                if (!"ALL".equals(apiPublisher)) {	
+                if (!"ALL".equals(apiPublisher)) {
                     preparedStatement.setString(index++, apiPublisher);
                 }
                 preparedStatement.setString(index++, fromDate);
@@ -2361,7 +2331,7 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
                     int year = rs.getInt(APIUsageStatisticsClientConstants.YEAR);
                     int month = rs.getInt(APIUsageStatisticsClientConstants.MONTH);
                     String time;
-                    // group by hour로 실행하면 time 필드가 없어 에러가 발생
+                    // group by로 실행
                     if (APIUsageStatisticsClientConstants.GROUP_BY_HOUR.equals(groupBy)) {
                         time = rs.getString(APIUsageStatisticsClientConstants.TIME);
                     } else {
