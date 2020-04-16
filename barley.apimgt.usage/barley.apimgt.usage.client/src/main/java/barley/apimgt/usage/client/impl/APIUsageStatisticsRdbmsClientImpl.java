@@ -2771,7 +2771,7 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
         ResultSet rs = null;
         try {
             connection = dataSource.getConnection();
-            StringBuilder query = new StringBuilder("SELECT sum(total_request_count) as count,os,browser " +
+            StringBuilder query = new StringBuilder("SELECT sum(total_request_count) as count, year, month, day, os, browser " +
                     "FROM ");
             String tableName = APIUsageStatisticsClientConstants.API_REQUEST_USER_BROWSER_SUMMARY;
             query.append(tableName).append(" WHERE ");
@@ -2795,7 +2795,8 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
             if (!"ALL".equals(drillDown)) {
                 query.append(" AND os ='").append(drillDown).append("'");
             }
-            query.append(" GROUP BY os, browser ");
+            // (추가) year,month,day,
+            query.append(" GROUP BY year, month, day, os, browser ");
 
             if (isTableExist(tableName, connection)) { //Tables exist
                 preparedStatement = connection.prepareStatement(query.toString());
@@ -2812,7 +2813,13 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
                             facetValues);
                     result1.setValues(perGeoLocationUsageCount);
                     result1.setTableName(tableName);
-                    result1.setTimestamp(RestClientUtil.longToDate(new Date().getTime()));
+                    // (추가)
+                    int year = rs.getInt(APIUsageStatisticsClientConstants.YEAR);
+                    int month = rs.getInt(APIUsageStatisticsClientConstants.MONTH);
+                    int day = rs.getInt(APIUsageStatisticsClientConstants.DAY);
+                    String time = year + "-" + month + "-" + day + " 00:00:00";
+                    //result1.setTimestamp(RestClientUtil.longToDate(new Date().getTime()));
+                    result1.setTimestamp(time);
                     result.add(result1);
                 }
             } else {
