@@ -19,15 +19,6 @@
 package barley.apimgt.gateway.throttling.publisher;
 
 
-import java.util.concurrent.Executor;
-import java.util.concurrent.LinkedBlockingDeque;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.apache.synapse.MessageContext;
-
 import barley.apimgt.gateway.handlers.security.AuthenticationContext;
 import barley.apimgt.gateway.internal.ServiceReferenceHolder;
 import barley.apimgt.impl.dto.ThrottleProperties;
@@ -37,6 +28,14 @@ import barley.databridge.agent.exception.DataEndpointAuthenticationException;
 import barley.databridge.agent.exception.DataEndpointConfigurationException;
 import barley.databridge.agent.exception.DataEndpointException;
 import barley.databridge.commons.exception.TransportException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.synapse.MessageContext;
+
+import java.util.concurrent.Executor;
+import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Throttle data publisher class is here to publish throttle data to global policy engine.
