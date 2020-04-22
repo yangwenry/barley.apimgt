@@ -16,44 +16,11 @@
 
 package barley.apimgt.impl;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.security.Security;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.xml.namespace.QName;
-import javax.xml.stream.XMLStreamException;
-
-import org.apache.axiom.om.OMElement;
-import org.apache.axiom.om.impl.builder.StAXOMBuilder;
-import org.apache.commons.dbcp.BasicDataSource;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import barley.apimgt.api.APIConsumer;
 import barley.apimgt.api.APIManagementException;
-import barley.apimgt.api.model.API;
-import barley.apimgt.api.model.APIIdentifier;
-import barley.apimgt.api.model.APIKey;
-import barley.apimgt.api.model.Application;
-import barley.apimgt.api.model.Documentation;
+import barley.apimgt.api.model.*;
 import barley.apimgt.api.model.Documentation.DocumentSourceType;
 import barley.apimgt.api.model.Documentation.DocumentVisibility;
-import barley.apimgt.api.model.DocumentationType;
-import barley.apimgt.api.model.ResourceFile;
-import barley.apimgt.api.model.SubscribedAPI;
-import barley.apimgt.api.model.Subscriber;
-import barley.apimgt.api.model.Tier;
 import barley.apimgt.api.model.policy.Policy;
 import barley.apimgt.impl.factory.SQLConstantManagerFactory;
 import barley.apimgt.impl.internal.APIManagerComponent;
@@ -82,6 +49,24 @@ import barley.user.core.claim.Claim;
 import barley.user.core.claim.ClaimMapping;
 import barley.user.core.profile.ProfileConfiguration;
 import barley.user.core.service.RealmService;
+import org.apache.axiom.om.OMElement;
+import org.apache.axiom.om.impl.builder.StAXOMBuilder;
+import org.apache.commons.dbcp.BasicDataSource;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.xml.namespace.QName;
+import javax.xml.stream.XMLStreamException;
+import java.io.*;
+import java.security.Security;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class APICommonImplTest extends BaseTestCase {
 
@@ -452,12 +437,12 @@ public class APICommonImplTest extends BaseTestCase {
     	String searchType = "name";
     	String searchValue = "";
     	String profileId = "codefarm";
-    	String[] userIds = realmService.getTenantUserRealm(tenantId).getUserStoreManager().listUsers(searchType, searchValue, profileId, userId, state, page, limit);
-    	
-    	//assertEquals(userIds.length, limit);
-    	for(String getUserId: userIds) {
-    		System.out.println(getUserId);
-    	}
+//    	String[] userIds = realmService.getTenantUserRealm(tenantId).getUserStoreManager().listUsers(searchType, searchValue, profileId, userId, state, page, limit);
+//
+//    	//assertEquals(userIds.length, limit);
+//    	for(String getUserId: userIds) {
+//    		System.out.println(getUserId);
+//    	}
 
     	//String[] userIds = realmService.getTenantUserRealm(tenantId).getUserStoreManager().listUsers(userName, state, page, limit);
     	//assertEquals(userIds.length, limit);
