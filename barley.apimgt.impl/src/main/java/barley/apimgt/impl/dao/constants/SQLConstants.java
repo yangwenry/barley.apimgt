@@ -390,7 +390,20 @@ public class SQLConstants {
     
     public static final String REMOVE_SUBSCRIBER_FROM_API_RATING_SQL = 
     		" DELETE FROM AM_API_RATINGS WHERE SUBSCRIBER_ID = ?";
-    
+
+    // (추가)
+    public static final String GET_ALL_SUBSCRIBER_SQL =
+            " SELECT " +
+                "   SUB.SUBSCRIBER_ID, SUB.USER_ID, SUB.TENANT_ID, SUB.EMAIL_ADDRESS, SUB.DATE_SUBSCRIBED, APP.APPLICATION_TIER " +
+                "  FROM AM_SUBSCRIBER SUB " +
+                " INNER JOIN AM_APPLICATION APP " +
+                "    ON SUB.SUBSCRIBER_ID = APP.SUBSCRIBER_ID " +
+                //" LEFT OUTER JOIN AM_POLICY_APPLICATION POLICY " +
+                //"    ON POLICY.NAME = APP.APPLICATION_TIER " +
+                " WHERE " +
+                "   SUB.TENANT_ID=?" +
+                " ORDER BY SUB.CREATED_TIME DESC " +
+                " LIMIT ?, ?";
 
     public static final String GET_SUBSCRIBER_SQL =
             " SELECT " +

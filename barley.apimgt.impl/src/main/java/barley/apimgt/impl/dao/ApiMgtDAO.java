@@ -988,6 +988,46 @@ public class ApiMgtDAO {
         }
     }
 
+    public void getAllSubscribers(Subscriber subscriber, String groupingId) throws APIManagementException {
+        Connection conn = null;
+        ResultSet rs = null;
+        PreparedStatement ps = null;
+        try {
+            conn = APIMgtDBUtil.getConnection();
+            conn.setAutoCommit(false);
+
+            String query = SQLConstants.ADD_SUBSCRIBER_SQL;
+            ps = conn.prepareStatement(query, new String[]{"subscriber_id"});
+
+            ps.setString(1, subscriber.getName());
+            ps.setInt(2, subscriber.getTenantId());
+            ps.setString(3, subscriber.getEmail());
+            ps.setTimestamp(4, new Timestamp(subscriber.getSubscribedDate().getTime()));
+            ps.setString(5, subscriber.getName());
+            ps.setTimestamp(6, new Timestamp(subscriber.getSubscribedDate().getTime()));
+            ps.executeUpdate();
+
+            int subscriberId = 0;
+            rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                subscriberId = Integer.parseInt(rs.getString(1));
+            }
+            subscriber.setId(subscriberId);
+            conn.commit();
+        } catch (SQLException e) {
+            if (conn != null) {
+                try {
+                    conn.rollback();
+                } catch (SQLException e1) {
+                    log.error("Error while rolling back the failed operation", e1);
+                }
+            }
+            handleException("Error in adding new subscriber: " + e.getMessage(), e);
+        } finally {
+            APIMgtDBUtil.closeAllConnections(ps, conn, rs);
+        }
+    }
+
     public void updateSubscriber(Subscriber subscriber) throws APIManagementException {
         Connection conn = null;
         PreparedStatement ps = null;
@@ -1083,6 +1123,37 @@ public class ApiMgtDAO {
             APIMgtDBUtil.closeAllConnections(ps, conn, rs);
         }
         return null;
+    }
+
+    public List<Subscriber> getAllSubscribers(int page, int count, int tenantId) throws APIManagementException {
+        Connection conn = null;
+        ResultSet rs = null;
+        PreparedStatement ps = null;
+        List<Subscriber> subscribers = new ArrayList<Subscriber>();
+        try {
+            conn = APIMgtDBUtil.getConnection();
+            String query = SQLConstants.GET_ALL_SUBSCRIBER_SQL;
+
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, tenantId);
+            ps.setInt(2, page);
+            ps.setInt(3, count);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Subscriber subscriber = new Subscriber(rs.getString("USER_ID"));
+                subscriber.setId(rs.getInt("SUBSCRIBER_ID"));
+                subscriber.setTenantId(rs.getInt("TENANT_ID"));
+                subscriber.setEmail(rs.getString("EMAIL_ADDRESS"));
+                subscriber.setApplicationTier(rs.getString("APPLICATION_TIER"));
+                subscriber.setSubscribedDate(new java.util.Date(rs.getTimestamp("DATE_SUBSCRIBED").getTime()));
+                subscribers.add(subscriber);
+            }
+        } catch (SQLException e) {
+            handleException("Error while retrieving all subscribers: " + e.getMessage(), e);
+        } finally {
+            APIMgtDBUtil.closeAllConnections(ps, conn, rs);
+        }
+        return subscribers;
     }
 
     public int addSubscription(APIIdentifier identifier, String context, int applicationId, String status,

@@ -18,78 +18,22 @@
 
 package barley.apimgt.impl;
 
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-
-import javax.cache.Caching;
-
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-
 import barley.apimgt.api.APIConsumer;
 import barley.apimgt.api.APIManagementException;
-import barley.apimgt.api.APIProvider;
 import barley.apimgt.api.LoginPostExecutor;
 import barley.apimgt.api.WorkflowResponse;
-import barley.apimgt.api.model.API;
-import barley.apimgt.api.model.APIIdentifier;
-import barley.apimgt.api.model.APIKey;
-import barley.apimgt.api.model.APIRating;
-import barley.apimgt.api.model.APIStatus;
-import barley.apimgt.api.model.AccessTokenInfo;
-import barley.apimgt.api.model.AccessTokenRequest;
-import barley.apimgt.api.model.Application;
-import barley.apimgt.api.model.ApplicationConstants;
-import barley.apimgt.api.model.ApplicationKeysDTO;
-import barley.apimgt.api.model.Documentation;
-import barley.apimgt.api.model.KeyManager;
-import barley.apimgt.api.model.OAuthAppRequest;
-import barley.apimgt.api.model.OAuthApplicationInfo;
-import barley.apimgt.api.model.Scope;
-import barley.apimgt.api.model.SubscribedAPI;
-import barley.apimgt.api.model.Subscriber;
-import barley.apimgt.api.model.SubscriptionResponse;
+import barley.apimgt.api.model.*;
 import barley.apimgt.api.model.Tag;
-import barley.apimgt.api.model.Tier;
 import barley.apimgt.impl.caching.CacheInvalidator;
 import barley.apimgt.impl.dao.ApiMgtDAO;
-import barley.apimgt.impl.dto.ApplicationRegistrationWorkflowDTO;
-import barley.apimgt.impl.dto.ApplicationWorkflowDTO;
-import barley.apimgt.impl.dto.SubscriptionWorkflowDTO;
-import barley.apimgt.impl.dto.TierPermissionDTO;
-import barley.apimgt.impl.dto.WorkflowDTO;
+import barley.apimgt.impl.dto.*;
 import barley.apimgt.impl.factory.KeyManagerHolder;
 import barley.apimgt.impl.internal.ServiceReferenceHolder;
 import barley.apimgt.impl.utils.APINameComparator;
 import barley.apimgt.impl.utils.APIUtil;
 import barley.apimgt.impl.utils.APIVersionComparator;
 import barley.apimgt.impl.utils.ApplicationUtils;
-import barley.apimgt.impl.workflow.AbstractApplicationRegistrationWorkflowExecutor;
-import barley.apimgt.impl.workflow.WorkflowConstants;
-import barley.apimgt.impl.workflow.WorkflowException;
-import barley.apimgt.impl.workflow.WorkflowExecutor;
-import barley.apimgt.impl.workflow.WorkflowExecutorFactory;
-import barley.apimgt.impl.workflow.WorkflowStatus;
+import barley.apimgt.impl.workflow.*;
 import barley.core.BarleyConstants;
 import barley.core.MultitenantConstants;
 import barley.core.context.PrivilegedBarleyContext;
@@ -101,11 +45,7 @@ import barley.governance.api.generic.GenericArtifactManager;
 import barley.governance.api.generic.dataobjects.GenericArtifact;
 import barley.governance.api.util.GovernanceUtils;
 import barley.registry.common.TermData;
-import barley.registry.core.ActionConstants;
-import barley.registry.core.Association;
-import barley.registry.core.Registry;
-import barley.registry.core.RegistryConstants;
-import barley.registry.core.Resource;
+import barley.registry.core.*;
 import barley.registry.core.config.RegistryContext;
 import barley.registry.core.exceptions.RegistryException;
 import barley.registry.core.pagination.PaginationContext;
@@ -115,6 +55,18 @@ import barley.registry.core.utils.RegistryUtils;
 import barley.user.api.AuthorizationManager;
 import barley.user.api.UserStoreException;
 import barley.user.core.service.RealmService;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+import javax.cache.Caching;
+import java.nio.charset.Charset;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * This class provides the core API store functionality. It is implemented in a very
@@ -179,6 +131,17 @@ class APIConsumerImpl extends AbstractAPIManager implements APIConsumer {
             handleException("Failed to get Subscriber", e);
         }
         return subscriber;
+    }
+
+    @Override
+    public List<Subscriber> getAllSubscribers(int page, int count, int tenantId) throws APIManagementException {
+        List<Subscriber> subscribers = null;
+        try {
+            subscribers = apiMgtDAO.getAllSubscribers(page, count, tenantId);
+        } catch (APIManagementException e) {
+            handleException("Failed to get All Subscribers", e);
+        }
+        return subscribers;
     }
 
 
