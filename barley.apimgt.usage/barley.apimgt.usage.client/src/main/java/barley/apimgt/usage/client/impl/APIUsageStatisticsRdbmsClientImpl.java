@@ -864,7 +864,7 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
      * 
      * @param providerName Name of the API provider
      * @return a List of APIUsageDTO objects - possibly empty
-     * @throws org.wso2.carbon.apimgt.usage.client.exception.APIMgtUsageQueryServiceClientException if an error occurs
+     * @throws barley.apimgt.usage.client.exception.APIMgtUsageQueryServiceClientException if an error occurs
      *             while contacting backend services
      */
     @Override
@@ -974,7 +974,7 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
      * @param fromDate Starting date
      * @param toDate Ending date
      * @return list of APIVersionUsageDTO
-     * @throws org.wso2.carbon.apimgt.usage.client.exception.APIMgtUsageQueryServiceClientException if error occurred
+     * @throws barley.apimgt.usage.client.exception.APIMgtUsageQueryServiceClientException if error occurred
      */
     @Override
     public List<APIVersionUsageDTO> getUsageByAPIVersions(String providerName, String apiName, String fromDate,
@@ -1008,7 +1008,7 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
      *
      * @param providerName Name of the API provider
      * @return a List of APIResourcePathUsageDTO objects, possibly empty
-     * @throws org.wso2.carbon.apimgt.usage.client.exception.APIMgtUsageQueryServiceClientException on error
+     * @throws barley.apimgt.usage.client.exception.APIMgtUsageQueryServiceClientException on error
      */
     @Override
     public List<APIResourcePathUsageDTO> getAPIUsageByResourcePath(String providerName, String fromDate, String toDate)
@@ -1082,7 +1082,7 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
      *
      * @param providerName Name of the API provider
      * @return a List of APIUsageByUserDTO objects, possibly empty
-     * @throws org.wso2.carbon.apimgt.usage.client.exception.APIMgtUsageQueryServiceClientException on error
+     * @throws barley.apimgt.usage.client.exception.APIMgtUsageQueryServiceClientException on error
      */
     @Override
     public List<APIUsageByUserDTO> getAPIUsageByUser(String providerName, String fromDate, String toDate)
@@ -1112,7 +1112,7 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
      *
      * @param providerName Name of the API provider
      * @return a List of APIResponseTimeDTO objects, possibly empty
-     * @throws org.wso2.carbon.apimgt.usage.client.exception.APIMgtUsageQueryServiceClientException on error
+     * @throws barley.apimgt.usage.client.exception.APIMgtUsageQueryServiceClientException on error
      */
     @Override
     public List<APIResponseTimeDTO> getProviderAPIServiceTime(String providerName, String fromDate, String toDate,
@@ -1223,7 +1223,7 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
      *
      * @param providerName Name of the API provider
      * @return a list of APIVersionLastAccessTimeDTO objects, possibly empty
-     * @throws org.wso2.carbon.apimgt.usage.client.exception.APIMgtUsageQueryServiceClientException on error
+     * @throws barely.apimgt.usage.client.exception.APIMgtUsageQueryServiceClientException on error
      */
     @Override
     public List<APIVersionLastAccessTimeDTO> getProviderAPIVersionUserLastAccess(String providerName, String fromDate,
@@ -1322,7 +1322,7 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
      * @param apiName      Name of the API
      * @param limit        Number of sorted entries to return
      * @return a List of PerUserAPIUsageDTO objects - Possibly empty
-     * @throws org.wso2.carbon.apimgt.usage.client.exception.APIMgtUsageQueryServiceClientException on error
+     * @throws barley.apimgt.usage.client.exception.APIMgtUsageQueryServiceClientException on error
      */
     @Override
     public List<PerUserAPIUsageDTO> getUsageBySubscribers(String providerName, String apiName, int limit)
