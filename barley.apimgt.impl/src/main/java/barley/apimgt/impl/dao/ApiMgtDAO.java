@@ -1174,13 +1174,14 @@ public class ApiMgtDAO {
         ResultSet rs = null;
         PreparedStatement ps = null;
         List<Subscriber> subscribers = new ArrayList<Subscriber>();
+        int startNo = (page-1) * count;
         try {
             conn = APIMgtDBUtil.getConnection();
             String query = SQLConstants.GET_ALL_SUBSCRIBER_SQL;
 
             ps = conn.prepareStatement(query);
             ps.setInt(1, tenantId);
-            ps.setInt(2, page);
+            ps.setInt(2, startNo);
             ps.setInt(3, count);
             rs = ps.executeQuery();
             while (rs.next()) {
