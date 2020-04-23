@@ -1125,6 +1125,50 @@ public class ApiMgtDAO {
         return null;
     }
 
+    /**
+     * This method used tot get Subscriber from subscriberId.
+     *
+     * @param subscriberName id
+     * @return Subscriber
+     * @throws APIManagementException if failed to get Subscriber from subscriber id
+     */
+    public Subscriber getSubscriber(String subscriberName) throws APIManagementException {
+        Connection conn = null;
+        Subscriber subscriber = null;
+        PreparedStatement ps = null;
+        ResultSet result = null;
+
+        int tenantId = APIUtil.getTenantId(subscriberName);
+
+        String sqlQuery = SQLConstants.GET_TENANT_SUBSCRIBER_SQL;
+        if (forceCaseInsensitiveComparisons) {
+            sqlQuery = SQLConstants.GET_TENANT_SUBSCRIBER_CASE_INSENSITIVE_SQL;
+        }
+
+        try {
+            conn = APIMgtDBUtil.getConnection();
+
+            ps = conn.prepareStatement(sqlQuery);
+            ps.setString(1, subscriberName);
+            ps.setInt(2, tenantId);
+            result = ps.executeQuery();
+
+            if (result.next()) {
+                subscriber = new Subscriber(result.getString(APIConstants.SUBSCRIBER_FIELD_EMAIL_ADDRESS));
+                subscriber.setEmail(result.getString("EMAIL_ADDRESS"));
+                subscriber.setId(result.getInt("SUBSCRIBER_ID"));
+                subscriber.setName(subscriberName);
+                subscriber.setSubscribedDate(result.getDate(APIConstants.SUBSCRIBER_FIELD_DATE_SUBSCRIBED));
+                subscriber.setTenantId(result.getInt("TENANT_ID"));
+            }
+        } catch (SQLException e) {
+            handleException("Failed to get Subscriber for :" + subscriberName, e);
+        } finally {
+            APIMgtDBUtil.closeAllConnections(ps, conn, result);
+        }
+        return subscriber;
+    }
+
     public List<Subscriber> getAllSubscribers(int page, int count, int tenantId) throws APIManagementException {
         Connection conn = null;
         ResultSet rs = null;
@@ -1523,50 +1567,6 @@ public class ApiMgtDAO {
             APIMgtDBUtil.closeAllConnections(ps, conn, resultSet);
         }
         return null;
-    }
-
-    /**
-     * This method used tot get Subscriber from subscriberId.
-     *
-     * @param subscriberName id
-     * @return Subscriber
-     * @throws APIManagementException if failed to get Subscriber from subscriber id
-     */
-    public Subscriber getSubscriber(String subscriberName) throws APIManagementException {
-        Connection conn = null;
-        Subscriber subscriber = null;
-        PreparedStatement ps = null;
-        ResultSet result = null;
-
-        int tenantId = APIUtil.getTenantId(subscriberName);
-
-        String sqlQuery = SQLConstants.GET_TENANT_SUBSCRIBER_SQL;
-        if (forceCaseInsensitiveComparisons) {
-            sqlQuery = SQLConstants.GET_TENANT_SUBSCRIBER_CASE_INSENSITIVE_SQL;
-        }
-
-        try {
-            conn = APIMgtDBUtil.getConnection();
-
-            ps = conn.prepareStatement(sqlQuery);
-            ps.setString(1, subscriberName);
-            ps.setInt(2, tenantId);
-            result = ps.executeQuery();
-
-            if (result.next()) {
-                subscriber = new Subscriber(result.getString(APIConstants.SUBSCRIBER_FIELD_EMAIL_ADDRESS));
-                subscriber.setEmail(result.getString("EMAIL_ADDRESS"));
-                subscriber.setId(result.getInt("SUBSCRIBER_ID"));
-                subscriber.setName(subscriberName);
-                subscriber.setSubscribedDate(result.getDate(APIConstants.SUBSCRIBER_FIELD_DATE_SUBSCRIBED));
-                subscriber.setTenantId(result.getInt("TENANT_ID"));
-            }
-        } catch (SQLException e) {
-            handleException("Failed to get Subscriber for :" + subscriberName, e);
-        } finally {
-            APIMgtDBUtil.closeAllConnections(ps, conn, result);
-        }
-        return subscriber;
     }
 
     public Set<APIIdentifier> getAPIByConsumerKey(String accessToken) throws APIManagementException {
