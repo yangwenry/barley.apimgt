@@ -2418,7 +2418,7 @@ public class SQLConstants {
 
     // (추가)
     public static final String GET_PAGINATED_APP_POLICIES_SQL = GET_APP_POLICIES +
-            " ORDER BY CREATED_TIME DESC " +
+            " ORDER BY NAME ASC " +
             " LIMIT ?, ? ";
 
     // (추가)
