@@ -144,6 +144,17 @@ class APIConsumerImpl extends AbstractAPIManager implements APIConsumer {
         return subscribers;
     }
 
+    @Override
+    public int getSubscriberCount(int tenantId) throws APIManagementException {
+        int count = 0;
+        try {
+            count = apiMgtDAO.getSubscriberCount(tenantId);
+        } catch (APIManagementException e) {
+            handleException("Failed to get All Subscribers", e);
+        }
+        return count;
+    }
+
 
     /**
      * Returns the set of APIs with the given tag from the taggedAPIs Map
@@ -3310,7 +3321,7 @@ class APIConsumerImpl extends AbstractAPIManager implements APIConsumer {
     }
 
     @Override
-    public Application[] getApplicationsWithPagination(Subscriber subscriber, String groupingId,int start , int offset
+    public Application[] getApplicationsWithPagination(Subscriber subscriber, String groupingId, int start , int offset
             , String search, String sortColumn, String sortOrder)
             throws APIManagementException {
         return apiMgtDAO.getApplicationsWithPagination(subscriber, groupingId, start, offset, search,sortColumn,sortOrder);

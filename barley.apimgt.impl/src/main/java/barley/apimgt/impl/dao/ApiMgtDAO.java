@@ -1177,7 +1177,7 @@ public class ApiMgtDAO {
         int startNo = (page-1) * count;
         try {
             conn = APIMgtDBUtil.getConnection();
-            String query = SQLConstants.GET_ALL_SUBSCRIBER_SQL;
+            String query = SQLConstants.GET_PAGINATED_SUBSCRIBERS_SQL;
 
             ps = conn.prepareStatement(query);
             ps.setInt(1, tenantId);
@@ -1199,6 +1199,29 @@ public class ApiMgtDAO {
             APIMgtDBUtil.closeAllConnections(ps, conn, rs);
         }
         return subscribers;
+    }
+
+    public int getSubscriberCount(int tenantId) throws APIManagementException {
+        Connection conn = null;
+        ResultSet rs = null;
+        PreparedStatement ps = null;
+        int count = 0;
+        try {
+            conn = APIMgtDBUtil.getConnection();
+            String query = SQLConstants.GET_SUBSCRIBER_COUNT_SQL;
+
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, tenantId);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt("TOTAL_CNT");
+            }
+        } catch (SQLException e) {
+            handleException("Error while retrieving all subscribers: " + e.getMessage(), e);
+        } finally {
+            APIMgtDBUtil.closeAllConnections(ps, conn, rs);
+        }
+        return count;
     }
 
     public int addSubscription(APIIdentifier identifier, String context, int applicationId, String status,
@@ -9680,6 +9703,57 @@ public class ApiMgtDAO {
             APIMgtDBUtil.closeAllConnections(ps, conn, rs);
         }
         return policies.toArray(new ApplicationPolicy[policies.size()]);
+    }
+
+    public List<ApplicationPolicy> getAllApplicationPolicies(int page, int count, int tenantId) throws APIManagementException {
+        Connection conn = null;
+        ResultSet rs = null;
+        PreparedStatement ps = null;
+        List<ApplicationPolicy> policies = new ArrayList<ApplicationPolicy>();
+        int startNo = (page-1) * count;
+        try {
+            conn = APIMgtDBUtil.getConnection();
+            String query = SQLConstants.GET_PAGINATED_APP_POLICIES_SQL;
+
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, tenantId);
+            ps.setInt(2, startNo);
+            ps.setInt(3, count);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                ApplicationPolicy appPolicy = new ApplicationPolicy(rs.getString(ThrottlePolicyConstants.COLUMN_NAME));
+                setCommonPolicyDetails(appPolicy, rs);
+                policies.add(appPolicy);
+            }
+        } catch (SQLException e) {
+            handleException("Error while retrieving all application policies: " + e.getMessage(), e);
+        } finally {
+            APIMgtDBUtil.closeAllConnections(ps, conn, rs);
+        }
+        return policies;
+    }
+
+    public int getApplicationPolicyCount(int tenantId) throws APIManagementException {
+        Connection conn = null;
+        ResultSet rs = null;
+        PreparedStatement ps = null;
+        int count = 0;
+        try {
+            conn = APIMgtDBUtil.getConnection();
+            String query = SQLConstants.GET_APP_POLICY_COUNT_SQL;
+
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, tenantId);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt("TOTAL_CNT");
+            }
+        } catch (SQLException e) {
+            handleException("Error while retrieving all subscribers: " + e.getMessage(), e);
+        } finally {
+            APIMgtDBUtil.closeAllConnections(ps, conn, rs);
+        }
+        return count;
     }
 
     /**

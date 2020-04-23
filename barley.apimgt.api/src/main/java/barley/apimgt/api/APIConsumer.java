@@ -52,6 +52,8 @@ public interface APIConsumer extends APIManager {
     // (추가) 2020.04.22
     List<Subscriber> getAllSubscribers(int page, int count, int tenantId) throws APIManagementException;
 
+    int getSubscriberCount(int tenantId) throws APIManagementException;
+
     /**
      * Returns a list of #{@link org.wso2.carbon.apimgt.api.model.API} bearing the selected tag
      *

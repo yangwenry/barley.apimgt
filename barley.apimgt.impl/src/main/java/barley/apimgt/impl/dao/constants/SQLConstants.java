@@ -392,7 +392,7 @@ public class SQLConstants {
     		" DELETE FROM AM_API_RATINGS WHERE SUBSCRIBER_ID = ?";
 
     // (추가)
-    public static final String GET_ALL_SUBSCRIBER_SQL =
+    public static final String GET_PAGINATED_SUBSCRIBERS_SQL =
             " SELECT " +
                 "   SUB.SUBSCRIBER_ID, SUB.USER_ID, SUB.TENANT_ID, SUB.EMAIL_ADDRESS, SUB.DATE_SUBSCRIBED, APP.APPLICATION_TIER " +
                 "  FROM AM_SUBSCRIBER SUB " +
@@ -404,6 +404,11 @@ public class SQLConstants {
                 "   SUB.TENANT_ID=?" +
                 " ORDER BY SUB.CREATED_TIME DESC " +
                 " LIMIT ?, ?";
+
+    public static final String GET_SUBSCRIBER_COUNT_SQL =
+            " SELECT COUNT(*) AS TOTAL_CNT FROM AM_SUBSCRIBER " +
+            "  WHERE " +
+            "    TENANT_ID=?";
 
     public static final String GET_SUBSCRIBER_SQL =
             " SELECT " +
@@ -1310,7 +1315,7 @@ public class SQLConstants {
             "   SUB.SUBSCRIBER_ID = APP.SUBSCRIBER_ID ";
 
 
-        public static final String GET_APPLICATIONS_COUNNT_CASESENSITVE_WITHGROUPID = "SELECT " +
+    public static final String GET_APPLICATIONS_COUNNT_CASESENSITVE_WITHGROUPID = "SELECT " +
                 "   count(*) count " +
                 " FROM" +
                 "   AM_APPLICATION APP, " +
@@ -1323,7 +1328,7 @@ public class SQLConstants {
                 "    NAME like ?";
 
 
-        public static final String GET_APPLICATIONS_COUNNT_NONE_CASESENSITVE_WITHGROUPID = "SELECT " +
+    public static final String GET_APPLICATIONS_COUNNT_NONE_CASESENSITVE_WITHGROUPID = "SELECT " +
                 "   count(*) count " +
                 " FROM" +
                 "   AM_APPLICATION APP, " +
@@ -1335,7 +1340,7 @@ public class SQLConstants {
                 " And "+
                 "    NAME like ?";
 
-        public static final String GET_APPLICATIONS_COUNNT_CASESENSITVE = "SELECT " +
+    public static final String GET_APPLICATIONS_COUNNT_CASESENSITVE = "SELECT " +
                 "   count(*) count " +
                 " FROM" +
                 "   AM_APPLICATION APP, " +
@@ -1347,7 +1352,7 @@ public class SQLConstants {
                 " And "+
                 "    NAME like ?";
 
-        public static final String GET_APPLICATIONS_COUNNT_NONE_CASESENSITVE = "SELECT " +
+    public static final String GET_APPLICATIONS_COUNNT_NONE_CASESENSITVE = "SELECT " +
                 "   count(*) count " +
                 " FROM" +
                 "   AM_APPLICATION APP, " +
@@ -2410,6 +2415,19 @@ public class SQLConstants {
                     "   AM_POLICY_APPLICATION " +
                     " WHERE" +
                     "   TENANT_ID =?";
+
+    // (추가)
+    public static final String GET_PAGINATED_APP_POLICIES_SQL = GET_APP_POLICIES +
+            " ORDER BY CREATED_TIME DESC " +
+            " LIMIT ?, ? ";
+
+    // (추가)
+    public static final String GET_APP_POLICY_COUNT_SQL =
+            " SELECT COUNT(*) AS TOTAL_CNT FROM AM_POLICY_APPLICATION " +
+            " WHERE" +
+            "   TENANT_ID =?";
+
+
     public static final String GET_SUBSCRIPTION_POLICIES =
             " SELECT " +
                     "   * " +
