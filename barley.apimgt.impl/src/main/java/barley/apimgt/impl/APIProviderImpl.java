@@ -4288,9 +4288,11 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
                 policyLevel = PolicyConstants.POLICY_LEVEL_API;
             } else if (policy instanceof ApplicationPolicy) {
                 ApplicationPolicy appPolicy = (ApplicationPolicy) policy;
+                /* (임시주석)
                 String policyString = policyBuilder.getThrottlePolicyForAppLevel(appPolicy);
                 String policyFile = appPolicy.getTenantDomain() + "_" +PolicyConstants.POLICY_LEVEL_APP + "_" + appPolicy.getPolicyName();
                 executionFlows.put(policyFile, policyString);
+                */
                 apiMgtDAO.addApplicationPolicy(appPolicy);
                 policyLevel = PolicyConstants.POLICY_LEVEL_APP;
             } else if (policy instanceof SubscriptionPolicy) {
@@ -4408,11 +4410,13 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
                 policyLevel = PolicyConstants.POLICY_LEVEL_API;
             } else if (policy instanceof ApplicationPolicy) {
                 ApplicationPolicy appPolicy = (ApplicationPolicy) policy;
-                String policyString = policyBuilder.getThrottlePolicyForAppLevel(appPolicy);
                 apiMgtDAO.updateApplicationPolicy(appPolicy);
+                /* (임시주석)
+                String policyString = policyBuilder.getThrottlePolicyForAppLevel(appPolicy);
                 String policyFile = appPolicy.getTenantDomain() + "_" +PolicyConstants.POLICY_LEVEL_APP + "_" + policyName;
                 executionFlows.put(policyFile, policyString);
                 policiesToUndeploy.add(policyFile);
+                */
                 policyLevel = PolicyConstants.POLICY_LEVEL_APP;
             } else if (policy instanceof SubscriptionPolicy) {
                 SubscriptionPolicy subPolicy = (SubscriptionPolicy) policy;
@@ -4453,11 +4457,13 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
         } catch (APITemplateException e) {
             handleException("Error while generating policy for update");
         }
+
         // Deploy in global cep and gateway manager
         try {
-            /* If single pipeline fails to deploy then whole deployment should fail.
-             * Therefore for loop is wrapped inside a try catch block
-             */
+            //If single pipeline fails to deploy then whole deployment should fail.
+            //Therefore for loop is wrapped inside a try catch block
+            // (임시주석) 2020.04.24
+            /*
             if(PolicyConstants.POLICY_LEVEL_API.equalsIgnoreCase(policyLevel)) {
                 for (String flowName : policiesToUndeploy) {
                     deploymentManager.undeployPolicyFromGlobalCEP(flowName);
@@ -4477,7 +4483,7 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
                     publishKeyTemplateEvent(newKeyTemplate, "add");
                 }
             }
-
+            */
             apiMgtDAO.setPolicyDeploymentStatus(policyLevel, policy.getPolicyName(), policy.getTenantId(), true);
         } catch (APIManagementException e) {
             String msg = "Error while deploying policy to gateway";
@@ -4485,6 +4491,7 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
             apiMgtDAO.setPolicyDeploymentStatus(policyLevel, policy.getPolicyName(), policy.getTenantId(), false);
             throw new PolicyDeploymentFailureException(msg, e);
         }
+
     }
 
     /**
@@ -4510,6 +4517,8 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
         List<String> policyFileNames = new ArrayList<String>();
         String policyFile = null;
 
+        // (임시주석)
+        /*
         if (PolicyConstants.POLICY_LEVEL_API.equals(policyLevel)) {
             //need to load whole policy object to get the pipelines
             APIPolicy policy = apiMgtDAO.getAPIPolicy(policyName, APIUtil.getTenantId(username));
@@ -4544,8 +4553,6 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
             }
         }
 
-        // (임시주석)
-        /*
         ThrottlePolicyDeploymentManager manager = ThrottlePolicyDeploymentManager.getInstance();
         try {
             manager.undeployPolicyFromGatewayManager(policyFileNames.toArray(new String[policyFileNames.size()]));
@@ -4713,6 +4720,11 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
     @Override
     public ApplicationPolicy getApplicationPolicy(String username, String policyName) throws APIManagementException {
         return apiMgtDAO.getApplicationPolicy(policyName, APIUtil.getTenantId(username));
+    }
+
+    @Override
+    public List<ApplicationPolicy> getAllApplicationPolicies(String username, int page, int count) throws APIManagementException {
+        return apiMgtDAO.getAllApplicationPolicies(APIUtil.getTenantId(username), page, count);
     }
 
     @Override

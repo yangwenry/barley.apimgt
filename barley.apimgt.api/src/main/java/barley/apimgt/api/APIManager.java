@@ -18,22 +18,14 @@
 
 package barley.apimgt.api;
 
+import barley.apimgt.api.model.*;
+import barley.apimgt.api.model.Documentation.DocumentSourceType;
+import barley.apimgt.api.model.policy.ApplicationPolicy;
+import barley.apimgt.api.model.policy.Policy;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import barley.apimgt.api.model.API;
-import barley.apimgt.api.model.APIIdentifier;
-import barley.apimgt.api.model.APIKey;
-import barley.apimgt.api.model.Application;
-import barley.apimgt.api.model.Documentation;
-import barley.apimgt.api.model.Documentation.DocumentSourceType;
-import barley.apimgt.api.model.DocumentationType;
-import barley.apimgt.api.model.ResourceFile;
-import barley.apimgt.api.model.SubscribedAPI;
-import barley.apimgt.api.model.Subscriber;
-import barley.apimgt.api.model.Tier;
-import barley.apimgt.api.model.policy.Policy;
 
 /**
  * Core API management interface which provides functionality related to APIs, API metadata
@@ -451,4 +443,5 @@ public interface APIManager {
      */
     Map<String,Object> searchPaginatedAPIs(String searchQuery, String tenantDomain,int start,int end, 
                                            boolean limitAttributes) throws APIManagementException;
+
 }

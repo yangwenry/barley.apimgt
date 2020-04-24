@@ -178,6 +178,9 @@ public interface APIProvider extends APIManager {
      */
     ApplicationPolicy getApplicationPolicy(String username, String policyName) throws APIManagementException;
 
+    // (추가)
+    List<ApplicationPolicy> getAllApplicationPolicies(String username, int page, int count) throws APIManagementException;
+
     /**
      * Get application throttling policy by uuid
      * @param uuid UUID of the policy

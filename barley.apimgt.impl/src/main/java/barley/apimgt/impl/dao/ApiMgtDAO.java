@@ -9705,7 +9705,7 @@ public class ApiMgtDAO {
         return policies.toArray(new ApplicationPolicy[policies.size()]);
     }
 
-    public List<ApplicationPolicy> getAllApplicationPolicies(int page, int count, int tenantId) throws APIManagementException {
+    public List<ApplicationPolicy> getAllApplicationPolicies(int tenantId, int page, int count) throws APIManagementException {
         Connection conn = null;
         ResultSet rs = null;
         PreparedStatement ps = null;
