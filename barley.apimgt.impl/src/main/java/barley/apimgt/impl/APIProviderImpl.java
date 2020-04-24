@@ -4859,6 +4859,12 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
 		throw new UnsupportedOperationException("Unsubscribe operation is not yet implemented");
 	}
 
+    @Override
+    public void updateApplicationTierBySubscriber(String username, String policyName)
+            throws APIManagementException {
+        throw new UnsupportedOperationException("Unsubscribe operation is not yet implemented");
+    }
+
 	
 	private void addTags(APIIdentifier api, Set<String> tags) throws APIManagementException {
 		

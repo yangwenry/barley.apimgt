@@ -2467,7 +2467,20 @@ class APIConsumerImpl extends AbstractAPIManager implements APIConsumer {
             handleException("Error while adding the subscriber " + subscriber.getName(), e);
         }
     }
-    
+
+    public void updateApplicationTierBySubscriber(String username, String policyName)
+            throws APIManagementException {
+        try {
+            Application defaultApp = getApplicationsByName(username, APIConstants.DEFAULT_APPLICATION_NAME, null);
+            if (defaultApp != null) {
+                apiMgtDAO.updateApplicationTier(defaultApp.getId(), policyName);
+            }
+        } catch (APIManagementException e) {
+            handleException("Error while updating the application tier by subscriber " + username, e);
+        }
+    }
+
+
     /**
      * Add default application on the first time a subscriber is added to the database
      * @param subscriber Subscriber

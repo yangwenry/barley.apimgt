@@ -4458,6 +4458,38 @@ public class ApiMgtDAO {
         }
     }
 
+    // (추가)
+    public void updateApplicationTier(int applicationId, String policyName) throws APIManagementException {
+        Connection conn = null;
+        PreparedStatement ps = null;
+
+        try {
+            conn = APIMgtDBUtil.getConnection();
+            conn.setAutoCommit(false);
+
+            String updateSqlQuery = SQLConstants.UPDATE_APPLICATION_TIER_SQL;
+
+            ps = conn.prepareStatement(updateSqlQuery);
+            ps.setString(1, policyName);
+            ps.setInt(2, applicationId);
+
+            ps.executeUpdate();
+
+            conn.commit();
+        } catch (SQLException e) {
+            if (conn != null) {
+                try {
+                    conn.rollback();
+                } catch (SQLException e1) {
+                    log.error("Failed to rollback the update Application ", e1);
+                }
+            }
+            handleException("Failed to update Application", e);
+        } finally {
+            APIMgtDBUtil.closeAllConnections(ps, conn, null);
+        }
+    }
+
     /**
      * get the status of the Application creation process
      *

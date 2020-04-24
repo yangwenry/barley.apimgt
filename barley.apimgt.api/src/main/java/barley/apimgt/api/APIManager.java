@@ -253,6 +253,9 @@ public interface APIManager {
      */
     Set<API> getSubscriberAPIs(Subscriber subscriber) throws APIManagementException;
 
+    // (추가)
+    void updateApplicationTierBySubscriber(String username, String policyName) throws APIManagementException;
+
     /**
      * Associates the given icon image with the specified path.
      *
