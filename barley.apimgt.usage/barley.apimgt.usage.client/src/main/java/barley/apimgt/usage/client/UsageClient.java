@@ -325,7 +325,7 @@ public class UsageClient {
             String groupAndOrder = " group by app.created_time order by app.created_time asc";
             String time = " and app.created_time between ? and ? ";
 
-            if ("All".equals(apiName) && "All".equals(developer)) {
+            if ("ALL".equals(apiName) && "ALL".equals(developer)) {
                 from = "from AM_APPLICATION app,AM_SUBSCRIBER sub ";
             } else {
                 from = "from AM_API api,AM_APPLICATION app,AM_SUBSCRIBER sub, AM_SUBSCRIPTION subc ";
@@ -346,11 +346,11 @@ public class UsageClient {
                     where += " and api.api_provider = '" + provider + "' ";
                 }
 
-                if (!"All".equals(apiName)) {
+                if (!"ALL".equals(apiName)) {
                     where += " and api.api_name = '" + apiName + "' ";
                 }
 
-                if (!"All".equals(developer)) {
+                if (!"ALL".equals(developer)) {
                     where += " and sub.user_id = '" + developer + "' ";
                 }
 
@@ -404,7 +404,7 @@ public class UsageClient {
      *
      * @param apiName   - Name of th API
      * @param provider  - API provider username
-     * @param apiFilter - API stat type
+     * @param apiCreator - API stat type
      * @param fromDate  - Start date of the time span
      * @param toDate    - End date of time span
      * @param limit     - limit of the results     *
@@ -412,7 +412,7 @@ public class UsageClient {
      * @throws APIMgtUsageQueryServiceClientException
      */
     public static List<SubscriptionOverTimeDTO> getAPISubscriptionsPerApp(String apiName, String provider,
-            String apiFilter, String fromDate, String toDate, int limit)
+            String apiCreator, String fromDate, String toDate, int limit)
             throws APIMgtUsageQueryServiceClientException {
         Connection connection = null;
         PreparedStatement statement = null;
@@ -429,7 +429,7 @@ public class UsageClient {
             String time = " and subc.created_time between ? and ? ";
             // (수정) ALL로 변경 
             //if (!"allAPIs".equals(apiFilter)) {
-            if (!"ALL".equals(apiFilter)) {	
+            if (!"ALL".equals(apiCreator)) {
                 where += " and api.api_provider = '" + provider + "' ";
             } else {
                 List<String> providerList = getApiProviders(provider);
@@ -446,7 +446,7 @@ public class UsageClient {
                 where += providers.toString();
             }
 
-            if (apiName != null && !StringUtils.isBlank(apiName) && !"All".equalsIgnoreCase(apiName)) {
+            if (apiName != null && !StringUtils.isBlank(apiName) && !"ALL".equalsIgnoreCase(apiName)) {
                 where += "and api.api_name='" + apiName + "' ";
             }
             String query = select + from + where + time + groupAndOrder;

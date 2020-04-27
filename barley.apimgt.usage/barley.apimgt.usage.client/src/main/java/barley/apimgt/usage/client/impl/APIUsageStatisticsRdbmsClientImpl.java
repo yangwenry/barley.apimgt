@@ -1844,11 +1844,14 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
             String msSqlQuery;
             String filter;
             if (providerName.contains(APIUsageStatisticsClientConstants.ALL_PROVIDERS)) {
+                /* (주석) context와 tenant 비교가 잘못되었으며, 비교한다해도 멀티테넌트를 고려하지 않으므로 주석
                 if (MultitenantConstants.SUPER_TENANT_DOMAIN_NAME.equals(tenantDomain)) {
                     filter = APIUsageStatisticsClientConstants.CONTEXT + " not like '%/t/%'";
                 } else {
                     filter = APIUsageStatisticsClientConstants.CONTEXT + " like '%" + tenantDomain + "%'";
                 }
+                */
+                filter = "1=1";
             } else {
                 filter = APIUsageStatisticsClientConstants.API_PUBLISHER + " = '" + providerName + "'";
             }
@@ -2041,7 +2044,9 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
      */
     private List<API> getAPIsByProvider(String providerId) throws APIMgtUsageQueryServiceClientException {
         try {
-            if (APIUsageStatisticsClientConstants.ALL_PROVIDERS.equals(providerId)) {
+            // (수정)
+            //if (APIUsageStatisticsClientConstants.ALL_PROVIDERS.equals(providerId)) {
+            if (providerId.startsWith(APIUsageStatisticsClientConstants.ALL_PROVIDERS)) {
                 return apiProviderImpl.getAllAPIs();
             } else {
                 return apiProviderImpl.getAPIsByProvider(providerId);
