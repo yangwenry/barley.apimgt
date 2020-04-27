@@ -170,7 +170,7 @@ public class UsageClient {
                 if (providerName.equals("__all_providers__")) {
                     apiSet = apiProvider.getAllAPIs();
                 } else {
-                    apiSet = apiProvider.getAPIsByProvider(APIUtil.replaceEmailDomain(loggedUser));
+                    apiSet = apiProvider.getAPIsByProvider(APIUtil.replaceEmailDomainBack(loggedUser));
                 }
                 //iterate over apis
                 for (API api : apiSet) {

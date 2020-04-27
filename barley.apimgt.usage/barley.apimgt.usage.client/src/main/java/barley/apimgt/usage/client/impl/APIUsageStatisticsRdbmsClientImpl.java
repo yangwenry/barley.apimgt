@@ -2280,7 +2280,7 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
 
                 groupByStmt =
                         APIUsageStatisticsClientConstants.YEAR + ',' + APIUsageStatisticsClientConstants.MONTH + ','
-                                + APIUsageStatisticsClientConstants.DAY;
+                                + APIUsageStatisticsClientConstants.DAY + ',' + APIUsageStatisticsClientConstants.API;
                 query = "SELECT " + groupByStmt + " ," +
                         "SUM(COALESCE(" + APIUsageStatisticsClientConstants.SUCCESS_REQUEST_COUNT
                         + ",0)) AS success_request_count, " +
@@ -2338,8 +2338,9 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
                         int day = rs.getInt(APIUsageStatisticsClientConstants.DAY);
                         time = year + "-" + month + "-" + day + " 00:00:00";
                     }
+                    String api = rs.getString(APIUsageStatisticsClientConstants.API);
                     throttlingData
-                            .add(new APIThrottlingOverTimeDTO(apiName, provider, successRequestCount, throttledOutCount,
+                            .add(new APIThrottlingOverTimeDTO(api, provider, successRequestCount, throttledOutCount,
                                     time));
                 }
 
