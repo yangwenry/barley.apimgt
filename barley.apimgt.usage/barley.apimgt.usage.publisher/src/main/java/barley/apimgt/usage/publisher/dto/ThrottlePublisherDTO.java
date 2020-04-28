@@ -23,6 +23,7 @@ public class ThrottlePublisherDTO {
     private String apiname;
     private String context;
     private String version;
+    private String apiVersion;
     private String provider;
     private String applicationName;
     private String applicationId;
@@ -63,6 +64,14 @@ public class ThrottlePublisherDTO {
 
     public void setVersion(String version) {
         this.version = version;
+    }
+
+    public String getApiVersion() {
+        return apiVersion;
+    }
+
+    public void setApiVersion(String apiVersion) {
+        this.apiVersion = apiVersion;
     }
 
     public String getContext() {
