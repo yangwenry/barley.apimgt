@@ -46,6 +46,9 @@ public interface APIManager {
      * @throws APIManagementException on error
      */
     List<API> getAllAPIs() throws APIManagementException;
+
+    // (추가) 2020.04.28 - getAllAPIs 속도 문제로 인해 새롭게 추가
+    List<API> getAllApiInformations() throws APIManagementException;
     /**
      * Returns details of an API
      *

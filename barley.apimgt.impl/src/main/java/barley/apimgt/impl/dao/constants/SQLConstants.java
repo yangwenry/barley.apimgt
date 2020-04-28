@@ -2809,6 +2809,12 @@ public class SQLConstants {
 	    	") TA " + 
 	    	"INNER JOIN AM_API TB " + 
 	    	"ON (TA.API_ID = TB.API_ID AND SUBSTRING_INDEX(TB.API_PROVIDER, '@', -1) = ?)";
+
+    public static final String GET_ALL_APIS_SQL =
+            "SELECT API_ID, API_PROVIDER, API_NAME, API_VERSION, CONTEXT, CREATED_TIME, UPDATED_TIME, " +
+            "       CATEGORY, THUMBNAIL_URL, DESCRIPTION, TITLE " +
+            "  FROM AM_API " +
+            " ORDER BY CREATED_TIME DESC ";
     
 //    public static final String SEARCH_SORTED_RATING_API_SQL =
 //    		GET_SORTED_API_SQL_PREFIX +

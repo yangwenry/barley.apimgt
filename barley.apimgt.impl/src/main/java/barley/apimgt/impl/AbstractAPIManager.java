@@ -332,6 +332,12 @@ public abstract class AbstractAPIManager implements APIManager {
         return apiSortedList;
     }
 
+    // (추가)
+    public List<API> getAllApiInformations() throws APIManagementException {
+        List<API> apiList = apiMgtDAO.getAllApiInformations();
+        return apiList;
+    }
+
     public API getAPI(APIIdentifier identifier) throws APIManagementException {
         String apiPath = APIUtil.getAPIPath(identifier);
         Registry registry;

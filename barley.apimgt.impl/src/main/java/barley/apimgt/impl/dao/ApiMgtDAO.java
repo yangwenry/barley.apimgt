@@ -11779,7 +11779,7 @@ public class ApiMgtDAO {
             selectPreparedStatement.setNString(5, apiIdentifier.getVersion());
             resultSet = selectPreparedStatement.executeQuery();
             if (resultSet.next()) {
-            	api = createApiFromResultSet(resultSet);
+                api = createApiFromResultSet(resultSet);
             }
         } catch (SQLException e) {
             if (connection != null) {
@@ -11848,6 +11848,47 @@ public class ApiMgtDAO {
         }
         
         return pubApiCnt;
+    }
+
+    public List<API> getAllApiInformations() throws APIManagementException {
+        Connection connection = null;
+        PreparedStatement selectPreparedStatement = null;
+        ResultSet resultSet = null;
+        List<API> apiList = new ArrayList<API>();
+
+        try {
+            connection = APIMgtDBUtil.getConnection();
+            connection.setAutoCommit(false);
+            String query = SQLConstants.GET_ALL_APIS_SQL;
+            selectPreparedStatement = connection.prepareStatement(query);
+            resultSet = selectPreparedStatement.executeQuery();
+            while (resultSet.next()) {
+                API api = new API(new APIIdentifier(resultSet.getString("API_PROVIDER"), resultSet.getString("API_NAME"), resultSet.getString("API_VERSION")));
+                api.setContext(resultSet.getString("CONTEXT"));
+                Date createdDate = resultSet.getDate("CREATED_TIME");
+                if(createdDate != null) api.setCreatedDate(createdDate);
+                Date updatedDate = resultSet.getDate("UPDATED_TIME");
+                if(updatedDate != null) api.setLastUpdated(updatedDate);
+                api.setCategory(resultSet.getString("CATEGORY"));
+                api.setThumbnailUrl(resultSet.getString("THUMBNAIL_URL"));
+                api.setDescription(resultSet.getString("DESCRIPTION"));
+                api.setTitle(resultSet.getString("TITLE"));
+                apiList.add(api);
+            }
+        } catch (SQLException e) {
+            if (connection != null) {
+                try {
+                    connection.rollback();
+                } catch (SQLException ex) {
+                    handleException("Failed to rollback getting sorted rating api ", ex);
+                }
+            }
+            handleException("Failed to get sorted rating api", e);
+        } finally {
+            APIMgtDBUtil.closeAllConnections(selectPreparedStatement, connection, resultSet);
+        }
+
+        return apiList;
     }
 
     public void addTag(APIIdentifier apiIdentifier, String tag)

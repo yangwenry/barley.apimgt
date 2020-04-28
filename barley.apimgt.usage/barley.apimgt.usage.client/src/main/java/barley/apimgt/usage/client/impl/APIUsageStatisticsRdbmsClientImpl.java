@@ -2047,7 +2047,8 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
             // (수정)
             //if (APIUsageStatisticsClientConstants.ALL_PROVIDERS.equals(providerId)) {
             if (providerId.startsWith(APIUsageStatisticsClientConstants.ALL_PROVIDERS)) {
-                return apiProviderImpl.getAllAPIs();
+                //return apiProviderImpl.getAllAPIs();
+                return apiProviderImpl.getAllApiInformations();
             } else {
                 return apiProviderImpl.getAPIsByProvider(providerId);
             }
