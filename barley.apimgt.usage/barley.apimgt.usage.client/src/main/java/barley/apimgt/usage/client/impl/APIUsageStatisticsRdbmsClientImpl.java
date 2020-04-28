@@ -2353,7 +2353,8 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
 
                 groupByStmt =
                         APIUsageStatisticsClientConstants.YEAR + ',' + APIUsageStatisticsClientConstants.MONTH + ','
-                                + APIUsageStatisticsClientConstants.DAY + ',' + APIUsageStatisticsClientConstants.API;
+                                + APIUsageStatisticsClientConstants.DAY + ',' + APIUsageStatisticsClientConstants.API + ','
+                                + APIUsageStatisticsClientConstants.VERSION;
                 query = "SELECT " + groupByStmt + " ," +
                         "SUM(COALESCE(" + APIUsageStatisticsClientConstants.SUCCESS_REQUEST_COUNT
                         + ",0)) AS success_request_count, " +
@@ -2403,6 +2404,7 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
                     int throttledOutCount = rs.getInt(APIUsageStatisticsClientConstants.THROTTLED_OUT_COUNT);
                     int year = rs.getInt(APIUsageStatisticsClientConstants.YEAR);
                     int month = rs.getInt(APIUsageStatisticsClientConstants.MONTH);
+                    String version = rs.getString(APIUsageStatisticsClientConstants.VERSION);
                     String time;
                     // group by로 실행
                     if (APIUsageStatisticsClientConstants.GROUP_BY_HOUR.equals(groupBy)) {
@@ -2413,7 +2415,7 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
                     }
                     String api = rs.getString(APIUsageStatisticsClientConstants.API);
                     throttlingData
-                            .add(new APIThrottlingOverTimeDTO(api, provider, successRequestCount, throttledOutCount,
+                            .add(new APIThrottlingOverTimeDTO(api, version, provider, successRequestCount, throttledOutCount,
                                     time));
                 }
 
@@ -2461,6 +2463,7 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
             if (isTableExist(APIUsageStatisticsClientConstants.API_THROTTLED_OUT_SUMMARY, connection)) { //Table exists
 
                 query = "SELECT " + APIUsageStatisticsClientConstants.API + ','
+                        + APIUsageStatisticsClientConstants.VERSION + ','
                         + APIUsageStatisticsClientConstants.API_PUBLISHER + ',' + " SUM(COALESCE("
                         + APIUsageStatisticsClientConstants.SUCCESS_REQUEST_COUNT + ",0)) " +
                         "AS success_request_count, SUM(COALESCE("
@@ -2473,7 +2476,8 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
                                 "AND " + APIUsageStatisticsClientConstants.API_PUBLISHER + " = ?") +
                         "AND " + APIUsageStatisticsClientConstants.TIME + " BETWEEN ? AND ? " +
                         "GROUP BY " + APIUsageStatisticsClientConstants.API + ','
-                        + APIUsageStatisticsClientConstants.API_PUBLISHER +
+                        + APIUsageStatisticsClientConstants.API_PUBLISHER + + ','
+                        + APIUsageStatisticsClientConstants.VERSION +
                         " ORDER BY api ASC";
 
                 preparedStatement = connection.prepareStatement(query);
@@ -2488,11 +2492,12 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
                 rs = preparedStatement.executeQuery();
                 while (rs.next()) {
                     String api = rs.getString(APIUsageStatisticsClientConstants.API);
+                    String version = rs.getString(APIUsageStatisticsClientConstants.VERSION);
                     String apiPublisher = rs.getString(APIUsageStatisticsClientConstants.API_PUBLISHER_THROTTLE_TABLE);
                     int successRequestCount = rs.getInt(APIUsageStatisticsClientConstants.SUCCESS_REQUEST_COUNT);
                     int throttledOutCount = rs.getInt(APIUsageStatisticsClientConstants.THROTTLED_OUT_COUNT);
                     throttlingData
-                            .add(new APIThrottlingOverTimeDTO(api, apiPublisher, successRequestCount, throttledOutCount,
+                            .add(new APIThrottlingOverTimeDTO(api, version, apiPublisher, successRequestCount, throttledOutCount,
                                     null));
                 }
 

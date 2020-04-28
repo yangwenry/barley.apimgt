@@ -23,10 +23,12 @@ public class APIThrottlingOverTimeDTO {
     private int successRequestCount;
     private int throttleOutCount;
     private String time;
+    private String version;
 
-    public APIThrottlingOverTimeDTO(String apiName, String apiPublisher, int successRequestCount, int throttleOutCount,
-            String time) {
+    public APIThrottlingOverTimeDTO(String apiName, String version, String apiPublisher, int successRequestCount, int throttleOutCount,
+                                    String time) {
         this.apiName = apiName;
+        this.version = version;
         this.apiPublisher = apiPublisher;
         this.successRequestCount = successRequestCount;
         this.throttleOutCount = throttleOutCount;
@@ -73,9 +75,17 @@ public class APIThrottlingOverTimeDTO {
         return time;
     }
 
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
 	@Override
 	public String toString() {
-		return "APIThrottlingOverTimeDTO [apiName=" + apiName + ", apiPublisher=" + apiPublisher
+		return "APIThrottlingOverTimeDTO [apiName=" + apiName + ", apiPublisher=" + apiPublisher + ", version=" + version
 				+ ", successRequestCount=" + successRequestCount + ", throttleOutCount=" + throttleOutCount + ", time="
 				+ time + "]";
 	}
