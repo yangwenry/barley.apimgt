@@ -18,67 +18,33 @@
 */
 package barley.apimgt.usage.client;
 
-import static java.util.Collections.sort;
-
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
+import barley.apimgt.impl.APIManagerAnalyticsConfiguration;
+import barley.apimgt.impl.utils.APIMgtDBUtil;
+import barley.apimgt.impl.utils.APIUtil;
+import barley.apimgt.usage.client.bean.*;
+import barley.apimgt.usage.client.billing.APIUsageRangeCost;
+import barley.apimgt.usage.client.dto.*;
+import barley.apimgt.usage.client.exception.APIMgtUsageQueryServiceClientException;
+import barley.apimgt.usage.client.pojo.APIFirstAccess;
+import com.google.gson.JsonSyntaxException;
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.google.gson.JsonSyntaxException;
+import java.io.IOException;
+import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.Date;
 
-import barley.apimgt.impl.APIManagerAnalyticsConfiguration;
-import barley.apimgt.impl.utils.APIMgtDBUtil;
-import barley.apimgt.impl.utils.APIUtil;
-import barley.apimgt.usage.client.bean.ExecutionTimeOfAPIValues;
-import barley.apimgt.usage.client.bean.PerGeoLocationUsageCount;
-import barley.apimgt.usage.client.bean.RequestSearchCountBean;
-import barley.apimgt.usage.client.bean.RequestSortBean;
-import barley.apimgt.usage.client.bean.Result;
-import barley.apimgt.usage.client.bean.UserAgentUsageCount;
-import barley.apimgt.usage.client.billing.APIUsageRangeCost;
-import barley.apimgt.usage.client.dto.APIDestinationUsageDTO;
-import barley.apimgt.usage.client.dto.APIResourcePathUsageDTO;
-import barley.apimgt.usage.client.dto.APIResponseFaultCountDTO;
-import barley.apimgt.usage.client.dto.APIResponseTimeDTO;
-import barley.apimgt.usage.client.dto.APIThrottlingOverTimeDTO;
-import barley.apimgt.usage.client.dto.APIUsageByUserDTO;
-import barley.apimgt.usage.client.dto.APIUsageDTO;
-import barley.apimgt.usage.client.dto.APIVersionLastAccessTimeDTO;
-import barley.apimgt.usage.client.dto.APIVersionUsageDTO;
-import barley.apimgt.usage.client.dto.ApiTopUsersListDTO;
-import barley.apimgt.usage.client.dto.AppCallTypeDTO;
-import barley.apimgt.usage.client.dto.AppRegisteredUsersDTO;
-import barley.apimgt.usage.client.dto.AppUsageDTO;
-import barley.apimgt.usage.client.dto.FaultCountDTO;
-import barley.apimgt.usage.client.dto.PerAppApiCountDTO;
-import barley.apimgt.usage.client.dto.PerUserAPIUsageDTO;
-import barley.apimgt.usage.client.dto.RegisteredAppUsersDTO;
-import barley.apimgt.usage.client.exception.APIMgtUsageQueryServiceClientException;
-import barley.apimgt.usage.client.pojo.APIFirstAccess;
+import static java.util.Collections.sort;
 
 /**
  * Abstract class and act as a interface for the Statistic usage client for APIM.
  * Known implementations are,
- * org.wso2.carbon.apimgt.usage.client.impl.APIUsageStatisticsRdbmsClientImpl
+ * barley.apimgt.usage.client.impl.APIUsageStatisticsRdbmsClientImpl
  */
 public abstract class APIUsageStatisticsClient {
 
@@ -265,7 +231,6 @@ public abstract class APIUsageStatisticsClient {
      *
      * @param apiName  Name of the API
      * @param provider Provider name
-     * @param appName  Application name
      * @param fromDate Start date of the time span
      * @param toDate   End date of time span
      * @param groupBy  Group by parameter. Supported parameters are :day,hour
@@ -311,6 +276,9 @@ public abstract class APIUsageStatisticsClient {
     public abstract List<String> getAppsForThrottleStats(String provider, String apiName)
             throws APIMgtUsageQueryServiceClientException;
 
+    public abstract List<APIUsageDTO> getAPIUsageData(String apiName, String fromDate, String toDate)
+            throws APIMgtUsageQueryServiceClientException;
+
     /**
      * Returns a list of APIVersionUsageDTO objects that contain information related to a
      * particular API of a specified provider, along with the number of API calls processed
@@ -321,7 +289,7 @@ public abstract class APIUsageStatisticsClient {
      * @param fromDate     starting date of the results
      * @param toDate       ending date of the results
      * @return a list containing the data related to API usage
-     * @throws org.wso2.carbon.apimgt.usage.client.exception.APIMgtUsageQueryServiceClientException
+     * @throws barley.apimgt.usage.client.exception.APIMgtUsageQueryServiceClientException
      */
     public abstract List<APIVersionUsageDTO> getUsageByAPIVersions(String providerName, String apiName, String fromDate,
                                                                    String toDate) throws APIMgtUsageQueryServiceClientException;
@@ -564,7 +532,7 @@ public abstract class APIUsageStatisticsClient {
      * @param apiName      Name of the API
      * @param limit        Number of sorted entries to return
      * @return a List of PerUserAPIUsageDTO objects - Possibly empty
-     * @throws org.wso2.carbon.apimgt.usage.client.exception.APIMgtUsageQueryServiceClientException on error
+     * @throws barley.apimgt.usage.client.exception.APIMgtUsageQueryServiceClientException on error
      */
     public abstract List<PerUserAPIUsageDTO> getUsageBySubscribers(String providerName, String apiName, int limit)
             throws APIMgtUsageQueryServiceClientException;
@@ -576,7 +544,7 @@ public abstract class APIUsageStatisticsClient {
      * @param apiName      Name of the API
      * @param limit        Number of sorted entries to return
      * @return a List of PerUserAPIUsageDTO objects - Possibly empty
-     * @throws org.wso2.carbon.apimgt.usage.client.exception.APIMgtUsageQueryServiceClientException on error
+     * @throws barley.apimgt.usage.client.exception.APIMgtUsageQueryServiceClientException on error
      */
     public abstract List<PerUserAPIUsageDTO> getUsageBySubscribers(String providerName, String apiName,
                                                                    String apiVersion, int limit) throws APIMgtUsageQueryServiceClientException;

@@ -870,8 +870,9 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
     @Override
     public List<APIUsageDTO> getProviderAPIUsage(String providerName, String fromDate, String toDate, int limit)
             throws APIMgtUsageQueryServiceClientException {
-
-        Collection<APIUsage> usageData = getAPIUsageData(APIUsageStatisticsClientConstants.API_VERSION_USAGE_SUMMARY,
+        // (수정)
+//        Collection<APIUsage> usageData = getAPIUsageDataByApi(APIUsageStatisticsClientConstants.API_VERSION_USAGE_SUMMARY,
+        Collection<APIUsage> usageData = getAPIUsageDataByApi(APIUsageStatisticsClientConstants.API_REQUEST_SUMMARY,
                 fromDate, toDate);
         List<API> providerAPIs = getAPIsByProvider(providerName);
         Map<String, APIUsageDTO> usageByAPIs = new TreeMap<String, APIUsageDTO>();
@@ -910,7 +911,7 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
      * @return a collection containing the API usage data
      * @throws APIMgtUsageQueryServiceClientException if an error occurs while querying the database
      */
-    private Collection<APIUsage> getAPIUsageData(String tableName, String fromDate, String toDate)
+    private Collection<APIUsage> getAPIUsageDataByApi(String tableName, String fromDate, String toDate)
             throws APIMgtUsageQueryServiceClientException {
 
         Connection connection = null;
@@ -953,6 +954,67 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
                     String version = resultSet.getString(APIUsageStatisticsClientConstants.VERSION);
                     long requestCount = resultSet.getLong("aggregateSum");
                     usageDataList.add(new APIUsage(apiName, context, version, requestCount));
+                }
+            }
+        } catch (SQLException e) {
+            throw new APIMgtUsageQueryServiceClientException(
+                    "Error occurred while querying API usage data from JDBC database", e);
+        } finally {
+            closeDatabaseLinks(resultSet, statement, connection);
+        }
+        return usageDataList;
+    }
+
+    @Override
+    public List<APIUsageDTO> getAPIUsageData(String apiName, String fromDate, String toDate)
+            throws APIMgtUsageQueryServiceClientException {
+
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        List<APIUsageDTO> usageDataList = new ArrayList<APIUsageDTO>();
+        String tableName = APIUsageStatisticsClientConstants.API_REQUEST_SUMMARY;
+        try {
+            connection = dataSource.getConnection();
+            String query;
+            //check whether table exist first
+            if (isTableExist(tableName, connection)) {
+
+                query = "SELECT " +
+                        APIUsageStatisticsClientConstants.API + "," +
+                        APIUsageStatisticsClientConstants.CONTEXT + "," +
+                        APIUsageStatisticsClientConstants.VERSION + "," +
+                        APIUsageStatisticsClientConstants.YEAR + "," +
+                        APIUsageStatisticsClientConstants.MONTH + "," +
+                        APIUsageStatisticsClientConstants.DAY + "," +
+                        APIUsageStatisticsClientConstants.TOTAL_REQUEST_COUNT  +
+                        " FROM " + tableName + " WHERE " + APIUsageStatisticsClientConstants.TIME + " BETWEEN ? AND ? " +
+                        ("ALL".equals(apiName) ?
+                            "" :
+                            " AND " + APIUsageStatisticsClientConstants.API + " = ? ") +
+                        "ORDER BY " + APIUsageStatisticsClientConstants.YEAR + "," + APIUsageStatisticsClientConstants.MONTH + "," + APIUsageStatisticsClientConstants.DAY;
+                statement = connection.prepareStatement(query);
+                int index = 1;
+                statement.setString(index++, fromDate);
+                statement.setString(index++, toDate);
+                if(!"ALL".equals(apiName)) {
+                    statement.setString(index, apiName);
+                }
+
+                resultSet = statement.executeQuery();
+                while (resultSet.next()) {
+                    APIUsageDTO apiUsageDTO = new APIUsageDTO();
+                    String api = resultSet.getString(APIUsageStatisticsClientConstants.API);
+                    long requestCount = resultSet.getLong(APIUsageStatisticsClientConstants.TOTAL_REQUEST_COUNT);
+                    // (추가)
+                    int year = resultSet.getInt(APIUsageStatisticsClientConstants.YEAR);
+                    int month = resultSet.getInt(APIUsageStatisticsClientConstants.MONTH);
+                    int day = resultSet.getInt(APIUsageStatisticsClientConstants.DAY);
+                    String time = year + "-" + month + "-" + day + " 00:00:00";
+                    apiUsageDTO.setApiName(api);
+                    apiUsageDTO.setCount(requestCount);
+                    apiUsageDTO.setTime(time);
+                    usageDataList.add(apiUsageDTO);
                 }
             }
         } catch (SQLException e) {
@@ -1843,7 +1905,7 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
             String oracleQuery;
             String msSqlQuery;
             String filter;
-            if (providerName.contains(APIUsageStatisticsClientConstants.ALL_PROVIDERS)) {
+            if (providerName.startsWith(APIUsageStatisticsClientConstants.ALL_PROVIDERS)) {
                 /* (주석) context와 tenant 비교가 잘못되었으며, 비교한다해도 멀티테넌트를 고려하지 않으므로 주석
                 if (MultitenantConstants.SUPER_TENANT_DOMAIN_NAME.equals(tenantDomain)) {
                     filter = APIUsageStatisticsClientConstants.CONTEXT + " not like '%/t/%'";

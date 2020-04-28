@@ -24,6 +24,7 @@ public class APIUsageDTO {
     private String apiName;
     private String consumerKey;
     private long count;
+    private String time;
 
     public String getconsumerKey() {return consumerKey; }
 
@@ -47,9 +48,17 @@ public class APIUsageDTO {
         this.count = count;
     }
 
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
 	@Override
 	public String toString() {
-		return "APIUsageDTO [appName=" + appName + ", apiName=" + apiName + ", consumerKey=" + consumerKey + ", count="
+		return "APIUsageDTO [appName=" + appName + ", apiName=" + apiName + ", time=" + time + ", consumerKey=" + consumerKey + ", count="
 				+ count + "]";
 	}
 
