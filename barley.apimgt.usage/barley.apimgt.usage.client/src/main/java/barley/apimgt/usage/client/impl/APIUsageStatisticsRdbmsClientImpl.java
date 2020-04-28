@@ -889,13 +889,16 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
                     jsonArray.add(1, apiData[1]);
                     jsonArray.add(2, apiData[2]);
                     String apiName = jsonArray.toJSONString();
+
                     APIUsageDTO usageDTO = usageByAPIs.get(apiName);
                     if (usageDTO != null) {
                         usageDTO.setCount(usageDTO.getCount() + usage.getRequestCount());
                     } else {
                         usageDTO = new APIUsageDTO();
-                        usageDTO.setApiName(apiName);
+                        //usageDTO.setApiName(apiName);
+                        usageDTO.setApiName(usage.getApiName());
                         usageDTO.setCount(usage.getRequestCount());
+                        usageDTO.setVersion(usage.getApiVersion());
                         usageByAPIs.put(apiName, usageDTO);
                     }
                 }
@@ -1005,6 +1008,7 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
                 while (resultSet.next()) {
                     APIUsageDTO apiUsageDTO = new APIUsageDTO();
                     String api = resultSet.getString(APIUsageStatisticsClientConstants.API);
+                    String version = resultSet.getString(APIUsageStatisticsClientConstants.VERSION);
                     long requestCount = resultSet.getLong(APIUsageStatisticsClientConstants.TOTAL_REQUEST_COUNT);
                     // (추가)
                     int year = resultSet.getInt(APIUsageStatisticsClientConstants.YEAR);
@@ -1014,6 +1018,7 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
                     apiUsageDTO.setApiName(api);
                     apiUsageDTO.setCount(requestCount);
                     apiUsageDTO.setTime(time);
+                    apiUsageDTO.setVersion(version);
                     usageDataList.add(apiUsageDTO);
                 }
             }

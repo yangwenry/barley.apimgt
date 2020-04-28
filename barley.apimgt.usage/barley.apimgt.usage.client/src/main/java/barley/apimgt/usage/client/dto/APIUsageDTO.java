@@ -25,6 +25,15 @@ public class APIUsageDTO {
     private String consumerKey;
     private long count;
     private String time;
+    private String version;
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
 
     public String getconsumerKey() {return consumerKey; }
 
@@ -58,7 +67,7 @@ public class APIUsageDTO {
 
 	@Override
 	public String toString() {
-		return "APIUsageDTO [appName=" + appName + ", apiName=" + apiName + ", time=" + time + ", consumerKey=" + consumerKey + ", count="
+		return "APIUsageDTO [appName=" + appName + ", apiName=" + apiName + ", version=" + version + ", time=" + time + ", consumerKey=" + consumerKey + ", count="
 				+ count + "]";
 	}
 
