@@ -868,7 +868,7 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
      *             while contacting backend services
      */
     @Override
-    public List<APIUsageDTO> getProviderAPIUsage(String providerName, String fromDate, String toDate)
+    public List<APIUsageDTO> getProviderAPIUsage(String providerName, String fromDate, String toDate, int limit)
             throws APIMgtUsageQueryServiceClientException {
         // (수정)
 //        Collection<APIUsage> usageData = getAPIUsageDataByApi(APIUsageStatisticsClientConstants.API_VERSION_USAGE_SUMMARY,
@@ -906,13 +906,6 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
         }
         //return getAPIUsageTopEntries(new ArrayList<APIUsageDTO>(usageByAPIs.values()), limit);
         return new ArrayList<APIUsageDTO>(usageByAPIs.values());
-    }
-
-    @Override
-    public List<APIUsageDTO> getProviderAPIUsage(String providerName, String fromDate, String toDate, int limit)
-            throws APIMgtUsageQueryServiceClientException {
-        List<APIUsageDTO> apiUsageDTOS = getProviderAPIUsage(providerName, fromDate, toDate, limit);
-        return getAPIUsageTopEntries(apiUsageDTOS, limit);
     }
 
     /**
@@ -1207,6 +1200,7 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
                         providerAPI.getContext().equals(responseTime.getContext())) {
                     APIResponseTimeDTO responseTimeDTO = new APIResponseTimeDTO();
                     responseTimeDTO.setApiName(responseTime.getApiName());
+                    responseTimeDTO.setVersion(responseTime.getApiVersion());
                     //calculate the average response time
                     double avgTime = responseTime.getResponseTime() / responseTime.getResponseCount();
                     //format the time
@@ -1219,7 +1213,8 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
                 }
             }
         }
-        return getResponseTimeTopEntries(apiResponseTimeUsage, limit);
+        //return getResponseTimeTopEntries(apiResponseTimeUsage, limit);
+        return apiResponseTimeUsage;
     }
 
     /**
@@ -1243,6 +1238,7 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
                 query = "SELECT TempTable.*, " + "SUM(" + APIUsageStatisticsClientConstants.TOTAL_RESPONSE_COUNT
                         + ") AS totalTime ," + "SUM(weighted_service_time) AS totalWeightTime " + " FROM (SELECT "
                         + APIUsageStatisticsClientConstants.API_VERSION + ","
+                        + APIUsageStatisticsClientConstants.VERSION + ","
                         + APIUsageStatisticsClientConstants.API_PUBLISHER + ","
                         + APIUsageStatisticsClientConstants.CONTEXT + ","
                         + APIUsageStatisticsClientConstants.SERVICE_TIME + ","
@@ -1254,6 +1250,7 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
                         + APIUsageStatisticsClientConstants.TOTAL_RESPONSE_COUNT + ") AS weighted_service_time "
                         + " FROM " + APIUsageStatisticsClientConstants.API_VERSION_SERVICE_TIME_SUMMARY + ") "
                         + "TempTable " + " GROUP BY " + APIUsageStatisticsClientConstants.API_VERSION + ","
+                        + APIUsageStatisticsClientConstants.VERSION + ","
                         + APIUsageStatisticsClientConstants.API_PUBLISHER + ","
                         + APIUsageStatisticsClientConstants.CONTEXT + ","
                         + APIUsageStatisticsClientConstants.SERVICE_TIME + ","
@@ -1262,21 +1259,26 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
                         + "," + APIUsageStatisticsClientConstants.MONTH + "," + APIUsageStatisticsClientConstants.DAY
                         + "," + APIUsageStatisticsClientConstants.TIME + ", weighted_service_time";
             } else {
-                query = "select " + APIUsageStatisticsClientConstants.API_VERSION + ','
+                query = "select " + APIUsageStatisticsClientConstants.API + ','
+                        + APIUsageStatisticsClientConstants.API_VERSION + ','
+                        + APIUsageStatisticsClientConstants.VERSION + ','
                         + APIUsageStatisticsClientConstants.CONTEXT + ',' + "SUM("
                         + APIUsageStatisticsClientConstants.TOTAL_RESPONSE_COUNT + ") AS totalTime,SUM("
                         + APIUsageStatisticsClientConstants.SERVICE_TIME + " * "
                         + APIUsageStatisticsClientConstants.TOTAL_RESPONSE_COUNT + ") AS totalWeightTime" + " from "
-                        + tableName + " GROUP BY " + APIUsageStatisticsClientConstants.CONTEXT + ','
-                        + APIUsageStatisticsClientConstants.API_VERSION;
+                        + tableName + " GROUP BY " + APIUsageStatisticsClientConstants.API + ','
+                        + APIUsageStatisticsClientConstants.API_VERSION + ','
+                        + APIUsageStatisticsClientConstants.VERSION;
             }
 
             statement = connection.prepareStatement(query);
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 String apiVersion = resultSet.getString(APIUsageStatisticsClientConstants.API_VERSION).split("--")[1];
-                String apiName = apiVersion.split(":v")[0];
-                String version = apiVersion.split(":v")[1];
+                //String apiName = apiVersion.split(":v")[0];
+                //String version = apiVersion.split(":v")[1];
+                String apiName = resultSet.getString(APIUsageStatisticsClientConstants.API);
+                String version = resultSet.getString(APIUsageStatisticsClientConstants.VERSION);
                 String context = resultSet.getString(APIUsageStatisticsClientConstants.CONTEXT);
                 long responseCount = resultSet.getLong("totalTime");
                 double responseTime = resultSet.getDouble("totalWeightTime") / responseCount;

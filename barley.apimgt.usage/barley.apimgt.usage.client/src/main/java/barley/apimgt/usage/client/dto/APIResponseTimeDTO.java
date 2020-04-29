@@ -22,6 +22,7 @@ public class APIResponseTimeDTO {
 
     private String apiName;
     private double serviceTime;
+    private String version;
 
     public String getApiName() {
         return apiName;
@@ -39,9 +40,17 @@ public class APIResponseTimeDTO {
         this.serviceTime = serviceTime;
     }
 
-	@Override
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
+    @Override
 	public String toString() {
-		return "APIResponseTimeDTO [apiName=" + apiName + ", serviceTime=" + serviceTime + "]";
+		return "APIResponseTimeDTO [apiName=" + apiName + ", version=" + version + ", serviceTime=" + serviceTime + "]";
 	}
     
     
