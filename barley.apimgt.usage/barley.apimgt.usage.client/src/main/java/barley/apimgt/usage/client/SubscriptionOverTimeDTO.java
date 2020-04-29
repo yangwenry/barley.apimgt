@@ -22,33 +22,56 @@ package barley.apimgt.usage.client;
  * This class is used as a DTO to represent developers over time
  */
 public class SubscriptionOverTimeDTO {
-    private long x;
-    private long y;
+    private long time;
+    private long count;
+    private String apiName;
+    private String version;
 
-    public SubscriptionOverTimeDTO(long x, long y) {
-        this.x = x;
-        this.y = y;
+    public SubscriptionOverTimeDTO(long time, long count, String apiName, String version) {
+        this.time = time;
+        this.count = count;
+        this.apiName = apiName;
+        this.version = version;
     }
 
-    public long getX() {
-        return x;
+
+    public long getTime() {
+        return time;
     }
 
-    public void setX(long x) {
-        this.x = x;
+    public void setTime(long time) {
+        this.time = time;
     }
 
-    public long getY() {
-        return y;
+    public long getCount() {
+        return count;
     }
 
-    public void setY(long y) {
-        this.y = y;
+    public void setCount(long count) {
+        this.count = count;
     }
+
+    public String getApiName() {
+        return apiName;
+    }
+
+    public void setApiName(String apiName) {
+        this.apiName = apiName;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
+
 
 	@Override
 	public String toString() {
-		return "SubscriptionOverTimeDTO [x=" + x + ", y=" + y + "]";
+		return "SubscriptionOverTimeDTO [time=" + time + ", count=" + count + ", apiName=" + apiName + ", version=" + version + "]";
 	}  
     
 }

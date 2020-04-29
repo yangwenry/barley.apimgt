@@ -421,11 +421,14 @@ public class UsageClient {
             //get the connection
             connection = APIMgtDBUtil.getConnection();
 
+            String groupStmt = "api.api_name, api.api_version, subc.created_time ";
+//            String select =
+//                    "select count(subc.subscription_id) as subscription_count, subc.created_time as " + "created_time ";
             String select =
-                    "select count(subc.subscription_id) as subscription_count, subc.created_time as " + "created_time ";
+                    "select count(subc.subscription_id) as subscription_count, " + groupStmt;
             String from = "from AM_API api,  AM_SUBSCRIPTION subc ";
             String where = "where api.api_id=subc.api_id ";
-            String groupAndOrder = "group by subc.created_time" + " order by subc.created_time asc ";
+            String groupAndOrder = "group by " + groupStmt + " order by " + groupStmt + " asc ";
             String time = " and subc.created_time between ? and ? ";
             // (수정) ALL로 변경 
             //if (!"allAPIs".equals(apiFilter)) {
@@ -464,8 +467,10 @@ public class UsageClient {
             //iterate over the results
             while (rs.next()) {
                 x = rs.getTimestamp("created_time").getTime();
-                y += rs.getLong("subscription_count");
-                list.add(new SubscriptionOverTimeDTO(x, y));
+                y = rs.getLong("subscription_count");
+                String api = rs.getString("api_name");
+                String version = rs.getString("api_version");
+                list.add(new SubscriptionOverTimeDTO(x, y, api, version));
             }
             return list;
         } catch (Exception e) {
