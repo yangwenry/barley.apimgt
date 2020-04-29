@@ -210,6 +210,8 @@ public abstract class APIUsageStatisticsClient {
      * @return a List of APIUsageDTO objects - possibly empty
      * @throws APIMgtUsageQueryServiceClientException
      */
+    public abstract List<APIUsageDTO> getProviderAPIUsage(String providerName, String fromDate, String toDate) throws APIMgtUsageQueryServiceClientException;
+
     public abstract List<APIUsageDTO> getProviderAPIUsage(String providerName, String fromDate, String toDate,
                                                           int limit) throws APIMgtUsageQueryServiceClientException;
 

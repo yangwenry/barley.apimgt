@@ -868,7 +868,7 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
      *             while contacting backend services
      */
     @Override
-    public List<APIUsageDTO> getProviderAPIUsage(String providerName, String fromDate, String toDate, int limit)
+    public List<APIUsageDTO> getProviderAPIUsage(String providerName, String fromDate, String toDate)
             throws APIMgtUsageQueryServiceClientException {
         // (수정)
 //        Collection<APIUsage> usageData = getAPIUsageDataByApi(APIUsageStatisticsClientConstants.API_VERSION_USAGE_SUMMARY,
@@ -904,7 +904,15 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
                 }
             }
         }
-        return getAPIUsageTopEntries(new ArrayList<APIUsageDTO>(usageByAPIs.values()), limit);
+        //return getAPIUsageTopEntries(new ArrayList<APIUsageDTO>(usageByAPIs.values()), limit);
+        return new ArrayList<APIUsageDTO>(usageByAPIs.values());
+    }
+
+    @Override
+    public List<APIUsageDTO> getProviderAPIUsage(String providerName, String fromDate, String toDate, int limit)
+            throws APIMgtUsageQueryServiceClientException {
+        List<APIUsageDTO> apiUsageDTOS = getProviderAPIUsage(providerName, fromDate, toDate, limit);
+        return getAPIUsageTopEntries(apiUsageDTOS, limit);
     }
 
     /**
