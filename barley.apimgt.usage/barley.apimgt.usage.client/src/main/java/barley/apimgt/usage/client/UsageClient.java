@@ -168,10 +168,12 @@ public class UsageClient {
                 List<API> apiSet;
                 //get the apis
                 if (providerName.equals("__all_providers__")) {
-                    apiSet = apiProvider.getAllAPIs();
+                    //apiSet = apiProvider.getAllAPIs();
+                    apiSet = apiProvider.getAllApiInformations();
                 } else {
                     apiSet = apiProvider.getAPIsByProvider(APIUtil.replaceEmailDomainBack(loggedUser));
                 }
+
                 //iterate over apis
                 for (API api : apiSet) {
                     //ignore created apis

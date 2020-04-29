@@ -1331,7 +1331,8 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
                 }
             }
         }
-        return getLastAccessTimeTopEntries(accessTimeByAPI, limit);
+        //return getLastAccessTimeTopEntries(accessTimeByAPI, limit);
+        return accessTimeByAPI;
     }
 
     /**
@@ -1424,7 +1425,8 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
                 }
             }
         }
-        return getTopEntries(new ArrayList<PerUserAPIUsageDTO>(usageByUsername.values()), limit);
+        //return getTopEntries(new ArrayList<PerUserAPIUsageDTO>(usageByUsername.values()), limit);
+        return new ArrayList<PerUserAPIUsageDTO>(usageByUsername.values());
     }
 
     /**
@@ -1516,7 +1518,8 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
                 }
             }
         }
-        return getTopEntries(new ArrayList<PerUserAPIUsageDTO>(usageByUsername.values()), limit);
+        //return getTopEntries(new ArrayList<PerUserAPIUsageDTO>(usageByUsername.values()), limit);
+        return new ArrayList<PerUserAPIUsageDTO>(usageByUsername.values());
     }
 
     /**
