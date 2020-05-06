@@ -32,7 +32,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.synapse.MessageContext;
 
-import java.util.concurrent.Executor;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -53,7 +52,7 @@ public class ThrottleDataPublisher {
 
     private static volatile DataPublisher dataPublisher = null;
 
-    Executor executor;
+    ThreadPoolExecutor executor;
 
     /**
      * This method will initialize throttle data publisher. Inside this we will start executor and initialize data
@@ -155,6 +154,18 @@ public class ThrottleDataPublisher {
             } catch (Exception e) {
                 log.error("Error while returning Throttle data publishing agent back to pool" + e.getMessage());
             }
+        }
+    }
+
+    // (추가)
+    public void destroy() {
+        try {
+            if(dataPublisher != null) {
+                dataPublisher.shutdown();
+            }
+            if(executor != null) executor.shutdownNow();
+        } catch (DataEndpointException e) {
+            log.error("Error while shut downing Throttle data publisher " + e.getMessage());
         }
     }
 }

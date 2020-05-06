@@ -17,14 +17,18 @@
 */
 package barley.apimgt.gateway.handlers.throttling;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.TimeZone;
-
-import javax.xml.stream.XMLStreamException;
-
+import barley.apimgt.api.dto.ConditionGroupDTO;
+import barley.apimgt.gateway.APIMgtGatewayConstants;
+import barley.apimgt.gateway.handlers.Utils;
+import barley.apimgt.gateway.handlers.security.APISecurityUtils;
+import barley.apimgt.gateway.handlers.security.AuthenticationContext;
+import barley.apimgt.gateway.internal.ServiceReferenceHolder;
+import barley.apimgt.gateway.throttling.publisher.ThrottleDataPublisher;
+import barley.apimgt.gateway.utils.GatewayUtils;
+import barley.apimgt.gateway.utils.RelayUtils;
+import barley.apimgt.impl.APIConstants;
+import barley.apimgt.impl.dto.VerbInfoDTO;
+import barley.core.MultitenantConstants;
 import org.apache.axiom.om.OMAbstractFactory;
 import org.apache.axiom.om.OMElement;
 import org.apache.axiom.om.OMFactory;
@@ -41,37 +45,20 @@ import org.apache.synapse.ManagedLifecycle;
 import org.apache.synapse.Mediator;
 import org.apache.synapse.MessageContext;
 import org.apache.synapse.SynapseConstants;
-import org.apache.synapse.commons.throttle.core.AccessInformation;
-import org.apache.synapse.commons.throttle.core.RoleBasedAccessRateController;
-import org.apache.synapse.commons.throttle.core.Throttle;
-import org.apache.synapse.commons.throttle.core.ThrottleConfiguration;
-import org.apache.synapse.commons.throttle.core.ThrottleConstants;
-import org.apache.synapse.commons.throttle.core.ThrottleContext;
-import org.apache.synapse.commons.throttle.core.ThrottleException;
-import org.apache.synapse.commons.throttle.core.ThrottleFactory;
+import org.apache.synapse.commons.throttle.core.*;
 import org.apache.synapse.commons.throttle.core.factory.ThrottleContextFactory;
 import org.apache.synapse.core.SynapseEnvironment;
 import org.apache.synapse.core.axis2.Axis2MessageContext;
 import org.apache.synapse.rest.AbstractHandler;
 import org.apache.synapse.rest.RESTConstants;
 import org.apache.synapse.transport.passthru.PassThroughConstants;
-import org.wso2.carbon.metrics.manager.MetricManager;
-import org.wso2.carbon.metrics.manager.Timer;
 
-import barley.apimgt.api.dto.ConditionGroupDTO;
-import barley.apimgt.gateway.APIMgtGatewayConstants;
-import barley.apimgt.gateway.handlers.Utils;
-import barley.apimgt.gateway.handlers.security.APISecurityUtils;
-import barley.apimgt.gateway.handlers.security.AuthenticationContext;
-import barley.apimgt.gateway.internal.ServiceReferenceHolder;
-import barley.apimgt.gateway.throttling.publisher.ThrottleDataPublisher;
-import barley.apimgt.gateway.utils.GatewayUtils;
-import barley.apimgt.gateway.utils.RelayUtils;
-import barley.apimgt.impl.APIConstants;
-import barley.apimgt.impl.dto.VerbInfoDTO;
-import barley.core.MultitenantConstants;
-import barley.core.context.BarleyContext;
-import barley.core.multitenancy.MultitenantUtils;
+import javax.xml.stream.XMLStreamException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.TimeZone;
 
 
 /*
@@ -1064,6 +1051,7 @@ public class ThrottleHandler extends AbstractHandler implements ManagedLifecycle
     }
 
     public void destroy() {
-
+        // (추가)
+        throttleDataPublisher.destroy();
     }
 }
