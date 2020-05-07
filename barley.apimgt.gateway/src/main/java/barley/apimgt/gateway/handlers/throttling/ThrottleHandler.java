@@ -377,7 +377,6 @@ public class ThrottleHandler extends AbstractHandler implements ManagedLifecycle
                                                 resourceLevelThrottleKey, resourceLevelTier,
                                                 authorizedUser, apiContext, apiVersion, subscriberTenantDomain,
                                                 apiTenantDomain, applicationId, synCtx, authContext);
-                                                
                                     }
                                 } else {
                                     if (log.isDebugEnabled()) {
@@ -1052,6 +1051,6 @@ public class ThrottleHandler extends AbstractHandler implements ManagedLifecycle
 
     public void destroy() {
         // (추가)
-        throttleDataPublisher.destroy();
+        if(throttleDataPublisher != null) throttleDataPublisher.destroy();
     }
 }

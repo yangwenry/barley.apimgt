@@ -159,13 +159,19 @@ public class ThrottleDataPublisher {
 
     // (추가)
     public void destroy() {
+    	/* dataPublisher 제거는 BarleyInitializer에서 처리함.
         try {
             if(dataPublisher != null) {
                 dataPublisher.shutdown();
             }
-            if(executor != null) executor.shutdownNow();
         } catch (DataEndpointException e) {
             log.error("Error while shut downing Throttle data publisher " + e.getMessage());
+        }
+        */
+        if(executor != null) {
+        	if(!executor.isShutdown()) {
+        		executor.shutdownNow();
+        	}
         }
     }
 }
