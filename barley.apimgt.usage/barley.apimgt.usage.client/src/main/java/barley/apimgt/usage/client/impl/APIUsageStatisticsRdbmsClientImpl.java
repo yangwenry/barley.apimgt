@@ -872,7 +872,7 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
             throws APIMgtUsageQueryServiceClientException {
         // (수정)
 //        Collection<APIUsage> usageData = getAPIUsageDataByApi(APIUsageStatisticsClientConstants.API_VERSION_USAGE_SUMMARY,
-        Collection<APIUsage> usageData = getAPIUsageDataByApi(APIUsageStatisticsClientConstants.API_REQUEST_SUMMARY,
+        Collection<APIUsage> usageData = getAPIUsageDataGroupByApi(APIUsageStatisticsClientConstants.API_REQUEST_SUMMARY,
                 fromDate, toDate);
         List<API> providerAPIs = getAPIsByProvider(providerName);
         Map<String, APIUsageDTO> usageByAPIs = new TreeMap<String, APIUsageDTO>();
@@ -915,7 +915,7 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
      * @return a collection containing the API usage data
      * @throws APIMgtUsageQueryServiceClientException if an error occurs while querying the database
      */
-    private Collection<APIUsage> getAPIUsageDataByApi(String tableName, String fromDate, String toDate)
+    private Collection<APIUsage> getAPIUsageDataGroupByApi(String tableName, String fromDate, String toDate)
             throws APIMgtUsageQueryServiceClientException {
 
         Connection connection = null;
@@ -1445,7 +1445,9 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
                 .getAPIResponseFaultCountData(APIUsageStatisticsClientConstants.API_FAULT_SUMMARY, fromDate, toDate);
         List<API> providerAPIs = getAPIsByProvider(providerName);
         List<APIResponseFaultCountDTO> faultyCount = new ArrayList<APIResponseFaultCountDTO>();
-        List<APIVersionUsageDTO> apiVersionUsageList;
+        // (수정)
+        //List<APIVersionUsageDTO> apiVersionUsageList;
+        List<APIUsageDTO> apiVersionUsageList;
 
         for (APIResponseFaultCount fault : faultyData) {
             for (API providerAPI : providerAPIs) {
@@ -1458,8 +1460,10 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
                     faultyDTO.setVersion(fault.getApiVersion());
                     faultyDTO.setContext(fault.getContext());
                     faultyDTO.setCount(fault.getFaultCount());
-                    apiVersionUsageList = getUsageByAPIVersions(providerName, fault.getApiName(), fromDate, toDate);
-                    for (APIVersionUsageDTO apiVersionUsageDTO : apiVersionUsageList) {
+                    // (수정) version 테이블이 아닌 request 테이블 조인
+                    //apiVersionUsageList = getUsageByAPIVersions(providerName, fault.getApiName(), fromDate, toDate);
+                    apiVersionUsageList = getAPIUsageData(fault.getApiName(), fromDate, toDate);
+                    for (APIUsageDTO apiVersionUsageDTO : apiVersionUsageList) {
                         if (apiVersionUsageDTO.getVersion().equals(fault.getApiVersion())) {
                             long requestCount = apiVersionUsageDTO.getCount();
                             double faultPercentage =
