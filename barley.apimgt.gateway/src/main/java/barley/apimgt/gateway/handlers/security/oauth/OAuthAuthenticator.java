@@ -16,9 +16,12 @@
 
 package barley.apimgt.gateway.handlers.security.oauth;
 
-import java.util.Map;
-import java.util.TreeMap;
-
+import barley.apimgt.gateway.APIMgtGatewayConstants;
+import barley.apimgt.gateway.handlers.security.*;
+import barley.apimgt.gateway.internal.ServiceReferenceHolder;
+import barley.apimgt.impl.APIConstants;
+import barley.apimgt.impl.APIManagerConfiguration;
+import barley.apimgt.impl.dto.APIKeyValidationInfoDTO;
 import org.apache.axis2.Constants;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -27,20 +30,9 @@ import org.apache.synapse.MessageContext;
 import org.apache.synapse.core.SynapseEnvironment;
 import org.apache.synapse.core.axis2.Axis2MessageContext;
 import org.apache.synapse.rest.RESTConstants;
-import org.wso2.carbon.metrics.manager.MetricManager;
-import org.wso2.carbon.metrics.manager.Timer;
 
-import barley.apimgt.gateway.APIMgtGatewayConstants;
-import barley.apimgt.gateway.handlers.security.APIKeyValidator;
-import barley.apimgt.gateway.handlers.security.APISecurityConstants;
-import barley.apimgt.gateway.handlers.security.APISecurityException;
-import barley.apimgt.gateway.handlers.security.APISecurityUtils;
-import barley.apimgt.gateway.handlers.security.AuthenticationContext;
-import barley.apimgt.gateway.handlers.security.Authenticator;
-import barley.apimgt.gateway.internal.ServiceReferenceHolder;
-import barley.apimgt.impl.APIConstants;
-import barley.apimgt.impl.APIManagerConfiguration;
-import barley.apimgt.impl.dto.APIKeyValidationInfoDTO;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * An API consumer authenticator which authenticates user requests using
@@ -217,7 +209,6 @@ public class OAuthAuthenticator implements Authenticator {
         if (info.isAuthorized()) {
         	AuthenticationContext authContext = new AuthenticationContext();
             authContext.setAuthenticated(true);
-            authContext.setSubscriptionTier(info.getSubscriptionTier());
             authContext.setApiKey(apiKey);
             authContext.setKeyType(info.getType());
             if (info.getEndUserName() != null) {
@@ -228,11 +219,14 @@ public class OAuthAuthenticator implements Authenticator {
             authContext.setCallerToken(info.getEndUserToken());
             authContext.setApplicationId(info.getApplicationId());
             authContext.setApplicationName(info.getApplicationName());
+            // application level tier
             authContext.setApplicationTier(info.getApplicationTier());
+            // subscription level tier
+            authContext.setSubscriptionTier(info.getSubscriptionTier());
+            // api level tier라고 볼 수 있다.
+            authContext.setApiTier(info.getApiTier());
             authContext.setSubscriber(info.getSubscriber());
             authContext.setConsumerKey(info.getConsumerKey());
-            // api level tier라고 볼 수 있다. 
-            authContext.setApiTier(info.getApiTier());
             authContext.setThrottlingDataList(info.getThrottlingDataList());
             authContext.setSubscriberTenantDomain(info.getSubscriberTenantDomain());
             // RATE_LIMIT_COUNT 필드에서 값을 가져온다. 
