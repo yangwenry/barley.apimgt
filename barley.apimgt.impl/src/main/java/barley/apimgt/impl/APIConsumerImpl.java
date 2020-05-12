@@ -2513,11 +2513,14 @@ class APIConsumerImpl extends AbstractAPIManager implements APIConsumer {
     	Subscriber subscriber = getSubscriber(subscriberName);
     	if (subscriber == null) {
     		throw new APIManagementException("Subscriber for subscriberName:" + subscriberName +" does not exist.");
-    	} 
-    	Application defaultApp = getApplicationsByName(subscriberName, APIConstants.DEFAULT_APPLICATION_NAME, null);
-    	if (defaultApp != null) {
-    		// 기본 어플리케이션 삭제
-        	apiMgtDAO.deleteApplication(defaultApp);
+    	}
+        Application defaultApp = getApplicationsByName(subscriberName, APIConstants.DEFAULT_APPLICATION_NAME, null);
+        if (defaultApp != null) {
+            // 기본 어플리케이션 삭제.
+            // 어플리케이션을 삭제하면 구독정보, 발급된 토큰 키와 맵핑 테이블 데이터도 삭제된다.
+            // AM_SUBSCRIPTION, AM_APPLICATION_KEY_MAPPING, AM_APPLICATION, AM_APPLICATION_REGISTRATION
+            // AM_SUBSCRIPTION_KEY_MAPPING, AM_APP_KEY_DOMAIN_MAPPING
+            apiMgtDAO.deleteApplication(defaultApp);
     	}
     	apiMgtDAO.removeSubscriber(subscriber.getId());
     }
