@@ -1,12 +1,6 @@
 package barley.apimgt.usage.publisher;
 
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.synapse.MessageContext;
-import org.apache.synapse.mediators.AbstractMediator;
-import org.apache.synapse.rest.RESTConstants;
-import org.apache.synapse.rest.RESTUtils;
-
 import barley.apimgt.gateway.APIMgtGatewayConstants;
 import barley.apimgt.gateway.dto.ExecutionTimePublisherDTO;
 import barley.apimgt.impl.utils.APIUtil;
@@ -14,6 +8,9 @@ import barley.apimgt.usage.publisher.internal.ServiceReferenceHolder;
 import barley.core.MultitenantConstants;
 import barley.core.context.PrivilegedBarleyContext;
 import barley.core.multitenancy.MultitenantUtils;
+import org.apache.synapse.MessageContext;
+import org.apache.synapse.mediators.AbstractMediator;
+import org.apache.synapse.rest.RESTConstants;
 
 public class APIMgtCommonExecutionPublisher extends AbstractMediator {
     protected boolean enabled;
@@ -126,5 +123,24 @@ public class APIMgtCommonExecutionPublisher extends AbstractMediator {
                 }
             }
         }
+    }
+
+    protected String getTenantDomain(MessageContext messageContext) {
+        String apiPublisher = getApiPublisher(messageContext);
+        String tenantDomain = MultitenantUtils.getTenantDomain(apiPublisher);
+        return tenantDomain;
+    }
+
+    protected String getApiPublisher(MessageContext messageContext) {
+        // CORSRequestHandler 소스 참조
+        String apiPublisher = (String) messageContext.getProperty(APIMgtGatewayConstants.API_PUBLISHER);
+        String apiName = (String) messageContext.getProperty(RESTConstants.SYNAPSE_REST_API);
+        int index = apiName.indexOf("--");
+        if (index != -1) {
+            if (apiPublisher == null) {
+                apiPublisher = APIUtil.replaceEmailDomainBack(apiName.substring(0, index));
+            }
+        }
+        return apiPublisher;
     }
 }

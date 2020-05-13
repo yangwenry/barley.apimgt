@@ -1,13 +1,9 @@
 package barley.apimgt.usage.publisher;
 
+import barley.apimgt.gateway.APIMgtGatewayConstants;
+import barley.apimgt.usage.publisher.dto.FaultPublisherDTO;
 import org.apache.synapse.MessageContext;
 import org.apache.synapse.SynapseConstants;
-import org.apache.synapse.rest.RESTConstants;
-
-import barley.apimgt.gateway.APIMgtGatewayConstants;
-import barley.apimgt.impl.utils.APIUtil;
-import barley.apimgt.usage.publisher.dto.FaultPublisherDTO;
-import barley.core.multitenancy.MultitenantUtils;
 
 public class APIMgtFaultHandler extends APIMgtCommonExecutionPublisher {
 
@@ -29,6 +25,16 @@ public class APIMgtFaultHandler extends APIMgtCommonExecutionPublisher {
 //            long requestTime = Long.parseLong((String) messageContext.getProperty(APIMgtGatewayConstants.
 //                                                                         REQUEST_START_TIME));
             long requestTime = Long.parseLong((String) messageContext.getProperty(APIMgtGatewayConstants.REQUEST_EXECUTION_START_TIME));
+
+            /*
+            String apiPublisher = (String) messageContext.getProperty(APIMgtGatewayConstants.API_PUBLISHER);
+            String tenantDomain = null;
+            if(apiPublisher != null) {
+            	tenantDomain = MultitenantUtils.getTenantDomain(apiPublisher);
+            }
+            */
+            String apiPublisher = getApiPublisher(messageContext);
+            String tenantDomain = getTenantDomain(messageContext);
 
             FaultPublisherDTO faultPublisherDTO = new FaultPublisherDTO();
 //            faultPublisherDTO.setConsumerKey((String) messageContext.getProperty(
@@ -57,17 +63,11 @@ public class APIMgtFaultHandler extends APIMgtCommonExecutionPublisher {
             faultPublisherDTO.setTenantDomain(MultitenantUtils.getTenantDomain(
                     faultPublisherDTO.getUsername()));
                     */
-            String apiPublisher = (String) messageContext.getProperty(APIMgtGatewayConstants.API_PUBLISHER);
-            String tenantDomain = null;
-            if(apiPublisher != null) {
-            	tenantDomain = MultitenantUtils.getTenantDomain(apiPublisher);
-            }
             faultPublisherDTO.setTenantDomain(tenantDomain);
             
             faultPublisherDTO.setHostName((String) messageContext.getProperty(
                     APIMgtGatewayConstants.HOST_NAME));
-            faultPublisherDTO.setApiPublisher((String) messageContext.getProperty(
-                    APIMgtGatewayConstants.API_PUBLISHER));
+            faultPublisherDTO.setApiPublisher(apiPublisher);
 //            faultPublisherDTO.setApplicationName((String) messageContext.getProperty(
 //                    APIMgtGatewayConstants.APPLICATION_NAME));
 //            faultPublisherDTO.setApplicationId((String) messageContext.getProperty(

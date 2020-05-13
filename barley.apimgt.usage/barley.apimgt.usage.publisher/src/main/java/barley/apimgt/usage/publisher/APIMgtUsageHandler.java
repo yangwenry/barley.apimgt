@@ -18,18 +18,6 @@
 
 package barley.apimgt.usage.publisher;
 
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import org.apache.axis2.Constants;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.apache.synapse.MessageContext;
-import org.apache.synapse.core.axis2.Axis2MessageContext;
-import org.apache.synapse.rest.AbstractHandler;
-import org.apache.synapse.rest.RESTConstants;
-
 import barley.apimgt.gateway.APIMgtGatewayConstants;
 import barley.apimgt.gateway.handlers.security.APISecurityUtils;
 import barley.apimgt.gateway.handlers.security.AuthenticationContext;
@@ -38,6 +26,17 @@ import barley.apimgt.impl.utils.APIUtil;
 import barley.apimgt.usage.publisher.dto.RequestPublisherDTO;
 import barley.apimgt.usage.publisher.internal.UsageComponent;
 import barley.core.multitenancy.MultitenantUtils;
+import org.apache.axis2.Constants;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.synapse.MessageContext;
+import org.apache.synapse.core.axis2.Axis2MessageContext;
+import org.apache.synapse.rest.AbstractHandler;
+import org.apache.synapse.rest.RESTConstants;
+
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class APIMgtUsageHandler extends AbstractHandler {
 
@@ -110,15 +109,17 @@ public class APIMgtUsageHandler extends AbstractHandler {
             String userAgent = (String) headers.get(APIConstants.USER_AGENT);
             String context = (String) mc.getProperty(RESTConstants.REST_API_CONTEXT);
             String apiVersion = (String) mc.getProperty(RESTConstants.SYNAPSE_REST_API);
-            String apiPublisher = (String) mc.getProperty(APIMgtGatewayConstants.API_PUBLISHER);
+            //String apiPublisher = (String) mc.getProperty(APIMgtGatewayConstants.API_PUBLISHER);
 
-            /* (주석) 도메인 정보를 가져오는 로직이 잘못되었음. 굳이 잘못된 도메인을 가져와  apiPublisher를 가져올 필요는 없을 것 같아 주석. 
-            String fullRequestPath = (String) mc.getProperty(RESTConstants.REST_FULL_REQUEST_PATH);
-            String tenantDomain = MultitenantUtils.getTenantDomainFromRequestURL(fullRequestPath);
-            if (apiPublisher == null) {
+            // (주석) 도메인 정보를 가져오는 로직이 잘못되었음. 굳이 잘못된 도메인을 가져와  apiPublisher를 가져올 필요는 없을 것 같아 주석.
+            /*
+            if(apiPublisher == null) {
+                String fullRequestPath = (String) mc.getProperty(RESTConstants.REST_FULL_REQUEST_PATH);
+                String tenantDomain = MultitenantUtils.getTenantDomainFromRequestURL(fullRequestPath);
                 apiPublisher = APIUtil.getAPIProviderFromRESTAPI(apiVersion, tenantDomain);
             }
             */
+            String apiPublisher = getApiPublisher(mc);
 
             String api = APIUtil.getAPINamefromRESTAPI(apiVersion);
             String version = (String) mc.getProperty(RESTConstants.SYNAPSE_REST_API_VERSION);
@@ -177,4 +178,16 @@ public class APIMgtUsageHandler extends AbstractHandler {
         return resource;
     }
 
+    protected String getApiPublisher(MessageContext messageContext) {
+        // CORSRequestHandler 소스 참조
+        String apiPublisher = (String) messageContext.getProperty(APIMgtGatewayConstants.API_PUBLISHER);
+        String apiName = (String) messageContext.getProperty(RESTConstants.SYNAPSE_REST_API);
+        int index = apiName.indexOf("--");
+        if (index != -1) {
+            if (apiPublisher == null) {
+                apiPublisher = APIUtil.replaceEmailDomainBack(apiName.substring(0, index));
+            }
+        }
+        return apiPublisher;
+    }
 }

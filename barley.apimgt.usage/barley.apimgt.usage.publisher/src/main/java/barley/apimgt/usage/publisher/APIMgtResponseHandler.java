@@ -18,13 +18,10 @@
 
 package barley.apimgt.usage.publisher;
 
-import java.io.IOException;
-import java.net.URL;
-import java.nio.charset.Charset;
-import java.util.Map;
-
-import javax.xml.stream.XMLStreamException;
-
+import barley.apimgt.gateway.APIMgtGatewayConstants;
+import barley.apimgt.impl.APIConstants;
+import barley.apimgt.usage.publisher.dto.ResponsePublisherDTO;
+import barley.apimgt.usage.publisher.internal.UsageComponent;
 import org.apache.axiom.soap.SOAPBody;
 import org.apache.axiom.soap.SOAPEnvelope;
 import org.apache.http.HttpHeaders;
@@ -34,11 +31,11 @@ import org.apache.synapse.core.axis2.Axis2MessageContext;
 import org.apache.synapse.rest.RESTConstants;
 import org.apache.synapse.transport.passthru.util.RelayUtils;
 
-import barley.apimgt.gateway.APIMgtGatewayConstants;
-import barley.apimgt.impl.APIConstants;
-import barley.apimgt.usage.publisher.dto.ResponsePublisherDTO;
-import barley.apimgt.usage.publisher.internal.UsageComponent;
-import barley.core.multitenancy.MultitenantUtils;
+import javax.xml.stream.XMLStreamException;
+import java.io.IOException;
+import java.net.URL;
+import java.nio.charset.Charset;
+import java.util.Map;
 
 /*
 * This mediator is to publish events upon success API invocations
@@ -139,15 +136,13 @@ public class APIMgtResponseHandler extends APIMgtCommonExecutionPublisher {
                     MultitenantUtils.getTenantDomain(responsePublisherDTO.getUsername()));
             responsePublisherDTO.setTenantDomain(tenantDomain);
                     */
-            String apiPublisher = (String) mc.getProperty(APIMgtGatewayConstants.API_PUBLISHER);
-            String tenantDomain = null;
-            if(apiPublisher != null) {
-            	tenantDomain = MultitenantUtils.getTenantDomain(apiPublisher);
-            }
+            String apiVersion = (String) mc.getProperty(RESTConstants.SYNAPSE_REST_API);
+            String apiPublisher = getApiPublisher(mc);
+            String tenantDomain = getTenantDomain(mc);
+
             responsePublisherDTO.setTenantDomain(tenantDomain);
-            
             responsePublisherDTO.setContext((String) mc.getProperty(APIMgtGatewayConstants.CONTEXT));
-            responsePublisherDTO.setApiVersion((String) mc.getProperty(RESTConstants.SYNAPSE_REST_API));
+            responsePublisherDTO.setApiVersion(apiVersion);
             responsePublisherDTO.setApi((String) mc.getProperty(APIMgtGatewayConstants.API));
             responsePublisherDTO.setVersion((String) mc.getProperty(APIMgtGatewayConstants.VERSION));
             responsePublisherDTO.setResourcePath((String) mc.getProperty(APIMgtGatewayConstants.RESOURCE));
@@ -157,7 +152,7 @@ public class APIMgtResponseHandler extends APIMgtCommonExecutionPublisher {
             responsePublisherDTO.setServiceTime(serviceTime);
             responsePublisherDTO.setBackendTime(backendTime);
             responsePublisherDTO.setHostName((String) mc.getProperty(APIMgtGatewayConstants.HOST_NAME));
-            responsePublisherDTO.setApiPublisher((String) mc.getProperty(APIMgtGatewayConstants.API_PUBLISHER));
+            responsePublisherDTO.setApiPublisher(apiPublisher);
             responsePublisherDTO.setApplicationName((String) mc.getProperty(APIMgtGatewayConstants.APPLICATION_NAME));
             responsePublisherDTO.setApplicationId((String) mc.getProperty(APIMgtGatewayConstants.APPLICATION_ID));
             responsePublisherDTO.setCacheHit(cacheHit);

@@ -17,15 +17,13 @@
 */
 package barley.apimgt.usage.publisher;
 
-import org.apache.synapse.MessageContext;
-import org.apache.synapse.rest.RESTConstants;
-
 import barley.apimgt.gateway.APIMgtGatewayConstants;
 import barley.apimgt.gateway.handlers.security.APISecurityUtils;
 import barley.apimgt.gateway.handlers.security.AuthenticationContext;
 import barley.apimgt.impl.APIConstants;
 import barley.apimgt.usage.publisher.dto.ThrottlePublisherDTO;
-import barley.core.multitenancy.MultitenantUtils;
+import org.apache.synapse.MessageContext;
+import org.apache.synapse.rest.RESTConstants;
 
 /*
 * This is the class mediator which will handle publishing events upon throttle out events
@@ -60,15 +58,17 @@ public class APIMgtThrottleUsageHandler extends APIMgtCommonExecutionPublisher {
                     throttleOutReason = (String) messageContext.getProperty(APIConstants.THROTTLE_OUT_REASON_KEY);
                 }
 
+                String apiVersion = (String) messageContext.getProperty(RESTConstants.SYNAPSE_REST_API);
+                String tenantDomain = getTenantDomain(messageContext);
+
                 ThrottlePublisherDTO throttlePublisherDTO = new ThrottlePublisherDTO();
                 throttlePublisherDTO.setAccessToken(authContext.getApiKey());
                 String username = authContext.getUsername();
                 throttlePublisherDTO.setUsername(username);
-                throttlePublisherDTO.setTenantDomain(MultitenantUtils.getTenantDomain(
-                        (String) messageContext.getProperty(APIMgtGatewayConstants.API_PUBLISHER)));
+                throttlePublisherDTO.setTenantDomain(tenantDomain);
                 throttlePublisherDTO.setApiname((String) messageContext.getProperty(
                         APIMgtGatewayConstants.API));
-                throttlePublisherDTO.setApiVersion((String) messageContext.getProperty(RESTConstants.SYNAPSE_REST_API));
+                throttlePublisherDTO.setApiVersion(apiVersion);
                 throttlePublisherDTO.setVersion((String) messageContext.getProperty(RESTConstants.SYNAPSE_REST_API_VERSION));
                 throttlePublisherDTO.setContext((String) messageContext.getProperty(
                         APIMgtGatewayConstants.CONTEXT));
