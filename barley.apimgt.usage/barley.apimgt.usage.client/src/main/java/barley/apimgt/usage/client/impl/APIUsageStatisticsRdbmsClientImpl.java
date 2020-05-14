@@ -1263,12 +1263,13 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
                         + APIUsageStatisticsClientConstants.API_VERSION + ','
                         + APIUsageStatisticsClientConstants.VERSION + ','
                         + APIUsageStatisticsClientConstants.CONTEXT + ',' + "SUM("
-                        + APIUsageStatisticsClientConstants.TOTAL_RESPONSE_COUNT + ") AS totalTime,SUM("
+                        + APIUsageStatisticsClientConstants.TOTAL_RESPONSE_COUNT + ") AS totalTime, SUM("
                         + APIUsageStatisticsClientConstants.SERVICE_TIME + " * "
                         + APIUsageStatisticsClientConstants.TOTAL_RESPONSE_COUNT + ") AS totalWeightTime" + " from "
                         + tableName + " GROUP BY " + APIUsageStatisticsClientConstants.API + ','
                         + APIUsageStatisticsClientConstants.API_VERSION + ','
-                        + APIUsageStatisticsClientConstants.VERSION;
+                        + APIUsageStatisticsClientConstants.VERSION + ','
+                        + APIUsageStatisticsClientConstants.CONTEXT;
             }
 
             statement = connection.prepareStatement(query);
