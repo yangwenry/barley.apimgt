@@ -1123,6 +1123,7 @@ public class SQLConstants {
             "   AND SUB.USER_ID = ?" +
             "   AND SUB.TENANT_ID = ? " +
             "   AND APP.SUBSCRIBER_ID = SUB.SUBSCRIBER_ID" +
+            "   AND APP.APPLICATION_ID = SUBS.APPLICATION_ID" +
             "   AND API.API_ID = SUBS.API_ID" +
             "   AND SUBS.SUBS_CREATE_STATE = '" + APIConstants.SubscriptionCreatedStatus.SUBSCRIBE + "'";
 
