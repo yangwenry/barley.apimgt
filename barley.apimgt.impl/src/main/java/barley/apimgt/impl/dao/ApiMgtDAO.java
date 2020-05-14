@@ -1160,6 +1160,8 @@ public class ApiMgtDAO {
                 subscriber.setName(subscriberName);
                 subscriber.setSubscribedDate(result.getDate(APIConstants.SUBSCRIBER_FIELD_DATE_SUBSCRIBED));
                 subscriber.setTenantId(result.getInt("TENANT_ID"));
+                // (추가)
+                subscriber.setApplicationTier(result.getString("APPLICATION_TIER"));
             }
         } catch (SQLException e) {
             handleException("Failed to get Subscriber for :" + subscriberName, e);

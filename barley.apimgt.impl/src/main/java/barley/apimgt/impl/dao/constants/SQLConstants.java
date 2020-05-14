@@ -392,14 +392,18 @@ public class SQLConstants {
     		" DELETE FROM AM_API_RATINGS WHERE SUBSCRIBER_ID = ?";
 
     // (추가)
-    public static final String GET_PAGINATED_SUBSCRIBERS_SQL =
+    public static final String GET_SUBSCRIBER_PREFIX =
             " SELECT " +
-                "   SUB.SUBSCRIBER_ID, SUB.USER_ID, SUB.TENANT_ID, SUB.EMAIL_ADDRESS, SUB.DATE_SUBSCRIBED, APP.APPLICATION_TIER " +
-                "  FROM AM_SUBSCRIBER SUB " +
-                " INNER JOIN AM_APPLICATION APP " +
-                "    ON SUB.SUBSCRIBER_ID = APP.SUBSCRIBER_ID " +
-                //" LEFT OUTER JOIN AM_POLICY_APPLICATION POLICY " +
-                //"    ON POLICY.NAME = APP.APPLICATION_TIER " +
+                    "   SUB.SUBSCRIBER_ID, SUB.USER_ID, SUB.TENANT_ID, SUB.EMAIL_ADDRESS, SUB.DATE_SUBSCRIBED, APP.APPLICATION_TIER " +
+                    "  FROM AM_SUBSCRIBER SUB " +
+                    " INNER JOIN AM_APPLICATION APP " +
+                    "    ON SUB.SUBSCRIBER_ID = APP.SUBSCRIBER_ID ";
+                    //" LEFT OUTER JOIN AM_POLICY_APPLICATION POLICY " +
+                    //"    ON POLICY.NAME = APP.APPLICATION_TIER " +
+
+    // (추가)
+    public static final String GET_PAGINATED_SUBSCRIBERS_SQL =
+            GET_SUBSCRIBER_PREFIX +
                 " WHERE " +
                 "   SUB.TENANT_ID=?" +
                 " ORDER BY SUB.CREATED_TIME DESC " +
@@ -417,6 +421,7 @@ public class SQLConstants {
             "   AM_SUBSCRIBER " +
             " WHERE " +
             "   SUBSCRIBER_ID=?";
+
 
     public static final String CHECK_EXISTING_SUBSCRIPTION_SQL =
             " SELECT " +
@@ -497,6 +502,8 @@ public class SQLConstants {
             "   API.API_ID = SUBS.API_ID " +
             "   AND UUID = ?";
 
+    // (수정) 2020.05.14 - 구독등급과 조인하도록 수정
+    /*
     public static final String GET_TENANT_SUBSCRIBER_SQL =
             " SELECT " +
             "   SUBSCRIBER_ID, " +
@@ -509,6 +516,12 @@ public class SQLConstants {
             " WHERE " +
             "   USER_ID = ? " +
             "   AND TENANT_ID = ?";
+            */
+    public static final String GET_TENANT_SUBSCRIBER_SQL =
+            GET_SUBSCRIBER_PREFIX +
+                    " WHERE " +
+                    "       SUB.USER_ID = ? " +
+                    "   AND SUB.TENANT_ID = ?";
 
     public static final String GET_TENANT_SUBSCRIBER_CASE_INSENSITIVE_SQL =
             " SELECT " +
