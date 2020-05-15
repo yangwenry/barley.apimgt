@@ -334,7 +334,8 @@ public class UsageClient {
                 where += " and api.api_id=subc.api_id and app.application_id=subc.application_id";
 
                 if ("allAPIs".equals(apiFilter)) {
-                    List<String> providerList = getApiProviders(provider);
+                    String tenantDomain = MultitenantUtils.getTenantDomain(provider);
+                    List<String> providerList = getApiProviders(tenantDomain);
                     StringBuilder providers = new StringBuilder(" and api.api_provider in (");
                     if (providerList.size() > 0) {
                         providers.append("'").append(providerList.get(0)).append("'");
@@ -413,8 +414,8 @@ public class UsageClient {
      * @return List of count per user Agent
      * @throws APIMgtUsageQueryServiceClientException
      */
-    public static List<SubscriptionOverTimeDTO> getAPISubscriptionsPerApp(String apiName, String provider,
-            String apiCreator, String fromDate, String toDate, int limit)
+    public static List<SubscriptionOverTimeDTO> getAPISubscriptionsPerApp(String apiName, String tenantDomain,
+            String apiCreator, String apiVersion, String fromDate, String toDate, int limit)
             throws APIMgtUsageQueryServiceClientException {
         Connection connection = null;
         PreparedStatement statement = null;
@@ -435,9 +436,9 @@ public class UsageClient {
             // (수정) ALL로 변경 
             //if (!"allAPIs".equals(apiFilter)) {
             if (!"ALL".equals(apiCreator)) {
-                where += " and api.api_provider = '" + provider + "' ";
+                where += " and api.api_provider = '" + apiCreator + "' ";
             } else {
-                List<String> providerList = getApiProviders(provider);
+                List<String> providerList = getApiProviders(tenantDomain);
                 StringBuilder providers = new StringBuilder(" and api.api_provider in (");
                 if (providerList.size() > 0) {
                     providers.append("'").append(providerList.get(0)).append("'");
@@ -453,6 +454,10 @@ public class UsageClient {
 
             if (apiName != null && !StringUtils.isBlank(apiName) && !"ALL".equalsIgnoreCase(apiName)) {
                 where += "and api.api_name='" + apiName + "' ";
+            }
+            // (추가)
+            if(!"ALL".equalsIgnoreCase(apiVersion)) {
+                where += " and api.api_version = '" + apiVersion + "' ";
             }
             String query = select + from + where + time + groupAndOrder;
             statement = connection.prepareStatement(query);
@@ -702,7 +707,7 @@ public class UsageClient {
      * @throws SQLException                           throws if any db exceptions occurred
      * @throws APIMgtUsageQueryServiceClientException throws if any other error occurred
      */
-    public static List<String> getApiProviders(String provider)
+    public static List<String> getApiProviders(String tenantDomain)
             throws SQLException, APIMgtUsageQueryServiceClientException {
         Connection connection = null;
         PreparedStatement statement = null;
@@ -710,7 +715,7 @@ public class UsageClient {
         try {
             //get the connection
             connection = APIMgtDBUtil.getConnection();
-            String tenantDomain = MultitenantUtils.getTenantDomain(provider);
+            //String tenantDomain = MultitenantUtils.getTenantDomain(provider);
             String query;
 
             if (MultitenantConstants.SUPER_TENANT_DOMAIN_NAME.equals(tenantDomain)) {
