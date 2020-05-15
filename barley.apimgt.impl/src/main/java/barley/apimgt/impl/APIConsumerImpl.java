@@ -3531,37 +3531,57 @@ class APIConsumerImpl extends AbstractAPIManager implements APIConsumer {
     }
 
     @Override
-    public List<API> getSortedRatingApiList(String tenantDomain, int page, int count, String keyword, String tag, String category) throws APIManagementException {
-    	List<API> apiList = apiMgtDAO.getSortedRatingApi(tenantDomain, page, count, keyword, tag, category);
-    	// registry에서 더이상 태그를 가져오지 않고 API_MGT 디비 테이블을 조인하여 가져온다. 
+    public List<API> getAllApiList(String tenantDomain, int page, int count, String apiState) throws APIManagementException {
+        List<API> apiList = null;
+        // api 상태체크
+        String apiStateValue = "";
+        if("ALL".equals(apiState)) {
+            apiList = apiMgtDAO.getAllApiList(tenantDomain, page, count, apiStateValue);
+        } else {
+            apiStateValue = APIStatus.valueOf(apiState).getStatus();
+            if(apiState != null) {
+                apiList = apiMgtDAO.getAllApiList(tenantDomain, page, count, apiStateValue);
+            }
+        }
+        return apiList;
+    }
+
+    @Override
+    public List<API> getPublishedApiList(String tenantDomain, String orderBy, int page, int count, String keyword, String tag, String category) throws APIManagementException {
+        List<API> apiList = null;
+        if("rating".equals(orderBy)) {
+            apiList = apiMgtDAO.getPublishedApiListSortedByRating(tenantDomain, page, count, keyword, tag, category);
+        } else if("subcnt".equals(orderBy)) {
+            apiList = apiMgtDAO.getPublishedApiListSortedBySubscribersCount(tenantDomain, page, count, keyword, tag, category);
+        } else if("createdTime".equals(orderBy)) {
+            apiList = apiMgtDAO.getPublishedApiListSortedByCreatedTime(tenantDomain, page, count, keyword, tag, category);
+        } else {
+            apiList = apiMgtDAO.getPublishedApiListSortedByCreatedTime(tenantDomain, page, count, keyword, tag, category);
+        }
+        // registry에서 더이상 태그를 가져오지 않고 API_MGT 디비 테이블을 조인하여 가져온다.
     	//return addApiAttributeFromRegistry(apiList);
     	return apiList;
     }
     
     @Override
-    public List<API> getSortedSubscribersCountApiList(String tenantDomain, int page, int count, String keyword, String tag, String category) throws APIManagementException {
-    	List<API> apiList = apiMgtDAO.getSortedSubscribersCountApi(tenantDomain, page, count, keyword, tag, category);
-    	// registry에서 더이상 태그를 가져오지 않고 API_MGT 디비 테이블을 조인하여 가져온다. 
-    	//return addApiAttributeFromRegistry(apiList);
-    	return apiList;
+    public int getPublishedApiCount(String tenantDomain, String keyword, String tag, String category) throws APIManagementException {
+    	return apiMgtDAO.getPublishedApiCount(tenantDomain, keyword, tag, category);
     }
     
     @Override
-    public List<API> getSortedCreatedTimeApiList(String tenantDomain, int page, int count, String keyword, String tag, String category) throws APIManagementException {
-    	List<API> apiList = apiMgtDAO.getSortedCreatedTimeApi(tenantDomain, page, count, keyword, tag, category);
-    	// registry에서 더이상 태그를 가져오지 않고 API_MGT 디비 테이블을 조인하여 가져온다. 
-    	//return addApiAttributeFromRegistry(apiList);
-    	return apiList;
-    }
-    
-    @Override
-    public int getPaginatedApiCount(String tenantDomain, String keyword, String tag, String category) throws APIManagementException {
-    	return apiMgtDAO.getPaginatedApiCount(tenantDomain, keyword, tag, category);
-    }
-    
-    @Override
-    public int getPublicApiCount(String tenantDomain) throws APIManagementException {
-    	return apiMgtDAO.getPublicApiCount(tenantDomain);
+    public int getAllApiCount(String tenantDomain, String apiState) throws APIManagementException {
+        // api 상태체크
+        String apiStateValue = "";
+        int totalCnt = 0;
+        if("ALL".equals(apiState)) {
+            totalCnt = apiMgtDAO.getAllApiCount(tenantDomain, apiStateValue);
+        } else {
+            apiStateValue = APIStatus.valueOf(apiState).getStatus();
+            if(apiState != null) {
+                totalCnt = apiMgtDAO.getAllApiCount(tenantDomain, apiStateValue);
+            }
+        }
+    	return totalCnt;
     }
    
     

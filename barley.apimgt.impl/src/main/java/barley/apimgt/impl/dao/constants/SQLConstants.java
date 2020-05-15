@@ -2804,7 +2804,7 @@ public class SQLConstants {
     
     public static final String GET_APIS_OF_PUBLISHER_SQL = GET_SORTED_API_SQL_PREFIX + GET_APIS_OF_PUBLISHER_WHERE_SQL;
     
-    public static final String GET_PUBLIC_API_CNT_SQL =
+    public static final String GET_PUBLISHED_API_CNT_SQL =
 	    	"SELECT " +
 	    		"COUNT(TA.API_ID) AS PUB_API_CNT " + 
 	    	"FROM( " +

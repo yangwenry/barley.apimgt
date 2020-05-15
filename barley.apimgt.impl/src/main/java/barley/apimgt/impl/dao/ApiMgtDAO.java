@@ -11661,22 +11661,34 @@ public class ApiMgtDAO {
         return accessTokens;
     }
     
-    public List<API> getSortedRatingApi(String tenantDomain, int page, int count, String keyword, String tag, String category) throws APIManagementException {
+    public List<API> getPublishedApiListSortedByRating(String tenantDomain, int page, int count, String keyword, String tag, String category) throws APIManagementException {
     	String query = SQLConstants.GET_SORTED_RATING_API_SQL;
-    	return getSortedApiList(query, tenantDomain, page, count, keyword, tag, category);
+    	return getSortedApiList(query, tenantDomain, page, count, APIConstants.PUBLISHED, keyword, tag, category);
     }
     
-    public List<API> getSortedSubscribersCountApi(String tenantDomain, int page, int count, String keyword, String tag, String category) throws APIManagementException {
+    public List<API> getPublishedApiListSortedBySubscribersCount(String tenantDomain, int page, int count, String keyword, String tag, String category) throws APIManagementException {
         String query = SQLConstants.GET_SORTED_SUBS_CNT_API_SQL;
-    	return getSortedApiList(query, tenantDomain, page, count, keyword, tag, category);
+    	return getSortedApiList(query, tenantDomain, page, count, APIConstants.PUBLISHED, keyword, tag, category);
     }
     
-    public List<API> getSortedCreatedTimeApi(String tenantDomain, int page, int count, String keyword, String tag, String category) throws APIManagementException {
+    public List<API> getPublishedApiListSortedByCreatedTime(String tenantDomain, int page, int count, String keyword, String tag, String category) throws APIManagementException {
         String query = SQLConstants.GET_SORTED_CREATED_TIME_API_SQL;
-    	return getSortedApiList(query, tenantDomain, page, count, keyword, tag, category);
+    	return getSortedApiList(query, tenantDomain, page, count, APIConstants.PUBLISHED, keyword, tag, category);
     }
-    
-    public int getPaginatedApiCount(String tenantDomain, String keyword, String tag, String category) throws APIManagementException {
+
+    public List<API> getAllApiList(String tenantDomain, int page, int count, String apiState) throws APIManagementException {
+        String query = SQLConstants.GET_SORTED_CREATED_TIME_API_SQL;
+        return getSortedApiList(query, tenantDomain, page, count, apiState, "", "", "");
+    }
+
+    public int getPublishedApiCount(String tenantDomain, String keyword, String tag, String category) throws APIManagementException {
+        return getAllApiCount(tenantDomain, APIConstants.PUBLISHED, keyword, tag, category);
+    }
+    public int getAllApiCount(String tenantDomain, String apiState) throws APIManagementException {
+        return getAllApiCount(tenantDomain, apiState, "", "", "");
+    }
+
+    public int getAllApiCount(String tenantDomain, String apiState, String keyword, String tag, String category) throws APIManagementException {
         Connection connection = null;
         PreparedStatement selectPreparedStatement = null;
         ResultSet resultSet = null;
@@ -11689,7 +11701,7 @@ public class ApiMgtDAO {
             connection = APIMgtDBUtil.getConnection();
             connection.setAutoCommit(false);
             selectPreparedStatement = connection.prepareStatement(query);
-            selectPreparedStatement.setNString(1, "PUBLISHED");
+            selectPreparedStatement.setNString(1, apiState);
             selectPreparedStatement.setNString(2, tenantDomain);
             selectPreparedStatement.setNString(3, keyword);
             selectPreparedStatement.setNString(4, keyword);
@@ -11717,7 +11729,7 @@ public class ApiMgtDAO {
         return count;
     }
    
-    private List<API> getSortedApiList(String query, String tenantDomain, int page, int count, String keyword, String tag, String category) throws APIManagementException {
+    private List<API> getSortedApiList(String query, String tenantDomain, int page, int count, String apiState, String keyword, String tag, String category) throws APIManagementException {
         Connection connection = null;
         PreparedStatement selectPreparedStatement = null;
         ResultSet resultSet = null;
@@ -11730,7 +11742,7 @@ public class ApiMgtDAO {
             connection = APIMgtDBUtil.getConnection();
             connection.setAutoCommit(false);
             selectPreparedStatement = connection.prepareStatement(query);
-            selectPreparedStatement.setNString(1, "PUBLISHED");
+            selectPreparedStatement.setNString(1, apiState);
             selectPreparedStatement.setNString(2, tenantDomain);
             selectPreparedStatement.setNString(3, keyword);
             selectPreparedStatement.setNString(4, keyword);
@@ -11817,8 +11829,8 @@ public class ApiMgtDAO {
     	return api;
     }
     
-    
-    public int getPublicApiCount(String tenantDomain) throws APIManagementException {
+    // 사용하는 곳이 없음.
+    public int getPublishedApiCount(String tenantDomain) throws APIManagementException {
         Connection connection = null;
         PreparedStatement selectPreparedStatement = null;
         ResultSet resultSet = null;
@@ -11828,7 +11840,7 @@ public class ApiMgtDAO {
         try {
             connection = APIMgtDBUtil.getConnection();
             connection.setAutoCommit(false);
-            selectPreparedStatement = connection.prepareStatement(SQLConstants.GET_PUBLIC_API_CNT_SQL);
+            selectPreparedStatement = connection.prepareStatement(SQLConstants.GET_PUBLISHED_API_CNT_SQL);
             selectPreparedStatement.setNString(1, tenantDomain);
             resultSet = selectPreparedStatement.executeQuery();
             

@@ -652,18 +652,15 @@ public interface APIConsumer extends APIManager {
 
     boolean isMonetizationEnabled(String tenantDomain) throws APIManagementException;
 
-	List<API> getSortedRatingApiList(String tenantDomain, int page, int count, String keyword, String tag,
-			String category) throws APIManagementException;
+    List<API> getAllApiList(String tenantDomain, int page, int count, String apiState) throws APIManagementException;
 
-	List<API> getSortedSubscribersCountApiList(String tenantDomain, int page, int count, String keyword, String tag,
-			String category) throws APIManagementException;
-	
-	List<API> getSortedCreatedTimeApiList(String tenantDomain, int page, int count, String keyword, String tag,
-			String category) throws APIManagementException;
-	
+    int getAllApiCount(String tenantDomain, String apiState) throws APIManagementException;
+
+    List<API> getPublishedApiList(String tenantDomain, String orderBy, int page, int count, String keyword, String tag, String category) throws APIManagementException;
+
+    int getPublishedApiCount(String tenantDomain, String keyword, String tag, String category) throws APIManagementException;
+
 	List<AccessTokenInfo> getAllAccessTokenList(String appName) throws APIManagementException;
-
-	int getPublicApiCount(String tenantDomain) throws APIManagementException;
 
 	int setCommentAgreeValue(String userName, int commnetId, int agreeValue) throws APIManagementException;
 
@@ -671,7 +668,5 @@ public interface APIConsumer extends APIManager {
 
 	Comment[] getSortedAgreeCountComments(APIIdentifier identifier, int page, int count) throws APIManagementException;
 
-	int getPaginatedApiCount(String tenantDomain, String keyword, String tag, String category)
-			throws APIManagementException;
-	
+
 }
