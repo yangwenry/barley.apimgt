@@ -7040,21 +7040,22 @@ public class ApiMgtDAO {
     }
     
     public void deleteComment(String userId, int commentId) throws APIManagementException {
-    	
+    	/* (주석) 2020.05.20 - 사용자 체크를 굳이 하지 않는다. 서비스에서 수행해야 하는 로직이라 보여짐.
     	Comment commentObj = getCommentById(commentId);
-    	
+
     	if(!userId.equals(commentObj.getUser())){
     		throw new APIManagementException("Unmatched comment register - " + userId);
     	}
-    	
+    	*/
+
     	deleteComment(commentId);
     }
-    
+
     public void deleteComment(int commentId) throws APIManagementException {
 
         Connection connection = null;
         PreparedStatement prepStmt = null;
-        
+
         try {
         	connection = APIMgtDBUtil.getConnection();
             connection.setAutoCommit(false);
