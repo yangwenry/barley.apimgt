@@ -7095,14 +7095,19 @@ public class ApiMgtDAO {
              prepStmt.setInt(1, commentId);
              resultSet = prepStmt.executeQuery();
              if (resultSet.next()) {
+                 /*
                  comment = new Comment();
                  comment.setCommentId(resultSet.getInt("COMMENT_ID"));
                  comment.setText(resultSet.getString("COMMENT_TEXT"));
                  comment.setUser(resultSet.getString("COMMENTED_USER"));
-                 comment.setCreatedTime(new java.util.Date(resultSet.getTimestamp("DATE_COMMENTED").getTime()));
+                 if(resultSet.getTimestamp("DATE_COMMENTED") != null) {
+                     comment.setCreatedTime(new java.util.Date(resultSet.getTimestamp("DATE_COMMENTED").getTime()));
+                 }
                
                  comment.setAgreeCount(resultSet.getInt("COMMENT_AGREE_COUNT"));
                  comment.setDisagreeCount(resultSet.getInt("COMMENT_DISAGREE_COUNT"));
+                 */
+                 comment = createComment(resultSet);
              }
          } catch (SQLException e) {
              try {
@@ -7119,6 +7124,20 @@ public class ApiMgtDAO {
          
          
          return comment;
+    }
+
+    private Comment createComment(ResultSet resultSet) throws SQLException {
+        Comment comment = new Comment();
+        comment.setCommentId(resultSet.getInt("COMMENT_ID"));
+        comment.setText(resultSet.getString("COMMENT_TEXT"));
+        comment.setUser(resultSet.getString("COMMENTED_USER"));
+        if(resultSet.getTimestamp("DATE_COMMENTED") != null) {
+            comment.setCreatedTime(new java.util.Date(resultSet.getTimestamp("DATE_COMMENTED").getTime()));
+        }
+
+        comment.setAgreeCount(resultSet.getInt("COMMENT_AGREE_COUNT"));
+        comment.setDisagreeCount(resultSet.getInt("COMMENT_DISAGREE_COUNT"));
+        return comment;
     }
 
 
@@ -7144,11 +7163,14 @@ public class ApiMgtDAO {
             prepStmt.setString(3, identifier.getVersion());
             resultSet = prepStmt.executeQuery();
             while (resultSet.next()) {
+                // aggreeCnt, disaggreeCnt 를 가져오지 않는다.
                 Comment comment = new Comment();
                 comment.setCommentId(resultSet.getInt("COMMENT_ID"));
                 comment.setText(resultSet.getString("COMMENT_TEXT"));
                 comment.setUser(resultSet.getString("COMMENTED_USER"));
-                comment.setCreatedTime(new java.util.Date(resultSet.getTimestamp("DATE_COMMENTED").getTime()));
+                if(resultSet.getTimestamp("DATE_COMMENTED") != null) {
+                    comment.setCreatedTime(new java.util.Date(resultSet.getTimestamp("DATE_COMMENTED").getTime()));
+                }
                 commentList.add(comment);
             }
         } catch (SQLException e) {
@@ -7197,6 +7219,7 @@ public class ApiMgtDAO {
             
             resultSet = prepStmt.executeQuery();
             while (resultSet.next()) {
+                /*
                 Comment comment = new Comment();
                 comment.setCommentId(resultSet.getInt("COMMENT_ID"));
                 comment.setText(resultSet.getString("COMMENT_TEXT"));
@@ -7207,6 +7230,8 @@ public class ApiMgtDAO {
                 
                 comment.setAgreeCount(resultSet.getInt("COMMENT_AGREE_COUNT"));
                 comment.setDisagreeCount(resultSet.getInt("COMMENT_DISAGREE_COUNT"));
+                */
+                Comment comment = createComment(resultSet);
                             
                 commentList.add(comment);
             }
