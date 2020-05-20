@@ -3217,10 +3217,10 @@ public class ApiMgtDAO {
         return subscribers;
     }
 
-    public long getAPISubscriptionCountByAPI(APIIdentifier identifier) throws APIManagementException {
+    public int getAPISubscriptionCountByAPI(APIIdentifier identifier) throws APIManagementException {
 
         String sqlQuery = SQLConstants.GET_API_SUBSCRIPTION_COUNT_BY_API_SQL;
-        long subscriptions = 0;
+        int subscriptions = 0;
 
         Connection connection = null;
         PreparedStatement ps = null;
@@ -3235,7 +3235,7 @@ public class ApiMgtDAO {
             ps.setString(3, identifier.getVersion());
             result = ps.executeQuery();
             while (result.next()) {
-                subscriptions = result.getLong("SUB_ID");
+                subscriptions = result.getInt("SUB_ID");
             }
         } catch (SQLException e) {
             handleException("Failed to get subscription count for API", e);

@@ -410,8 +410,8 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
      *          if failed to get APISubscriptionCountByAPI
      */
     @Override
-    public long getAPISubscriptionCountByAPI(APIIdentifier identifier) throws APIManagementException {
-        long count = 0L;
+    public int getAPISubscriptionCountByAPI(APIIdentifier identifier) throws APIManagementException {
+        int count = 0;
         try {
             count = apiMgtDAO.getAPISubscriptionCountByAPI(identifier);
         } catch (APIManagementException e) {

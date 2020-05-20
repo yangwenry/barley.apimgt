@@ -30,7 +30,6 @@ import barley.apimgt.api.model.APIStore;
 import barley.apimgt.api.model.BlockConditionsDTO;
 import barley.apimgt.api.model.Documentation;
 import barley.apimgt.api.model.Documentation.DocumentSourceType;
-import barley.apimgt.api.model.DocumentationType;
 import barley.apimgt.api.model.DuplicateAPIException;
 import barley.apimgt.api.model.LifeCycleEvent;
 import barley.apimgt.api.model.Provider;
@@ -147,7 +146,7 @@ public interface APIProvider extends APIManager {
      * @return Set<APISubscriptionCount>
      * @throws APIManagementException if failed to get APISubscriptionCountByAPI
      */
-    long getAPISubscriptionCountByAPI(APIIdentifier identifier) throws APIManagementException;
+    int getAPISubscriptionCountByAPI(APIIdentifier identifier) throws APIManagementException;
 
     void addTier(Tier tier) throws APIManagementException;
 
