@@ -7201,7 +7201,9 @@ public class ApiMgtDAO {
                 comment.setCommentId(resultSet.getInt("COMMENT_ID"));
                 comment.setText(resultSet.getString("COMMENT_TEXT"));
                 comment.setUser(resultSet.getString("COMMENTED_USER"));
-                comment.setCreatedTime(new java.util.Date(resultSet.getTimestamp("DATE_COMMENTED").getTime()));
+                if(resultSet.getTimestamp("DATE_COMMENTED") != null) {
+                    comment.setCreatedTime(new java.util.Date(resultSet.getTimestamp("DATE_COMMENTED").getTime()));
+                }
                 
                 comment.setAgreeCount(resultSet.getInt("COMMENT_AGREE_COUNT"));
                 comment.setDisagreeCount(resultSet.getInt("COMMENT_DISAGREE_COUNT"));

@@ -343,6 +343,8 @@ public interface APIConsumer extends APIManager {
      */
     Comment[] getComments(APIIdentifier identifier) throws APIManagementException;
 
+    Comment getComment(int commentId) throws APIManagementException;;
+
     /**
      * Adds an application
      *
