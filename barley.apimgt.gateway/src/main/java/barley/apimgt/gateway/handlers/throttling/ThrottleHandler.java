@@ -155,6 +155,9 @@ public class ThrottleHandler extends AbstractHandler implements ManagedLifecycle
         String resourceLevelTier = "";
         String apiLevelTier;
 
+        // (추가)
+        long throttleLimit = 0;
+
         //Other Relevant parameters
         AuthenticationContext authContext = authenticationContext;
         String authorizedUser;
@@ -225,6 +228,9 @@ public class ThrottleHandler extends AbstractHandler implements ManagedLifecycle
                 subscriptionLevelTier = authContext.getSubscriptionTier();
                 // AM_API 테이블의 api_tier 필드에서 가져온다. 
                 apiLevelTier = authContext.getApiTier();
+
+                // (추가)
+                throttleLimit = authContext.getApplicationThrottleLimit();
                 
                 //If request is not blocked then only we perform throttling.
                 // APIKeyValidator에서 url-mapping 테이블을 조회한 데이터를 프로퍼티에 저장한다. 
@@ -376,7 +382,7 @@ public class ThrottleHandler extends AbstractHandler implements ManagedLifecycle
                                                 subscriptionLevelThrottleKey, subscriptionLevelTier,
                                                 resourceLevelThrottleKey, resourceLevelTier,
                                                 authorizedUser, apiContext, apiVersion, subscriberTenantDomain,
-                                                apiTenantDomain, applicationId, synCtx, authContext);
+                                                apiTenantDomain, applicationId, throttleLimit, synCtx, authContext);
                                     }
                                 } else {
                                     if (log.isDebugEnabled()) {
@@ -401,6 +407,7 @@ public class ThrottleHandler extends AbstractHandler implements ManagedLifecycle
                             }
                         // 구독 level 쓰로틀링이 걸렸다면      
                         } else {
+                            // flag로 stop 여부 체크
                             if (!stopOnQuotaReach) {
                                 // This means that we are allowing the requests to continue even after the throttling
                                 // limit has reached.

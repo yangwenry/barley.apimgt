@@ -44,6 +44,8 @@ public class AuthenticationContext {
     private String subscriberTenantDomain;
     private String spikeArrestUnit;
     private boolean stopOnQuotaReach;
+    // (추가) 2020.05.19 - 데이터분석기에서 쓰로틀링 정책 limit를 전달하기 위해 추가
+    private long applicationThrottleLimit;
 
     public List<String> getThrottlingDataList() {
         return throttlingDataList;
@@ -199,5 +201,13 @@ public class AuthenticationContext {
 
     public void setStopOnQuotaReach(boolean stopOnQuotaReach) {
         this.stopOnQuotaReach = stopOnQuotaReach;
+    }
+
+    public long getApplicationThrottleLimit() {
+        return applicationThrottleLimit;
+    }
+
+    public void setApplicationThrottleLimit(long applicationThrottleLimit) {
+        this.applicationThrottleLimit = applicationThrottleLimit;
     }
 }

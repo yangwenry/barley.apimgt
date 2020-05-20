@@ -112,7 +112,8 @@ public class ThrottleDataPublisher {
             String subscriptionLevelThrottleKey, String subscriptionLevelTier,
             String resourceLevelThrottleKey, String resourceLevelTier,
             String authorizedUser, String apiContext, String apiVersion, String appTenant, String apiTenant,
-            String appId, MessageContext messageContext,
+            String appId, long throttleLimit,
+            MessageContext messageContext,
             AuthenticationContext authenticationContext) {
         try {
             DataProcessAndPublishingAgent agent = dataPublisherPool.get();
@@ -120,7 +121,8 @@ public class ThrottleDataPublisher {
                     apiLevelThrottleKey, apiLevelTier,
                     subscriptionLevelThrottleKey, subscriptionLevelTier,
                     resourceLevelThrottleKey, resourceLevelTier,
-                    authorizedUser, apiContext, apiVersion, appTenant, apiTenant, appId, messageContext,
+                    authorizedUser, apiContext, apiVersion, appTenant, apiTenant, appId, throttleLimit,
+                    messageContext,
                     authenticationContext);
             executor.execute(agent);
         } catch (Exception e) {

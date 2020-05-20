@@ -1,13 +1,12 @@
 package barley.apimgt.gateway.throttling.publisher;
 
 
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.util.Map;
-import java.util.TreeMap;
-
-import javax.xml.stream.XMLStreamException;
-
+import barley.apimgt.gateway.handlers.security.AuthenticationContext;
+import barley.apimgt.gateway.handlers.throttling.APIThrottleConstants;
+import barley.apimgt.gateway.internal.ServiceReferenceHolder;
+import barley.apimgt.gateway.utils.GatewayUtils;
+import barley.apimgt.impl.utils.APIUtil;
+import barley.databridge.agent.DataPublisher;
 import org.apache.axiom.soap.SOAPBody;
 import org.apache.axiom.soap.SOAPEnvelope;
 import org.apache.commons.lang.StringUtils;
@@ -19,12 +18,11 @@ import org.apache.synapse.rest.RESTConstants;
 import org.apache.synapse.transport.passthru.util.RelayUtils;
 import org.json.simple.JSONObject;
 
-import barley.apimgt.gateway.handlers.security.AuthenticationContext;
-import barley.apimgt.gateway.handlers.throttling.APIThrottleConstants;
-import barley.apimgt.gateway.internal.ServiceReferenceHolder;
-import barley.apimgt.gateway.utils.GatewayUtils;
-import barley.apimgt.impl.utils.APIUtil;
-import barley.databridge.agent.DataPublisher;
+import javax.xml.stream.XMLStreamException;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * This class is responsible for executing data publishing logic. This class implements runnable interface and
@@ -53,6 +51,8 @@ public class DataProcessAndPublishingAgent implements Runnable {
     String apiTenant;
     String apiName;
     String appId;
+    // (추가) 2020.05.19
+    long throttleLimit;
     Map<String, String> headersMap;
     private AuthenticationContext authenticationContext;
 
@@ -82,6 +82,8 @@ public class DataProcessAndPublishingAgent implements Runnable {
         this.apiTenant = null;
         this.appId = null;
         this.apiName = null;
+        // (추가)
+        this.throttleLimit = 0;
     }
 
     /**
@@ -92,7 +94,8 @@ public class DataProcessAndPublishingAgent implements Runnable {
                                  String subscriptionLevelThrottleKey, String subscriptionLevelTier,
                                  String resourceLevelThrottleKey, String resourceLevelTier,
                                  String authorizedUser, String apiContext, String apiVersion, String appTenant,
-                                 String apiTenant, String appId, MessageContext messageContext,
+                                 String apiTenant, String appId, long throttleLimit,
+                                 MessageContext messageContext,
                                  AuthenticationContext authenticationContext) {
         if (!StringUtils.isEmpty(apiLevelTier)) {
             resourceLevelTier = apiLevelTier;
@@ -115,6 +118,8 @@ public class DataProcessAndPublishingAgent implements Runnable {
         this.appId = appId;
         String apiName = (String) messageContext.getProperty(RESTConstants.SYNAPSE_REST_API);
         this.apiName = APIUtil.getAPINamefromRESTAPI(apiName);
+        // (추가)
+        this.throttleLimit = throttleLimit;
 
 
         if (ServiceReferenceHolder.getInstance().getThrottleProperties().isEnableHeaderConditions()) {
@@ -216,7 +221,8 @@ public class DataProcessAndPublishingAgent implements Runnable {
                                         this.subscriptionLevelThrottleKey, this.subscriptionLevelTier,
                                         this.resourceLevelThrottleKey, this.resourceLevelTier,
                                         this.authorizedUser, this.apiContext, this.apiVersion,
-                                        this.appTenant, this.apiTenant, this.appId, this.apiName, jsonObMap.toString()};
+                                        this.appTenant, this.apiTenant, this.appId, this.apiName,
+                                        this.throttleLimit, jsonObMap.toString()};
         barley.databridge.commons.Event event = new barley.databridge.commons.Event(streamID,
                                                                                                       System.currentTimeMillis(), null, null, objects);
         dataPublisher.tryPublish(event);

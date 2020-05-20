@@ -522,6 +522,7 @@ public class ApiMgtDAO {
         String apiName;
         String consumerKey;
         String apiPublisher;
+        long applicationQuota;
 
         boolean defaultVersionInvoked = false;
 
@@ -585,6 +586,8 @@ public class ApiMgtDAO {
                 apiName = rs.getString(APIConstants.FIELD_API_NAME);
                 consumerKey = rs.getString(APIConstants.FIELD_CONSUMER_KEY);
                 apiPublisher = rs.getString(APIConstants.FIELD_API_PUBLISHER);
+                // (추가)
+                applicationQuota = rs.getLong(APIConstants.APPLICATION_QUOTA);
 
                 String endUsernameWithDomain = UserCoreUtil.addDomainToName(endUserName, domainName);
 
@@ -601,6 +604,8 @@ public class ApiMgtDAO {
                 keyValidationInfoDTO.setUserType(userType);
                 keyValidationInfoDTO.setValidityPeriod(validityPeriod);
                 keyValidationInfoDTO.setSubscriber(subscriberName);
+                // (추가)
+                keyValidationInfoDTO.setApplicationThrottleLimit(applicationQuota);
 
                 //keyValidationInfoDTO.setAuthorizedDomains(getAuthorizedDomainList(accessToken));
                 keyValidationInfoDTO.setConsumerKey(consumerKey);

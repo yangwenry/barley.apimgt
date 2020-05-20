@@ -181,6 +181,7 @@ public class SQLConstants {
             "   AND APP.APPLICATION_ID = SP.APPLICATION_ID" +
             "   AND API.API_ID = SP.API_ID";
 
+    // (수정) AM_POLICY_APPLICATION 조인 추가
     public static final String VALIDATE_KEY_SQL_PREFIX =
             " SELECT " +
             "   IAT.VALIDITY_PERIOD, " +
@@ -200,9 +201,11 @@ public class SQLConstants {
             "   AKM.KEY_TYPE," +
             "   API.API_NAME," +
             "   AKM.CONSUMER_KEY," +
-            "   API.API_PROVIDER" +
+            "   API.API_PROVIDER," +
+            "   POL.QUOTA" +
             " FROM ";
 
+    // (수정) AM_POLICY_APPLICATION 조인 추가
     public static final String VALIDATE_KEY_DEFAULT_SUFFIX =
             " IAT," + APIConstants.TOKEN_SCOPE_ASSOCIATION_TABLE + " ISAT," +
             "   AM_SUBSCRIPTION SUB," +
@@ -210,7 +213,8 @@ public class SQLConstants {
             "   AM_APPLICATION APP," +
             "   AM_APPLICATION_KEY_MAPPING AKM," +
             "   AM_API API," +
-            "   IDN_OAUTH_CONSUMER_APPS ICA" +
+            "   IDN_OAUTH_CONSUMER_APPS ICA," +
+            "   AM_POLICY_APPLICATION POL" +
             " WHERE " +
             "   IAT.ACCESS_TOKEN = ? " +
             "   AND API.CONTEXT = ? " +
@@ -220,8 +224,11 @@ public class SQLConstants {
             "   AND SUB.APPLICATION_ID = APP.APPLICATION_ID" +
             "   AND APP.SUBSCRIBER_ID = SUBS.SUBSCRIBER_ID" +
             "   AND API.API_ID = SUB.API_ID" +
-            "   AND AKM.APPLICATION_ID=APP.APPLICATION_ID";
+            "   AND AKM.APPLICATION_ID=APP.APPLICATION_ID" +
+            "   AND APP.APPLICATION_TIER = POL.NAME" +
+            "   AND IAT.TENANT_ID = POL.TENANT_ID";
 
+    // (수정) AM_POLICY_APPLICATION 조인 추가
     public static final String VALIDATE_KEY_VERSION_SUFFIX =
             " IAT," + APIConstants.TOKEN_SCOPE_ASSOCIATION_TABLE + " ISAT," +
             "   AM_SUBSCRIPTION SUB," +
@@ -229,7 +236,8 @@ public class SQLConstants {
             "   AM_APPLICATION APP," +
             "   AM_APPLICATION_KEY_MAPPING AKM," +
             "   AM_API API," +
-            "   IDN_OAUTH_CONSUMER_APPS ICA" +
+            "   IDN_OAUTH_CONSUMER_APPS ICA," +
+            "   AM_POLICY_APPLICATION POL" +
             " WHERE " +
             "   IAT.ACCESS_TOKEN = ? " +
             "   AND API.CONTEXT = ? " +
@@ -240,7 +248,9 @@ public class SQLConstants {
             "   AND SUB.APPLICATION_ID = APP.APPLICATION_ID" +
             "   AND APP.SUBSCRIBER_ID = SUBS.SUBSCRIBER_ID" +
             "   AND API.API_ID = SUB.API_ID" +
-            "   AND AKM.APPLICATION_ID=APP.APPLICATION_ID";
+            "   AND AKM.APPLICATION_ID=APP.APPLICATION_ID" +
+            "   AND APP.APPLICATION_TIER = POL.NAME" +
+            "   AND IAT.TENANT_ID = POL.TENANT_ID";
 
     public static final String VALIDATE_SUBSCRIPTION_KEY_DEFAULT_SQL =
             " SELECT " +

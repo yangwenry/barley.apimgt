@@ -18,6 +18,7 @@ package barley.apimgt.gateway.handlers.security.oauth;
 
 import barley.apimgt.gateway.APIMgtGatewayConstants;
 import barley.apimgt.gateway.handlers.security.*;
+import barley.apimgt.gateway.handlers.throttling.APIThrottleConstants;
 import barley.apimgt.gateway.internal.ServiceReferenceHolder;
 import barley.apimgt.impl.APIConstants;
 import barley.apimgt.impl.APIManagerConfiguration;
@@ -152,6 +153,7 @@ public class OAuthAuthenticator implements Authenticator {
             authContext.setAuthenticated(true);
             // 구독 등급 설정 
             authContext.setSubscriptionTier(APIConstants.UNAUTHENTICATED_TIER);
+            authContext.setApplicationThrottleLimit(APIThrottleConstants.APPLICATION_THROTTLE_LIMIT);
             authContext.setStopOnQuotaReach(true);//Since we don't have details on unauthenticated tier we setting stop on quota reach true
             //Requests are throttled by the ApiKey that is set here. In an unauthenticated scenario,
             //we will use the client's IP address for throttling.
@@ -221,6 +223,8 @@ public class OAuthAuthenticator implements Authenticator {
             authContext.setApplicationName(info.getApplicationName());
             // application level tier
             authContext.setApplicationTier(info.getApplicationTier());
+            // (추가)
+            authContext.setApplicationThrottleLimit(info.getApplicationThrottleLimit());
             // subscription level tier
             authContext.setSubscriptionTier(info.getSubscriptionTier());
             // api level tier라고 볼 수 있다.
