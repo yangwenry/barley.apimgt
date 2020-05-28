@@ -1895,6 +1895,8 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
                 iconPath = iconPath.substring(iconPath.lastIndexOf("/apimgt"));
                 APIUtil.copyResourcePermissions(api.getId().getProviderName(), thumbUrl, iconPath);
             }
+            // (주석) registry 태그를 사용하지 않는다.
+            /*
             // Retain the tags
             barley.registry.core.Tag[] tags = registry.getTags(apiSourcePath);
             if (tags != null) {
@@ -1902,7 +1904,7 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
                     registry.applyTag(targetPath, tag.getTagName());
                 }
             }
-
+            */
 
             // Retain the docs
             List<Documentation> docs = getAllDocumentation(api.getId());
@@ -1992,6 +1994,8 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
             }
 
             apiMgtDAO.addAPI(newAPI, tenantId);
+            // Tag 추가
+            addTags(newId, newAPI.getTags());
             
             registry.commitTransaction();
             transactionCommitted = true;
