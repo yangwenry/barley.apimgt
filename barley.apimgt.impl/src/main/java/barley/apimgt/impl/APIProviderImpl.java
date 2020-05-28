@@ -18,34 +18,53 @@
 
 package barley.apimgt.impl;
 
-import java.io.File;
-import java.io.InputStream;
-import java.nio.charset.Charset;
-import java.rmi.RemoteException;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.StringTokenizer;
-import java.util.TreeSet;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import javax.cache.Cache;
-import javax.cache.Caching;
-import javax.xml.namespace.QName;
-import javax.xml.stream.XMLStreamException;
-
+import barley.apimgt.api.*;
+import barley.apimgt.api.dto.UserApplicationAPIUsage;
+import barley.apimgt.api.model.*;
+import barley.apimgt.api.model.Documentation.DocumentSourceType;
+import barley.apimgt.api.model.policy.*;
+import barley.apimgt.impl.clients.RegistryCacheInvalidationClient;
+import barley.apimgt.impl.clients.TierCacheInvalidationClient;
+import barley.apimgt.impl.dao.ApiMgtDAO;
+import barley.apimgt.impl.dto.Environment;
+import barley.apimgt.impl.dto.ThrottleProperties;
+import barley.apimgt.impl.dto.TierPermissionDTO;
+import barley.apimgt.impl.internal.ServiceReferenceHolder;
+import barley.apimgt.impl.notification.NotificationDTO;
+import barley.apimgt.impl.notification.NotificationExecutor;
+import barley.apimgt.impl.notification.NotifierConstants;
+import barley.apimgt.impl.notification.exception.NotificationException;
+import barley.apimgt.impl.publishers.WSO2APIPublisher;
+import barley.apimgt.impl.template.APITemplateBuilder;
+import barley.apimgt.impl.template.APITemplateBuilderImpl;
+import barley.apimgt.impl.template.APITemplateException;
+import barley.apimgt.impl.template.ThrottlePolicyTemplateBuilder;
+import barley.apimgt.impl.utils.*;
+import barley.core.BarleyConstants;
+import barley.core.MultitenantConstants;
+import barley.core.context.PrivilegedBarleyContext;
+import barley.core.multitenancy.MultitenantUtils;
+import barley.core.utils.BarleyUtils;
+import barley.event.output.adapter.core.OutputEventAdapterService;
+import barley.governance.api.common.dataobjects.GovernanceArtifact;
+import barley.governance.api.exception.GovernanceException;
+import barley.governance.api.generic.GenericArtifactManager;
+import barley.governance.api.generic.dataobjects.GenericArtifact;
+import barley.governance.api.util.GovernanceUtils;
+import barley.governance.custom.lifecycle.checklist.beans.LifecycleBean;
+import barley.governance.custom.lifecycle.checklist.util.CheckListItem;
+import barley.governance.custom.lifecycle.checklist.util.LifecycleBeanPopulator;
+import barley.governance.custom.lifecycle.checklist.util.Property;
+import barley.registry.common.CommonConstants;
+import barley.registry.core.*;
+import barley.registry.core.config.RegistryContext;
+import barley.registry.core.exceptions.RegistryException;
+import barley.registry.core.jdbc.realm.RegistryAuthorizationManager;
+import barley.registry.core.pagination.PaginationContext;
+import barley.registry.core.session.UserRegistry;
+import barley.registry.core.utils.RegistryUtils;
+import barley.user.api.AuthorizationManager;
+import barley.user.api.UserStoreException;
 import org.apache.axiom.om.OMAbstractFactory;
 import org.apache.axiom.om.OMElement;
 import org.apache.axiom.om.OMFactory;
@@ -67,89 +86,20 @@ import org.wso2.carbon.apimgt.statsupdate.stub.GatewayStatsUpdateServiceClusteri
 import org.wso2.carbon.apimgt.statsupdate.stub.GatewayStatsUpdateServiceExceptionException;
 import org.wso2.carbon.apimgt.statsupdate.stub.GatewayStatsUpdateServiceStub;
 
-import barley.apimgt.api.APIManagementException;
-import barley.apimgt.api.APIProvider;
-import barley.apimgt.api.FaultGatewaysException;
-import barley.apimgt.api.PolicyDeploymentFailureException;
-import barley.apimgt.api.UnsupportedPolicyTypeException;
-import barley.apimgt.api.dto.UserApplicationAPIUsage;
-import barley.apimgt.api.model.API;
-import barley.apimgt.api.model.APIIdentifier;
-import barley.apimgt.api.model.APIStatus;
-import barley.apimgt.api.model.APIStore;
-import barley.apimgt.api.model.BlockConditionsDTO;
-import barley.apimgt.api.model.CORSConfiguration;
-import barley.apimgt.api.model.Documentation;
-import barley.apimgt.api.model.Documentation.DocumentSourceType;
-import barley.apimgt.api.model.DuplicateAPIException;
-import barley.apimgt.api.model.LifeCycleEvent;
-import barley.apimgt.api.model.Provider;
-import barley.apimgt.api.model.ResourceFile;
-import barley.apimgt.api.model.SubscribedAPI;
-import barley.apimgt.api.model.Subscriber;
-import barley.apimgt.api.model.Tier;
-import barley.apimgt.api.model.URITemplate;
-import barley.apimgt.api.model.Usage;
-import barley.apimgt.api.model.policy.APIPolicy;
-import barley.apimgt.api.model.policy.ApplicationPolicy;
-import barley.apimgt.api.model.policy.Condition;
-import barley.apimgt.api.model.policy.GlobalPolicy;
-import barley.apimgt.api.model.policy.Pipeline;
-import barley.apimgt.api.model.policy.Policy;
-import barley.apimgt.api.model.policy.PolicyConstants;
-import barley.apimgt.api.model.policy.SubscriptionPolicy;
-import barley.apimgt.impl.clients.RegistryCacheInvalidationClient;
-import barley.apimgt.impl.clients.TierCacheInvalidationClient;
-import barley.apimgt.impl.dao.ApiMgtDAO;
-import barley.apimgt.impl.dto.Environment;
-import barley.apimgt.impl.dto.ThrottleProperties;
-import barley.apimgt.impl.dto.TierPermissionDTO;
-import barley.apimgt.impl.internal.ServiceReferenceHolder;
-import barley.apimgt.impl.notification.NotificationDTO;
-import barley.apimgt.impl.notification.NotificationExecutor;
-import barley.apimgt.impl.notification.NotifierConstants;
-import barley.apimgt.impl.notification.exception.NotificationException;
-import barley.apimgt.impl.publishers.WSO2APIPublisher;
-import barley.apimgt.impl.template.APITemplateBuilder;
-import barley.apimgt.impl.template.APITemplateBuilderImpl;
-import barley.apimgt.impl.template.APITemplateException;
-import barley.apimgt.impl.template.ThrottlePolicyTemplateBuilder;
-import barley.apimgt.impl.utils.APIAuthenticationAdminRestClient;
-import barley.apimgt.impl.utils.APINameComparator;
-import barley.apimgt.impl.utils.APIStoreNameComparator;
-import barley.apimgt.impl.utils.APIUtil;
-import barley.apimgt.impl.utils.APIVersionComparator;
-import barley.apimgt.impl.utils.StatUpdateClusterMessage;
-import barley.core.BarleyConstants;
-import barley.core.MultitenantConstants;
-import barley.core.context.PrivilegedBarleyContext;
-import barley.core.multitenancy.MultitenantUtils;
-import barley.core.utils.BarleyUtils;
-import barley.event.output.adapter.core.OutputEventAdapterService;
-import barley.governance.api.common.dataobjects.GovernanceArtifact;
-import barley.governance.api.exception.GovernanceException;
-import barley.governance.api.generic.GenericArtifactManager;
-import barley.governance.api.generic.dataobjects.GenericArtifact;
-import barley.governance.api.util.GovernanceUtils;
-import barley.governance.custom.lifecycle.checklist.beans.LifecycleBean;
-import barley.governance.custom.lifecycle.checklist.util.CheckListItem;
-import barley.governance.custom.lifecycle.checklist.util.LifecycleBeanPopulator;
-import barley.governance.custom.lifecycle.checklist.util.Property;
-import barley.registry.common.CommonConstants;
-import barley.registry.core.ActionConstants;
-import barley.registry.core.Association;
-import barley.registry.core.CollectionImpl;
-import barley.registry.core.Registry;
-import barley.registry.core.RegistryConstants;
-import barley.registry.core.Resource;
-import barley.registry.core.config.RegistryContext;
-import barley.registry.core.exceptions.RegistryException;
-import barley.registry.core.jdbc.realm.RegistryAuthorizationManager;
-import barley.registry.core.pagination.PaginationContext;
-import barley.registry.core.session.UserRegistry;
-import barley.registry.core.utils.RegistryUtils;
-import barley.user.api.AuthorizationManager;
-import barley.user.api.UserStoreException;
+import javax.cache.Cache;
+import javax.cache.Caching;
+import javax.xml.namespace.QName;
+import javax.xml.stream.XMLStreamException;
+import java.io.File;
+import java.io.InputStream;
+import java.nio.charset.Charset;
+import java.rmi.RemoteException;
+import java.sql.SQLException;
+import java.util.*;
+import java.util.Collection;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * This class provides the core API provider functionality. It is implemented in a very
@@ -1958,7 +1908,7 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
             List<Documentation> docs = getAllDocumentation(api.getId());
             APIIdentifier newId = new APIIdentifier(api.getId().getProviderName(),
                                                     api.getId().getApiName(), newVersion);
-            API newAPI = getAPI(newId,api.getId(), oldContext);
+            API newAPI = getAPI(newId, api.getId(), oldContext);
 
             if(api.isDefaultVersion()){
                 newAPI.setAsDefaultVersion(true);
@@ -1994,10 +1944,8 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
                 throw new APIManagementException("Error in retrieving Tenant Information while adding api :"
                         +api.getId().getApiName(),e);
             }
-
-            apiMgtDAO.addAPI(newAPI, tenantId);
             
-            // apiDAO 처리 후 실횅해야 에러가 발생하지 않는다. apiDAO에서 api번호를 가져오기 때문에 우선적으로 저장되어야 한다.
+            // apiDAO 처리 후 실행해야 에러가 발생하지 않는다. apiDAO에서 api번호를 가져오기 때문에 우선적으로 저장되어야 한다.
             // 원래 swagger 복사 로직 위에 있었으나 위치를 변경함. 
             for (Documentation doc : docs) {
                 /* copying the file in registry for new api */
@@ -2008,29 +1956,31 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
                     // ->/registry/resource/_system/governance/ and for
                     // tenant
                     // /t/my.com/registry/resource/_system/governance/
-                    int prependIndex = absoluteSourceFilePath.indexOf(APIConstants.API_LOCATION);
-                    String prependPath = absoluteSourceFilePath.substring(0, prependIndex);
-                    // get the file name from absolute file path
-                    int fileNameIndex = absoluteSourceFilePath.lastIndexOf(RegistryConstants.PATH_SEPARATOR);
-                    String fileName = absoluteSourceFilePath.substring(fileNameIndex + 1);
-                    // create relative file path of old location
-                    String sourceFilePath = absoluteSourceFilePath.substring(prependIndex);
-                    // create the relative file path where file should be
-                    // copied
-                    String targetFilePath =
-                                            APIConstants.API_LOCATION + RegistryConstants.PATH_SEPARATOR +
-                                                    newId.getProviderName() + RegistryConstants.PATH_SEPARATOR +
-                                                    newId.getApiName() + RegistryConstants.PATH_SEPARATOR +
-                                                    newId.getVersion() + RegistryConstants.PATH_SEPARATOR +
-                                                    APIConstants.DOC_DIR + RegistryConstants.PATH_SEPARATOR +
-                                                    APIConstants.DOCUMENT_FILE_DIR + RegistryConstants.PATH_SEPARATOR +
-                                                    fileName;
-                    // copy the file from old location to new location(for
-                    // new api)
-                    registry.copy(sourceFilePath, targetFilePath);
-                    // update the filepath attribute in doc artifact to
-                    // create new doc artifact for new version of api
-                    doc.setFilePath(prependPath + targetFilePath);
+                    if(absoluteSourceFilePath != null) {
+                        int prependIndex = absoluteSourceFilePath.indexOf(APIConstants.API_LOCATION);
+                        String prependPath = absoluteSourceFilePath.substring(0, prependIndex);
+                        // get the file name from absolute file path
+                        int fileNameIndex = absoluteSourceFilePath.lastIndexOf(RegistryConstants.PATH_SEPARATOR);
+                        String fileName = absoluteSourceFilePath.substring(fileNameIndex + 1);
+                        // create relative file path of old location
+                        String sourceFilePath = absoluteSourceFilePath.substring(prependIndex);
+                        // create the relative file path where file should be
+                        // copied
+                        String targetFilePath =
+                                APIConstants.API_LOCATION + RegistryConstants.PATH_SEPARATOR +
+                                        newId.getProviderName() + RegistryConstants.PATH_SEPARATOR +
+                                        newId.getApiName() + RegistryConstants.PATH_SEPARATOR +
+                                        newId.getVersion() + RegistryConstants.PATH_SEPARATOR +
+                                        APIConstants.DOC_DIR + RegistryConstants.PATH_SEPARATOR +
+                                        APIConstants.DOCUMENT_FILE_DIR + RegistryConstants.PATH_SEPARATOR +
+                                        fileName;
+                        // copy the file from old location to new location(for
+                        // new api)
+                        registry.copy(sourceFilePath, targetFilePath);
+                        // update the filepath attribute in doc artifact to
+                        // create new doc artifact for new version of api
+                        doc.setFilePath(prependPath + targetFilePath);
+                    }
                 }
                 createDocumentation(newAPI, doc);
                 String content = getDocumentationContent(api.getId(), doc.getName());
@@ -2040,6 +1990,8 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
                 	addDocumentationContent(newId, doc.getName(), content);
                 }
             }
+
+            apiMgtDAO.addAPI(newAPI, tenantId);
             
             registry.commitTransaction();
             transactionCommitted = true;
@@ -2217,7 +2169,7 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
     /**
      * This method used to save the documentation content
      *
-     * @param api,        API
+     * @param apiId,        API
      * @param documentationName, name of the inline documentation
      * @param text,              content of the inline documentation
      * @throws barley.apimgt.api.APIManagementException
@@ -2260,11 +2212,13 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
             registry.put(contentPath, docContent);
             registry.addAssociation(documentationPath, contentPath, APIConstants.DOCUMENTATION_CONTENT_ASSOCIATION);
             String apiPath = APIUtil.getAPIPath(apiId);
-            API api = getAPI(apiPath);
+            // (수정) 새버전 생성시 DAO에 api가 생성되어 있지 않으므로 에러가 발생함. 기본값으로 세팅
+            //API api = getAPI(apiPath);
+            //String visibility=api.getVisibility();
+            String visibility = APIConstants.DOC_OWNER_VISIBILITY;
             String[] authorizedRoles = getAuthorizedRoles(apiPath);
-            String docVisibility=doc.getVisibility().name();
-            String visibility=api.getVisibility();
-            if(docVisibility!=null){
+            String docVisibility = doc.getVisibility().name();
+            if(docVisibility != null){
                 if(APIConstants.DOC_SHARED_VISIBILITY.equalsIgnoreCase(docVisibility)){
                     authorizedRoles=null;
                     visibility=APIConstants.DOC_SHARED_VISIBILITY;
@@ -2274,7 +2228,7 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
                 }
             }
 
-            APIUtil.setResourcePermissions(api.getId().getProviderName(),visibility, authorizedRoles,contentPath);
+            APIUtil.setResourcePermissions(apiId.getProviderName(), visibility, authorizedRoles, contentPath);
         } catch (RegistryException e) {
             String msg = "Failed to add the documentation content of : "
                          + documentationName + " of API :" + apiId.getApiName();

@@ -12000,28 +12000,38 @@ public class ApiMgtDAO {
     public List<String> getTags(APIIdentifier apiIdentifier) throws APIManagementException {
         Connection connection = null;
         PreparedStatement prepStmt = null;
+        String sqlQuery = SQLConstants.GET_TAG_SQL;
+
+        List<String> tags = new ArrayList<String>();
+        try {
+            connection = APIMgtDBUtil.getConnection();
+            int apiId = getAPIID(apiIdentifier, connection);
+            tags = getTags(apiId);
+        } catch (SQLException e) {
+            handleException("Error when executing the SQL : " + sqlQuery, e);
+        } finally {
+            APIMgtDBUtil.closeAllConnections(prepStmt, connection, null);
+        }
+        return tags;
+    }
+
+    public List<String> getTags(int apiId) throws APIManagementException {
+        Connection connection = null;
+        PreparedStatement prepStmt = null;
         ResultSet rs = null;
         String sqlQuery = SQLConstants.GET_TAG_SQL;
 
         List<String> tags = new ArrayList<String>();
         try {
             connection = APIMgtDBUtil.getConnection();
-            int apiId;
-            apiId = getAPIID(apiIdentifier, connection);
-            if (apiId == -1) {
-                String msg = "Could not load API record for: " + apiIdentifier.getApiName();
-                log.error(msg);
-                throw new APIManagementException(msg);
-            }
-            
             prepStmt = connection.prepareStatement(sqlQuery);
             prepStmt.setInt(1, apiId);
             rs = prepStmt.executeQuery();
 
             while (rs.next()) {
-            	String tagName = rs.getString("TAG_NAME");
+                String tagName = rs.getString("TAG_NAME");
                 tags.add(tagName);
-            }            
+            }
         } catch (SQLException e) {
             handleException("Error when executing the SQL : " + sqlQuery, e);
         } finally {

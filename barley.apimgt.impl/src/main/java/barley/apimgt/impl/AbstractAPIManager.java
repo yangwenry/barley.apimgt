@@ -465,7 +465,7 @@ public abstract class AbstractAPIManager implements APIManager {
 
             GenericArtifact apiArtifact = artifactManager.getGenericArtifact(uuid);
             if (apiArtifact != null) {
-                return APIUtil.getAPIInformation(apiArtifact, registry);
+                return APIUtil.getAPIInformation(apiArtifact);
             } else {
                 handleResourceNotFoundException(
                         "Failed to get API. API artifact corresponding to artifactId " + uuid + " does not exist");
@@ -507,7 +507,7 @@ public abstract class AbstractAPIManager implements APIManager {
                 }
                 GenericArtifactManager artifactManager = getGenericArtifactManager(identifier, registry);
                 GovernanceArtifact apiArtifact = artifactManager.getGenericArtifact(artifactId);
-                return APIUtil.getAPIInformation(apiArtifact, registry);
+                return APIUtil.getAPIInformation(apiArtifact);
             } else {
                 handleException("Failed to get registry from api identifier: " + identifier);
                 return null;
@@ -1162,10 +1162,12 @@ public abstract class AbstractAPIManager implements APIManager {
         }
 
     }
+
     public Set<APIIdentifier> getAPIByAccessToken(String accessToken) throws APIManagementException{
         return apiMgtDAO.getAPIByAccessToken(accessToken);
     }
-    public API getAPI(APIIdentifier identifier,APIIdentifier oldIdentifier, String oldContext) throws
+
+    public API getAPI(APIIdentifier identifier, APIIdentifier oldIdentifier, String oldContext) throws
                                                                                           APIManagementException {
         String apiPath = APIUtil.getAPIPath(identifier);
         try {
@@ -1177,7 +1179,7 @@ public abstract class AbstractAPIManager implements APIManager {
                 throw new APIManagementException("artifact id is null for : " + apiPath);
             }
             GenericArtifact apiArtifact = artifactManager.getGenericArtifact(artifactId);
-            return APIUtil.getAPI(apiArtifact, registry,oldIdentifier, oldContext);
+            return APIUtil.getAPI(apiArtifact, registry, oldIdentifier, oldContext);
 
         } catch (RegistryException e) {
             handleException("Failed to get API from : " + apiPath, e);

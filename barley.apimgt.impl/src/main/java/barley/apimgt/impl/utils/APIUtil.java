@@ -18,136 +18,14 @@
 
 package barley.apimgt.impl.utils;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FilenameFilter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.Inet4Address;
-import java.net.InetAddress;
-import java.net.MalformedURLException;
-import java.net.NetworkInterface;
-import java.net.SocketException;
-import java.net.URL;
-import java.nio.charset.Charset;
-import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeMap;
-import java.util.TreeSet;
-import java.util.concurrent.TimeUnit;
-
-import javax.cache.Cache;
-import javax.cache.CacheConfiguration;
-import javax.cache.CacheManager;
-import javax.cache.Caching;
-import javax.xml.XMLConstants;
-import javax.xml.namespace.QName;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.stream.XMLInputFactory;
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.XMLStreamReader;
-
-import org.apache.axiom.om.OMElement;
-import org.apache.axiom.om.impl.builder.StAXOMBuilder;
-import org.apache.axiom.om.util.AXIOMUtil;
-import org.apache.axis2.Constants;
-import org.apache.axis2.client.Options;
-import org.apache.axis2.client.ServiceClient;
-import org.apache.axis2.context.ConfigurationContext;
-import org.apache.axis2.engine.AxisConfiguration;
-import org.apache.axis2.transport.http.HTTPConstants;
-import org.apache.axis2.util.JavaUtils;
-import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.ArrayUtils;
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.apache.http.HttpHeaders;
-import org.apache.http.client.HttpClient;
-import org.apache.http.conn.scheme.PlainSocketFactory;
-import org.apache.http.conn.scheme.Scheme;
-import org.apache.http.conn.scheme.SchemeRegistry;
-import org.apache.http.conn.ssl.SSLSocketFactory;
-import org.apache.http.conn.ssl.X509HostnameVerifier;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpParams;
-import org.apache.solr.common.SolrDocument;
-import org.apache.solr.common.SolrDocumentList;
-import org.apache.woden.WSDLException;
-import org.apache.woden.WSDLFactory;
-import org.apache.woden.WSDLReader;
-import org.apache.xerces.util.SecurityManager;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-import org.w3c.dom.Document;
-import org.wso2.carbon.apimgt.keymgt.client.SubscriberKeyMgtClient;
-//import org.wso2.carbon.core.commons.stub.loggeduserinfo.ExceptionException;
-//import org.wso2.carbon.core.commons.stub.loggeduserinfo.LoggedUserInfo;
-//import org.wso2.carbon.core.commons.stub.loggeduserinfo.LoggedUserInfoAdminStub;
-import org.wso2.carbon.core.multitenancy.utils.TenantAxisUtils;
-import org.wso2.carbon.core.util.PermissionUpdateUtil;
-import org.xml.sax.SAXException;
-
-import com.google.gson.Gson;
-
 import barley.apimgt.api.APIManagementException;
 import barley.apimgt.api.doc.model.APIDefinition;
 import barley.apimgt.api.doc.model.APIResource;
 import barley.apimgt.api.doc.model.Operation;
 import barley.apimgt.api.doc.model.Parameter;
-import barley.apimgt.api.model.API;
-import barley.apimgt.api.model.APIIdentifier;
-import barley.apimgt.api.model.APIPublisher;
-import barley.apimgt.api.model.APIStatus;
-import barley.apimgt.api.model.APIStore;
-import barley.apimgt.api.model.Application;
-import barley.apimgt.api.model.CORSConfiguration;
-import barley.apimgt.api.model.Documentation;
-import barley.apimgt.api.model.DocumentationType;
-import barley.apimgt.api.model.KeyManagerConfiguration;
-import barley.apimgt.api.model.Provider;
-import barley.apimgt.api.model.Scope;
-import barley.apimgt.api.model.Tier;
-import barley.apimgt.api.model.URITemplate;
-import barley.apimgt.api.model.policy.APIPolicy;
-import barley.apimgt.api.model.policy.ApplicationPolicy;
-import barley.apimgt.api.model.policy.BandwidthLimit;
-import barley.apimgt.api.model.policy.GlobalPolicy;
-import barley.apimgt.api.model.policy.Limit;
-import barley.apimgt.api.model.policy.Pipeline;
-import barley.apimgt.api.model.policy.Policy;
-import barley.apimgt.api.model.policy.PolicyConstants;
-import barley.apimgt.api.model.policy.QuotaPolicy;
-import barley.apimgt.api.model.policy.RequestCountLimit;
-import barley.apimgt.api.model.policy.SubscriptionPolicy;
-import barley.apimgt.impl.APIConstants;
-import barley.apimgt.impl.APIMRegistryServiceImpl;
-import barley.apimgt.impl.APIManagerAnalyticsConfiguration;
-import barley.apimgt.impl.APIManagerConfiguration;
-import barley.apimgt.impl.ThrottlePolicyDeploymentManager;
+import barley.apimgt.api.model.*;
+import barley.apimgt.api.model.policy.*;
+import barley.apimgt.impl.*;
 import barley.apimgt.impl.clients.ApplicationManagementServiceClient;
 import barley.apimgt.impl.clients.OAuthAdminClient;
 import barley.apimgt.impl.dao.ApiMgtDAO;
@@ -165,12 +43,7 @@ import barley.core.configuration.ServerConfiguration;
 import barley.core.context.BarleyContext;
 import barley.core.context.PrivilegedBarleyContext;
 import barley.core.multitenancy.MultitenantUtils;
-import barley.core.utils.BarleyUtils;
-import barley.core.utils.ConfigurationContextService;
-import barley.core.utils.CryptoException;
-import barley.core.utils.CryptoUtil;
-import barley.core.utils.FileUtil;
-import barley.core.utils.NetworkUtils;
+import barley.core.utils.*;
 import barley.governance.api.common.dataobjects.GovernanceArtifact;
 import barley.governance.api.endpoints.EndpointManager;
 import barley.governance.api.endpoints.dataobjects.Endpoint;
@@ -181,12 +54,7 @@ import barley.governance.api.util.GovernanceConstants;
 import barley.governance.api.util.GovernanceUtils;
 import barley.governance.lcm.util.CommonUtil;
 import barley.identity.oauth.config.OAuthServerConfiguration;
-import barley.registry.core.ActionConstants;
-import barley.registry.core.Association;
-import barley.registry.core.Registry;
-import barley.registry.core.RegistryConstants;
-import barley.registry.core.Resource;
-import barley.registry.core.Tag;
+import barley.registry.core.*;
 import barley.registry.core.config.Mount;
 import barley.registry.core.config.RegistryContext;
 import barley.registry.core.exceptions.RegistryException;
@@ -198,16 +66,73 @@ import barley.registry.core.session.UserRegistry;
 import barley.registry.core.utils.RegistryUtils;
 import barley.registry.indexing.indexer.IndexerException;
 import barley.registry.indexing.solr.SolrClient;
-import barley.user.core.Permission;
 import barley.user.api.RealmConfiguration;
 import barley.user.api.Tenant;
 import barley.user.api.UserStoreException;
 import barley.user.api.UserStoreManager;
+import barley.user.core.Permission;
 import barley.user.core.UserCoreConstants;
 import barley.user.core.UserMgtConstants;
 import barley.user.core.UserRealm;
 import barley.user.core.config.RealmConfigXMLProcessor;
 import barley.user.core.service.RealmService;
+import com.google.gson.Gson;
+import org.apache.axiom.om.OMElement;
+import org.apache.axiom.om.impl.builder.StAXOMBuilder;
+import org.apache.axiom.om.util.AXIOMUtil;
+import org.apache.axis2.Constants;
+import org.apache.axis2.context.ConfigurationContext;
+import org.apache.axis2.engine.AxisConfiguration;
+import org.apache.axis2.util.JavaUtils;
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.http.HttpHeaders;
+import org.apache.http.client.HttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.solr.common.SolrDocument;
+import org.apache.solr.common.SolrDocumentList;
+import org.apache.woden.WSDLException;
+import org.apache.woden.WSDLFactory;
+import org.apache.woden.WSDLReader;
+import org.apache.xerces.util.SecurityManager;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+import org.w3c.dom.Document;
+import org.wso2.carbon.apimgt.keymgt.client.SubscriberKeyMgtClient;
+import org.wso2.carbon.core.multitenancy.utils.TenantAxisUtils;
+import org.wso2.carbon.core.util.PermissionUpdateUtil;
+import org.xml.sax.SAXException;
+
+import javax.cache.Cache;
+import javax.cache.CacheConfiguration;
+import javax.cache.CacheManager;
+import javax.cache.Caching;
+import javax.xml.XMLConstants;
+import javax.xml.namespace.QName;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
+import java.io.*;
+import java.net.*;
+import java.nio.charset.Charset;
+import java.rmi.RemoteException;
+import java.util.*;
+import java.util.Map.Entry;
+import java.util.concurrent.TimeUnit;
+
+//import org.wso2.carbon.core.commons.stub.loggeduserinfo.ExceptionException;
+//import org.wso2.carbon.core.commons.stub.loggeduserinfo.LoggedUserInfo;
+//import org.wso2.carbon.core.commons.stub.loggeduserinfo.LoggedUserInfoAdminStub;
 
 /**
  * This class contains the utility methods used by the implementations of APIManager, APIProvider
@@ -268,7 +193,7 @@ public final class APIUtil {
             
             //api = new API(apiIdentifier);
             //api = ApiMgtDAO.getInstance().getAPIById(apiId);
-            api = getAPIInformation(artifact);
+            api = getAPIInformationDetail(artifact, apiId);
                       
             //String artifactPath = GovernanceUtils.getArtifactPath(registry, artifact.getId());
 
@@ -386,7 +311,7 @@ public final class APIUtil {
             
             //api = new API(apiIdentifier);
             //api = ApiMgtDAO.getInstance().getAPIById(apiId);
-            api = getAPIInformation(artifact);
+            api = getAPIInformationDetail(artifact, apiId);
                        
             boolean isGlobalThrottlingEnabled = APIUtil.isAdvanceThrottlingEnabled();
             if(isGlobalThrottlingEnabled) {
@@ -502,7 +427,7 @@ public final class APIUtil {
             
             //api = new API(apiIdentifier);
             //api = ApiMgtDAO.getInstance().getAPIById(apiId);
-            api = getAPIInformation(artifact);
+            api = getAPIInformationDetail(artifact, apiId);
             
        
             boolean isGlobalThrottlingEnabled = APIUtil.isAdvanceThrottlingEnabled();
@@ -2162,7 +2087,7 @@ public final class APIUtil {
      * @return API
      * @throws APIManagementException if failed to get API from artifact
      */
-    public static API getAPI(GovernanceArtifact artifact, Registry registry, APIIdentifier oldId, String oldContext)
+    public static API getAPI(GovernanceArtifact artifact, Registry registry, APIIdentifier oldIdentifier, String oldContext)
             throws APIManagementException {
 
         API api;
@@ -2171,52 +2096,74 @@ public final class APIUtil {
             String apiName = artifact.getAttribute(APIConstants.API_OVERVIEW_NAME);
             String apiVersion = artifact.getAttribute(APIConstants.API_OVERVIEW_VERSION);
             //api = new API(new APIIdentifier(providerName, apiName, apiVersion));
-         
-            APIIdentifier apiIdentifier = new APIIdentifier(providerName, apiName, apiVersion);
-            int apiId = ApiMgtDAO.getInstance().getAPIID(apiIdentifier, null);
 
-            if (apiId == -1) {
+            // (수정) 2020.05.28 - 새버전 생성시 apiId가 없기 때문에 체크하면 에러가 발생함. old버전의 apiId 가져오기로 변경
+            //APIIdentifier apiIdentifier = new APIIdentifier(providerName, apiName, apiVersion);
+            //int apiId = ApiMgtDAO.getInstance().getAPIID(apiIdentifier, null);
+            int oldApiId = ApiMgtDAO.getInstance().getAPIID(oldIdentifier, null);
+            if (oldApiId == -1) {
                 return null;
             }
-    		
-            //api = new API(new APIIdentifier(providerName, apiName, apiVersion));
-            api = getAPIInformation(artifact);
-                    
-            // set rating            
-            String artifactPath = GovernanceUtils.getArtifactPath(registry, artifact.getId());
 
-            String tenantDomainName = MultitenantUtils.getTenantDomain(replaceEmailDomainBack(providerName));
-            int tenantId = ServiceReferenceHolder.getInstance().getRealmService().getTenantManager()
-                    .getTenantId(tenantDomainName);
+    		// 새 버전 api 생성
+            api = new API(new APIIdentifier(providerName, apiName, apiVersion));
 
+            // oldApi에서 기본정보 가져오기
+            API oldApi = getAPIInformation(artifact, oldApiId);
+            api.setTitle(oldApi.getTitle());
+            api.setContext(oldApi.getContext());
+            api.setContextTemplate(oldApi.getContextTemplate());
+            api.setCategory(oldApi.getCategory());
+            api.setThumbnailUrl(oldApi.getThumbnailUrl());
+            api.setDescription(oldApi.getDescription());
+            api.addAvailableTiers(oldApi.getAvailableTiers());
+
+            // tag 가져오기
+            Set<String> tags = new HashSet<String>();
+            List<String> tagList = getTags(oldApiId);
+            for (String tag : tagList) {
+                tags.add(tag);
+            }
+            api.addTags(tags);
+
+            // set rating
+//            String artifactPath = GovernanceUtils.getArtifactPath(registry, artifact.getId());
+//
+//            String tenantDomainName = MultitenantUtils.getTenantDomain(replaceEmailDomainBack(providerName));
+//            int tenantId = ServiceReferenceHolder.getInstance().getRealmService().getTenantManager()
+//                    .getTenantId(tenantDomainName);
+
+            // api level policy 가져오기
             boolean isGlobalThrottlingEnabled = APIUtil.isAdvanceThrottlingEnabled();
-
             if(isGlobalThrottlingEnabled){
-                String apiLevelTier = ApiMgtDAO.getInstance().getAPILevelTier(apiId);
+                String apiLevelTier = ApiMgtDAO.getInstance().getAPILevelTier(oldApiId);
                 api.setApiLevelPolicy(apiLevelTier);
             }
 
+            // addAvailableTiers 가져오기
+            /* oldApi에서 가져오는 위 로직에서 처리하므로 주석
             String tiers = artifact.getAttribute(APIConstants.API_OVERVIEW_TIER);
             Map<String, Tier> definedTiers = getTiers(tenantId);
             Set<Tier> availableTier = getAvailableTiers(definedTiers, tiers, apiName);
             api.addAvailableTiers(availableTier);
+            */
       
             ArrayList<URITemplate> urlPatternsList;
 
-            Set<Scope> scopes = ApiMgtDAO.getInstance().getAPIScopes(oldId);
+            Set<Scope> scopes = ApiMgtDAO.getInstance().getAPIScopes(oldIdentifier);
             api.setScopes(scopes);
 
             HashMap<String, String> resourceScopes;
-            resourceScopes = ApiMgtDAO.getInstance().getResourceToScopeMapping(oldId);
+            resourceScopes = ApiMgtDAO.getInstance().getResourceToScopeMapping(oldIdentifier);
 
-            // url template을 dao 가져온다. 
-            urlPatternsList = ApiMgtDAO.getInstance().getAllURITemplates(oldContext, oldId.getVersion());
+            // url template 가져오기
+            urlPatternsList = ApiMgtDAO.getInstance().getAllURITemplates(oldContext, oldIdentifier.getVersion());
             Set<URITemplate> uriTemplates = new HashSet<URITemplate>(urlPatternsList);
 
             for (URITemplate uriTemplate : uriTemplates) {
                 uriTemplate.setResourceURI(api.getUrl());
                 uriTemplate.setResourceSandboxURI(api.getSandboxUrl());
-                String resourceScopeKey = APIUtil.getResourceKey(oldContext, oldId.getVersion(), uriTemplate.getUriTemplate(), uriTemplate.getHTTPVerb());
+                String resourceScopeKey = APIUtil.getResourceKey(oldContext, oldIdentifier.getVersion(), uriTemplate.getUriTemplate(), uriTemplate.getHTTPVerb());
                 uriTemplate.setScope(findScopeByKey(scopes, resourceScopes.get(resourceScopeKey)));
 
             }
@@ -2231,9 +2178,6 @@ public final class APIUtil {
             throw new APIManagementException(msg, e);
         } catch (RegistryException e) {
             String msg = "Failed to get LastAccess time or Rating";
-            throw new APIManagementException(msg, e);
-        } catch (UserStoreException e) {
-            String msg = "Failed to get User Realm of API Provider";
             throw new APIManagementException(msg, e);
         }
         return api;
@@ -3135,6 +3079,10 @@ public final class APIUtil {
         return ApiMgtDAO.getInstance().getTags(apiId);
     }
 
+    public static List<String> getTags(int apiId) throws APIManagementException {
+        return ApiMgtDAO.getInstance().getTags(apiId);
+    }
+
     public static List<Tenant> getAllTenantsWithSuperTenant() throws UserStoreException {
         Tenant[] tenants = ServiceReferenceHolder.getInstance().getRealmService().getTenantManager().getAllTenants();
         ArrayList<Tenant> tenantArrayList = new ArrayList<Tenant>();
@@ -3855,30 +3803,41 @@ public final class APIUtil {
         return false;
     }
 
-    /**
-     * This method used to get API minimum information from governance artifact
-     *
-     * @param artifact API artifact
-     * @param registry Registry
-     * @return API
-     * @throws APIManagementException if failed to get API from artifact
-     */
-    public static API getAPIInformation(GovernanceArtifact artifact, Registry registry) throws APIManagementException {
-        API api;
-        
+    public static API getAPIInformation(GovernanceArtifact artifact) throws APIManagementException {
+        int apiId = -1;
         try {
             String providerName = artifact.getAttribute(APIConstants.API_OVERVIEW_PROVIDER);
             String apiName = artifact.getAttribute(APIConstants.API_OVERVIEW_NAME);
             String apiVersion = artifact.getAttribute(APIConstants.API_OVERVIEW_VERSION);
             //api = new API(new APIIdentifier(providerName, apiName, apiVersion));
-         
+
             APIIdentifier apiIdentifier = new APIIdentifier(providerName, apiName, apiVersion);
-            int apiId = ApiMgtDAO.getInstance().getAPIID(apiIdentifier, null);
+            apiId = ApiMgtDAO.getInstance().getAPIID(apiIdentifier, null);
 
             if (apiId == -1) {
                 return null;
             }
-            
+
+        } catch (GovernanceException e) {
+            String msg = "Failed to get API fro artifact ";
+            throw new APIManagementException(msg, e);
+        }
+
+        return getAPIInformation(artifact, apiId);
+    }
+
+    /**
+     * This method used to get API minimum information from governance artifact
+     *
+     * @param artifact API artifact
+     * @return API
+     * @throws APIManagementException if failed to get API from artifact
+     */
+    public static API getAPIInformation(GovernanceArtifact artifact, int apiId) throws APIManagementException {
+        API api;
+        
+        try {
+
             //api = new API(apiIdentifier);
             api = ApiMgtDAO.getInstance().getAPIById(apiId);
             
@@ -3910,9 +3869,16 @@ public final class APIUtil {
         }
         return api;
     }
-    
-    
-    private static API getAPIInformation(GovernanceArtifact artifact) throws APIManagementException {
+
+
+    /**
+     * API 상세정보 가져오기 (일반정보 + 별점, 태그)
+     * @param artifact
+     * @param apiId
+     * @return
+     * @throws APIManagementException
+     */
+    private static API getAPIInformationDetail(GovernanceArtifact artifact, int apiId) throws APIManagementException {
     	
     	API api = null;
     	
@@ -3922,15 +3888,18 @@ public final class APIUtil {
             String apiName = artifact.getAttribute(APIConstants.API_OVERVIEW_NAME);
             String apiVersion = artifact.getAttribute(APIConstants.API_OVERVIEW_VERSION);
             //api = new API(new APIIdentifier(providerName, apiName, apiVersion));
-         
+
             APIIdentifier apiIdentifier = new APIIdentifier(providerName, apiName, apiVersion);
+            /*
             int apiId = ApiMgtDAO.getInstance().getAPIID(apiIdentifier, null);
 
             if (apiId == -1) {
                 return null;
             }
-    		
-            api = getAPIInformation(artifact, null);
+            */
+
+            // 1. DAO에서 api 가져오기
+            api = getAPIInformation(artifact, apiId);
             
             // ** (수정) API info from `am_api` (ref: registry ---> am_api [modify:19.11.25]) **
             //api.setLastUpdated(registry.get(artifactPath).getLastModified());
@@ -3938,10 +3907,7 @@ public final class APIUtil {
             //api.setContextTemplate(artifact.getAttribute(APIConstants.API_OVERVIEW_CONTEXT_TEMPLATE));                       
             // **
             
-            api.setRating(getAverageRating(apiId));
-            api.setRatingUserCount(getRatingUserCount(apiId));
-            
-            //API info from registry
+            // 2. API info from registry
                            
             api.setWsdlUrl(artifact.getAttribute(APIConstants.API_OVERVIEW_WSDL));
             api.setWadlUrl(artifact.getAttribute(APIConstants.API_OVERVIEW_WADL));
@@ -3983,16 +3949,20 @@ public final class APIUtil {
             api.setAsDefaultVersion(Boolean.parseBoolean(artifact.getAttribute(APIConstants.API_OVERVIEW_IS_DEFAULT_VERSION)));
             api.setImplementation(artifact.getAttribute(APIConstants.PROTOTYPE_OVERVIEW_IMPLEMENTATION));
             
-            Set<String> tags = new HashSet<String>();
-            List<String> tagList = getTags(apiIdentifier);
-            for (String tag : tagList) {
-            	tags.add(tag);
-            }
-            api.addTags(tags);
-            
             String environments = artifact.getAttribute(APIConstants.API_OVERVIEW_ENVIRONMENTS);
             api.setEnvironments(extractEnvironmentsForAPI(environments));
             api.setCorsConfiguration(getCorsConfigurationFromArtifact(artifact));
+
+            // 3. API info from DAO
+            api.setRating(getAverageRating(apiId));
+            api.setRatingUserCount(getRatingUserCount(apiId));
+
+            Set<String> tags = new HashSet<String>();
+            List<String> tagList = getTags(apiId);
+            for (String tag : tagList) {
+                tags.add(tag);
+            }
+            api.addTags(tags);
  
     	} catch (GovernanceException e) {
             String msg = "Failed to get API for artifact ";
