@@ -7,14 +7,14 @@
 	    <artifactId>barley.apimgt</artifactId>
 	    <version>0.0.1</version>
 	</parent>
-  	<groupId>barley.apimgt.usage</groupId>
-	<artifactId>barley.apimgt.usage</artifactId>
+  	<artifactId>barley.apimgt.usage</artifactId>
 	<packaging>pom</packaging>
 	<name>CodeFarm Barley - API Management Usage Aggregator Module</name>
 	
 	<modules>
 		<module>barley.apimgt.usage.publisher</module>
 		<module>barley.apimgt.usage.client</module>
+		<module>barley.apimgt.usage.billing</module>
 	</modules>
 	
 	<properties>

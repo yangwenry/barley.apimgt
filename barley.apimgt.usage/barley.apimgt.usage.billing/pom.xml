@@ -8,16 +8,15 @@
 	</parent>
 	
   	<modelVersion>4.0.0</modelVersion>
-  	<artifactId>barley.apimgt.usage.client</artifactId>
-	<name>CodeFarm Barley - API Management Usage Client</name>
+  	<artifactId>barley.apimgt.usage.billing</artifactId>
+	<name>CodeFarm Barley - API Management Usage Billing</name>
 	
 	<dependencies>
         <dependency>
             <groupId>barley.apimgt</groupId>
             <artifactId>barley.apimgt.impl</artifactId>
         </dependency>
-        
-        
+
     </dependencies>
 	
 </project>

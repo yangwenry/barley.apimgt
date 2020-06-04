@@ -54,6 +54,12 @@
 			    <version>${project.version}</version>
 			</dependency>
 			<dependency>
+				<groupId>barley.apimgt</groupId>
+				<artifactId>barley.apimgt.usage.client</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
 	            <groupId>barley.mediation</groupId>
 	            <artifactId>barley.mediation.initializer</artifactId>
 	            <version>${project.version}</version> 
