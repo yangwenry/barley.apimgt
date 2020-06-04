@@ -49,7 +49,7 @@ import barley.apimgt.api.model.policy.SubscriptionPolicy;
 public interface APIProvider extends APIManager {
 
     /**
-     * Returns a list of all #{@link org.wso2.carbon.apimgt.api.model.Provider} available on the system.
+     * Returns a list of all #{@link barley.apimgt.api.model.Provider} available on the system.
      *
      * @return Set<Provider>
      * @throws APIManagementException if failed to get Providers
@@ -116,7 +116,7 @@ public interface APIProvider extends APIManager {
      *
      * @param apiId API identifier
      * @return UserApplicationAPIUsages for given provider
-     * @throws org.wso2.carbon.apimgt.api.APIManagementException
+     * @throws barley.apimgt.api.APIManagementException
      *          If failed to get UserApplicationAPIUsage
      */
     List<SubscribedAPI> getAPIUsageByAPIId(APIIdentifier apiId) throws APIManagementException;
@@ -261,8 +261,8 @@ public interface APIProvider extends APIManager {
      * should be carried out using the changeAPIStatus method of this interface.
      *
      * @param api API
-     * @throws org.wso2.carbon.apimgt.api.APIManagementException if failed to update API
-     * @throws org.wso2.carbon.apimgt.api.FaultGatewaysException on Gateway Failure
+     * @throws barley.apimgt.api.APIManagementException if failed to update API
+     * @throws barley.apimgt.api.FaultGatewaysException on Gateway Failure
      */
     void updateAPI(API api) throws APIManagementException, FaultGatewaysException;
 
@@ -284,8 +284,8 @@ public interface APIProvider extends APIManager {
      * @param status New status of the API
      * @param userId User performing the API state change
      * @param updateGatewayConfig Whether the changes should be pushed to the API gateway or not
-     * @throws org.wso2.carbon.apimgt.api.APIManagementException on error
-     * @throws org.wso2.carbon.apimgt.api.FaultGatewaysException on Gateway Failure
+     * @throws barley.apimgt.api.APIManagementException on error
+     * @throws barley.apimgt.api.FaultGatewaysException on Gateway Failure
      * */
     void changeAPIStatus(API api, APIStatus status, String userId, boolean updateGatewayConfig)
             throws APIManagementException, FaultGatewaysException;
@@ -386,7 +386,7 @@ public interface APIProvider extends APIManager {
     /**
      * 문서의 파일을 삭제한다.  
      * @param apiId
-     * @param documentation
+     * @param docSourceType
      * @param filename
      * @throws APIManagementException
      */

@@ -43,7 +43,7 @@ import barley.apimgt.api.model.Tag;
 public interface APIConsumer extends APIManager {
 
     /**
-     * @param subscriberId id of the Subscriber
+     * @param subscriberName id of the Subscriber
      * @return Subscriber
      * @throws APIManagementException if failed to get Subscriber
      */
@@ -292,8 +292,7 @@ public interface APIConsumer extends APIManager {
     /**
      * Remove a Subscriber
      *
-     * @param identifier APIIdentifier
-     * @param userId     id of the user
+     * @param subscriberName     id of the user
      * @throws APIManagementException if failed to add subscription details to database
      */
     // (수정) 인터페이스 파라미터 수정 
@@ -314,7 +313,7 @@ public interface APIConsumer extends APIManager {
     /**
      * @param identifier Api identifier
      * @param comment comment text
-     * @param user Username of the comment author                        
+     * @param userId Username of the comment author
      * @throws APIManagementException if failed to add comment for API
      */
     void addComment(APIIdentifier identifier, String comment, String userId) throws APIManagementException;
