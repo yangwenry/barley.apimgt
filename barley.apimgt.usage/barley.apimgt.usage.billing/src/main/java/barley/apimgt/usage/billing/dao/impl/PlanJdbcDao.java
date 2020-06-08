@@ -1,8 +1,9 @@
-package barley.apimgt.usage.billing.dao;
+package barley.apimgt.usage.billing.dao.impl;
 
 import barley.apimgt.usage.billing.BillingDBUtil;
+import barley.apimgt.usage.billing.dao.PlanDao;
 import barley.apimgt.usage.billing.domain.Plan;
-import barley.apimgt.usage.billing.exception.BillingException;
+import barley.apimgt.usage.billing.exception.UsageBillingException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -27,15 +28,17 @@ public class PlanJdbcDao implements PlanDao {
         return PlanJdbcDaoHolder.INSTANCE;
     }
 
+    private static final String FIELD_AM_BILLING_PLAN_SQL = "SELECT PLAN_NO, PLAN_NAME, PLAN_TYPE, QUOTA, FEE_PER_REQUEST, SUBSCRIPTION_FEE, FEE_RATE ";
+
     @Override
-    public Plan loadPlanByPlanName(String planName) throws BillingException {
+    public Plan loadPlanByPlanName(String planName) throws UsageBillingException {
         Plan plan = null;
 
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
 
-        String sqlQuery = "SELECT PLAN_NO, PLAN_NAME, PLAN_TYPE, QUOTA, FEE_PER_REQUEST, SUBSCRIPTION_FEE, FEE_RATE " +
+        String sqlQuery = FIELD_AM_BILLING_PLAN_SQL +
                           "  FROM AM_BILLING_PLAN " +
                           " WHERE PLAN_NAME = ? ";
         try {
@@ -50,7 +53,7 @@ public class PlanJdbcDao implements PlanDao {
         } catch (SQLException e) {
             String msg = "Error occurred while get billing plan by planName: " + planName;
             log.error(msg, e);
-            throw new BillingException(msg, e);
+            throw new UsageBillingException(msg, e);
         } finally {
             BillingDBUtil.closeAllConnections(ps, conn, rs);
         }
@@ -58,7 +61,7 @@ public class PlanJdbcDao implements PlanDao {
     }
 
     @Override
-    public List<Plan> loadPlans() throws BillingException {
+    public List<Plan> loadPlans() throws UsageBillingException {
 
         List<Plan> plans = new ArrayList<Plan>();
 
@@ -66,7 +69,7 @@ public class PlanJdbcDao implements PlanDao {
         PreparedStatement ps = null;
         ResultSet rs = null;
 
-        String sqlQuery = "SELECT PLAN_NO, PLAN_NAME, PLAN_TYPE, QUOTA, FEE_PER_REQUEST, SUBSCRIPTION_FEE, FEE_RATE " +
+        String sqlQuery = FIELD_AM_BILLING_PLAN_SQL +
                 "  FROM AM_BILLING_PLAN" +
                 " ORDER BY PLAN_NO DESC ";
         try {
@@ -81,12 +84,84 @@ public class PlanJdbcDao implements PlanDao {
         } catch (SQLException e) {
             String msg = "Error occurred while get billing plans ";
             log.error(msg, e);
-            throw new BillingException(msg, e);
+            throw new UsageBillingException(msg, e);
         } finally {
             BillingDBUtil.closeAllConnections(ps, conn, rs);
         }
 
         return plans;
+    }
+
+    @Override
+    public List<Plan> loadPlans(int page, int count, String planName) throws UsageBillingException {
+        List<Plan> plans = new ArrayList<Plan>();
+
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        int startNo = (page-1) * count;
+
+        String sqlQuery = FIELD_AM_BILLING_PLAN_SQL +
+                "  FROM AM_BILLING_PLAN" +
+                " WHERE PLAN_NAME LIKE ? " +
+                " ORDER BY PLAN_NO DESC " +
+                " LIMIT ?, ? ";
+        try {
+            conn = BillingDBUtil.getConnection();
+            ps = conn.prepareStatement(sqlQuery);
+            int index = 1;
+            ps.setString(index++, "%" + planName + "%");
+            ps.setInt(index++, startNo);
+            ps.setInt(index++, count);
+
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Plan plan = createPlan(rs);
+                plans.add(plan);
+            }
+        } catch (SQLException e) {
+            String msg = "Error occurred while get billing plans ";
+            log.error(msg, e);
+            throw new UsageBillingException(msg, e);
+        } finally {
+            BillingDBUtil.closeAllConnections(ps, conn, rs);
+        }
+
+        return plans;
+    }
+
+    @Override
+    public int countPlan(String planName) throws UsageBillingException {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        int total = 0;
+
+        String sqlQuery = "SELECT COUNT(*) AS CNT " +
+                "  FROM AM_BILLING_PLAN" +
+                " WHERE PLAN_NAME LIKE ? ";
+
+        try {
+            conn = BillingDBUtil.getConnection();
+            ps = conn.prepareStatement(sqlQuery);
+            int index = 1;
+            ps.setString(index++, "%" + planName + "%");
+
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                total = rs.getInt("CNT");
+            }
+        } catch (SQLException e) {
+            String msg = "Error occurred while get count billing plans ";
+            log.error(msg, e);
+            throw new UsageBillingException(msg, e);
+        } finally {
+            BillingDBUtil.closeAllConnections(ps, conn, rs);
+        }
+
+        return total;
     }
 
     private Plan createPlan(ResultSet rs) throws SQLException {
@@ -109,7 +184,7 @@ public class PlanJdbcDao implements PlanDao {
     }
 
     @Override
-    public void addPlan(Plan plan) throws BillingException {
+    public void addPlan(Plan plan) throws UsageBillingException {
         PreparedStatement ps = null;
         Connection conn = null;
 
@@ -119,56 +194,58 @@ public class PlanJdbcDao implements PlanDao {
             String sqlAddQuery = "INSERT INTO AM_BILLING_PLAN(PLAN_NAME, PLAN_TYPE, QUOTA, FEE_PER_REQUEST, SUBSCRIPTION_FEE, FEE_RATE) VALUES(?, ?, ?, ?, ?, ?)";
 
             ps = conn.prepareStatement(sqlAddQuery);
-            ps.setString(1, plan.getPlanName());
-            ps.setString(2, plan.getPlanType());
-            ps.setString(3, plan.getQuota());
-            ps.setDouble(4, plan.getFeePerRequest());
-            ps.setDouble(5, plan.getSubscriptionFee());
-            ps.setDouble(6, plan.getFeeRate());
+            int index = 1;
+            ps.setString(index++, plan.getPlanName());
+            ps.setString(index++, plan.getPlanType());
+            ps.setString(index++, plan.getQuota());
+            ps.setDouble(index++, plan.getFeePerRequest());
+            ps.setDouble(index++, plan.getSubscriptionFee());
+            ps.setDouble(index++, plan.getFeeRate());
             ps.executeUpdate();
 
         } catch (SQLException e) {
             String msg = "Failed to add billing plan of the plan Name: " + plan.getPlanName();
             log.error(msg, e);
-            throw new BillingException(msg, e);
+            throw new UsageBillingException(msg, e);
         } finally {
             BillingDBUtil.closeAllConnections(ps, conn, null);
         }
     }
 
     @Override
-    public void updatePlan(Plan plan) throws BillingException {
+    public void updatePlan(Plan plan) throws UsageBillingException {
         PreparedStatement ps = null;
         Connection conn = null;
 
         try {
             conn = BillingDBUtil.getConnection();
 
-            String sqlAddQuery = "UPDATE AM_BILLING_PLAN SET PLAN_NAME = ?, PLAN_TYPE = ?, QUOTA = ?, FEE_PER_REQUEST = ?, " +
+            String sqlAddQuery = "UPDATE AM_BILLING_PLAN SET PLAN_TYPE = ?, QUOTA = ?, FEE_PER_REQUEST = ?, " +
                     "SUBSCRIPTION_FEE = ?, FEE_RATE = ? " +
                     "WHERE PLAN_NO = ? ";
 
             ps = conn.prepareStatement(sqlAddQuery);
-            ps.setString(1, plan.getPlanName());
-            ps.setString(2, plan.getPlanType());
-            ps.setString(3, plan.getQuota());
-            ps.setDouble(4, plan.getFeePerRequest());
-            ps.setDouble(5, plan.getSubscriptionFee());
-            ps.setDouble(6, plan.getFeeRate());
-            ps.setInt(7, plan.getPlanNo());
+            int index = 1;
+            //ps.setString(1, plan.getPlanName());
+            ps.setString(index++, plan.getPlanType());
+            ps.setString(index++, plan.getQuota());
+            ps.setDouble(index++, plan.getFeePerRequest());
+            ps.setDouble(index++, plan.getSubscriptionFee());
+            ps.setDouble(index++, plan.getFeeRate());
+            ps.setInt(index++, plan.getPlanNo());
             ps.executeUpdate();
 
         } catch (SQLException e) {
             String msg = "Failed to update billing plan of the plan Name: " + plan.getPlanName();
             log.error(msg, e);
-            throw new BillingException(msg, e);
+            throw new UsageBillingException(msg, e);
         } finally {
             BillingDBUtil.closeAllConnections(ps, conn, null);
         }
     }
 
     @Override
-    public void deletePlan(int planNo) throws BillingException {
+    public void deletePlan(int planNo) throws UsageBillingException {
         PreparedStatement ps = null;
         Connection conn = null;
 
@@ -184,7 +261,7 @@ public class PlanJdbcDao implements PlanDao {
         } catch (SQLException e) {
             String msg = "Failed to delete billing plan of the plan no: " + planNo;
             log.error(msg, e);
-            throw new BillingException(msg, e);
+            throw new UsageBillingException(msg, e);
         } finally {
             BillingDBUtil.closeAllConnections(ps, conn, null);
         }

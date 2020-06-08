@@ -1,7 +1,7 @@
 package barley.apimgt.usage.billing.dao;
 
 import barley.apimgt.usage.billing.domain.Plan;
-import barley.apimgt.usage.billing.exception.BillingException;
+import barley.apimgt.usage.billing.exception.UsageBillingException;
 
 import java.util.List;
 
@@ -18,13 +18,17 @@ public interface PlanDao {
      * @param planName
      * @return User entity
      */
-    Plan loadPlanByPlanName(String planName) throws BillingException;
+    Plan loadPlanByPlanName(String planName) throws UsageBillingException;
 
-    List<Plan> loadPlans() throws BillingException ;
+    List<Plan> loadPlans() throws UsageBillingException;
 
-    void addPlan(Plan plan) throws BillingException ;
+    List<Plan> loadPlans(int page, int count, String planName) throws UsageBillingException;
 
-    void updatePlan(Plan plan) throws BillingException ;
+    int countPlan(String planName) throws UsageBillingException;
 
-    void deletePlan(int planNo) throws BillingException ;
+    void addPlan(Plan plan) throws UsageBillingException;
+
+    void updatePlan(Plan plan) throws UsageBillingException;
+
+    void deletePlan(int planNo) throws UsageBillingException;
 }

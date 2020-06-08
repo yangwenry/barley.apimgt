@@ -145,6 +145,17 @@ class APIConsumerImpl extends AbstractAPIManager implements APIConsumer {
     }
 
     @Override
+    public List<String> getAllSubscriberNames(int tenantId) throws APIManagementException {
+        List<String> subscriberNames = null;
+        try {
+            subscriberNames = apiMgtDAO.getAllSubscriberNames(tenantId);
+        } catch (APIManagementException e) {
+            handleException("Failed to get All Subscriber Names", e);
+        }
+        return subscriberNames;
+    }
+
+    @Override
     public int getSubscriberCount(int tenantId) throws APIManagementException {
         int count = 0;
         try {

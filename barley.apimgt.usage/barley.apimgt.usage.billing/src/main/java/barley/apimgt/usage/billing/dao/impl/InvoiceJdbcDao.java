@@ -1,8 +1,10 @@
-package barley.apimgt.usage.billing.dao;
+package barley.apimgt.usage.billing.dao.impl;
 
 import barley.apimgt.usage.billing.BillingDBUtil;
+import barley.apimgt.usage.billing.dao.InvoiceDao;
 import barley.apimgt.usage.billing.domain.Invoice;
-import barley.apimgt.usage.billing.exception.BillingException;
+import barley.apimgt.usage.billing.exception.UsageBillingException;
+import barley.apimgt.usage.billing.vo.UserSearchParam;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -26,17 +28,20 @@ public class InvoiceJdbcDao implements InvoiceDao {
         return InvoiceJdbcDaoHolder.INSTANCE;
     }
 
+    private static final String FIELD_AM_BILLING_INVOICE_SQL =
+            "SELECT INVOICE_NO, INVOICE_YEAR, INVOICE_MONTH, USER_ID, TENANT_ID, USER_NAME, FIRST_NAME, LAST_NAME, " +
+                    " USER_COMPANY, USER_EMAIL, ADDRESS1, ADDRESS2, ADDRESS3, PAYMENT_METHOD, SUCCESS_COUNT, THROTTLE_COUNT, " +
+                    " CREATED_DATE, SUBSCRIPTION_FEE, SUCCESS_FEE, THROTTLE_FEE, TOTAL_FEE, FEE_PER_SUCCESS, FEE_PER_THROTTLE, PLAN_NAME, PLAN_TYPE ";
+
     @Override
-    public Invoice loadInvoiceByID(int invoiceNo) throws BillingException {
+    public Invoice loadInvoiceByID(int invoiceNo) throws UsageBillingException {
         Invoice invoice = null;
 
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
 
-        String sqlQuery = "SELECT INVOICE_NO, INVOICE_YEAR, INVOICE_MONTH, USER_ID, TENANT_ID, USER_NAME, " +
-                " USER_COMPANY, USER_EMAIL, ADDRESS1, ADDRESS2, ADDRESS3, PAYMENT_METHOD, SUCCESS_COUNT, THROTTLE_COUNT, " +
-                " CREATED_DATE, SUBSCRIPTION_FEE, SUCCESS_FEE, THROTTLE_FEE, TOTAL_FEE, FEE_PER_SUCCESS, FEE_PER_THROTTLE, PLAN_NAME, PLAN_TYPE " +
+        String sqlQuery = FIELD_AM_BILLING_INVOICE_SQL +
                 "  FROM AM_BILLING_INVOICE " +
                 " WHERE INVOICE_NO = ? ";
         try {
@@ -51,7 +56,7 @@ public class InvoiceJdbcDao implements InvoiceDao {
         } catch (SQLException e) {
             String msg = "Error occurred while get billing invoice by invoiceNo: " + invoiceNo;
             log.error(msg, e);
-            throw new BillingException(msg, e);
+            throw new UsageBillingException(msg, e);
         } finally {
             BillingDBUtil.closeAllConnections(ps, conn, rs);
         }
@@ -59,16 +64,14 @@ public class InvoiceJdbcDao implements InvoiceDao {
     }
 
     @Override
-    public List<Invoice> loadInvoices() throws BillingException {
+    public List<Invoice> loadInvoices() throws UsageBillingException {
         List<Invoice> invoices = new ArrayList<Invoice>();
 
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
 
-        String sqlQuery = "SELECT INVOICE_NO, INVOICE_YEAR, INVOICE_MONTH, USER_ID, TENANT_ID, USER_NAME, " +
-                " USER_COMPANY, USER_EMAIL, ADDRESS1, ADDRESS2, ADDRESS3, PAYMENT_METHOD, SUCCESS_COUNT, THROTTLE_COUNT, " +
-                " CREATED_DATE, SUBSCRIPTION_FEE, SUCCESS_FEE, THROTTLE_FEE, TOTAL_FEE, FEE_PER_SUCCESS, FEE_PER_THROTTLE, PLAN_NAME, PLAN_TYPE " +
+        String sqlQuery = FIELD_AM_BILLING_INVOICE_SQL +
                 "  FROM AM_BILLING_INVOICE " +
                 " ORDER BY INVOICE_NO DESC ";
         try {
@@ -83,12 +86,129 @@ public class InvoiceJdbcDao implements InvoiceDao {
         } catch (SQLException e) {
             String msg = "Error occurred while get billing invoices ";
             log.error(msg, e);
-            throw new BillingException(msg, e);
+            throw new UsageBillingException(msg, e);
         } finally {
             BillingDBUtil.closeAllConnections(ps, conn, rs);
         }
 
         return invoices;
+    }
+
+    @Override
+    public List<Invoice> loadInvoices(int year, int month, int tenantId) throws UsageBillingException {
+        List<Invoice> invoices = new ArrayList<Invoice>();
+
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        String sqlQuery = FIELD_AM_BILLING_INVOICE_SQL +
+                "  FROM AM_BILLING_INVOICE " +
+                " WHERE INVOICE_YEAR = ? " +
+                "   AND INVOICE_MONTH = ? " +
+                "   AND TENANT_ID = ? " +
+                " ORDER BY INVOICE_NO DESC ";
+        try {
+            conn = BillingDBUtil.getConnection();
+            ps = conn.prepareStatement(sqlQuery);
+            int index = 1;
+            ps.setInt(index++, year);
+            ps.setInt(index++, month);
+            ps.setInt(index++, tenantId);
+
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Invoice invoice = createInvoice(rs);
+                invoices.add(invoice);
+            }
+        } catch (SQLException e) {
+            String msg = "Error occurred while get billing invoices ";
+            log.error(msg, e);
+            throw new UsageBillingException(msg, e);
+        } finally {
+            BillingDBUtil.closeAllConnections(ps, conn, rs);
+        }
+
+        return invoices;
+    }
+
+    @Override
+    public List<Invoice> loadInvoices(int page, int count, UserSearchParam userSearchParam) throws UsageBillingException {
+        List<Invoice> invoices = new ArrayList<Invoice>();
+
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        int startNo = (page-1) * count;
+
+        String sqlQuery = FIELD_AM_BILLING_INVOICE_SQL +
+                "  FROM AM_BILLING_INVOICE " +
+                " WHERE TENANT_ID = ? " +
+                "   AND USER_ID LIKE ? " +
+                "   AND USER_NAME LIKE ? " +
+                " ORDER BY INVOICE_NO DESC " +
+                " LIMIT ?, ? ";
+        try {
+            conn = BillingDBUtil.getConnection();
+            ps = conn.prepareStatement(sqlQuery);
+            int index = 1;
+            ps.setInt(index++, userSearchParam.getTenantId());
+            ps.setString(index++, "%" + userSearchParam.getUserId() + "%");
+            ps.setString(index++, "%" + userSearchParam.getUserName() + "%");
+            ps.setInt(index++, startNo);
+            ps.setInt(index++, count);
+
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Invoice invoice = createInvoice(rs);
+                invoices.add(invoice);
+            }
+        } catch (SQLException e) {
+            String msg = "Error occurred while get billing invoices ";
+            log.error(msg, e);
+            throw new UsageBillingException(msg, e);
+        } finally {
+            BillingDBUtil.closeAllConnections(ps, conn, rs);
+        }
+
+        return invoices;
+    }
+
+    @Override
+    public int countInvoice(UserSearchParam userSearchParam) throws UsageBillingException {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        int total = 0;
+
+        String sqlQuery = "SELECT COUNT(*) AS CNT " +
+                "  FROM AM_BILLING_INVOICE " +
+                " WHERE TENANT_ID = ? " +
+                "   AND USER_ID LIKE ? " +
+                "   AND USER_NAME LIKE ? ";
+
+        try {
+            conn = BillingDBUtil.getConnection();
+            ps = conn.prepareStatement(sqlQuery);
+            int index = 1;
+            ps.setInt(index++, userSearchParam.getTenantId());
+            ps.setString(index++, "%" + userSearchParam.getUserId() + "%");
+            ps.setString(index++, "%" + userSearchParam.getUserName() + "%");
+
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                total = rs.getInt("CNT");
+            }
+        } catch (SQLException e) {
+            String msg = "Error occurred while get count billing invoices ";
+            log.error(msg, e);
+            throw new UsageBillingException(msg, e);
+        } finally {
+            BillingDBUtil.closeAllConnections(ps, conn, rs);
+        }
+
+        return total;
     }
 
     private Invoice createInvoice(ResultSet rs) throws SQLException {
@@ -149,7 +269,7 @@ public class InvoiceJdbcDao implements InvoiceDao {
     }
 
     @Override
-    public void addInvoice(Invoice invoice) throws BillingException {
+    public void addInvoice(Invoice invoice) throws UsageBillingException {
         PreparedStatement ps = null;
         Connection conn = null;
 
@@ -192,14 +312,14 @@ public class InvoiceJdbcDao implements InvoiceDao {
         } catch (SQLException e) {
             String msg = "Failed to add billing invoice of the user : " + invoice.getUserName();
             log.error(msg, e);
-            throw new BillingException(msg, e);
+            throw new UsageBillingException(msg, e);
         } finally {
             BillingDBUtil.closeAllConnections(ps, conn, null);
         }
     }
 
     @Override
-    public void updateInvoice(Invoice invoice) throws BillingException {
+    public void updateInvoice(Invoice invoice) throws UsageBillingException {
         PreparedStatement ps = null;
         Connection conn = null;
 
@@ -243,14 +363,14 @@ public class InvoiceJdbcDao implements InvoiceDao {
         } catch (SQLException e) {
             String msg = "Failed to update billing invoice of the invoice no : " + invoice.getInvoiceNo();
             log.error(msg, e);
-            throw new BillingException(msg, e);
+            throw new UsageBillingException(msg, e);
         } finally {
             BillingDBUtil.closeAllConnections(ps, conn, null);
         }
     }
 
     @Override
-    public void deleteInvoice(int invoiceNo) throws BillingException {
+    public void deleteInvoice(int invoiceNo) throws UsageBillingException {
         PreparedStatement ps = null;
         Connection conn = null;
 
@@ -266,7 +386,31 @@ public class InvoiceJdbcDao implements InvoiceDao {
         } catch (SQLException e) {
             String msg = "Failed to delete billing invoice of the invoice no : " + invoiceNo;
             log.error(msg, e);
-            throw new BillingException(msg, e);
+            throw new UsageBillingException(msg, e);
+        } finally {
+            BillingDBUtil.closeAllConnections(ps, conn, null);
+        }
+    }
+
+    @Override
+    public void deleteInvoice(int year, int month) throws UsageBillingException {
+        PreparedStatement ps = null;
+        Connection conn = null;
+
+        try {
+            conn = BillingDBUtil.getConnection();
+
+            String sqlAddQuery = "DELETE FROM AM_BILLING_INVOICE WHERE INVOICE_YEAR = ? AND INVOICE_MONTH = ?";
+
+            ps = conn.prepareStatement(sqlAddQuery);
+            ps.setInt(1, year);
+            ps.setInt(2, month);
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            String msg = "Failed to delete billing invoice of the invoice year : " + year + ", month: " + month;
+            log.error(msg, e);
+            throw new UsageBillingException(msg, e);
         } finally {
             BillingDBUtil.closeAllConnections(ps, conn, null);
         }

@@ -18,24 +18,12 @@
 
 package barley.apimgt.api;
 
+import barley.apimgt.api.model.*;
+import org.json.simple.JSONObject;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import org.json.simple.JSONObject;
-
-import barley.apimgt.api.model.API;
-import barley.apimgt.api.model.APIIdentifier;
-import barley.apimgt.api.model.APIRating;
-import barley.apimgt.api.model.AccessTokenInfo;
-import barley.apimgt.api.model.Application;
-import barley.apimgt.api.model.Comment;
-import barley.apimgt.api.model.OAuthApplicationInfo;
-import barley.apimgt.api.model.Scope;
-import barley.apimgt.api.model.SubscribedAPI;
-import barley.apimgt.api.model.Subscriber;
-import barley.apimgt.api.model.SubscriptionResponse;
-import barley.apimgt.api.model.Tag;
 
 /**
  * APIConsumer responsible for providing helper functionality
@@ -52,10 +40,12 @@ public interface APIConsumer extends APIManager {
     // (추가) 2020.04.22
     List<Subscriber> getAllSubscribers(int page, int count, int tenantId) throws APIManagementException;
 
+    List<String> getAllSubscriberNames(int tenantId) throws APIManagementException;
+
     int getSubscriberCount(int tenantId) throws APIManagementException;
 
     /**
-     * Returns a list of #{@link org.wso2.carbon.apimgt.api.model.API} bearing the selected tag
+     * Returns a list of #{@link barley.apimgt.api.model.API} bearing the selected tag
      *
      * @param tag name of the tag
      * @return set of API having the given tag name
@@ -64,7 +54,7 @@ public interface APIConsumer extends APIManager {
     Set<API> getAPIsWithTag(String tag, String tenantDomain) throws APIManagementException;
 
     /**
-     * Returns a paginated list of #{@link org.wso2.carbon.apimgt.api.model.API} bearing the selected tag
+     * Returns a paginated list of #{@link barley.apimgt.api.model.API} bearing the selected tag
      *
      * @param tag name of the tag
      * @param start starting number

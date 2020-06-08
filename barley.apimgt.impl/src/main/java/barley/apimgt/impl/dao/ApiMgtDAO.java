@@ -1231,6 +1231,30 @@ public class ApiMgtDAO {
         return count;
     }
 
+    public List<String> getAllSubscriberNames(int tenantId) throws APIManagementException {
+        Connection conn = null;
+        ResultSet rs = null;
+        PreparedStatement ps = null;
+        List<String> subscriberNames = new ArrayList<String>();
+        try {
+            conn = APIMgtDBUtil.getConnection();
+            String query = SQLConstants.GET_SUBSCRIBER_NAMES_SQL;
+
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, tenantId);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                String userId = rs.getString("USER_ID");
+                subscriberNames.add(userId);
+            }
+        } catch (SQLException e) {
+            handleException("Error while retrieving all subscribers: " + e.getMessage(), e);
+        } finally {
+            APIMgtDBUtil.closeAllConnections(ps, conn, rs);
+        }
+        return subscriberNames;
+    }
+
     public int addSubscription(APIIdentifier identifier, String context, int applicationId, String status,
             String subscriber) throws APIManagementException {
         Connection conn = null;

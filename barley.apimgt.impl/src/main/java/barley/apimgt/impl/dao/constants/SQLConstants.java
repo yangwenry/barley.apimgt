@@ -424,6 +424,11 @@ public class SQLConstants {
             "  WHERE " +
             "    TENANT_ID=?";
 
+    public static final String GET_SUBSCRIBER_NAMES_SQL =
+            " SELECT USER_ID FROM AM_SUBSCRIBER " +
+                    "  WHERE " +
+                    "    TENANT_ID=?";
+
     public static final String GET_SUBSCRIBER_SQL =
             " SELECT " +
             "   USER_ID, TENANT_ID, EMAIL_ADDRESS, DATE_SUBSCRIBED " +

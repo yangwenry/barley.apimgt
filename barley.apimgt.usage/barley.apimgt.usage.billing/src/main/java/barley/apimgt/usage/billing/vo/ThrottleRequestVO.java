@@ -1,6 +1,6 @@
 package barley.apimgt.usage.billing.vo;
 
-public class ThrottleRequest {
+public class ThrottleRequestVO {
     private int successCount;
     private int throttleCount;
 

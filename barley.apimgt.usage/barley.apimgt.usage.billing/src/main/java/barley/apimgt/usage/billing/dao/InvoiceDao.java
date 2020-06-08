@@ -1,7 +1,8 @@
 package barley.apimgt.usage.billing.dao;
 
 import barley.apimgt.usage.billing.domain.Invoice;
-import barley.apimgt.usage.billing.exception.BillingException;
+import barley.apimgt.usage.billing.exception.UsageBillingException;
+import barley.apimgt.usage.billing.vo.UserSearchParam;
 
 import java.util.List;
 
@@ -12,13 +13,21 @@ import java.util.List;
  */
 public interface InvoiceDao {
 
-    Invoice loadInvoiceByID(int invoiceNo) throws BillingException;
+    Invoice loadInvoiceByID(int invoiceNo) throws UsageBillingException;
 
-    List<Invoice> loadInvoices() throws BillingException;
+    List<Invoice> loadInvoices() throws UsageBillingException;
 
-    void addInvoice(Invoice invoice) throws BillingException;
+    List<Invoice> loadInvoices(int year, int month, int tenantId) throws UsageBillingException;
 
-    void updateInvoice(Invoice invoice) throws BillingException;
+    List<Invoice> loadInvoices(int page, int count, UserSearchParam userSearchParam) throws UsageBillingException;
 
-    void deleteInvoice(int invoiceNo) throws BillingException;
+    int countInvoice(UserSearchParam userSearchParam) throws UsageBillingException;
+
+    void addInvoice(Invoice invoice) throws UsageBillingException;
+
+    void updateInvoice(Invoice invoice) throws UsageBillingException;
+
+    void deleteInvoice(int invoiceNo) throws UsageBillingException;
+
+    void deleteInvoice(int year, int month) throws UsageBillingException;
 }

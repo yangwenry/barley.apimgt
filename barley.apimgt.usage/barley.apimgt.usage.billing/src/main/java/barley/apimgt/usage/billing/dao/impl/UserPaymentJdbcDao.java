@@ -1,8 +1,10 @@
-package barley.apimgt.usage.billing.dao;
+package barley.apimgt.usage.billing.dao.impl;
 
 import barley.apimgt.usage.billing.BillingDBUtil;
+import barley.apimgt.usage.billing.dao.UserPaymentDao;
 import barley.apimgt.usage.billing.domain.UserPayment;
-import barley.apimgt.usage.billing.exception.BillingException;
+import barley.apimgt.usage.billing.exception.UsageBillingException;
+import barley.apimgt.usage.billing.vo.UserSearchParam;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -26,17 +28,20 @@ public class UserPaymentJdbcDao implements UserPaymentDao {
         return UserPaymentJdbcDaoHolder.INSTANCE;
     }
 
+    private static final String FIELD_AM_BILLING_USER_PAYMENT_SQL =
+              "SELECT PAYMENT_NO, USER_ID, TENANT_ID, USER_NAME, FIRST_NAME, LAST_NAME, USER_EMAIL, " +
+                    " USER_PASSWORD, COUNTRY, CC_NUMBER, CVC, CARD_TYPE, CARD_EXP_DATE, ADDRESS1, ADDRESS2, ADDRESS3, " +
+                    " CITY, PHONE_NUMBER, COMPANY ";
+
     @Override
-    public UserPayment loadUserPaymentByID(int paymentNo) throws BillingException {
+    public UserPayment loadUserPaymentByID(int paymentNo) throws UsageBillingException {
         UserPayment userPayment = null;
 
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
 
-        String sqlQuery = "SELECT PAYMENT_NO, USER_ID, TENANT_ID, USER_NAME, FIRST_NAME, LAST_NAME, USER_EMAIL, " +
-                " USER_PASSWORD, COUNTRY, CC_NUMBER, CVC, CARD_TYPE, CARD_EXP_DATE, ADDRESS1, ADDRESS2, ADDRESS3, " +
-                " CITY, PHONE_NUMBER, COMPANY " +
+        String sqlQuery = FIELD_AM_BILLING_USER_PAYMENT_SQL +
                 "  FROM AM_BILLING_USER_PAYMENT " +
                 " WHERE PAYMENT_NO = ? ";
         try {
@@ -51,7 +56,7 @@ public class UserPaymentJdbcDao implements UserPaymentDao {
         } catch (SQLException e) {
             String msg = "Error occurred while get user payment by paymentNo: " + paymentNo;
             log.error(msg, e);
-            throw new BillingException(msg, e);
+            throw new UsageBillingException(msg, e);
         } finally {
             BillingDBUtil.closeAllConnections(ps, conn, rs);
         }
@@ -59,16 +64,14 @@ public class UserPaymentJdbcDao implements UserPaymentDao {
     }
 
     @Override
-    public List<UserPayment> loadUserPayments() throws BillingException {
+    public List<UserPayment> loadUserPayments() throws UsageBillingException {
         List<UserPayment> userPayments = new ArrayList<UserPayment>();
 
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
 
-        String sqlQuery = "SELECT PAYMENT_NO, USER_ID, TENANT_ID, USER_NAME, FIRST_NAME, LAST_NAME, USER_EMAIL, " +
-                " USER_PASSWORD, COUNTRY, CC_NUMBER, CVC, CARD_TYPE, CARD_EXP_DATE, ADDRESS1, ADDRESS2, ADDRESS3, " +
-                " CITY, PHONE_NUMBER, COMPANY " +
+        String sqlQuery = FIELD_AM_BILLING_USER_PAYMENT_SQL +
                 "  FROM AM_BILLING_USER_PAYMENT " +
                 " ORDER BY PAYMENT_NO DESC ";
         try {
@@ -83,7 +86,7 @@ public class UserPaymentJdbcDao implements UserPaymentDao {
         } catch (SQLException e) {
             String msg = "Error occurred while get user payments ";
             log.error(msg, e);
-            throw new BillingException(msg, e);
+            throw new UsageBillingException(msg, e);
         } finally {
             BillingDBUtil.closeAllConnections(ps, conn, rs);
         }
@@ -91,9 +94,125 @@ public class UserPaymentJdbcDao implements UserPaymentDao {
         return userPayments;
     }
 
+    @Override
+    public List<UserPayment> loadUserPayments(String userId, int tenantId) throws UsageBillingException {
+        List<UserPayment> userPayments = new ArrayList<UserPayment>();
+
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        String sqlQuery = FIELD_AM_BILLING_USER_PAYMENT_SQL +
+                "  FROM AM_BILLING_USER_PAYMENT " +
+                " WHERE USER_ID = ? " +
+                "   AND TENANT_ID = ? " +
+                " ORDER BY PAYMENT_NO ";
+        try {
+            conn = BillingDBUtil.getConnection();
+            ps = conn.prepareStatement(sqlQuery);
+            int index = 1;
+            ps.setString(index++, userId);
+            ps.setInt(index++, tenantId);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                UserPayment userPayment = createUserPayment(rs);
+                userPayments.add(userPayment);
+            }
+        } catch (SQLException e) {
+            String msg = "Error occurred while get user payments ";
+            log.error(msg, e);
+            throw new UsageBillingException(msg, e);
+        } finally {
+            BillingDBUtil.closeAllConnections(ps, conn, rs);
+        }
+
+        return userPayments;
+    }
+
+    @Override
+    public List<UserPayment> loadUserPayments(int page, int count, UserSearchParam userSearchParam) throws UsageBillingException {
+        List<UserPayment> userPayments = new ArrayList<UserPayment>();
+
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        int startNo = (page-1) * count;
+
+        String sqlQuery = FIELD_AM_BILLING_USER_PAYMENT_SQL +
+                "  FROM AM_BILLING_USER_PAYMENT " +
+                " WHERE TENANT_ID = ? " +
+                "   AND USER_ID LIKE ? " +
+                "   AND USER_NAME LIKE ? " +
+                " ORDER BY PAYMENT_NO DESC " +
+                " LIMIT ?, ? ";
+        try {
+            conn = BillingDBUtil.getConnection();
+            ps = conn.prepareStatement(sqlQuery);
+            int index = 1;
+            ps.setInt(index++, userSearchParam.getTenantId());
+            ps.setString(index++, "%" + userSearchParam.getUserId() + "%");
+            ps.setString(index++, "%" + userSearchParam.getUserName() + "%");
+            ps.setInt(index++, startNo);
+            ps.setInt(index++, count);
+
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                UserPayment userPayment = createUserPayment(rs);
+                userPayments.add(userPayment);
+            }
+        } catch (SQLException e) {
+            String msg = "Error occurred while get user payments ";
+            log.error(msg, e);
+            throw new UsageBillingException(msg, e);
+        } finally {
+            BillingDBUtil.closeAllConnections(ps, conn, rs);
+        }
+
+        return userPayments;
+    }
+
+    @Override
+    public int countUserPayment(UserSearchParam userSearchParam) throws UsageBillingException {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        int total = 0;
+
+        String sqlQuery = "SELECT COUNT(*) AS CNT " +
+                "  FROM AM_BILLING_USER_PAYMENT " +
+                " WHERE TENANT_ID = ? " +
+                "   AND USER_ID LIKE ? " +
+                "   AND USER_NAME LIKE ? ";
+
+        try {
+            conn = BillingDBUtil.getConnection();
+            ps = conn.prepareStatement(sqlQuery);
+            int index = 1;
+            ps.setInt(index++, userSearchParam.getTenantId());
+            ps.setString(index++, "%" + userSearchParam.getUserId() + "%");
+            ps.setString(index++, "%" + userSearchParam.getUserName() + "%");
+
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                total = rs.getInt("CNT");
+            }
+        } catch (SQLException e) {
+            String msg = "Error occurred while get count user payments ";
+            log.error(msg, e);
+            throw new UsageBillingException(msg, e);
+        } finally {
+            BillingDBUtil.closeAllConnections(ps, conn, rs);
+        }
+
+        return total;
+    }
+
     private UserPayment createUserPayment(ResultSet rs) throws SQLException {
         UserPayment userPayment = new UserPayment();
-        int paymentNo = rs.getInt("");
+        int paymentNo = rs.getInt("PAYMENT_NO");
         String userId = rs.getString("USER_ID");
         int tenantId = rs.getInt("TENANT_ID");
         String userName = rs.getString("USER_NAME");
@@ -136,7 +255,7 @@ public class UserPaymentJdbcDao implements UserPaymentDao {
     }
 
     @Override
-    public void addUserPayment(UserPayment userPayment) throws BillingException {
+    public void addUserPayment(UserPayment userPayment) throws UsageBillingException {
         PreparedStatement ps = null;
         Connection conn = null;
 
@@ -161,6 +280,7 @@ public class UserPaymentJdbcDao implements UserPaymentDao {
             ps.setString(index++, userPayment.getCcNumber());
             ps.setString(index++, userPayment.getCvc());
             ps.setString(index++, userPayment.getCardType());
+            ps.setString(index++, userPayment.getCardExpDate());
             ps.setString(index++, userPayment.getAddress1());
             ps.setString(index++, userPayment.getAddress2());
             ps.setString(index++, userPayment.getAddress3());
@@ -172,14 +292,14 @@ public class UserPaymentJdbcDao implements UserPaymentDao {
         } catch (SQLException e) {
             String msg = "Failed to add user payment of the user : " + userPayment.getUserName();
             log.error(msg, e);
-            throw new BillingException(msg, e);
+            throw new UsageBillingException(msg, e);
         } finally {
             BillingDBUtil.closeAllConnections(ps, conn, null);
         }
     }
 
     @Override
-    public void updateUserPayment(UserPayment userPayment) throws BillingException {
+    public void updateUserPayment(UserPayment userPayment) throws UsageBillingException {
         PreparedStatement ps = null;
         Connection conn = null;
 
@@ -187,7 +307,7 @@ public class UserPaymentJdbcDao implements UserPaymentDao {
             conn = BillingDBUtil.getConnection();
 
             String sqlAddQuery = "UPDATE AM_BILLING_USER_PAYMENT SET USER_NAME = ?, FIRST_NAME = ?, LAST_NAME = ?, " +
-                    " USER_EMAIL = ?, USER_PASSWORD = ?, COUNTRY = ?, CC_NUMBER = ?, CVC = ?, CARD_TYPE = ?, CARD_EXP_DATE = ?, ADDRESS1 = ?, ADDRESS2 = ?, ADDRESS3 = ?, " +
+                    " USER_EMAIL = ?, COUNTRY = ?, CC_NUMBER = ?, CVC = ?, CARD_TYPE = ?, CARD_EXP_DATE = ?, ADDRESS1 = ?, ADDRESS2 = ?, ADDRESS3 = ?, " +
                     " CITY = ?, PHONE_NUMBER = ?, COMPANY = ? " +
                     " WHERE PAYMENT_NO = ? ";
 
@@ -199,11 +319,12 @@ public class UserPaymentJdbcDao implements UserPaymentDao {
             ps.setString(index++, userPayment.getFirstName());
             ps.setString(index++, userPayment.getLastName());
             ps.setString(index++, userPayment.getUserEmail());
-            ps.setString(index++, userPayment.getPassword());
+            //ps.setString(index++, userPayment.getPassword());
             ps.setString(index++, userPayment.getCountry());
             ps.setString(index++, userPayment.getCcNumber());
             ps.setString(index++, userPayment.getCvc());
             ps.setString(index++, userPayment.getCardType());
+            ps.setString(index++, userPayment.getCardExpDate());
             ps.setString(index++, userPayment.getAddress1());
             ps.setString(index++, userPayment.getAddress2());
             ps.setString(index++, userPayment.getAddress3());
@@ -216,14 +337,14 @@ public class UserPaymentJdbcDao implements UserPaymentDao {
         } catch (SQLException e) {
             String msg = "Failed to update user payment of the user : " + userPayment.getUserName();
             log.error(msg, e);
-            throw new BillingException(msg, e);
+            throw new UsageBillingException(msg, e);
         } finally {
             BillingDBUtil.closeAllConnections(ps, conn, null);
         }
     }
 
     @Override
-    public void deleteUserPayment(int paymentNo) throws BillingException {
+    public void deleteUserPayment(int paymentNo) throws UsageBillingException {
         PreparedStatement ps = null;
         Connection conn = null;
 
@@ -240,7 +361,7 @@ public class UserPaymentJdbcDao implements UserPaymentDao {
         } catch (SQLException e) {
             String msg = "Failed to delete user payment of the paymentNo : " + paymentNo;
             log.error(msg, e);
-            throw new BillingException(msg, e);
+            throw new UsageBillingException(msg, e);
         } finally {
             BillingDBUtil.closeAllConnections(ps, conn, null);
         }

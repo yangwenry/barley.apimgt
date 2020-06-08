@@ -1,7 +1,8 @@
 package barley.apimgt.usage.billing.dao;
 
 import barley.apimgt.usage.billing.domain.UserPayment;
-import barley.apimgt.usage.billing.exception.BillingException;
+import barley.apimgt.usage.billing.exception.UsageBillingException;
+import barley.apimgt.usage.billing.vo.UserSearchParam;
 
 import java.util.List;
 
@@ -12,13 +13,19 @@ import java.util.List;
  */
 public interface UserPaymentDao {
 
-    UserPayment loadUserPaymentByID(int paymentNo) throws BillingException;
+    UserPayment loadUserPaymentByID(int paymentNo) throws UsageBillingException;
 
-    List<UserPayment> loadUserPayments() throws BillingException ;
+    List<UserPayment> loadUserPayments() throws UsageBillingException;
 
-    void addUserPayment(UserPayment userPayment) throws BillingException ;
+    List<UserPayment> loadUserPayments(String userId, int tenantId) throws UsageBillingException;
 
-    void updateUserPayment(UserPayment userPayment) throws BillingException ;
+    List<UserPayment> loadUserPayments(int page, int count, UserSearchParam userSearchParam) throws UsageBillingException;
 
-    void deleteUserPayment(int paymentNo) throws BillingException ;
+    int countUserPayment(UserSearchParam userSearchParam) throws UsageBillingException;
+
+    void addUserPayment(UserPayment userPayment) throws UsageBillingException;
+
+    void updateUserPayment(UserPayment userPayment) throws UsageBillingException;
+
+    void deleteUserPayment(int paymentNo) throws UsageBillingException;
 }

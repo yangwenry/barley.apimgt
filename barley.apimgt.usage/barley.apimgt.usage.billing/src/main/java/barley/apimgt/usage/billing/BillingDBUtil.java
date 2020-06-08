@@ -1,6 +1,6 @@
 package barley.apimgt.usage.billing;
 
-import barley.apimgt.usage.billing.exception.BillingDatabaseException;
+import barley.apimgt.usage.billing.exception.UsageBillingDatabaseException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -21,7 +21,7 @@ public class BillingDBUtil {
     private static final  Object lock = new Object();
     private static final String DATA_SOURCE_NAME = "java:/comp/env/jdbc/BARLEY_AM_DB";
 
-    public static void initializeDataSource() throws BillingDatabaseException {
+    public static void initializeDataSource() throws UsageBillingDatabaseException {
         if (dataSource != null) {
             return;
         }
@@ -34,7 +34,7 @@ public class BillingDBUtil {
                 }
             }
         } catch (NamingException e) {
-            throw new BillingDatabaseException("Error while looking up the data " +
+            throw new UsageBillingDatabaseException("Error while looking up the data " +
                     "source: " + DATA_SOURCE_NAME, e);
         }
     }

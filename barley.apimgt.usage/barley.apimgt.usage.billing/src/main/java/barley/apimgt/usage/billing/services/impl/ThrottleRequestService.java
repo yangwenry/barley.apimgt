@@ -16,23 +16,24 @@
 * under the License.
 *
 */
-package barley.apimgt.usage.billing.dao;
+package barley.apimgt.usage.billing.services.impl;
 
+import barley.apimgt.usage.billing.dao.PlanDao;
 import barley.apimgt.usage.billing.domain.Invoice;
 import barley.apimgt.usage.billing.domain.Plan;
 import barley.apimgt.usage.billing.domain.UserPayment;
-import barley.apimgt.usage.billing.exception.BillingException;
-import barley.apimgt.usage.billing.vo.ThrottleRequest;
+import barley.apimgt.usage.billing.exception.UsageBillingException;
+import barley.apimgt.usage.billing.vo.ThrottleRequestVO;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class ThrottleRequestDao {
+public class ThrottleRequestService {
 
     private PlanDao planDao;
 
-    public ThrottleRequestDao(PlanDao planDao) {
+    public ThrottleRequestService(PlanDao planDao) {
         this.planDao = planDao;
     }
 
@@ -44,13 +45,16 @@ public class ThrottleRequestDao {
         this.planDao = planDao;
     }
 
-    private Invoice getInvoice(int success, int throttle, String planName, UserPayment userPayment) throws BillingException {
+    private Invoice getInvoice(String planName, int year, int month, UserPayment userPayment, ThrottleRequestVO throttleRequest) throws UsageBillingException {
+
+        int success = throttleRequest.getSuccessCount();
+        int throttle = throttleRequest.getThrottleCount();
 
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
         Calendar calendar = Calendar.getInstance();
         String billDate = dateFormat.format(calendar.getTime());
-        int invoiceYear = calendar.get(Calendar.YEAR);
-        int invoiceMonth = calendar.get(Calendar.MONTH);
+        //int invoiceYear = calendar.get(Calendar.YEAR);
+        //int invoiceMonth = calendar.get(Calendar.MONTH);
         //calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) + 1);
         //String dueDate = dateFormat.format(calendar.getTime());
 
@@ -69,12 +73,14 @@ public class ThrottleRequestDao {
         //int ran = (int) (Math.random() * 1000);
 
         Invoice invoice = new Invoice();
+        invoice.setUserId(userPayment.getUserId());
         invoice.setAddress1(userPayment.getAddress1());
         invoice.setAddress2(userPayment.getAddress2());
         invoice.setAddress3(userPayment.getAddress3());
         invoice.setCreatedDate(billDate);
-        invoice.setInvoiceYear(invoiceYear);
-        invoice.setInvoiceMonth(invoiceMonth);
+        invoice.setInvoiceYear(year);
+        invoice.setInvoiceMonth(month);
+        invoice.setTenantId(userPayment.getTenantId());
         //invoice.setInvoiceNo(ran);
         invoice.setPaymentMethod(userPayment.getCardType());
         invoice.setSubscriptionFee(plan.getSubscriptionFee());
@@ -95,11 +101,8 @@ public class ThrottleRequestDao {
         return invoice;
     }
 
-    public Invoice generateInvoice(String planName, UserPayment userPayment, ThrottleRequest throttleRequest) throws BillingException {
-        int sCount = throttleRequest.getSuccessCount();
-        int tCount = throttleRequest.getThrottleCount();
-
-        Invoice result = getInvoice(sCount, tCount, planName, userPayment);
+    public Invoice generateInvoice(String planName, int year, int month, UserPayment userPayment, ThrottleRequestVO throttleRequest) throws UsageBillingException {
+        Invoice result = getInvoice(planName, year, month, userPayment, throttleRequest);
         return result;
     }
 
