@@ -111,6 +111,7 @@ public class PlanJdbcDao implements PlanDao {
             conn = BillingDBUtil.getConnection();
             ps = conn.prepareStatement(sqlQuery);
             int index = 1;
+            if(planName == null) planName = "";
             ps.setString(index++, "%" + planName + "%");
             ps.setInt(index++, startNo);
             ps.setInt(index++, count);
@@ -147,6 +148,7 @@ public class PlanJdbcDao implements PlanDao {
             conn = BillingDBUtil.getConnection();
             ps = conn.prepareStatement(sqlQuery);
             int index = 1;
+            if(planName == null) planName = "";
             ps.setString(index++, "%" + planName + "%");
 
             rs = ps.executeQuery();

@@ -20,6 +20,8 @@ public interface InvoiceService {
 
     List<Invoice> listInvoices() throws UsageBillingException;
 
+    List<Invoice> listInvoices(int year, int month, int tenantId) throws UsageBillingException;
+
     List<Invoice> listInvoices(int page, int count, UserSearchParam userSearchParam) throws UsageBillingException;
 
     int countInvoice(UserSearchParam userSearchParam) throws UsageBillingException;

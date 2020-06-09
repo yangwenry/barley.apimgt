@@ -152,7 +152,9 @@ public class UserPaymentJdbcDao implements UserPaymentDao {
             ps = conn.prepareStatement(sqlQuery);
             int index = 1;
             ps.setInt(index++, userSearchParam.getTenantId());
+            if(userSearchParam.getUserId() == null) userSearchParam.setUserId("");
             ps.setString(index++, "%" + userSearchParam.getUserId() + "%");
+            if(userSearchParam.getUserName() == null) userSearchParam.setUserName("");
             ps.setString(index++, "%" + userSearchParam.getUserName() + "%");
             ps.setInt(index++, startNo);
             ps.setInt(index++, count);
@@ -192,7 +194,9 @@ public class UserPaymentJdbcDao implements UserPaymentDao {
             ps = conn.prepareStatement(sqlQuery);
             int index = 1;
             ps.setInt(index++, userSearchParam.getTenantId());
+            if(userSearchParam.getUserId() == null) userSearchParam.setUserId("");
             ps.setString(index++, "%" + userSearchParam.getUserId() + "%");
+            if(userSearchParam.getUserName() == null) userSearchParam.setUserName("");
             ps.setString(index++, "%" + userSearchParam.getUserName() + "%");
 
             rs = ps.executeQuery();

@@ -37,20 +37,19 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     public Invoice createInvoice(String planName, int year, int month, UserPayment userPayment, ThrottleRequestVO throttleRequest) throws UsageBillingException {
-        // 기준 년/월에 이미 생성했는지 확인
-        List<Invoice> invoices = invoiceDao.loadInvoices(year, month, userPayment.getTenantId());
-        if(invoices != null && invoices.size() > 0) {
-            String msg = "already exists invoice. year: " + year + ", month: " + month;
-            throw new UsageBillingException(msg);
-        }
-
         Invoice result = throttleRequestService.generateInvoice(planName, year, month, userPayment, throttleRequest);
         invoiceDao.addInvoice(result);
         return result;
     }
 
+    @Override
     public List<Invoice> listInvoices() throws UsageBillingException {
         return invoiceDao.loadInvoices();
+    }
+
+    @Override
+    public List<Invoice> listInvoices(int year, int month, int tenantId) throws UsageBillingException {
+        return invoiceDao.loadInvoices(year, month, tenantId);
     }
 
     @Override
