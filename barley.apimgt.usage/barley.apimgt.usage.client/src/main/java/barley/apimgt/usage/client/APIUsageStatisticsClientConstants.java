@@ -23,6 +23,8 @@ public final class APIUsageStatisticsClientConstants {
 
     public static final String API_REQUEST_SUMMARY = "API_REQUEST_SUMMARY";
 
+    public static final String API_USER_USAGE_SUMMARY = "API_USER_USAGE_SUMMARY";
+
     public static final String API_THROTTLED_OUT_SUMMARY = "API_THROTTLED_OUT_SUMMARY";
 
     public static final String CONSUMERKEY = "consumerKey";
@@ -64,6 +66,8 @@ public final class APIUsageStatisticsClientConstants {
     public static final String ROW = "row";
 
     public static final String TOTAL_REQUEST_COUNT = "total_request_count";
+
+    public static final String TOTAL_THROTTLEOUT_COUNT = "total_throttleout_count";
 
     public static final String API = "api";
 
@@ -112,6 +116,8 @@ public final class APIUsageStatisticsClientConstants {
     public static final String SUCCESS_REQUEST_COUNT = "success_request_count";
 
     public static final String THROTTLED_OUT_COUNT = "throttleout_count";
+
+    public static final String FAULT_COUNT = "fault_count";
 
     public static final String FOR_ALL_API_VERSIONS = "FOR_ALL_API_VERSIONS";
 

@@ -131,13 +131,13 @@ public abstract class APIUsageStatisticsClient {
      * Returns a list of APIUsageByUserDTO objects that contain information related to
      * User wise API Usage, along with the number of invocations, and API Version
      *
-     * @param providerName Name of the API provider
+     * @param userId Name of the API provider
      * @param fromDate     starting date of the results
      * @param toDate       ending date of the results
      * @return list of APIUsageByUserDTO
      * @throws APIMgtUsageQueryServiceClientException
      */
-    public abstract List<APIUsageByUserDTO> getAPIUsageByUser(String providerName, String fromDate, String toDate)
+    public abstract List<APIUsageByUserNameDTO> getAPIUsageByUser(String userId, String fromDate, String toDate)
             throws APIMgtUsageQueryServiceClientException;
 
     /**
@@ -238,6 +238,12 @@ public abstract class APIUsageStatisticsClient {
      */
     public abstract List<APIThrottlingOverTimeDTO> getThrottleDataOfAPIAndApplication(String apiName, String provider,
                                                                                       String apiPublisher, String fromDate, String toDate, String groupBy)
+            throws APIMgtUsageQueryServiceClientException;
+
+
+    // (추가) 2020.06.10
+    public abstract  List<APIThrottlingAndFaultDTO> getThrottleAndFaultData(String apiName, String provider,
+                                                                  String apiPublisher, String fromDate, String toDate)
             throws APIMgtUsageQueryServiceClientException;
 
     /**

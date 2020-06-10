@@ -1148,28 +1148,27 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
      * Returns a list of APIUsageByUserDTO objects that contain information related to
      * User wise API Usage, along with the number of invocations, and API Version
      *
-     * @param providerName Name of the API provider
+     * @param userId Name of the API provider
      * @return a List of APIUsageByUserDTO objects, possibly empty
      * @throws barley.apimgt.usage.client.exception.APIMgtUsageQueryServiceClientException on error
      */
     @Override
-    public List<APIUsageByUserDTO> getAPIUsageByUser(String providerName, String fromDate, String toDate)
+    public List<APIUsageByUserNameDTO> getAPIUsageByUser(String userId, String fromDate, String toDate)
             throws APIMgtUsageQueryServiceClientException {
 
+//        List<APIUsageByUserName> usageData = this
+//                .getAPIUsageByUserData(providerName, fromDate, toDate, null);
         List<APIUsageByUserName> usageData = this
-                .getAPIUsageByUserData(providerName, fromDate, toDate, null);
-        String tenantDomain = MultitenantUtils.getTenantDomain(providerName);
-        List<APIUsageByUserDTO> usageByName = new ArrayList<APIUsageByUserDTO>();
+                .getAPIUsageByUserData(userId, fromDate, toDate);
 
+        List<APIUsageByUserNameDTO> usageByName = new ArrayList<APIUsageByUserNameDTO>();
         for (APIUsageByUserName usage : usageData) {
-            if (tenantDomain.equals(MultitenantUtils.getTenantDomain(usage.getApipublisher()))) {
-                APIUsageByUserDTO usageDTO = new APIUsageByUserDTO();
-                usageDTO.setApiName(usage.getApiName());
-                usageDTO.setVersion(usage.getApiVersion());
-                usageDTO.setUserID(usage.getUserID());
-                usageDTO.setCount(usage.getRequestCount());
-                usageByName.add(usageDTO);
-            }
+            APIUsageByUserNameDTO usageDTO = new APIUsageByUserNameDTO();
+            usageDTO.setUserId(usage.getUserID());
+            usageDTO.setRequestCount(usage.getRequestCount());
+            usageDTO.setThrottleOutCount(usage.getThrottleOutCount());
+            usageDTO.setFaultCount(usage.getFaultCount());
+            usageByName.add(usageDTO);
         }
         return usageByName;
     }
@@ -1902,15 +1901,7 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
         }
     }
 
-    /**
-     * This method find the api usage count and it's subscribers
-     * @param providerName logged API publisher
-     * @param fromDate starting data
-     * @param toDate ending date
-     * @param limit result to be limited
-     * @return list of APIUsageByUserName
-     * @throws APIMgtUsageQueryServiceClientException throws if error occurred
-     */
+    /*
     private List<APIUsageByUserName> getAPIUsageByUserData(String providerName, String fromDate, String toDate,
             Integer limit) throws APIMgtUsageQueryServiceClientException {
         if (dataSource == null) {
@@ -1929,14 +1920,13 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
             String msSqlQuery;
             String filter;
             if (providerName.startsWith(APIUsageStatisticsClientConstants.ALL_PROVIDERS)) {
-                /* (주석) context와 tenant 비교가 잘못되었으며, 비교한다해도 멀티테넌트를 고려하지 않으므로 주석
-                if (MultitenantConstants.SUPER_TENANT_DOMAIN_NAME.equals(tenantDomain)) {
-                    filter = APIUsageStatisticsClientConstants.CONTEXT + " not like '%/t/%'";
-                } else {
-                    filter = APIUsageStatisticsClientConstants.CONTEXT + " like '%" + tenantDomain + "%'";
-                }
-                */
-                filter = "1=1";
+                // (주석) context와 tenant 비교가 잘못되었으며, 비교한다해도 멀티테넌트를 고려하지 않으므로 주석
+//                if (MultitenantConstants.SUPER_TENANT_DOMAIN_NAME.equals(tenantDomain)) {
+//                    filter = APIUsageStatisticsClientConstants.CONTEXT + " not like '%/t/%'";
+//                } else {
+//                    filter = APIUsageStatisticsClientConstants.CONTEXT + " like '%" + tenantDomain + "%'";
+//                }
+//                filter = "1=1";
             } else {
                 filter = APIUsageStatisticsClientConstants.API_PUBLISHER + " = '" + providerName + "'";
             }
@@ -2068,6 +2058,75 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
                             requestCount);
                     usageByName.add(usage);
                 }
+            }
+            return usageByName;
+        } catch (Exception e) {
+            throw new APIMgtUsageQueryServiceClientException("Error occurred while querying from JDBC database", e);
+        } finally {
+            closeDatabaseLinks(rs, preparedStatement, connection);
+        }
+    }
+    */
+
+    /**
+     * This method find the api usage count and it's subscribers
+     * @param userId logged API publisher
+     * @param fromDate starting data
+     * @param toDate ending date
+     * @return list of APIUsageByUserName
+     * @throws APIMgtUsageQueryServiceClientException throws if error occurred
+     */
+    private List<APIUsageByUserName> getAPIUsageByUserData(String userId, String fromDate,
+                                                           String toDate) throws APIMgtUsageQueryServiceClientException {
+        if (dataSource == null) {
+            throw new APIMgtUsageQueryServiceClientException("BAM data source hasn't been initialized. Ensure "
+                    + "that the data source is properly configured in the APIUsageTracker configuration.");
+        }
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = null;
+        try {
+            connection = dataSource.getConnection();
+            String query;
+            String filter = "1=1";
+            if(!"ALL".equals(userId)) {
+                filter += " AND " + APIUsageStatisticsClientConstants.USER_ID + " = '" + userId + "' ";
+            }
+            if (fromDate != null && toDate != null) {
+                filter += " AND " + APIUsageStatisticsClientConstants.TIME + " BETWEEN ? AND ? ";
+            }
+
+            query = "SELECT " + APIUsageStatisticsClientConstants.USER_ID + ", SUM("
+                    + APIUsageStatisticsClientConstants.SUCCESS_REQUEST_COUNT + ") AS TOTAL_REQUEST_COUNT" + ", SUM("
+                    + APIUsageStatisticsClientConstants.THROTTLED_OUT_COUNT + ") AS TOTAL_THROTTLEOUT_COUNT" + ", SUM("
+                    + APIUsageStatisticsClientConstants.FAULT_COUNT + ") AS TOTAL_FAULT_COUNT " +
+                    " FROM " + APIUsageStatisticsClientConstants.API_USER_USAGE_SUMMARY +
+                    " WHERE " + filter +
+                    " GROUP BY " + APIUsageStatisticsClientConstants.USER_ID + " ORDER BY "
+                    + APIUsageStatisticsClientConstants.TOTAL_REQUEST_COUNT + " DESC ";
+
+            preparedStatement = connection.prepareStatement(query);
+            if(query.contains("?")){
+                preparedStatement.setString(1, fromDate);
+                preparedStatement.setString(2, toDate);
+            }
+
+            rs = preparedStatement.executeQuery();
+            List<APIUsageByUserName> usageByName = new ArrayList<APIUsageByUserName>();
+            String userID;
+            int requestCount;
+            int throttleoutCount;
+            int faultCount;
+
+            while (rs.next()) {
+                userID = rs.getString(APIUsageStatisticsClientConstants.USER_ID);
+                requestCount = rs.getInt(APIUsageStatisticsClientConstants.TOTAL_REQUEST_COUNT);
+                throttleoutCount = rs.getInt(APIUsageStatisticsClientConstants.TOTAL_THROTTLEOUT_COUNT);
+                faultCount = rs.getInt(APIUsageStatisticsClientConstants.TOTAL_FAULT_COUNT);
+
+                APIUsageByUserName usage = new APIUsageByUserName(userID, requestCount, throttleoutCount, faultCount);
+                usageByName.add(usage);
             }
             return usageByName;
         } catch (Exception e) {
@@ -2517,6 +2576,100 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
                     throttlingData
                             .add(new APIThrottlingOverTimeDTO(api, version, apiPublisher, successRequestCount, throttledOutCount,
                                     null));
+                }
+
+            } else {
+                throw new APIMgtUsageQueryServiceClientException(
+                        "Statistics Table:" + APIUsageStatisticsClientConstants.API_THROTTLED_OUT_SUMMARY +
+                                " does not exist.");
+            }
+            return throttlingData;
+        } catch (SQLException e) {
+            throw new APIMgtUsageQueryServiceClientException("Error occurred while querying from JDBC database", e);
+        } finally {
+            closeDatabaseLinks(rs, preparedStatement, connection);
+        }
+    }
+
+    // (추가) 2020.06.10 - 한번의 쿼리로 성공수, 실패수, 지연수 가져오기
+    @Override
+    public List<APIThrottlingAndFaultDTO> getThrottleAndFaultData(String apiName, String provider,
+                                                                  String apiPublisher, String fromDate, String toDate)
+            throws APIMgtUsageQueryServiceClientException {
+
+        if (dataSource == null) {
+            throw new APIMgtUsageQueryServiceClientException("BAM data source hasn't been initialized. Ensure "
+                    + "that the datasource is properly configured in the APIUsageTracker configuration.");
+        }
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = null;
+        try {
+            connection = dataSource.getConnection();
+            String query, groupByStmt;
+            List<APIThrottlingAndFaultDTO> throttlingData = new ArrayList<APIThrottlingAndFaultDTO>();
+            String tenantDomain = MultitenantUtils.getTenantDomain(provider);
+
+            //check whether table exist first
+            if (isTableExist(APIUsageStatisticsClientConstants.API_THROTTLED_OUT_SUMMARY, connection)) { //Table exists
+
+                groupByStmt = "TH.YEAR, TH.MONTH, TH.DAY, TH.API, TH.VERSION";
+                query = "SELECT " + groupByStmt + " , " +
+                        "SUM(COALESCE(" + APIUsageStatisticsClientConstants.SUCCESS_REQUEST_COUNT
+                        + ",0)) AS success_request_count, " +
+                        "SUM(COALESCE(" + APIUsageStatisticsClientConstants.THROTTLED_OUT_COUNT
+                        + ",0)) AS throttleout_count, " +
+                        "SUM(COALESCE(" + APIUsageStatisticsClientConstants.TOTAL_FAULT_COUNT
+                        + ",0)) AS total_fault_count " +
+                        "FROM " + APIUsageStatisticsClientConstants.API_THROTTLED_OUT_SUMMARY + " TH " +
+                        " LEFT OUTER JOIN " + APIUsageStatisticsClientConstants.API_FAULT_SUMMARY + " FT " +
+                        " ON TH.API = FT.API AND TH.VERSION = FT.VERSION AND TH.APIPUBLISHER = FT.APIPUBLISHER " +
+                        " AND TH.YEAR = FT.YEAR AND TH.MONTH = FT.MONTH AND TH.DAY = FT.DAY " +
+                        " WHERE TH.TENANTDOMAIN = ? " +
+                        // (추가) 2020.04.16 - api 조건없이 전체 검색하도록 추가
+                        ("ALL".equals(apiName) ?
+                                "" :
+                                " AND TH.API = ? ") +
+                        ("ALL".equals(apiPublisher) ?
+                                "" :
+                                " AND TH.APIPUBLISHER = ?") +
+                        " AND TH.TIME BETWEEN ? AND ? " +
+                        "GROUP BY " + groupByStmt +
+                        " ORDER BY " + groupByStmt + " ASC";
+
+                preparedStatement = connection.prepareStatement(query);
+                int index = 1;
+                preparedStatement.setString(index++, tenantDomain);
+                // (추가) 2020.04.16 - api 조건없이 전체 검색하도록 추가
+                if (!"ALL".equals(apiName)) {
+                    preparedStatement.setString(index++, apiName);
+                }
+                // (주석)
+                /*if (!provider.startsWith(APIUsageStatisticsClientConstants.ALL_PROVIDERS)) {
+                    preparedStatement.setString(index++, provider);
+                }*/
+                // (수정) All로 변경
+                //if (!StringUtils.isEmpty(apiPublisher)) {
+                if (!"ALL".equals(apiPublisher)) {
+                    preparedStatement.setString(index++, apiPublisher);
+                }
+                preparedStatement.setString(index++, fromDate);
+                preparedStatement.setString(index, toDate);
+
+                rs = preparedStatement.executeQuery();
+                while (rs.next()) {
+                    int successRequestCount = rs.getInt(APIUsageStatisticsClientConstants.SUCCESS_REQUEST_COUNT);
+                    int throttledOutCount = rs.getInt(APIUsageStatisticsClientConstants.THROTTLED_OUT_COUNT);
+                    int faultCount = rs.getInt(APIUsageStatisticsClientConstants.TOTAL_FAULT_COUNT);
+                    int year = rs.getInt(APIUsageStatisticsClientConstants.YEAR);
+                    int month = rs.getInt(APIUsageStatisticsClientConstants.MONTH);
+                    String version = rs.getString(APIUsageStatisticsClientConstants.VERSION);
+                    int day = rs.getInt(APIUsageStatisticsClientConstants.DAY);
+                    String time = year + "-" + month + "-" + day + " 00:00:00";
+                    String api = rs.getString(APIUsageStatisticsClientConstants.API);
+                    throttlingData
+                            .add(new APIThrottlingAndFaultDTO(api, version, provider, successRequestCount, throttledOutCount, faultCount,
+                                    time));
                 }
 
             } else {

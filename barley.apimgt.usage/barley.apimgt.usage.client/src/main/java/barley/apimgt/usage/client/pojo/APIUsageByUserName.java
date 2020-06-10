@@ -22,48 +22,19 @@ package barley.apimgt.usage.client.pojo;
  * This class is used as a pojo class to represent API usage by user
  */
 public class APIUsageByUserName {
-    private String apiName;
-    private String apiVersion;
-    private String context;
     private String userID;
-    private String apipublisher;
-    private long requestCount;
+    private int requestCount;
+    private int throttleOutCount;
+    private int faultCount;
 
-    public APIUsageByUserName(String apiName, String apiVersion, String context, String userID, String apipublisher,
-            long requestCount) {
-        this.apiName = apiName;
-        this.apiVersion = apiVersion;
-        this.context = context;
+    public APIUsageByUserName(String userID, int requestCount, int throttleOutCount, int faultCount) {
         this.userID = userID;
-        this.apipublisher = apipublisher;
         this.requestCount = requestCount;
+        this.throttleOutCount = throttleOutCount;
+        this.faultCount = faultCount;
     }
 
     public APIUsageByUserName() {
-    }
-
-    public String getApiName() {
-        return apiName;
-    }
-
-    public void setApiName(String apiName) {
-        this.apiName = apiName;
-    }
-
-    public String getApiVersion() {
-        return apiVersion;
-    }
-
-    public void setApiVersion(String apiVersion) {
-        this.apiVersion = apiVersion;
-    }
-
-    public String getContext() {
-        return context;
-    }
-
-    public void setContext(String context) {
-        this.context = context;
     }
 
     public String getUserID() {
@@ -74,26 +45,34 @@ public class APIUsageByUserName {
         this.userID = userID;
     }
 
-    public String getApipublisher() {
-        return apipublisher;
-    }
-
-    public void setApipublisher(String apipublisher) {
-        this.apipublisher = apipublisher;
-    }
-
-    public long getRequestCount() {
+    public int getRequestCount() {
         return requestCount;
     }
 
-    public void setRequestCount(long requestCount) {
+    public void setRequestCount(int requestCount) {
         this.requestCount = requestCount;
     }
 
-	@Override
+    public int getThrottleOutCount() {
+        return throttleOutCount;
+    }
+
+    public void setThrottleOutCount(int throttleOutCount) {
+        this.throttleOutCount = throttleOutCount;
+    }
+
+    public int getFaultCount() {
+        return faultCount;
+    }
+
+    public void setFaultCount(int faultCount) {
+        this.faultCount = faultCount;
+    }
+
+    @Override
 	public String toString() {
-		return "APIUsageByUserName [apiName=" + apiName + ", apiVersion=" + apiVersion + ", context=" + context
-				+ ", userID=" + userID + ", apipublisher=" + apipublisher + ", requestCount=" + requestCount + "]";
+		return "APIUsageByUserName [userID=" + userID + ", requestCount=" + requestCount + ", throttleOutCount=" + throttleOutCount
+				+ ", faultCount=" + faultCount + "]";
 	}
 
     
