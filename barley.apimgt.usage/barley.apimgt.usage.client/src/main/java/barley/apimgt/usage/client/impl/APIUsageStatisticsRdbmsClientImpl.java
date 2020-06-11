@@ -1300,7 +1300,7 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
      *
      * @param providerName Name of the API provider
      * @return a list of APIVersionLastAccessTimeDTO objects, possibly empty
-     * @throws barely.apimgt.usage.client.exception.APIMgtUsageQueryServiceClientException on error
+     * @throws barley.apimgt.usage.client.exception.APIMgtUsageQueryServiceClientException on error
      */
     @Override
     public List<APIVersionLastAccessTimeDTO> getProviderAPIVersionUserLastAccess(String providerName, String fromDate,
@@ -2399,8 +2399,7 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
      * Given API name and Application, returns throttling request counts over time for a given time span.
      *
      * @param apiName  Name of the API
-     * @param provider Provider name
-     * @param apiPublisher  Application name
+     * @param providerName Provider name
      * @param fromDate Start date of the time span
      * @param toDate   End date of time span
      * @param groupBy  Group by parameter. Supported parameters are :day,hour
@@ -2408,8 +2407,8 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
      * @throws APIMgtUsageQueryServiceClientException
      */
     @Override
-    public List<APIThrottlingOverTimeDTO> getThrottleDataOfAPIAndApplication(String apiName, String provider,
-            String apiPublisher, String fromDate, String toDate, String groupBy)
+    public List<APIThrottlingOverTimeDTO> getThrottleDataOfAPIAndApplication(String providerName, String apiName, String tenantDomain,
+            String fromDate, String toDate, String groupBy)
             throws APIMgtUsageQueryServiceClientException {
 
         if (dataSource == null) {
@@ -2423,7 +2422,7 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
             connection = dataSource.getConnection();
             String query, groupByStmt;
             List<APIThrottlingOverTimeDTO> throttlingData = new ArrayList<APIThrottlingOverTimeDTO>();
-            String tenantDomain = MultitenantUtils.getTenantDomain(provider);
+            //String tenantDomain = MultitenantUtils.getTenantDomain(provider);
 
             //check whether table exist first
             if (isTableExist(APIUsageStatisticsClientConstants.API_THROTTLED_OUT_SUMMARY, connection)) { //Table exists
@@ -2449,7 +2448,7 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
                                 "AND " + APIUsageStatisticsClientConstants.API_PUBLISHER + " = ?") +*/
                         // (수정) All로 변경
                         // (StringUtils.isEmpty(apiPublisher) ?
-                        ("ALL".equals(apiPublisher) ?
+                        ("ALL".equals(providerName) ?
                                 "" :
                                 " AND " + APIUsageStatisticsClientConstants.API_PUBLISHER + " = ?") +
                         " AND " + APIUsageStatisticsClientConstants.TIME + " BETWEEN ? AND ? " +
@@ -2469,8 +2468,8 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
                 }*/
                 // (수정) All로 변경
                 //if (!StringUtils.isEmpty(apiPublisher)) {
-                if (!"ALL".equals(apiPublisher)) {
-                    preparedStatement.setString(index++, apiPublisher);
+                if (!"ALL".equals(providerName)) {
+                    preparedStatement.setString(index++, providerName);
                 }
                 preparedStatement.setString(index++, fromDate);
                 preparedStatement.setString(index, toDate);
@@ -2492,7 +2491,7 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
                     }
                     String api = rs.getString(APIUsageStatisticsClientConstants.API);
                     throttlingData
-                            .add(new APIThrottlingOverTimeDTO(api, version, provider, successRequestCount, throttledOutCount,
+                            .add(new APIThrottlingOverTimeDTO(api, version, providerName, successRequestCount, throttledOutCount,
                                     time));
                 }
 
@@ -2593,8 +2592,8 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
 
     // (추가) 2020.06.10 - 한번의 쿼리로 성공수, 실패수, 지연수 가져오기
     @Override
-    public List<APIThrottlingAndFaultDTO> getThrottleAndFaultData(String apiName, String provider,
-                                                                  String apiPublisher, String fromDate, String toDate)
+    public List<APIUsageSummaryDTO> getAPIUsageSummaries(String providerName, String apiName, String version,
+                                                                  String fromDate, String toDate)
             throws APIMgtUsageQueryServiceClientException {
 
         if (dataSource == null) {
@@ -2606,70 +2605,46 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
         ResultSet rs = null;
         try {
             connection = dataSource.getConnection();
-            String query, groupByStmt;
-            List<APIThrottlingAndFaultDTO> throttlingData = new ArrayList<APIThrottlingAndFaultDTO>();
-            String tenantDomain = MultitenantUtils.getTenantDomain(provider);
+            String query;
+            List<APIUsageSummaryDTO> throttlingData = new ArrayList<APIUsageSummaryDTO>();
+            //String tenantDomain = MultitenantUtils.getTenantDomain(provider);
 
             //check whether table exist first
             if (isTableExist(APIUsageStatisticsClientConstants.API_THROTTLED_OUT_SUMMARY, connection)) { //Table exists
 
-                groupByStmt = "TH.YEAR, TH.MONTH, TH.DAY, TH.API, TH.VERSION";
-                query = "SELECT " + groupByStmt + " , " +
-                        "SUM(COALESCE(" + APIUsageStatisticsClientConstants.SUCCESS_REQUEST_COUNT
-                        + ",0)) AS success_request_count, " +
-                        "SUM(COALESCE(" + APIUsageStatisticsClientConstants.THROTTLED_OUT_COUNT
-                        + ",0)) AS throttleout_count, " +
-                        "SUM(COALESCE(" + APIUsageStatisticsClientConstants.TOTAL_FAULT_COUNT
-                        + ",0)) AS total_fault_count " +
-                        "FROM " + APIUsageStatisticsClientConstants.API_THROTTLED_OUT_SUMMARY + " TH " +
-                        " LEFT OUTER JOIN " + APIUsageStatisticsClientConstants.API_FAULT_SUMMARY + " FT " +
-                        " ON TH.API = FT.API AND TH.VERSION = FT.VERSION AND TH.APIPUBLISHER = FT.APIPUBLISHER " +
-                        " AND TH.YEAR = FT.YEAR AND TH.MONTH = FT.MONTH AND TH.DAY = FT.DAY " +
-                        " WHERE TH.TENANTDOMAIN = ? " +
-                        // (추가) 2020.04.16 - api 조건없이 전체 검색하도록 추가
-                        ("ALL".equals(apiName) ?
-                                "" :
-                                " AND TH.API = ? ") +
-                        ("ALL".equals(apiPublisher) ?
-                                "" :
-                                " AND TH.APIPUBLISHER = ?") +
-                        " AND TH.TIME BETWEEN ? AND ? " +
-                        "GROUP BY " + groupByStmt +
-                        " ORDER BY " + groupByStmt + " ASC";
-
+                query = getQueryThrottlingAndExecutionTime(providerName, apiName, version, fromDate, toDate, "DAY");
                 preparedStatement = connection.prepareStatement(query);
                 int index = 1;
-                preparedStatement.setString(index++, tenantDomain);
                 // (추가) 2020.04.16 - api 조건없이 전체 검색하도록 추가
                 if (!"ALL".equals(apiName)) {
                     preparedStatement.setString(index++, apiName);
                 }
-                // (주석)
-                /*if (!provider.startsWith(APIUsageStatisticsClientConstants.ALL_PROVIDERS)) {
-                    preparedStatement.setString(index++, provider);
-                }*/
-                // (수정) All로 변경
-                //if (!StringUtils.isEmpty(apiPublisher)) {
-                if (!"ALL".equals(apiPublisher)) {
-                    preparedStatement.setString(index++, apiPublisher);
+                if (!"ALL".equals(version)) {
+                    preparedStatement.setString(index++, version);
                 }
-                preparedStatement.setString(index++, fromDate);
-                preparedStatement.setString(index, toDate);
+                if (!"ALL".equals(providerName)) {
+                    preparedStatement.setString(index++, providerName);
+                }
+                if (fromDate != null && toDate != null) {
+                    preparedStatement.setString(index++, fromDate);
+                    preparedStatement.setString(index, toDate);
+                }
 
                 rs = preparedStatement.executeQuery();
                 while (rs.next()) {
+                    int requestCount = rs.getInt(APIUsageStatisticsClientConstants.TOTAL_REQUEST_COUNT);
                     int successRequestCount = rs.getInt(APIUsageStatisticsClientConstants.SUCCESS_REQUEST_COUNT);
                     int throttledOutCount = rs.getInt(APIUsageStatisticsClientConstants.THROTTLED_OUT_COUNT);
                     int faultCount = rs.getInt(APIUsageStatisticsClientConstants.TOTAL_FAULT_COUNT);
+                    long backendLatency = rs.getLong(APIUsageStatisticsClientConstants.AVG_BAKEND_LATENCY);
                     int year = rs.getInt(APIUsageStatisticsClientConstants.YEAR);
                     int month = rs.getInt(APIUsageStatisticsClientConstants.MONTH);
-                    String version = rs.getString(APIUsageStatisticsClientConstants.VERSION);
+                    String apiVersion = rs.getString(APIUsageStatisticsClientConstants.VERSION);
                     int day = rs.getInt(APIUsageStatisticsClientConstants.DAY);
                     String time = year + "-" + month + "-" + day + " 00:00:00";
                     String api = rs.getString(APIUsageStatisticsClientConstants.API);
                     throttlingData
-                            .add(new APIThrottlingAndFaultDTO(api, version, provider, successRequestCount, throttledOutCount, faultCount,
-                                    time));
+                            .add(new APIUsageSummaryDTO(api, apiVersion, providerName, requestCount, successRequestCount, throttledOutCount, faultCount, backendLatency, time));
                 }
 
             } else {
@@ -2683,6 +2658,113 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
         } finally {
             closeDatabaseLinks(rs, preparedStatement, connection);
         }
+    }
+
+    @Override
+    public APIUsageSummaryDTO getAPIUsageSummary(String providerName, String apiName, String version,
+                                                                                String fromDate, String toDate)
+            throws APIMgtUsageQueryServiceClientException {
+
+        if (dataSource == null) {
+            throw new APIMgtUsageQueryServiceClientException("BAM data source hasn't been initialized. Ensure "
+                    + "that the datasource is properly configured in the APIUsageTracker configuration.");
+        }
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = null;
+        try {
+            connection = dataSource.getConnection();
+            String query;
+            APIUsageSummaryDTO apiThrottlingAndExceutionTimeDTO = null;
+
+            //check whether table exist first
+            if (isTableExist(APIUsageStatisticsClientConstants.API_THROTTLED_OUT_SUMMARY, connection)) { //Table exists
+
+                query = getQueryThrottlingAndExecutionTime(providerName, apiName, version, fromDate, toDate, null);
+                preparedStatement = connection.prepareStatement(query);
+                int index = 1;
+                // (추가) 2020.04.16 - api 조건없이 전체 검색하도록 추가
+                if (!"ALL".equals(apiName)) {
+                    preparedStatement.setString(index++, apiName);
+                }
+                if (!"ALL".equals(version)) {
+                    preparedStatement.setString(index++, version);
+                }
+                if (!"ALL".equals(providerName)) {
+                    preparedStatement.setString(index++, providerName);
+                }
+                if (fromDate != null && toDate != null) {
+                    preparedStatement.setString(index++, fromDate);
+                    preparedStatement.setString(index, toDate);
+                }
+
+                rs = preparedStatement.executeQuery();
+                if (rs.next()) {
+                    int requestCount = rs.getInt(APIUsageStatisticsClientConstants.TOTAL_REQUEST_COUNT);
+                    int successRequestCount = rs.getInt(APIUsageStatisticsClientConstants.SUCCESS_REQUEST_COUNT);
+                    int throttledOutCount = rs.getInt(APIUsageStatisticsClientConstants.THROTTLED_OUT_COUNT);
+                    int faultCount = rs.getInt(APIUsageStatisticsClientConstants.TOTAL_FAULT_COUNT);
+                    long backendLatency = rs.getLong(APIUsageStatisticsClientConstants.AVG_BAKEND_LATENCY);
+                    String apiVersion = rs.getString(APIUsageStatisticsClientConstants.VERSION);
+                    String api = rs.getString(APIUsageStatisticsClientConstants.API);
+                    apiThrottlingAndExceutionTimeDTO = new APIUsageSummaryDTO(api, apiVersion, providerName, requestCount, successRequestCount, throttledOutCount, faultCount, backendLatency);
+                }
+
+            } else {
+                throw new APIMgtUsageQueryServiceClientException(
+                        "Statistics Table:" + APIUsageStatisticsClientConstants.API_THROTTLED_OUT_SUMMARY +
+                                " does not exist.");
+            }
+            return apiThrottlingAndExceutionTimeDTO;
+        } catch (SQLException e) {
+            throw new APIMgtUsageQueryServiceClientException("Error occurred while querying from JDBC database", e);
+        } finally {
+            closeDatabaseLinks(rs, preparedStatement, connection);
+        }
+    }
+
+    private String getQueryThrottlingAndExecutionTime(String providerName, String apiName, String version, String fromDate, String toDate, String groupBy) {
+        String groupByStmt = "REQ.API, REQ.VERSION";
+        if("DAY".equals(groupBy)) {
+            groupByStmt = "REQ.YEAR, REQ.MONTH, REQ.DAY, REQ.API, REQ.VERSION";
+        }
+        String query = "SELECT " + groupByStmt + " , " +
+                "SUM(COALESCE(" + APIUsageStatisticsClientConstants.TOTAL_REQUEST_COUNT
+                + ",0)) AS total_request_count, " +
+                "SUM(COALESCE(" + APIUsageStatisticsClientConstants.SUCCESS_REQUEST_COUNT
+                + ",0)) AS success_request_count, " +
+                "SUM(COALESCE(" + APIUsageStatisticsClientConstants.THROTTLED_OUT_COUNT
+                + ",0)) AS throttleout_count, " +
+                "SUM(COALESCE(" + APIUsageStatisticsClientConstants.TOTAL_FAULT_COUNT
+                + ",0)) AS total_fault_count, " +
+                "AVG(COALESCE(" + APIUsageStatisticsClientConstants.BACKEND_LATENCY
+                + ",0)) AS avg_bakend_latency " +
+                "FROM " + APIUsageStatisticsClientConstants.API_REQUEST_SUMMARY + " REQ " +
+                " LEFT OUTER JOIN " + APIUsageStatisticsClientConstants.API_THROTTLED_OUT_SUMMARY + " TH " +
+                " ON REQ.API = TH.API AND REQ.VERSION = TH.VERSION AND REQ.APIPUBLISHER = TH.APIPUBLISHER " +
+                " AND REQ.YEAR = TH.YEAR AND REQ.MONTH = TH.MONTH AND REQ.DAY = TH.DAY " +
+                " LEFT OUTER JOIN " + APIUsageStatisticsClientConstants.API_FAULT_SUMMARY + " FT " +
+                " ON REQ.API = FT.API AND REQ.VERSION = FT.VERSION AND REQ.APIPUBLISHER = FT.APIPUBLISHER " +
+                " AND REQ.YEAR = FT.YEAR AND REQ.MONTH = FT.MONTH AND REQ.DAY = FT.DAY " +
+                " LEFT OUTER JOIN " + APIUsageStatisticsClientConstants.API_EXECUTION_TME_DAY_SUMMARY + " ED " +
+                " ON REQ.API = ED.API AND REQ.VERSION = ED.VERSION AND REQ.APIPUBLISHER = ED.APIPUBLISHER " +
+                " AND REQ.YEAR = ED.YEAR AND REQ.MONTH = ED.MONTH AND REQ.DAY = ED.DAY " +
+                " WHERE 1=1 " +
+                // (추가) 2020.04.16 - api 조건없이 전체 검색하도록 추가
+                ("ALL".equals(apiName) ?
+                        "" :
+                        " AND REQ.API = ? ") +
+                ("ALL".equals(version) ?
+                        "" :
+                        " AND REQ.VERSION = ? ") +
+                ("ALL".equals(providerName) ?
+                        "" :
+                        " AND REQ.APIPUBLISHER = ?") +
+                ((fromDate != null && toDate != null) ?
+                        " AND REQ.TIME BETWEEN ? AND ? " : "") +
+                "GROUP BY " + groupByStmt +
+                " ORDER BY " + groupByStmt + " ASC";
+        return query;
     }
 
     /**

@@ -236,14 +236,18 @@ public abstract class APIUsageStatisticsClient {
      * @return Throttling counts over time
      * @throws APIMgtUsageQueryServiceClientException
      */
-    public abstract List<APIThrottlingOverTimeDTO> getThrottleDataOfAPIAndApplication(String apiName, String provider,
-                                                                                      String apiPublisher, String fromDate, String toDate, String groupBy)
+    public abstract List<APIThrottlingOverTimeDTO> getThrottleDataOfAPIAndApplication(String providerName, String apiName, String tenantDomain,
+                                                                                      String fromDate, String toDate, String groupBy)
             throws APIMgtUsageQueryServiceClientException;
 
 
     // (추가) 2020.06.10
-    public abstract  List<APIThrottlingAndFaultDTO> getThrottleAndFaultData(String apiName, String provider,
-                                                                  String apiPublisher, String fromDate, String toDate)
+    public abstract List<APIUsageSummaryDTO> getAPIUsageSummaries(String providerName, String apiName, String version,
+                                                                            String fromDate, String toDate)
+            throws APIMgtUsageQueryServiceClientException;
+
+    public abstract APIUsageSummaryDTO getAPIUsageSummary(String providerName, String apiName, String version,
+                                                                                           String fromDate, String toDate)
             throws APIMgtUsageQueryServiceClientException;
 
     /**
@@ -257,7 +261,7 @@ public abstract class APIUsageStatisticsClient {
      * @return Throttling counts of APIs of the provider invoked by the given app
      * @throws APIMgtUsageQueryServiceClientException
      */
-    public abstract List<APIThrottlingOverTimeDTO> getThrottleDataOfApplication(String appName, String provider,
+    public abstract List<APIThrottlingOverTimeDTO> getThrottleDataOfApplication(String appName, String providerName,
                                                                                 String fromDate, String toDate) throws APIMgtUsageQueryServiceClientException;
 
     /**
@@ -267,7 +271,7 @@ public abstract class APIUsageStatisticsClient {
      * @return List of APIs of the provider that consist of throttle data
      * @throws APIMgtUsageQueryServiceClientException
      */
-    public abstract List<String> getAPIsForThrottleStats(String provider) throws APIMgtUsageQueryServiceClientException;
+    public abstract List<String> getAPIsForThrottleStats(String providerName) throws APIMgtUsageQueryServiceClientException;
 
     /**
      * Given provider name and the API name, returns a list of applications through which the corresponding API is
@@ -278,7 +282,7 @@ public abstract class APIUsageStatisticsClient {
      * @return A list of applications through which the corresponding API is invoked and which consist of throttle data
      * @throws APIMgtUsageQueryServiceClientException
      */
-    public abstract List<String> getAppsForThrottleStats(String provider, String apiName)
+    public abstract List<String> getAppsForThrottleStats(String providerName, String apiName)
             throws APIMgtUsageQueryServiceClientException;
 
     public abstract List<APIUsageDTO> getAPIUsageData(String apiName, String fromDate, String toDate)

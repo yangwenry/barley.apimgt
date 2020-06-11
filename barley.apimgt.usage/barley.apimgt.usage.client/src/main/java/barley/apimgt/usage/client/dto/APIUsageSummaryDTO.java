@@ -16,33 +16,65 @@
 
 package barley.apimgt.usage.client.dto;
 
-public class APIThrottlingAndFaultDTO {
+public class APIUsageSummaryDTO {
 
     private String apiName;
     private String apiPublisher;
+    private int requestCount;
     private int successRequestCount;
     private int throttleOutCount;
     private int faultCount;
+    private long backendLatency;
     private String time;
     private String version;
 
-    public APIThrottlingAndFaultDTO(String apiName, String version, String apiPublisher, int successRequestCount, int throttleOutCount, int faultCount,
-                                    String time) {
+    public APIUsageSummaryDTO(String apiName, String version, String apiPublisher, int requestCount, int successRequestCount, int throttleOutCount,
+                                            int faultCount, long backendLatency, String time) {
         this.apiName = apiName;
         this.version = version;
         this.apiPublisher = apiPublisher;
+        this.requestCount = requestCount;
         this.successRequestCount = successRequestCount;
         this.throttleOutCount = throttleOutCount;
         this.faultCount = faultCount;
+        this.backendLatency = backendLatency;
         this.time = time;
     }
 
-    public void setAPIName(String apiName) {
+    public APIUsageSummaryDTO(String apiName, String version, String apiPublisher, int requestCount, int successRequestCount, int throttleOutCount,
+                                            int faultCount, long backendLatency) {
+        this.apiName = apiName;
+        this.version = version;
+        this.apiPublisher = apiPublisher;
+        this.requestCount = requestCount;
+        this.successRequestCount = successRequestCount;
+        this.throttleOutCount = throttleOutCount;
+        this.faultCount = faultCount;
+        this.backendLatency = backendLatency;
+    }
+
+    public String getApiName() {
+        return apiName;
+    }
+
+    public void setApiName(String apiName) {
         this.apiName = apiName;
     }
 
-    public void setAPIPublisher(String apiPublisher) {
+    public String getApiPublisher() {
+        return apiPublisher;
+    }
+
+    public void setApiPublisher(String apiPublisher) {
         this.apiPublisher = apiPublisher;
+    }
+
+    public int getRequestCount() {
+        return requestCount;
+    }
+
+    public void setRequestCount(int requestCount) {
+        this.requestCount = requestCount;
     }
 
     public void setSuccessRequestCount(int successRequestCount) {
@@ -59,14 +91,6 @@ public class APIThrottlingAndFaultDTO {
 
     public void setTime(String time) {
         this.time = time;
-    }
-
-    public String getAPIName() {
-        return apiName;
-    }
-
-    public String getAPIPublisher() {
-        return apiPublisher;
     }
 
     public int getThrottleOutCount() {
@@ -93,10 +117,19 @@ public class APIThrottlingAndFaultDTO {
         this.version = version;
     }
 
-	@Override
+    public long getBackendLatency() {
+        return backendLatency;
+    }
+
+    public void setBackendLatency(long backendLatency) {
+        this.backendLatency = backendLatency;
+    }
+
+    @Override
 	public String toString() {
-		return "APIThrottlingAndFaultDTO [apiName=" + apiName + ", apiPublisher=" + apiPublisher + ", version=" + version
-				+ ", successRequestCount=" + successRequestCount + ", throttleOutCount=" + throttleOutCount + ", faultCount=" + faultCount
+		return "APIUsageSummaryDTO [apiName=" + apiName + ", apiPublisher=" + apiPublisher + ", version=" + version
+                + ", requestCount=" + requestCount + ", successRequestCount=" + successRequestCount
+                + ", throttleOutCount=" + throttleOutCount + ", faultCount=" + faultCount + ", backendLatency=" + backendLatency
                 + ", time=" + time + "]";
 	}
     

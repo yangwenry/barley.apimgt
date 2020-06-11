@@ -18,22 +18,6 @@
 */
 package barley.apimgt.usage.client;
 
-import java.lang.reflect.InvocationTargetException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
-
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import barley.apimgt.api.APIManagementException;
 import barley.apimgt.api.APIProvider;
 import barley.apimgt.api.model.API;
@@ -52,6 +36,17 @@ import barley.apimgt.usage.client.pojo.SubscriberCountByAPIs;
 import barley.core.MultitenantConstants;
 import barley.core.context.PrivilegedBarleyContext;
 import barley.core.multitenancy.MultitenantUtils;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import java.lang.reflect.InvocationTargetException;
+import java.sql.*;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * usageClient class it use to expose the Statistic class instance. it responsible to make instance of the class that is provided by the api-manager.xml
@@ -226,8 +221,8 @@ public class UsageClient {
     /**
      * Return list of developer sign ups over time
      *
-     * @param apiName   - Name of th API
      * @param provider  - Provider of the API
+     * @param apiName   - Name of th API
      * @param apiFilter - API stat type
      * @param fromDate  - Start date of the time span
      * @param toDate    - End date of time span
@@ -235,7 +230,7 @@ public class UsageClient {
      * @return List of count per user Agent
      * @throws APIMgtUsageQueryServiceClientException
      */
-    public static List<DevelopersByTimeDTO> getDeveloperSignUpsOverTime(String apiName, String provider,
+    public static List<DevelopersByTimeDTO> getDeveloperSignUpsOverTime(String provider, String apiName,
             String apiFilter, String fromDate, String toDate, int limit) throws APIMgtUsageQueryServiceClientException {
         Connection connection = null;
         PreparedStatement statement = null;
@@ -299,8 +294,8 @@ public class UsageClient {
     /**
      * Return list of developer Application Registrations over time
      *
-     * @param apiName   - Name of th API
      * @param provider  - API provider username
+     * @param apiName   - Name of th API
      * @param developer - Application developer
      * @param apiFilter - API stat type
      * @param fromDate  - Start date of the time span
@@ -309,7 +304,7 @@ public class UsageClient {
      * @return
      * @throws APIMgtUsageQueryServiceClientException
      */
-    public static List<AppRegistrationDTO> getApplicationRegistrationOverTime(String apiName, String provider,
+    public static List<AppRegistrationDTO> getApplicationRegistrationOverTime(String provider, String apiName,
             String developer, String apiFilter, String fromDate, String toDate, int limit)
             throws APIMgtUsageQueryServiceClientException {
 
@@ -406,16 +401,16 @@ public class UsageClient {
      * Return list of API Subscriptions per applications over time
      *
      * @param apiName   - Name of th API
-     * @param provider  - API provider username
-     * @param apiCreator - API stat type
+     * @param tenantDomain  - API provider tenantDomain
+     * @param provider - API stat type
      * @param fromDate  - Start date of the time span
      * @param toDate    - End date of time span
      * @param limit     - limit of the results     *
      * @return List of count per user Agent
      * @throws APIMgtUsageQueryServiceClientException
      */
-    public static List<SubscriptionOverTimeDTO> getAPISubscriptionsPerApp(String apiName, String tenantDomain,
-            String apiCreator, String apiVersion, String fromDate, String toDate, int limit)
+    public static List<SubscriptionOverTimeDTO> getAPISubscriptionsPerApp(String provider, String apiName, String apiVersion,
+            String tenantDomain, String fromDate, String toDate, int limit)
             throws APIMgtUsageQueryServiceClientException {
         Connection connection = null;
         PreparedStatement statement = null;
@@ -435,8 +430,8 @@ public class UsageClient {
             String time = " and subc.created_time between ? and ? ";
             // (수정) ALL로 변경 
             //if (!"allAPIs".equals(apiFilter)) {
-            if (!"ALL".equals(apiCreator)) {
-                where += " and api.api_provider = '" + apiCreator + "' ";
+            if (!"ALL".equals(provider)) {
+                where += " and api.api_provider = '" + provider + "' ";
             } else {
                 List<String> providerList = getApiProviders(tenantDomain);
                 StringBuilder providers = new StringBuilder(" and api.api_provider in (");
@@ -510,16 +505,14 @@ public class UsageClient {
     /**
      * get published api accumulated count over time
      *
-     * @param provider  logged publisher
-     * @param developer application developer
-     * @param apiFilter api filter state
+     * @param apiCreator  logged publisher
      * @param fromDate  starting date of the results
      * @param toDate    ending date of the results
      * @param limit     limit of the result
      * @return list of api count over time
      * @throws APIMgtUsageQueryServiceClientException throws if any db exception occured
      */
-    public static List<ApisByTimeDTO> getApisByTime(String provider, String apiCreator, String apiFilter,
+    public static List<ApisByTimeDTO> getApisByTime(String apiCreator,
             String fromDate, String toDate, int limit) throws APIMgtUsageQueryServiceClientException {
         Connection connection = null;
         PreparedStatement statement = null;
@@ -702,7 +695,7 @@ public class UsageClient {
     /**
      * get list all providers of the current login user
      *
-     * @param provider provider name of the current tenant
+     * @param tenantDomain current tenant
      * @return list of api providers
      * @throws SQLException                           throws if any db exceptions occurred
      * @throws APIMgtUsageQueryServiceClientException throws if any other error occurred

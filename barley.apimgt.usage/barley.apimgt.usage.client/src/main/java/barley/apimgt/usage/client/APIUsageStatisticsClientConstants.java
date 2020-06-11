@@ -87,6 +87,8 @@ public final class APIUsageStatisticsClientConstants {
 
     public static final String TOTAL_FAULT_COUNT = "total_fault_count";
 
+    public static final String AVG_BAKEND_LATENCY = "avg_bakend_latency";
+
     public static final String REQUEST_TIME = "max_request_time";
 
     public static final String CONSUMER_KEY = "CONSUMERKEY";
