@@ -9237,8 +9237,9 @@ public class ApiMgtDAO {
             }
             policyStatement = conn.prepareStatement(addQuery);
             setCommonParametersForPolicy(policyStatement, policy);
+            policyStatement.setInt(12, policy.getBillingPlanNo());
             if(hasCustomAttrib){
-            	policyStatement.setBlob(12, new ByteArrayInputStream(policy.getCustomAttributes()));
+            	policyStatement.setBlob(13, new ByteArrayInputStream(policy.getCustomAttributes()));
             }
             policyStatement.executeUpdate();
 
@@ -9814,6 +9815,8 @@ public class ApiMgtDAO {
             while (rs.next()) {
                 ApplicationPolicy appPolicy = new ApplicationPolicy(rs.getString(ThrottlePolicyConstants.COLUMN_NAME));
                 setCommonPolicyDetails(appPolicy, rs);
+                // (추가) 2020.06.12
+                appPolicy.setBillingPlanNo(rs.getInt("BILLING_PLAN_NO"));
                 policies.add(appPolicy);
             }
         } catch (SQLException e) {
@@ -10142,6 +10145,8 @@ public class ApiMgtDAO {
             if (resultSet.next()) {
                 policy = new ApplicationPolicy(resultSet.getString(ThrottlePolicyConstants.COLUMN_NAME));
                 setCommonPolicyDetails(policy, resultSet);
+                // (추가) 2020.06.12
+                policy.setBillingPlanNo(resultSet.getInt("BILLING_PLAN_NO"));
             }
         } catch (SQLException e) {
             handleException("Failed to get application policy: " + policyName + '-' + tenantId, e);
@@ -10658,20 +10663,23 @@ public class ApiMgtDAO {
             updateStatement.setLong(6, policy.getDefaultQuotaPolicy().getLimit().getUnitTime());
             updateStatement.setString(7, policy.getDefaultQuotaPolicy().getLimit().getTimeUnit());
 
+            // (추가) 2020.06.12
+            updateStatement.setInt(8, policy.getBillingPlanNo());
+
             if(hasCustomAttrib){
-            	updateStatement.setBlob(8, new ByteArrayInputStream(policy.getCustomAttributes()));
+            	updateStatement.setBlob(9, new ByteArrayInputStream(policy.getCustomAttributes()));
+                if (!StringUtils.isBlank(policy.getPolicyName()) && policy.getTenantId() != -1) {
+                    updateStatement.setString(10, policy.getPolicyName());
+                    updateStatement.setInt(11, policy.getTenantId());
+                } else if (!StringUtils.isBlank(policy.getUUID())) {
+                    updateStatement.setString(10, policy.getUUID());
+                }
+            } else {
                 if (!StringUtils.isBlank(policy.getPolicyName()) && policy.getTenantId() != -1) {
                     updateStatement.setString(9, policy.getPolicyName());
                     updateStatement.setInt(10, policy.getTenantId());
                 } else if (!StringUtils.isBlank(policy.getUUID())) {
                     updateStatement.setString(9, policy.getUUID());
-                }
-            } else {
-                if (!StringUtils.isBlank(policy.getPolicyName()) && policy.getTenantId() != -1) {
-                    updateStatement.setString(8, policy.getPolicyName());
-                    updateStatement.setInt(9, policy.getTenantId());
-                } else if (!StringUtils.isBlank(policy.getUUID())) {
-                    updateStatement.setString(8, policy.getUUID());
                 }
             }
             updateStatement.executeUpdate();
@@ -11034,6 +11042,7 @@ public class ApiMgtDAO {
         
         policy.setDefaultQuotaPolicy(quotaPolicy);
         policy.setDeployed(resultSet.getBoolean(ThrottlePolicyConstants.COLUMN_DEPLOYED));
+
     }
 
     public boolean isPolicyExist(String policyType,int tenantId, String policyName ) throws APIManagementException{

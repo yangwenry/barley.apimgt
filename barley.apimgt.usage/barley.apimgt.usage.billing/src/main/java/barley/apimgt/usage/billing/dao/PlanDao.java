@@ -20,6 +20,8 @@ public interface PlanDao {
      */
     Plan loadPlanByPlanName(String planName) throws UsageBillingException;
 
+    Plan loadPlanByPlanNo(int planNo) throws UsageBillingException;
+
     List<Plan> loadPlans() throws UsageBillingException;
 
     List<Plan> loadPlans(int page, int count, String planName) throws UsageBillingException;

@@ -36,6 +36,8 @@ public interface PlanService {
      */
     Plan loadPlanByPlanName(String planName) throws UsageBillingException;
 
+    Plan loadPlanByPlanNo(int planNo) throws UsageBillingException;
+
     List<Plan> listPlans() throws UsageBillingException;
 
     List<Plan> listPlans(int page, int count, String planName) throws UsageBillingException;

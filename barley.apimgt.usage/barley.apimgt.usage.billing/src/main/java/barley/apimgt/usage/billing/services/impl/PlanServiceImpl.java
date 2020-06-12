@@ -59,6 +59,11 @@ public class PlanServiceImpl implements PlanService {
     }
 
     @Override
+    public Plan loadPlanByPlanNo(int planNo) throws UsageBillingException {
+        return planDao.loadPlanByPlanNo(planNo);
+    }
+
+    @Override
     public List<Plan> listPlans() throws UsageBillingException {
         return planDao.loadPlans();
     }

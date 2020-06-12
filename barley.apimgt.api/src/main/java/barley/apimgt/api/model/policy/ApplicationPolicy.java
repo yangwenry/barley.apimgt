@@ -23,6 +23,8 @@ public class ApplicationPolicy extends Policy {
     
     private byte[] customAttributes;
 
+    private int billingPlanNo;
+
     public ApplicationPolicy(String name) {
         super(name);
     }
@@ -43,10 +45,18 @@ public class ApplicationPolicy extends Policy {
 		this.customAttributes = customAttributes;
 	}
 
+    public int getBillingPlanNo() {
+        return billingPlanNo;
+    }
+
+    public void setBillingPlanNo(int billingPlanNo) {
+        this.billingPlanNo = billingPlanNo;
+    }
+
     @Override
     public String toString() {
         return "ApplicationPolicy [policyName=" + getPolicyName()
                 + ", applicationId =" + applicationId + ", description=" + getDescription() + ", defaultQuotaPolicy="
-                + getDefaultQuotaPolicy() + "]";
+                + getDefaultQuotaPolicy() + ", billingPlanNo=" + getBillingPlanNo() + "]";
     }
 }

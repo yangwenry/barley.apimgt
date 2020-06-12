@@ -61,6 +61,36 @@ public class PlanJdbcDao implements PlanDao {
     }
 
     @Override
+    public Plan loadPlanByPlanNo(int planNo) throws UsageBillingException {
+        Plan plan = null;
+
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        String sqlQuery = FIELD_AM_BILLING_PLAN_SQL +
+                "  FROM AM_BILLING_PLAN " +
+                " WHERE PLAN_NO = ? ";
+        try {
+            conn = BillingDBUtil.getConnection();
+            ps = conn.prepareStatement(sqlQuery);
+            ps.setInt(1, planNo);
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                plan = createPlan(rs);
+            }
+        } catch (SQLException e) {
+            String msg = "Error occurred while get billing plan by planNo: " + planNo;
+            log.error(msg, e);
+            throw new UsageBillingException(msg, e);
+        } finally {
+            BillingDBUtil.closeAllConnections(ps, conn, rs);
+        }
+        return plan;
+    }
+
+    @Override
     public List<Plan> loadPlans() throws UsageBillingException {
 
         List<Plan> plans = new ArrayList<Plan>();
