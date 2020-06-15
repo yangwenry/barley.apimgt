@@ -404,20 +404,27 @@ public class SQLConstants {
     // (추가)
     public static final String GET_SUBSCRIBER_PREFIX =
             " SELECT " +
-                    "   SUB.SUBSCRIBER_ID, SUB.USER_ID, SUB.TENANT_ID, SUB.EMAIL_ADDRESS, SUB.DATE_SUBSCRIBED, APP.APPLICATION_TIER " +
+                    "   SUB.SUBSCRIBER_ID, SUB.USER_ID, SUB.TENANT_ID, SUB.EMAIL_ADDRESS, SUB.DATE_SUBSCRIBED, APP.APPLICATION_TIER, POLICY.BILLING_PLAN_NO, PLAN.PLAN_NAME " +
                     "  FROM AM_SUBSCRIBER SUB " +
                     " INNER JOIN AM_APPLICATION APP " +
-                    "    ON SUB.SUBSCRIBER_ID = APP.SUBSCRIBER_ID ";
-                    //" LEFT OUTER JOIN AM_POLICY_APPLICATION POLICY " +
-                    //"    ON POLICY.NAME = APP.APPLICATION_TIER " +
+                    "    ON SUB.SUBSCRIBER_ID = APP.SUBSCRIBER_ID " +
+                    "  LEFT OUTER JOIN AM_POLICY_APPLICATION POLICY " +
+                    "    ON POLICY.NAME = APP.APPLICATION_TIER " +
+                    "   AND POLICY.TENANT_ID = SUB.TENANT_ID " +
+                    "  LEFT OUTER JOIN AM_BILLING_PLAN PLAN " +
+                    "    ON POLICY.BILLING_PLAN_NO = PLAN.PLAN_NO ";
+
+    // (추가)
+    public static final String GET_ALL_SUBSCRIBERS_SQL =
+            GET_SUBSCRIBER_PREFIX +
+                    " WHERE " +
+                    "   SUB.TENANT_ID=?" +
+                    " ORDER BY SUB.CREATED_TIME DESC ";
 
     // (추가)
     public static final String GET_PAGINATED_SUBSCRIBERS_SQL =
-            GET_SUBSCRIBER_PREFIX +
-                " WHERE " +
-                "   SUB.TENANT_ID=?" +
-                " ORDER BY SUB.CREATED_TIME DESC " +
-                " LIMIT ?, ?";
+            GET_ALL_SUBSCRIBERS_SQL +
+                    " LIMIT ?, ?";
 
     public static final String GET_SUBSCRIBER_COUNT_SQL =
             " SELECT COUNT(*) AS TOTAL_CNT FROM AM_SUBSCRIBER " +

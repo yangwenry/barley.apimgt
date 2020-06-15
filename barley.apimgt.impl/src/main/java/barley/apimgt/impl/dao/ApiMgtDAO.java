@@ -1159,14 +1159,7 @@ public class ApiMgtDAO {
             result = ps.executeQuery();
 
             if (result.next()) {
-                subscriber = new Subscriber(result.getString(APIConstants.SUBSCRIBER_FIELD_EMAIL_ADDRESS));
-                subscriber.setEmail(result.getString("EMAIL_ADDRESS"));
-                subscriber.setId(result.getInt("SUBSCRIBER_ID"));
-                subscriber.setName(subscriberName);
-                subscriber.setSubscribedDate(result.getDate(APIConstants.SUBSCRIBER_FIELD_DATE_SUBSCRIBED));
-                subscriber.setTenantId(result.getInt("TENANT_ID"));
-                // (추가)
-                subscriber.setApplicationTier(result.getString("APPLICATION_TIER"));
+                subscriber = createSubscriberObj(result);
             }
         } catch (SQLException e) {
             handleException("Failed to get Subscriber for :" + subscriberName, e);
@@ -1174,6 +1167,30 @@ public class ApiMgtDAO {
             APIMgtDBUtil.closeAllConnections(ps, conn, result);
         }
         return subscriber;
+    }
+
+    public List<Subscriber> getAllSubscribers(int tenantId) throws APIManagementException {
+        Connection conn = null;
+        ResultSet rs = null;
+        PreparedStatement ps = null;
+        List<Subscriber> subscribers = new ArrayList<Subscriber>();
+        try {
+            conn = APIMgtDBUtil.getConnection();
+            String query = SQLConstants.GET_ALL_SUBSCRIBERS_SQL;
+
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, tenantId);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Subscriber subscriber = createSubscriberObj(rs);
+                subscribers.add(subscriber);
+            }
+        } catch (SQLException e) {
+            handleException("Error while retrieving all subscribers: " + e.getMessage(), e);
+        } finally {
+            APIMgtDBUtil.closeAllConnections(ps, conn, rs);
+        }
+        return subscribers;
     }
 
     public List<Subscriber> getAllSubscribers(int page, int count, int tenantId) throws APIManagementException {
@@ -1192,12 +1209,7 @@ public class ApiMgtDAO {
             ps.setInt(3, count);
             rs = ps.executeQuery();
             while (rs.next()) {
-                Subscriber subscriber = new Subscriber(rs.getString("USER_ID"));
-                subscriber.setId(rs.getInt("SUBSCRIBER_ID"));
-                subscriber.setTenantId(rs.getInt("TENANT_ID"));
-                subscriber.setEmail(rs.getString("EMAIL_ADDRESS"));
-                subscriber.setApplicationTier(rs.getString("APPLICATION_TIER"));
-                subscriber.setSubscribedDate(new java.util.Date(rs.getTimestamp("DATE_SUBSCRIBED").getTime()));
+                Subscriber subscriber = createSubscriberObj(rs);
                 subscribers.add(subscriber);
             }
         } catch (SQLException e) {
@@ -1206,6 +1218,19 @@ public class ApiMgtDAO {
             APIMgtDBUtil.closeAllConnections(ps, conn, rs);
         }
         return subscribers;
+    }
+
+    private Subscriber createSubscriberObj(ResultSet rs) throws SQLException {
+        Subscriber subscriber = new Subscriber(rs.getString("USER_ID"));
+        subscriber.setId(rs.getInt("SUBSCRIBER_ID"));
+        subscriber.setTenantId(rs.getInt("TENANT_ID"));
+        subscriber.setEmail(rs.getString("EMAIL_ADDRESS"));
+        subscriber.setSubscribedDate(new java.util.Date(rs.getTimestamp("DATE_SUBSCRIBED").getTime()));
+        subscriber.setApplicationTier(rs.getString("APPLICATION_TIER"));
+        // (추가)
+        subscriber.setBillingPlanNo(rs.getInt("BILLING_PLAN_NO"));
+        subscriber.setBillingPlanName(rs.getString("PLAN_NAME"));
+        return subscriber;
     }
 
     public int getSubscriberCount(int tenantId) throws APIManagementException {

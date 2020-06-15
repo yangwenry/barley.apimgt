@@ -21,9 +21,9 @@ import java.util.Date;
 
 /**
  * Subscriber of API. Mapping between a particular Subscriber using a selected API is captured in
- * {@link org.wso2.carbon.apimgt.api.model.SubscribedAPI}.
+ * {@link barley.apimgt.api.model.SubscribedAPI}.
  *
- * @see org.wso2.carbon.apimgt.api.model.SubscribedAPI
+ * @see barley.apimgt.api.model.SubscribedAPI
  */
 @SuppressWarnings("unused")
 public class Subscriber {
@@ -35,6 +35,9 @@ public class Subscriber {
     private int tenantId;
     private String email;
     private String applicationTier;
+    // (추가)
+    private int billingPlanNo;
+    private String billingPlanName;
 
     public Subscriber(String name) {
         this.name = name;
@@ -94,5 +97,21 @@ public class Subscriber {
 
     public String getApplicationTier() {
         return applicationTier;
+    }
+
+    public int getBillingPlanNo() {
+        return billingPlanNo;
+    }
+
+    public void setBillingPlanNo(int billingPlanNo) {
+        this.billingPlanNo = billingPlanNo;
+    }
+
+    public String getBillingPlanName() {
+        return billingPlanName;
+    }
+
+    public void setBillingPlanName(String billingPlanName) {
+        this.billingPlanName = billingPlanName;
     }
 }

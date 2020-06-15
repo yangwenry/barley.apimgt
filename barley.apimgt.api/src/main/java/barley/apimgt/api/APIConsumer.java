@@ -40,6 +40,8 @@ public interface APIConsumer extends APIManager {
     // (추가) 2020.04.22
     List<Subscriber> getAllSubscribers(int page, int count, int tenantId) throws APIManagementException;
 
+    List<Subscriber> getAllSubscribers(int tenantId) throws APIManagementException;
+
     List<String> getAllSubscriberNames(int tenantId) throws APIManagementException;
 
     int getSubscriberCount(int tenantId) throws APIManagementException;
