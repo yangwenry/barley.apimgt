@@ -11767,19 +11767,19 @@ public class ApiMgtDAO {
     	return getSortedApiList(query, tenantDomain, page, count, APIConstants.PUBLISHED, keyword, tag, category);
     }
 
+    public int getPublishedApiCount(String tenantDomain, String keyword, String tag, String category) throws APIManagementException {
+        return getSortedApiCount(tenantDomain, APIConstants.PUBLISHED, keyword, tag, category);
+    }
+
     public List<API> getAllApiList(String tenantDomain, int page, int count, String apiState) throws APIManagementException {
         String query = SQLConstants.GET_SORTED_CREATED_TIME_API_SQL;
         return getSortedApiList(query, tenantDomain, page, count, apiState, "", "", "");
     }
-
-    public int getPublishedApiCount(String tenantDomain, String keyword, String tag, String category) throws APIManagementException {
-        return getAllApiCount(tenantDomain, APIConstants.PUBLISHED, keyword, tag, category);
-    }
     public int getAllApiCount(String tenantDomain, String apiState) throws APIManagementException {
-        return getAllApiCount(tenantDomain, apiState, "", "", "");
+        return getSortedApiCount(tenantDomain, apiState, "", "", "");
     }
 
-    public int getAllApiCount(String tenantDomain, String apiState, String keyword, String tag, String category) throws APIManagementException {
+    public int getSortedApiCount(String tenantDomain, String apiState, String keyword, String tag, String category) throws APIManagementException {
         Connection connection = null;
         PreparedStatement selectPreparedStatement = null;
         ResultSet resultSet = null;

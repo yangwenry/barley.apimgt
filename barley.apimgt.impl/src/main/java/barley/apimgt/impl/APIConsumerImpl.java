@@ -3575,6 +3575,22 @@ class APIConsumerImpl extends AbstractAPIManager implements APIConsumer {
     }
 
     @Override
+    public int getAllApiCount(String tenantDomain, String apiState) throws APIManagementException {
+        // api 상태체크
+        String apiStateValue = "";
+        int totalCnt = 0;
+        if("ALL".equals(apiState)) {
+            totalCnt = apiMgtDAO.getAllApiCount(tenantDomain, apiStateValue);
+        } else {
+            apiStateValue = APIStatus.valueOf(apiState).getStatus();
+            if(apiState != null) {
+                totalCnt = apiMgtDAO.getAllApiCount(tenantDomain, apiStateValue);
+            }
+        }
+        return totalCnt;
+    }
+
+    @Override
     public List<API> getPublishedApiList(String tenantDomain, String orderBy, int page, int count, String keyword, String tag, String category) throws APIManagementException {
         List<API> apiList = null;
         if("rating".equals(orderBy)) {
@@ -3590,28 +3606,12 @@ class APIConsumerImpl extends AbstractAPIManager implements APIConsumer {
     	//return addApiAttributeFromRegistry(apiList);
     	return apiList;
     }
-    
+
     @Override
     public int getPublishedApiCount(String tenantDomain, String keyword, String tag, String category) throws APIManagementException {
     	return apiMgtDAO.getPublishedApiCount(tenantDomain, keyword, tag, category);
     }
-    
-    @Override
-    public int getAllApiCount(String tenantDomain, String apiState) throws APIManagementException {
-        // api 상태체크
-        String apiStateValue = "";
-        int totalCnt = 0;
-        if("ALL".equals(apiState)) {
-            totalCnt = apiMgtDAO.getAllApiCount(tenantDomain, apiStateValue);
-        } else {
-            apiStateValue = APIStatus.valueOf(apiState).getStatus();
-            if(apiState != null) {
-                totalCnt = apiMgtDAO.getAllApiCount(tenantDomain, apiStateValue);
-            }
-        }
-    	return totalCnt;
-    }
-   
+
     
     @Override
     public int setCommentAgreeValue(String userName, int commnetId, int agreeValue) throws APIManagementException {
