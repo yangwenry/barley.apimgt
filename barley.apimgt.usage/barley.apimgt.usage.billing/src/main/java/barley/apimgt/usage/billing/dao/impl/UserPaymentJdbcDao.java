@@ -145,6 +145,7 @@ public class UserPaymentJdbcDao implements UserPaymentDao {
                 " WHERE TENANT_ID = ? " +
                 "   AND USER_ID LIKE ? " +
                 "   AND USER_NAME LIKE ? " +
+                "   AND USER_EMAIL LIKE ? " +
                 " ORDER BY PAYMENT_NO DESC " +
                 " LIMIT ?, ? ";
         try {
@@ -156,6 +157,9 @@ public class UserPaymentJdbcDao implements UserPaymentDao {
             ps.setString(index++, "%" + userSearchParam.getUserId() + "%");
             if(userSearchParam.getUserName() == null) userSearchParam.setUserName("");
             ps.setString(index++, "%" + userSearchParam.getUserName() + "%");
+            if(userSearchParam.getUserEmail() == null) userSearchParam.setUserEmail("");
+            ps.setString(index++, "%" + userSearchParam.getUserEmail() + "%");
+
             ps.setInt(index++, startNo);
             ps.setInt(index++, count);
 
@@ -187,7 +191,8 @@ public class UserPaymentJdbcDao implements UserPaymentDao {
                 "  FROM AM_BILLING_USER_PAYMENT " +
                 " WHERE TENANT_ID = ? " +
                 "   AND USER_ID LIKE ? " +
-                "   AND USER_NAME LIKE ? ";
+                "   AND USER_NAME LIKE ? " +
+                "   AND USER_EMAIL LIKE ? ";
 
         try {
             conn = BillingDBUtil.getConnection();
@@ -198,6 +203,8 @@ public class UserPaymentJdbcDao implements UserPaymentDao {
             ps.setString(index++, "%" + userSearchParam.getUserId() + "%");
             if(userSearchParam.getUserName() == null) userSearchParam.setUserName("");
             ps.setString(index++, "%" + userSearchParam.getUserName() + "%");
+            if(userSearchParam.getUserEmail() == null) userSearchParam.setUserEmail("");
+            ps.setString(index++, "%" + userSearchParam.getUserEmail() + "%");
 
             rs = ps.executeQuery();
             if (rs.next()) {

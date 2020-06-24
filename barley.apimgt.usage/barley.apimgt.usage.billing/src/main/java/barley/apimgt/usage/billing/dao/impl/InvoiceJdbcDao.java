@@ -147,6 +147,8 @@ public class InvoiceJdbcDao implements InvoiceDao {
                 " WHERE TENANT_ID = ? " +
                 "   AND USER_ID LIKE ? " +
                 "   AND USER_NAME LIKE ? " +
+                "   AND INVOICE_YEAR = ? " +
+                "   AND INVOICE_MONTH LIKE ? " +
                 " ORDER BY INVOICE_NO DESC " +
                 " LIMIT ?, ? ";
         try {
@@ -158,6 +160,13 @@ public class InvoiceJdbcDao implements InvoiceDao {
             ps.setString(index++, "%" + userSearchParam.getUserId() + "%");
             if(userSearchParam.getUserName() == null) userSearchParam.setUserName("");
             ps.setString(index++, "%" + userSearchParam.getUserName() + "%");
+
+            if(userSearchParam.getYear() == null || "".equals(userSearchParam.getYear())) userSearchParam.setYear("0");
+            ps.setInt(index++, Integer.valueOf(userSearchParam.getYear()));
+
+            if(userSearchParam.getMonth() == null) userSearchParam.setMonth("");
+            ps.setString(index++, "%" + userSearchParam.getMonth() + "%");
+
             ps.setInt(index++, startNo);
             ps.setInt(index++, count);
 
@@ -188,7 +197,9 @@ public class InvoiceJdbcDao implements InvoiceDao {
                 "  FROM AM_BILLING_INVOICE " +
                 " WHERE TENANT_ID = ? " +
                 "   AND USER_ID LIKE ? " +
-                "   AND USER_NAME LIKE ? ";
+                "   AND USER_NAME LIKE ? " +
+                "   AND INVOICE_YEAR = ? " +
+                "   AND INVOICE_MONTH LIKE ? ";
 
         try {
             conn = BillingDBUtil.getConnection();
@@ -199,6 +210,12 @@ public class InvoiceJdbcDao implements InvoiceDao {
             ps.setString(index++, "%" + userSearchParam.getUserId() + "%");
             if(userSearchParam.getUserName() == null) userSearchParam.setUserName("");
             ps.setString(index++, "%" + userSearchParam.getUserName() + "%");
+
+            if(userSearchParam.getYear() == null || "".equals(userSearchParam.getYear())) userSearchParam.setYear("0");
+            ps.setInt(index++, Integer.valueOf(userSearchParam.getYear()));
+
+            if(userSearchParam.getMonth() == null) userSearchParam.setMonth("");
+            ps.setString(index++, "%" + userSearchParam.getMonth() + "%");
 
             rs = ps.executeQuery();
             if (rs.next()) {
