@@ -28,6 +28,12 @@
             <groupId>barley.analytics-common</groupId>
             <artifactId>barley.databridge.agent</artifactId>
         </dependency>
+
+        <!-- synapse -->
+        <dependency>
+            <groupId>org.apache.synapse</groupId>
+            <artifactId>synapse-core</artifactId>
+        </dependency>
         
     </dependencies>
 	

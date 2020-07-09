@@ -101,13 +101,12 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
     public APIUsageStatisticsRdbmsClientImpl(String username) throws APIMgtUsageQueryServiceClientException {
         OMElement element;
         APIManagerConfiguration config;
-        APIManagerAnalyticsConfiguration apiManagerAnalyticsConfiguration;
         try {
             config = APIUsageClientServiceComponent.getAPIManagerConfiguration();
-            apiManagerAnalyticsConfiguration = APIManagerAnalyticsConfiguration.getInstance();
-            if (APIUtil.isAnalyticsEnabled() && dataSource == null) {
+            // (주석) 데이터초기화는 APIUsageClientServiceComponent.activate() 에서 명시적으로 처리하므로 주석
+            /*if (APIUtil.isAnalyticsEnabled() && dataSource == null) {
                 initializeDataSource();
-            }
+            }*/
             // text = config.getFirstProperty("BillingConfig");
             String billingConfig = config.getFirstProperty("EnableBillingAndUsage");
             boolean isBillingEnabled = Boolean.parseBoolean(billingConfig);
@@ -120,6 +119,7 @@ public class APIUsageStatisticsRdbmsClientImpl extends APIUsageStatisticsClient 
             }
             // (주석) targetEndpoint가 필요하지 않는데 왜 체크하는지 의문이다. 주석하자.
             /*
+            APIManagerAnalyticsConfiguration apiManagerAnalyticsConfiguration = APIManagerAnalyticsConfiguration.getInstance();
             String targetEndpoint = apiManagerAnalyticsConfiguration.getDasReceiverUrlGroups();
             if (targetEndpoint == null || targetEndpoint.equals("")) {
                 throw new APIMgtUsageQueryServiceClientException("Required BAM server URL parameter unspecified");
