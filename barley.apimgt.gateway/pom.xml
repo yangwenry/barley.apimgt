@@ -33,11 +33,7 @@
             <groupId>org.apache.synapse</groupId>
             <artifactId>synapse-core</artifactId>
         </dependency>
-		<dependency>
-			<groupId>org.apache.synapse</groupId>
-			<artifactId>synapse-transports</artifactId>
-		</dependency>
-        
+
         <!-- <dependency>
             <groupId>org.wso2.carbon.metrics</groupId>
             <artifactId>org.wso2.carbon.metrics.manager</artifactId>

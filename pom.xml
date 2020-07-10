@@ -270,7 +270,7 @@
 	            <artifactId>synapse-core</artifactId>
 	            <version>${synapse.version}</version>
 	        </dependency>
-	        <dependency>
+			<dependency>
 	            <groupId>org.apache.synapse</groupId>
 	            <artifactId>synapse-extensions</artifactId>
 	            <version>${synapse.extensions.version}</version>            
