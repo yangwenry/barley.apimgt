@@ -1,7 +1,7 @@
 # barley.apimgt
 ## api-management 
 * 개요 
-  * ![개요](https://www.penta.co.kr/img/apimanagement01.png)
+  * 
 * API Gateway vs API Management
   * 쓰로틀링 
   * 데이터분석 
